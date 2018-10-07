@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{432A476E-3D49-4994-A75C-346EFDAD1E9A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FreeHttp</RootNamespace>
+    <AssemblyName>FreeHttp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Fiddler45">
+      <HintPath>C:\Users\cllq\AppData\Local\Programs\Fiddler\Fiddler45.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FiddlerFreeHttp.cs" />
+    <Compile Include="FreeHttpControl\AddHead.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\AddHead.Designer.cs">
+      <DependentUpon>AddHead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\EditListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\EditListView.Designer.cs">
+      <DependentUpon>EditListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\FreeHttpWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\FreeHttpWindow.Designer.cs">
+      <DependentUpon>FreeHttpWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\RemoveHead.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\RemoveHead.Designer.cs">
+      <DependentUpon>RemoveHead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HttpHelper\ContentModific.cs" />
+    <Compile Include="HttpHelper\FiddlerRequsetChange.cs" />
+    <Compile Include="HttpHelper\FiddlerResponseChange.cs" />
+    <Compile Include="HttpHelper\FiddlerUriMatch.cs" />
+    <Compile Include="HttpHelper\HttpRequest.cs" />
+    <Compile Include="HttpHelper\HttpResponse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\MyResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FreeHttpControl\AddHead.resx">
+      <DependentUpon>AddHead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\EditListView.resx">
+      <DependentUpon>EditListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\FreeHttpWindow.resx">
+      <DependentUpon>FreeHttpWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\RemoveHead.resx">
+      <DependentUpon>RemoveHead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MyResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MyResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\freehttpico.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
