@@ -30,17 +30,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FreeHttpWindow));
             this.splitContainer_main = new System.Windows.Forms.SplitContainer();
-            this.splitContainer_httpEdit = new System.Windows.Forms.SplitContainer();
             this.groupBox_urlFilter = new System.Windows.Forms.GroupBox();
             this.cb_macthMode = new System.Windows.Forms.ComboBox();
             this.tb_urlFilter = new System.Windows.Forms.TextBox();
             this.tabControl_Modific = new System.Windows.Forms.TabControl();
             this.tabPage_requestModific = new System.Windows.Forms.TabPage();
+            this.pb_editCookietComfrim = new System.Windows.Forms.PictureBox();
             this.groupBox_bodyModific = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_responseReplace = new System.Windows.Forms.TextBox();
             this.rtb_reponse = new System.Windows.Forms.RichTextBox();
             this.groupBox_headsModific = new System.Windows.Forms.GroupBox();
+            this.requestAddHeads = new FreeHttp.FreeHttpControl.EditListView();
+            this.requestRemoveHeads = new FreeHttp.FreeHttpControl.EditListView();
             this.groupBox_uriModific = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -54,20 +56,14 @@
             this.lv_responseRuleList = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.pb_editCookietComfrim = new System.Windows.Forms.PictureBox();
-            this.requestAddHeads = new FreeHttp.FreeHttpControl.EditListView();
-            this.requestRemoveHeads = new FreeHttp.FreeHttpControl.EditListView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main)).BeginInit();
             this.splitContainer_main.Panel1.SuspendLayout();
             this.splitContainer_main.Panel2.SuspendLayout();
             this.splitContainer_main.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpEdit)).BeginInit();
-            this.splitContainer_httpEdit.Panel1.SuspendLayout();
-            this.splitContainer_httpEdit.Panel2.SuspendLayout();
-            this.splitContainer_httpEdit.SuspendLayout();
             this.groupBox_urlFilter.SuspendLayout();
             this.tabControl_Modific.SuspendLayout();
             this.tabPage_requestModific.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_editCookietComfrim)).BeginInit();
             this.groupBox_bodyModific.SuspendLayout();
             this.groupBox_headsModific.SuspendLayout();
             this.groupBox_uriModific.SuspendLayout();
@@ -75,7 +71,6 @@
             this.splitContainer_httpControl.Panel1.SuspendLayout();
             this.splitContainer_httpControl.Panel2.SuspendLayout();
             this.splitContainer_httpControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_editCookietComfrim)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer_main
@@ -86,7 +81,8 @@
             // 
             // splitContainer_main.Panel1
             // 
-            this.splitContainer_main.Panel1.Controls.Add(this.splitContainer_httpEdit);
+            this.splitContainer_main.Panel1.Controls.Add(this.tabControl_Modific);
+            this.splitContainer_main.Panel1.Controls.Add(this.groupBox_urlFilter);
             // 
             // splitContainer_main.Panel2
             // 
@@ -95,29 +91,11 @@
             this.splitContainer_main.SplitterDistance = 611;
             this.splitContainer_main.TabIndex = 0;
             // 
-            // splitContainer_httpEdit
-            // 
-            this.splitContainer_httpEdit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer_httpEdit.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer_httpEdit.Name = "splitContainer_httpEdit";
-            this.splitContainer_httpEdit.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer_httpEdit.Panel1
-            // 
-            this.splitContainer_httpEdit.Panel1.Controls.Add(this.groupBox_urlFilter);
-            // 
-            // splitContainer_httpEdit.Panel2
-            // 
-            this.splitContainer_httpEdit.Panel2.Controls.Add(this.tabControl_Modific);
-            this.splitContainer_httpEdit.Size = new System.Drawing.Size(611, 552);
-            this.splitContainer_httpEdit.SplitterDistance = 44;
-            this.splitContainer_httpEdit.TabIndex = 0;
-            // 
             // groupBox_urlFilter
             // 
             this.groupBox_urlFilter.Controls.Add(this.cb_macthMode);
             this.groupBox_urlFilter.Controls.Add(this.tb_urlFilter);
-            this.groupBox_urlFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox_urlFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox_urlFilter.Location = new System.Drawing.Point(0, 0);
             this.groupBox_urlFilter.Name = "groupBox_urlFilter";
             this.groupBox_urlFilter.Size = new System.Drawing.Size(611, 44);
@@ -154,10 +132,10 @@
             this.tabControl_Modific.Controls.Add(this.tabPage_responseModific);
             this.tabControl_Modific.Controls.Add(this.tabPage_responseReplace);
             this.tabControl_Modific.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl_Modific.Location = new System.Drawing.Point(0, 0);
+            this.tabControl_Modific.Location = new System.Drawing.Point(0, 44);
             this.tabControl_Modific.Name = "tabControl_Modific";
             this.tabControl_Modific.SelectedIndex = 0;
-            this.tabControl_Modific.Size = new System.Drawing.Size(611, 504);
+            this.tabControl_Modific.Size = new System.Drawing.Size(611, 508);
             this.tabControl_Modific.TabIndex = 0;
             this.tabControl_Modific.Resize += new System.EventHandler(this.tabControl_Modific_Resize);
             // 
@@ -170,10 +148,23 @@
             this.tabPage_requestModific.Location = new System.Drawing.Point(4, 22);
             this.tabPage_requestModific.Name = "tabPage_requestModific";
             this.tabPage_requestModific.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_requestModific.Size = new System.Drawing.Size(603, 478);
+            this.tabPage_requestModific.Size = new System.Drawing.Size(603, 482);
             this.tabPage_requestModific.TabIndex = 0;
             this.tabPage_requestModific.Text = "Request Modific";
             this.tabPage_requestModific.UseVisualStyleBackColor = true;
+            // 
+            // pb_editCookietComfrim
+            // 
+            this.pb_editCookietComfrim.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_editCookietComfrim.BackColor = System.Drawing.Color.Transparent;
+            this.pb_editCookietComfrim.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_editCookietComfrim.Image = ((System.Drawing.Image)(resources.GetObject("pb_editCookietComfrim.Image")));
+            this.pb_editCookietComfrim.Location = new System.Drawing.Point(574, 454);
+            this.pb_editCookietComfrim.Name = "pb_editCookietComfrim";
+            this.pb_editCookietComfrim.Size = new System.Drawing.Size(23, 22);
+            this.pb_editCookietComfrim.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_editCookietComfrim.TabIndex = 37;
+            this.pb_editCookietComfrim.TabStop = false;
             // 
             // groupBox_bodyModific
             // 
@@ -223,6 +214,26 @@
             this.groupBox_headsModific.TabStop = false;
             this.groupBox_headsModific.Text = "Heads Modific";
             // 
+            // requestAddHeads
+            // 
+            this.requestAddHeads.ColumnHeaderName = "Add Head";
+            this.requestAddHeads.Dock = System.Windows.Forms.DockStyle.Right;
+            this.requestAddHeads.IsKeyValue = true;
+            this.requestAddHeads.Location = new System.Drawing.Point(278, 17);
+            this.requestAddHeads.Name = "requestAddHeads";
+            this.requestAddHeads.Size = new System.Drawing.Size(310, 84);
+            this.requestAddHeads.TabIndex = 1;
+            // 
+            // requestRemoveHeads
+            // 
+            this.requestRemoveHeads.ColumnHeaderName = "Remove Head";
+            this.requestRemoveHeads.Dock = System.Windows.Forms.DockStyle.Left;
+            this.requestRemoveHeads.IsKeyValue = false;
+            this.requestRemoveHeads.Location = new System.Drawing.Point(3, 17);
+            this.requestRemoveHeads.Name = "requestRemoveHeads";
+            this.requestRemoveHeads.Size = new System.Drawing.Size(269, 84);
+            this.requestRemoveHeads.TabIndex = 0;
+            // 
             // groupBox_uriModific
             // 
             this.groupBox_uriModific.Controls.Add(this.textBox2);
@@ -253,7 +264,7 @@
             this.tabPage_requestReplace.Location = new System.Drawing.Point(4, 22);
             this.tabPage_requestReplace.Name = "tabPage_requestReplace";
             this.tabPage_requestReplace.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_requestReplace.Size = new System.Drawing.Size(603, 478);
+            this.tabPage_requestReplace.Size = new System.Drawing.Size(603, 482);
             this.tabPage_requestReplace.TabIndex = 1;
             this.tabPage_requestReplace.Text = "Request Replace";
             this.tabPage_requestReplace.UseVisualStyleBackColor = true;
@@ -344,39 +355,6 @@
             this.columnHeader4.Text = "Response Rule";
             this.columnHeader4.Width = 280;
             // 
-            // pb_editCookietComfrim
-            // 
-            this.pb_editCookietComfrim.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_editCookietComfrim.BackColor = System.Drawing.Color.Transparent;
-            this.pb_editCookietComfrim.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_editCookietComfrim.Image = ((System.Drawing.Image)(resources.GetObject("pb_editCookietComfrim.Image")));
-            this.pb_editCookietComfrim.Location = new System.Drawing.Point(574, 450);
-            this.pb_editCookietComfrim.Name = "pb_editCookietComfrim";
-            this.pb_editCookietComfrim.Size = new System.Drawing.Size(23, 22);
-            this.pb_editCookietComfrim.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_editCookietComfrim.TabIndex = 37;
-            this.pb_editCookietComfrim.TabStop = false;
-            // 
-            // requestAddHeads
-            // 
-            this.requestAddHeads.ColumnHeaderName = "Add Head";
-            this.requestAddHeads.Dock = System.Windows.Forms.DockStyle.Right;
-            this.requestAddHeads.IsKeyValue = true;
-            this.requestAddHeads.Location = new System.Drawing.Point(278, 17);
-            this.requestAddHeads.Name = "requestAddHeads";
-            this.requestAddHeads.Size = new System.Drawing.Size(310, 84);
-            this.requestAddHeads.TabIndex = 1;
-            // 
-            // requestRemoveHeads
-            // 
-            this.requestRemoveHeads.ColumnHeaderName = "Remove Head";
-            this.requestRemoveHeads.Dock = System.Windows.Forms.DockStyle.Left;
-            this.requestRemoveHeads.IsKeyValue = false;
-            this.requestRemoveHeads.Location = new System.Drawing.Point(3, 17);
-            this.requestRemoveHeads.Name = "requestRemoveHeads";
-            this.requestRemoveHeads.Size = new System.Drawing.Size(269, 84);
-            this.requestRemoveHeads.TabIndex = 0;
-            // 
             // FreeHttpWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -389,14 +367,11 @@
             this.splitContainer_main.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main)).EndInit();
             this.splitContainer_main.ResumeLayout(false);
-            this.splitContainer_httpEdit.Panel1.ResumeLayout(false);
-            this.splitContainer_httpEdit.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpEdit)).EndInit();
-            this.splitContainer_httpEdit.ResumeLayout(false);
             this.groupBox_urlFilter.ResumeLayout(false);
             this.groupBox_urlFilter.PerformLayout();
             this.tabControl_Modific.ResumeLayout(false);
             this.tabPage_requestModific.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_editCookietComfrim)).EndInit();
             this.groupBox_bodyModific.ResumeLayout(false);
             this.groupBox_bodyModific.PerformLayout();
             this.groupBox_headsModific.ResumeLayout(false);
@@ -406,7 +381,6 @@
             this.splitContainer_httpControl.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpControl)).EndInit();
             this.splitContainer_httpControl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_editCookietComfrim)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -414,7 +388,6 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer_main;
-        private System.Windows.Forms.SplitContainer splitContainer_httpEdit;
         private System.Windows.Forms.TabControl tabControl_Modific;
         private System.Windows.Forms.TabPage tabPage_requestModific;
         private System.Windows.Forms.TabPage tabPage_requestReplace;
