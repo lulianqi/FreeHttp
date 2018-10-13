@@ -65,7 +65,7 @@
             this.pictureBox_add.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_add.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox_add.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_add.Image")));
-            this.pictureBox_add.Location = new System.Drawing.Point(335, 1);
+            this.pictureBox_add.Location = new System.Drawing.Point(336, 1);
             this.pictureBox_add.Name = "pictureBox_add";
             this.pictureBox_add.Size = new System.Drawing.Size(20, 20);
             this.pictureBox_add.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;

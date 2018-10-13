@@ -33,8 +33,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fiddler45">
-      <HintPath>C:\Users\cllq\AppData\Local\Programs\Fiddler\Fiddler45.exe</HintPath>
+    <Reference Include="Fiddler">
+      <HintPath>..\..\..\..\..\AppData\Local\Programs\Fiddler\Fiddler.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -66,11 +66,29 @@
     <Compile Include="FreeHttpControl\FreeHttpWindow.Designer.cs">
       <DependentUpon>FreeHttpWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\MyPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\RawRequestEdit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\RawRequestEdit.Designer.cs">
+      <DependentUpon>RawRequestEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\RawResponseEdit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\RawResponseEdit.designer.cs">
+      <DependentUpon>RawResponseEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\RemoveHead.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FreeHttpControl\RemoveHead.Designer.cs">
       <DependentUpon>RemoveHead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\WatermakTextBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="HttpHelper\ContentModific.cs" />
     <Compile Include="HttpHelper\FiddlerRequsetChange.cs" />
@@ -100,6 +118,12 @@
     <EmbeddedResource Include="FreeHttpControl\FreeHttpWindow.resx">
       <DependentUpon>FreeHttpWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\RawRequestEdit.resx">
+      <DependentUpon>RawRequestEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\RawResponseEdit.resx">
+      <DependentUpon>RawResponseEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RemoveHead.resx">
       <DependentUpon>RemoveHead.cs</DependentUpon>
     </EmbeddedResource>
@@ -114,6 +138,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\freehttpico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_mode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_mode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\开关_关.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\开关_开.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -44,10 +44,24 @@ namespace FreeHttp
                     tabPage.ImageIndex = FiddlerApplication.UI.tabsViews.ImageList.Images.Count - 1;
                 }
                 myFreeHttpWindow = new FreeHttpWindow();
+                myFreeHttpWindow.OnGetSession += myFreeHttpWindow_OnGetSession;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
                 tabPage.Controls.Add(myFreeHttpWindow);
                 FiddlerApplication.UI.tabsViews.TabPages.Add(tabPage);
                 isOnLoad = true;
+            }
+        }
+
+        void myFreeHttpWindow_OnGetSession(object sender, EventArgs e)
+        {
+            Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
+            if (tempSession != null)
+            {
+                myFreeHttpWindow.SetModificSession(tempSession);
+            }
+            else
+            {
+                Fiddler.FiddlerObject.UI.ShowAlert(new frmAlert("STOP", "please select a session", "OK"));
             }
         }
 

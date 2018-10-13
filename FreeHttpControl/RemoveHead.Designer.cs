@@ -70,6 +70,7 @@
             this.Controls.Add(this.tb_key);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RemoveHead";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "RemoveHead";
             this.Load += new System.EventHandler(this.RemoveHead_Load);
             this.ResumeLayout(false);

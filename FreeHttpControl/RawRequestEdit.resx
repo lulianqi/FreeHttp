@@ -117,20 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="add_mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>add_mode.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="edit_mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>edit_mode.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="freehttpico" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>freehttpico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="switch_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>开关_关.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="switch_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>开关_开.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="pictureBox_changeMode.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAOnSURBVHhe7ZrPaxNBFMcDKihtsj8UT+IvVEQQQUVBPHkQ8eAPFJWC3vSif4PVP8Aq7c5uIoJQ
+        EcFfJw+ih949SBGUdmY3KVZpLajVGlQqxjfpM0zWiQ3ZbXf2xwceSWceL+/7ZqY7s7u5jIyMjIyYodvs
+        mmmzmmHTjwbx9mNzOtBsupGLF6xasOhe7E4BZKrbtOnXpiIQOqNZbCd6JB/TYqcMm/0WiwB/T6eqCIbj
+        ngHRv/xFMAa87eiSfHTHPS4pwqd8qbIVXZKPtAiETWVFgCIUiLsJXZJPvQiEzopFMAmb0J3KenQJwO3K
+        cth09ECV78DnMFx2vjX9kMpG2HigIhiWd5gHkQaPicFyGMtb71aipPYxHdYrCxhHg+3zZZTVHlC1m7JA
+        8TX3AkqbH4O4lyRBvoNd163yOnRTjsKtcRMG7pUvb25Pc/drS9BtHgYnu/gpSwwA/13Lql9SWoon9Fmu
+        VFuGbvOjO+ysL0jV7GdrsFtJQhPPgUvdXTEIzIZ+7FKSUMVz4Kg5IgYqOOU92KUcRsnTQhXPgRkwLQbL
+        XaktxS6lqIu32UsxV24wY590LJ7jD4jNSvFf8UEHzB8Um9UBBMIUf+HPMxTxHH9gbFaGQtHb7M8xNPEc
+        f3BsVgcQCtP/7d/8QhXPEcVzw2al4Kc7fk6BQlxsf4fXJnEowILSdPSF79gcGzSHnpjby9ARjbCT2Nw+
+        9QCEvuHGv2NzbGgeQPoem9NDQzwaNqeHrACLWQDddo/BpWgI1tqjfGl0FTZHyqIVAB9NNZ7PGYQWsStS
+        RPHcsDlc/OLnjD7H7khpzmkBCiAVz58TEHcfukTH4GSXL68Z7AkHnbjn/OINwj5rtrsLXSJFK3q7xdxg
+        TzCKXcGRiQf7YBbZNnSJHJiFN8T84KB0D7uCIRUPuyxtYGwDukSOUfLWwoh/EXPkN3ixu3Pk056W+Q+i
+        S+TkLW8LjHZFzLF+jukbX4EundFi2r/udtzV6BIp/CENCO2DnPhDm0aOPGc4CB1Et86A9XReIj4e5rBe
+        lNEZMJ16pIHjYVdRRufAyDduOcXGYM3zR/koIRgQbEL6IwoZDNI0zNRh+OQvbfTwlzgw/eDA+j/tX//8
+        9RPdZkfQJfm0uPzNQnEOoUvykRbBpj+zIkARNMc9gC7JR74c2I+sCFCEVL2vLysCWDVVRZDfDWJVvVje
+        gS7Jp8VdocfYnQ7+LQJ9iF3pQbfYUSjCEGydH6hyRM7IyMjIaJtc7g+/EGq5A+8/BAAAAABJRU5ErkJg
+        gg==
+</value>
   </data>
 </root>

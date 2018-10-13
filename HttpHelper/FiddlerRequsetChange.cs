@@ -12,7 +12,8 @@ namespace FreeHttp.HttpHelper
 
         public ContentModific UriModific { get; set; }
 
-        public List<KeyValuePair<string, string>> HeadAddList { get; set; }
+        //public List<KeyValuePair<string, string>> HeadAddList { get; set; }
+        public List<string> HeadAddList { get; set; }
 
         public List<string> HeadDelList { get; set; }
 
