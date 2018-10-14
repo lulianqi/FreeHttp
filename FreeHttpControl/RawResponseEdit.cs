@@ -24,10 +24,6 @@ namespace FreeHttp.FreeHttpControl
 
         public event EventHandler OnRawResponseEditClose;
         public event EventHandler OnRawResponseEnableChange;
-        public bool IsEnable
-        {
-            get { return ck_enabled.Checked; }
-        }
 
         public bool IsDirectRespons
         {
@@ -65,14 +61,6 @@ namespace FreeHttp.FreeHttpControl
             rdc.Add("HTTP/1.1 502 Unreachable Server", "HTTP/1.1 502 Unreachable Server\r\nDate: Fri, 25 Jan 2013 16:49:29 GMT\r\nFiddlerTemplate: True\r\nContent-Type: text/html\r\nContent-Length: 520\r\n\r\nFiddler: HTTP/502 unreachable server.");
         }
 
-        private void pb_editResponseCancel_Click(object sender, EventArgs e)
-        {
-            this.Visible = false;
-            if(OnRawResponseEditClose!=null)
-            {
-                this.OnRawResponseEditClose(this, null);
-            }
-        }
 
         private void RawResponseEdit_Resize(object sender, EventArgs e)
         {
@@ -84,31 +72,6 @@ namespace FreeHttp.FreeHttpControl
             rtb_rawResponse.Text = responseLineDc[cb_responseLine.Text];
         }
 
-        private void ck_enabled_CheckedChanged(object sender, EventArgs e)
-        {
-            if(ck_enabled.Checked)
-            {
-                try
-                {
-                    httpResponse = HttpResponse.GetHttpResponse(rtb_rawResponse.Text.Replace("\n", "\r\n"));
-                    cb_responseLine.Enabled = rtb_rawResponse.Enabled= ck_directResponse.Enabled = false;            
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show(string.Format("{0}\r\n   please edit rhe raw response again", ex.Message), "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    ck_enabled.Checked = false;
-                }
-            }
-            else
-            {
-                cb_responseLine.Enabled = rtb_rawResponse.Enabled = ck_directResponse.Enabled = true;
-            }
-
-            if (OnRawResponseEnableChange != null)
-            {
-                OnRawResponseEnableChange(this, null);
-            }
-        }
 
         private void addFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -130,7 +93,10 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
-
+        private void antoContentLengthToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            antoContentLengthToolStripMenuItem.Checked = !antoContentLengthToolStripMenuItem.Checked;
+        }
         public void SetText(string mes)
         {
             rtb_rawResponse.Clear();
@@ -142,8 +108,31 @@ namespace FreeHttp.FreeHttpControl
 
         public HttpResponse GetHttpResponse()
         {
-            return HttpResponse.GetHttpResponse(rtb_rawResponse.Text.Replace("\n", "\r\n"));
+            HttpResponse nowHttpResponse = HttpResponse.GetHttpResponse(rtb_rawResponse.Text.Replace("\n", "\r\n"));
+            if (antoContentLengthToolStripMenuItem.Checked)
+            {
+                List<KeyValuePair<string, string>> mvKvpList = new List<KeyValuePair<string, string>>();
+                foreach (KeyValuePair<string, string> kvp in nowHttpResponse.ResponseHeads)
+                {
+                    if (kvp.Key == "Content-Length")
+                    {
+                        mvKvpList.Add(kvp);
+                    }
+                }
+                if (mvKvpList.Count > 0)
+                {
+                    foreach (KeyValuePair<string, string> kvp in mvKvpList)
+                    {
+                        nowHttpResponse.ResponseHeads.Remove(kvp);
+                    }
+                }
+                nowHttpResponse.ResponseHeads.Add(new KeyValuePair<string, string>("Content-Length", nowHttpResponse.ResponseEntity == null ? "0" : nowHttpResponse.ResponseEntity.Length.ToString()));
+
+            }
+            return nowHttpResponse;
         }
+
+
         
     }
 }

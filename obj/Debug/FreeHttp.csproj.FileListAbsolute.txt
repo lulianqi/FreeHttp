@@ -3,16 +3,6 @@ D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.Resources.MyResource.res
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csproj.GenerateResource.Cache
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\FreeHttp.dll
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\FreeHttp.pdb
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Fiddler45.exe
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Xceed.Zip.v5.4.dll
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Xceed.FileSystem.v5.4.dll
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Analytics.dll
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Newtonsoft.Json.dll
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Xceed.Compression.Formats.v5.4.dll
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Xceed.Compression.v5.4.dll
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.dll
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Analytics.pdb
-D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.pdb
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.dll
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.pdb
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.AddHead.resources
@@ -44,3 +34,6 @@ C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeH
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.RawRequestEdit.resources
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.RawResponseEdit.resources
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
+D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
+D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.RawRequestEdit.resources
+D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.RawResponseEdit.resources
