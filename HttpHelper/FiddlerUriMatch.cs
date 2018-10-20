@@ -23,5 +23,20 @@ namespace FreeHttp.HttpHelper
             MatchMode = matchMode;
             MatchUri = matchUri;
         }
+
+        public new bool Equals(FiddlerUriMatch targetUriMatch)
+        {
+            return (this.MatchMode == targetUriMatch.MatchMode && this.MatchUri == targetUriMatch.MatchUri);
+        }
+
+        public new bool Equals(object targetFiddlerHttpTamper)
+        {
+            IFiddlerHttpTamper fiddlerHttpTamper = targetFiddlerHttpTamper as IFiddlerHttpTamper;
+            if(fiddlerHttpTamper== null)
+            {
+                return false;
+            }
+            return this.Equals(fiddlerHttpTamper.UriMatch);
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace FreeHttp.FreeHttpControl
         public bool IsDirectRespons
         {
             get { return ck_directResponse.Checked; }
+            set { ck_directResponse.Checked = value; }
         }
 
         public HttpResponse RawResponse
@@ -103,6 +104,16 @@ namespace FreeHttp.FreeHttpControl
             if(mes!=null)
             {
                 rtb_rawResponse.Text = mes;
+            }
+        }
+
+        public void ClearInfo()
+        {
+            rtb_rawResponse.Clear();
+            ck_directResponse.Checked = false;
+            if (cb_responseLine.Items.Count>0)
+            {
+                cb_responseLine.SelectedIndex = 0;
             }
         }
 

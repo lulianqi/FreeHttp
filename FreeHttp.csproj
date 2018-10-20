@@ -66,6 +66,9 @@
     <Compile Include="FreeHttpControl\FreeHttpWindow.Designer.cs">
       <DependentUpon>FreeHttpWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\MyListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FreeHttpControl\MyPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -154,7 +157,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

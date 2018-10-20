@@ -13,6 +13,8 @@ namespace FreeHttp.HttpHelper
         public List<KeyValuePair<string, string>> ResponseHeads { get; set; }
 
         public byte[] ResponseEntity { get; set; }
+
+        public string OriginSting { get; set; }
         public HttpResponse()
         {
             ResponseHeads = new List<KeyValuePair<string, string>>();
@@ -40,6 +42,7 @@ namespace FreeHttp.HttpHelper
         public static HttpResponse GetHttpResponse(string yourResponse)
         {
             HttpResponse httpResponse = new HttpResponse();
+            httpResponse.OriginSting = yourResponse;
             if (yourResponse != null)
             {
                 int tempIndex;

@@ -15,6 +15,8 @@ namespace FreeHttp.HttpHelper
         public List<KeyValuePair<string, string>> RequestHeads { get; set; }
 
         public byte[] RequestEntity { get; set; }
+
+        public string OriginSting { get; set; }
         public HttpRequest()
         {
             RequestHeads = new List<KeyValuePair<string, string>>();
@@ -40,20 +42,21 @@ namespace FreeHttp.HttpHelper
         }
 
 
-        public static HttpRequest GetHttpRequest(string yourResponse)
+        public static HttpRequest GetHttpRequest(string yourRequest)
         {
             HttpRequest httpRequest = new HttpRequest();
-            if (yourResponse != null)
+            httpRequest.OriginSting = yourRequest;
+            if (yourRequest != null)
             {
                 int tempIndex;
                 string tempString;
                 //ResponseLine
-                tempIndex = yourResponse.IndexOf("\r\n");
+                tempIndex = yourRequest.IndexOf("\r\n");
                 if (tempIndex < 1)
                 {
                     throw new Exception("can not find request line");
                 }
-                tempString = yourResponse.Substring(0, tempIndex);
+                tempString = yourRequest.Substring(0, tempIndex);
                 string[] requestLineStrs = tempString.Split(' ');
                 if (requestLineStrs.Length != 3)
                 {
@@ -64,34 +67,34 @@ namespace FreeHttp.HttpHelper
                 httpRequest.RequestVersions = requestLineStrs[2];
                 httpRequest.RequestLine = tempString;
                 //ResponseHeads
-                yourResponse = yourResponse.Remove(0, tempIndex + 2);
-                tempIndex = yourResponse.IndexOf("\r\n");
+                yourRequest = yourRequest.Remove(0, tempIndex + 2);
+                tempIndex = yourRequest.IndexOf("\r\n");
                 while (tempIndex > 0)
                 {
-                    tempString = yourResponse.Substring(0, tempIndex);
-                    yourResponse = yourResponse.Remove(0, tempIndex + 2);
+                    tempString = yourRequest.Substring(0, tempIndex);
+                    yourRequest = yourRequest.Remove(0, tempIndex + 2);
                     tempIndex = tempString.IndexOf(':');
                     if (tempIndex < 0)
                     {
                         throw new Exception(string.Format("error format in response head [{0}]", tempString));
                     }
                     httpRequest.RequestHeads.Add(new KeyValuePair<string, string>(tempString.Substring(0, tempIndex), tempString.Remove(0, tempIndex + 1).TrimStart(' ')));
-                    tempIndex = yourResponse.IndexOf("\r\n");
+                    tempIndex = yourRequest.IndexOf("\r\n");
                 }
                 if (tempIndex < 0)
                 {
                     throw new Exception("Please ensure that there is a single empty line after the HTTP headers.");
                 }
                 //ResponseEntity
-                yourResponse = yourResponse.Remove(0, tempIndex + 2);
-                if (yourResponse == "\r\n")
+                yourRequest = yourRequest.Remove(0, tempIndex + 2);
+                if (yourRequest == "\r\n")
                 {
                     httpRequest.RequestEntity = new byte[0];
                     return httpRequest;
                 }
-                else if (yourResponse.StartsWith("<<replace file path>>"))
+                else if (yourRequest.StartsWith("<<replace file path>>"))
                 {
-                    tempString = yourResponse.Remove(0, 21);
+                    tempString = yourRequest.Remove(0, 21);
                     if (File.Exists(tempString))
                     {
                         using (FileStream fileStream = new FileStream(tempString, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -112,7 +115,7 @@ namespace FreeHttp.HttpHelper
                 }
                 else
                 {
-                    httpRequest.RequestEntity = Encoding.UTF8.GetBytes(yourResponse);
+                    httpRequest.RequestEntity = Encoding.UTF8.GetBytes(yourRequest);
                 }
             }
             return httpRequest;

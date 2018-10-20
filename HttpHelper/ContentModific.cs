@@ -8,20 +8,21 @@ namespace FreeHttp.HttpHelper
     public class ContentModific
     {
         public bool IsEntireReplace { get; set; }
-        public string TargetContent { get; set; }
+        public string TargetKey { get; set; }
         public string ReplaceContent { get; set; }
 
-        public ContentModific(string targetContent,string replaceContent)
+        public ContentModific(string targetKey,string replaceContent)
         {
-            if(string.IsNullOrEmpty(replaceContent))
+            if (string.IsNullOrEmpty(targetKey))
             {
                 IsEntireReplace = true;
+                TargetKey = "";
             }
             else
             {
-                ReplaceContent = replaceContent;
+                TargetKey = targetKey;
             }
-            TargetContent = targetContent;
+            ReplaceContent = replaceContent;
         }
     }
 }

@@ -26,6 +26,10 @@ namespace FreeHttp.FreeHttpControl
         bool isRequestRuleEnable;
         bool isResponseRuleEnable;
 
+
+        Timer myTimer = new Timer();
+        Dictionary<ListViewItem, int> highlightItemDc;
+
         private void FreeHttpWindow_Load(object sender, EventArgs e)
         {
             foreach(Control contor in this.Controls)
@@ -33,11 +37,15 @@ namespace FreeHttp.FreeHttpControl
                 
             }
 
+            highlightItemDc = new Dictionary<ListViewItem, int>();
+            myTimer.Interval = 1000;
+            myTimer.Tick += myTimer_Tick;
+            myTimer.Start();
+
             cb_macthMode.SelectedIndex = 0;
         }
 
-
-
+ 
 
         #region Inner Function
         private bool IsRequestReplaceRawMode
@@ -62,6 +70,16 @@ namespace FreeHttp.FreeHttpControl
             }
         }
         
+        private void MarkRuleItem(ListViewItem yourItem)
+        {
+            yourItem.BackColor = Color.PowderBlue;
+            if(yourItem !=null)
+            {
+                highlightItemDc.Add(yourItem, 5);
+            }
+        }
+
+
         private FiddlerUriMatch GetUriMatch()
         {
             FiddlerUriMatchMode matchMode = FiddlerUriMatchMode.AllPass;
@@ -72,6 +90,14 @@ namespace FreeHttp.FreeHttpControl
             return new FiddlerUriMatch(matchMode, tb_urlFilter.Text);
         }
 
+        private void SetUriMatch(FiddlerUriMatch fiddlerUriMatch)
+        {
+            if (fiddlerUriMatch != null)
+            {
+                cb_macthMode.Text = fiddlerUriMatch.MatchMode.ToString();
+                tb_urlFilter.Text = string.IsNullOrEmpty(fiddlerUriMatch.MatchUri) ? "" : fiddlerUriMatch.MatchUri;
+            }
+        }
         private FiddlerRequsetChange GetRequestModificInfo()
         {
             FiddlerRequsetChange requsetChange = new FiddlerRequsetChange();
@@ -207,7 +233,7 @@ namespace FreeHttp.FreeHttpControl
                     responseChange.HeadAddList.Add(tempRequestAddHead.Text);
                 }
             }
-            responseChange.BodyModific = new ContentModific(tb_responseModific_body.Text, rtb_reponseModific_body.Text);
+            responseChange.BodyModific = new ContentModific(tb_responseModific_body.Text, rtb_respenseModific_body.Text);
             return responseChange;
         }
 
@@ -220,12 +246,143 @@ namespace FreeHttp.FreeHttpControl
             return responseChange;
         }
 
+        private void ClearModificInfo()
+        {
+            cb_macthMode.Text = "";
+            tb_urlFilter.Text = "";
+            tb_requestModific_uriModificKey.Text = "";
+            tb_requestModific_uriModificValue.Text = "";
+            tb_requestModific_body.Text = "";
+            cb_editRequestMethod.Text = "";
+            tb_requestReplace_uri.Text = "";
+            cb_editRequestEdition.Text = "";
+            tb_responseModific_body.Text = "";
+            rawResponseEdit.ClearInfo();
+            requestRemoveHeads.ListDataView.Items.Clear();
+            requestAddHeads.ListDataView.Items.Clear();
+            elv_requsetReplace.ListDataView.Items.Clear();
+            responseRemoveHeads.ListDataView.Items.Clear();
+            responseAddHeads.ListDataView.Items.Clear();
+            rtb_requestModific_body.Clear();
+            rtb_respenseModific_body.Clear();
+            rtb_requestRaw.Clear();
+
+        }
+
+        private void SetRequestModificInfo(FiddlerRequsetChange fiddlerRequsetChange)
+        {
+            ClearModificInfo();
+            SetUriMatch(fiddlerRequsetChange.UriMatch);
+            if(fiddlerRequsetChange.HttpRawRequest==null)
+            {
+                tabControl_Modific.SelectedIndex = 0;
+                if(fiddlerRequsetChange.UriModific!=null)
+                {
+                    tb_requestModific_uriModificKey.Text = fiddlerRequsetChange.UriModific.TargetKey;
+                    tb_requestModific_uriModificValue.Text = fiddlerRequsetChange.UriModific.ReplaceContent;
+                }
+                if (fiddlerRequsetChange.HeadDelList != null)
+                {
+                    foreach(string tempHead in fiddlerRequsetChange.HeadDelList)
+                    {
+                        requestRemoveHeads.ListDataView.Items.Add(tempHead);
+                    }
+                }
+                if(fiddlerRequsetChange.HeadAddList!=null)
+                {
+                    foreach (string tempHead in fiddlerRequsetChange.HeadAddList)
+                    {
+                        requestAddHeads.ListDataView.Items.Add(tempHead);
+                    }
+                }
+                if(fiddlerRequsetChange.BodyModific!=null)
+                {
+                    tb_requestModific_body.Text = fiddlerRequsetChange.BodyModific.TargetKey;
+                    rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ReplaceContent);
+                }
+            }
+            else
+            {
+                tabControl_Modific.SelectedIndex = 1;
+                if(IsRequestReplaceRawMode)
+                {
+                    pb_requestReplace_changeMode_Click(null, null);
+                }
+                cb_editRequestMethod.Text = fiddlerRequsetChange.HttpRawRequest.RequestMethod;
+                tb_requestReplace_uri.Text = fiddlerRequsetChange.HttpRawRequest.RequestUri;
+                cb_editRequestEdition.Text = fiddlerRequsetChange.HttpRawRequest.RequestVersions;
+                if(fiddlerRequsetChange.HttpRawRequest.RequestHeads!=null)
+                { 
+                    foreach(KeyValuePair<string,string> tempHead in fiddlerRequsetChange.HttpRawRequest.RequestHeads)
+                    {
+                        elv_requsetReplace.ListDataView.Items.Add(string.Format("{0}: {1}", tempHead.Key, tempHead.Value));
+                    }
+                }
+                if (fiddlerRequsetChange.HttpRawRequest.RequestEntity!=null)
+                {
+                    rtb_requsetReplace_body.AppendText(Encoding.UTF8.GetString(fiddlerRequsetChange.HttpRawRequest.RequestEntity));
+                }
+                if(fiddlerRequsetChange.HttpRawRequest.OriginSting!=null)
+                {
+                    rtb_requestRaw.AppendText(fiddlerRequsetChange.HttpRawRequest.OriginSting);
+                }
+
+            }
+        }
+
+        private void SetResponseModificInfo(FiddlerResponseChange fiddlerResponseChange)
+        {
+            ClearModificInfo();
+            SetUriMatch(fiddlerResponseChange.UriMatch);
+            if (fiddlerResponseChange.HttpRawResponse == null)
+            {
+                tabControl_Modific.SelectedIndex = 2;
+                if(fiddlerResponseChange.HeadDelList!=null)
+                {
+                    foreach (string tempHead in fiddlerResponseChange.HeadDelList)
+                    {
+                        responseRemoveHeads.ListDataView.Items.Add(tempHead);
+                    }
+                }
+                if (fiddlerResponseChange.HeadAddList != null)
+                {
+                    foreach (string tempHead in fiddlerResponseChange.HeadAddList)
+                    {
+                        responseAddHeads.ListDataView.Items.Add(tempHead);
+                    }
+                }
+                tb_responseModific_body.Text = fiddlerResponseChange.BodyModific.TargetKey;
+                rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent);
+            }
+            else
+            {
+                tabControl_Modific.SelectedIndex = 3;
+                rawResponseEdit.IsDirectRespons = fiddlerResponseChange.IsIsDirectRespons;
+                if(fiddlerResponseChange.HttpRawResponse.OriginSting!=null)
+                {
+                    rawResponseEdit.SetText(fiddlerResponseChange.HttpRawResponse.OriginSting);
+                }
+            }
+        }
+        private void AdjustRuleListViewIndex(ListView ruleListView)
+        {
+            if(ruleListView.Items.Count>0)
+            {
+                for(int i=0;i<ruleListView.Items.Count;i++)
+                {
+                    ruleListView.Items[i].SubItems[0].Text = (i + 1).ToString();
+                }
+            }
+        }
+
         #endregion
 
         #region Public Function
         
         public void SetModificSession(Fiddler.Session session)
         {
+            ClearModificInfo();
+
             tb_urlFilter.Text = session.fullUrl;
             cb_macthMode.SelectedIndex = 2;
 
@@ -280,11 +437,38 @@ namespace FreeHttp.FreeHttpControl
                 rawResponseEdit.SetText("read ResponseStream fail");
             }
             tempReponseStream.Close();
+
+            ChangeEditRuleMode(1, null);
         }
 
         #endregion
 
         #region Public Event
+
+        void myTimer_Tick(object sender, EventArgs e)
+        {
+            if (highlightItemDc.Count > 0)
+            {
+                List<ListViewItem> tempRemoveItem = new List<ListViewItem>();
+                List<ListViewItem> tempHighlightList = new List<ListViewItem>();
+                tempHighlightList.AddRange(highlightItemDc.Keys);
+                foreach (var tempHighlightItem in tempHighlightList)
+                {
+                    highlightItemDc[tempHighlightItem]--;
+                    if (highlightItemDc[tempHighlightItem] == 0)
+                    {
+                        tempHighlightItem.BackColor = Color.Transparent;
+                        tempRemoveItem.Add(tempHighlightItem);
+                    }
+                }
+
+                foreach (var tempItem in tempRemoveItem)
+                {
+                    highlightItemDc.Remove(tempItem);
+                }
+            }
+        }
+
 
         private void pb_getSession_Click(object sender, EventArgs e)
         {
@@ -294,6 +478,75 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        private void lv_RuleList_DoubleClick(object sender, EventArgs e)
+        {
+            //Point p = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)); 
+            //ListViewItem lvi = ((ListView)sender).GetItemAt(p.X, p.Y);
+            if(((ListView)sender).SelectedItems==null)
+            {
+                return;
+            }
+            ListViewItem nowListViewItem = ((ListView)sender).SelectedItems[0];
+            if (nowListViewItem != null)
+            {
+                if(sender==lv_requestRuleList)
+                {
+                    SetRequestModificInfo((FiddlerRequsetChange)nowListViewItem.Tag);
+                }
+                else if(sender==lv_responseRuleList)
+                {
+                    SetResponseModificInfo((FiddlerResponseChange)nowListViewItem.Tag);
+                }
+                else
+                {
+                    MessageBox.Show("not adaptive to lv_RuleList_DoubleClick");
+                }
+            }
+        }
+
+        private void pb_addTemperRule_Click(object sender, EventArgs e)
+        {
+            if (sender == pb_addRequestRule)
+            {
+                ClearModificInfo();
+                tabControl_Modific.SelectedIndex = 0;
+            }
+            else if (sender == pb_addResponseRule)
+            {
+                ClearModificInfo();
+                tabControl_Modific.SelectedIndex = 2;
+            }
+            else
+            {
+                return;
+            }
+        }
+        private void pb_removeTemperRule_Click(object sender, EventArgs e)
+        {
+            ListView nowRuleListView = null;
+            if (sender == pb_removeRequestRule)
+            {
+                nowRuleListView = lv_requestRuleList;
+            }
+            else if (sender == pb_removeResponseRule)
+            {
+                nowRuleListView = lv_responseRuleList;
+            }
+            else
+            {
+                return;
+            }
+            if(nowRuleListView.SelectedItems!=null)
+            {
+                foreach(ListViewItem tempItem in nowRuleListView.SelectedItems)
+                {
+                    nowRuleListView.Items.Remove(tempItem);
+                }
+                AdjustRuleListViewIndex(nowRuleListView);
+            }
+            
+        }
+
         private void addFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             object sourceControl = ((ContextMenuStrip)(((ToolStripMenuItem)sender).Owner)).SourceControl;
@@ -301,6 +554,14 @@ namespace FreeHttp.FreeHttpControl
             if (sourceControl == rtb_requsetReplace_body)
             {
                 tempRtb = rtb_requsetReplace_body;
+            }
+            else if (sourceControl == rtb_requestRaw)
+            {
+                tempRtb = rtb_requestRaw;
+            }
+            else
+            {
+                throw new Exception("not adapt this event");
             }
 
             if (openFileDialog_addFIle.ShowDialog() == DialogResult.OK)
@@ -380,8 +641,33 @@ namespace FreeHttp.FreeHttpControl
                 return;
             }
 
-            ListViewItem nowRuleItem = new ListViewItem(new string[] { (tamperRuleListView.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", fiddlerHttpTamper.UriMatch.MatchMode.ToString(), fiddlerHttpTamper.UriMatch.MatchUri) }, fiddlerHttpTamper.IsRawReplace ? 1 : 0);
-            tamperRuleListView.Items.Add(nowRuleItem);
+
+            ListViewItem nowRuleItem = null;
+            foreach(ListViewItem tempItem in tamperRuleListView.Items)
+            {
+                if(fiddlerHttpTamper.UriMatch.Equals(tempItem.Tag))
+                {
+                    if (MessageBox.Show("find same uri filter , do you want update the rule", "find same rule", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    {
+                        nowRuleItem = tempItem;
+                        nowRuleItem.Tag = fiddlerHttpTamper;
+                        MarkRuleItem(nowRuleItem);
+                        break;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+
+            if (nowRuleItem == null)
+            {
+                nowRuleItem = new ListViewItem(new string[] { (tamperRuleListView.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", fiddlerHttpTamper.UriMatch.MatchMode.ToString(), fiddlerHttpTamper.UriMatch.MatchUri) }, fiddlerHttpTamper.IsRawReplace ? 1 : 0);
+                nowRuleItem.Tag = fiddlerHttpTamper;
+                MarkRuleItem(nowRuleItem);
+                tamperRuleListView.Items.Add(nowRuleItem);
+            }
         }
 
          //pictureBox change for all
@@ -415,7 +701,11 @@ namespace FreeHttp.FreeHttpControl
             responseAddHeads.Width = (tabControl_Modific.Width - 22) * 2 / 3;
 
             tb_responseModific_body.Width = tabControl_Modific.Width - 92;
+            
+        }
 
+        private void splitContainer_httpControl_Resize(object sender, EventArgs e)
+        {
             //rule list
             columnHeader_requstRule.Width = lv_requestRuleList.Width - 70;
             columnHeader_responseRule.Width = lv_responseRuleList.Width - 70;
@@ -475,8 +765,6 @@ namespace FreeHttp.FreeHttpControl
 
 
         #endregion
-
-
 
         #region ResponseModific
 
