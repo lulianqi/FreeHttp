@@ -5,6 +5,7 @@ using System.Text;
 
 namespace FreeHttp.HttpHelper
 {
+    [Serializable]
     public class FiddlerRequsetChange : IFiddlerHttpTamper
     {
         public FiddlerUriMatch UriMatch { get; set; }
@@ -19,7 +20,7 @@ namespace FreeHttp.HttpHelper
 
         public ContentModific BodyModific { get; set; }
 
-
+        //[NonSerialized]
         public bool IsRawReplace
         {
             get { return HttpRawRequest != null; }

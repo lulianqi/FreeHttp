@@ -122,23 +122,7 @@ namespace FreeHttp.FreeHttpControl
             HttpResponse nowHttpResponse = HttpResponse.GetHttpResponse(rtb_rawResponse.Text.Replace("\n", "\r\n"));
             if (antoContentLengthToolStripMenuItem.Checked)
             {
-                List<KeyValuePair<string, string>> mvKvpList = new List<KeyValuePair<string, string>>();
-                foreach (KeyValuePair<string, string> kvp in nowHttpResponse.ResponseHeads)
-                {
-                    if (kvp.Key == "Content-Length")
-                    {
-                        mvKvpList.Add(kvp);
-                    }
-                }
-                if (mvKvpList.Count > 0)
-                {
-                    foreach (KeyValuePair<string, string> kvp in mvKvpList)
-                    {
-                        nowHttpResponse.ResponseHeads.Remove(kvp);
-                    }
-                }
-                nowHttpResponse.ResponseHeads.Add(new KeyValuePair<string, string>("Content-Length", nowHttpResponse.ResponseEntity == null ? "0" : nowHttpResponse.ResponseEntity.Length.ToString()));
-
+                nowHttpResponse.SetAutoContentLength();
             }
             return nowHttpResponse;
         }

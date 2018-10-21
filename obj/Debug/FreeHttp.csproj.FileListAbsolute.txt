@@ -33,7 +33,7 @@ C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeH
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.pdb
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.RawRequestEdit.resources
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.RawResponseEdit.resources
-D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.RawRequestEdit.resources
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.RawResponseEdit.resources
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
+D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache

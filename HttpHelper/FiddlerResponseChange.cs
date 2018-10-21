@@ -5,6 +5,7 @@ using System.Text;
 
 namespace FreeHttp.HttpHelper
 {
+    [Serializable]
     class FiddlerResponseChange : IFiddlerHttpTamper
     {
         public FiddlerUriMatch UriMatch { get; set; }

@@ -8,39 +8,84 @@ namespace FreeHttp.HttpHelper
 {
     public class HttpRequest
     {
-        public string RequestLine { get; set; }
-        public string RequestMethod { get; set; }
-        public string RequestUri { get; set; }
-        public string RequestVersions { get; set; }
-        public List<KeyValuePair<string, string>> RequestHeads { get; set; }
+        private string requestLine;
+        private string requestMethod;
+        private string requestUri;
+        private string requestVersions;
+        private List<KeyValuePair<string, string>> requestHeads;
+        private byte[] requestEntity;
 
-        public byte[] RequestEntity { get; set; }
+        public string RequestLine { get { return requestLine; } set { requestLine = value; ChangeRawData(); } }
+        public string RequestMethod { get { return requestMethod; } set { requestMethod = value; ChangeRawData(); } }
+        public string RequestUri { get { return requestUri; } set { requestUri = value; ChangeRawData(); } }
+        public string RequestVersions { get { return requestVersions; } set { requestVersions = value; ChangeRawData(); } }
+        public List<KeyValuePair<string, string>> RequestHeads { get { return requestHeads; } set { requestHeads = value; ChangeRawData(); } }
+        public byte[] RequestEntity { get { return requestEntity; } set { requestEntity = value; ChangeRawData(); } }
 
-        public string OriginSting { get; set; }
+
+        public string OriginSting { get;private set; }
+
+        private byte[] rawRequest;
         public HttpRequest()
         {
             RequestHeads = new List<KeyValuePair<string, string>>();
+            rawRequest = null;
         }
 
-        public byte[] GetRawHttpResponse()
+        public void ChangeRawData()
         {
-            StringBuilder tempResponseSb = new StringBuilder();
-            tempResponseSb.AppendLine(RequestLine);
-            foreach (var tempHead in RequestHeads)
+            rawRequest = null;
+        }
+
+        public void SetAutoContentLength()
+        {
+            if (RequestHeads==null)
             {
-                tempResponseSb.AppendLine(string.Format("{0}: {1}", tempHead.Key, tempHead.Value));
-            }
-            tempResponseSb.Append("\r\n");
-            if (RequestEntity != null)
-            {
-                return Encoding.UTF8.GetBytes(tempResponseSb.ToString()).Concat(RequestEntity).ToArray();
+                RequestHeads = new List<KeyValuePair<string, string>>();
             }
             else
             {
-                return Encoding.UTF8.GetBytes(tempResponseSb.ToString());
+                List<KeyValuePair<string, string>> mvKvpList = new List<KeyValuePair<string, string>>();
+                foreach (KeyValuePair<string, string> kvp in RequestHeads)
+                {
+                    if (kvp.Key == "Content-Length")
+                    {
+                        mvKvpList.Add(kvp);
+                    }
+                }
+                if (mvKvpList.Count > 0)
+                {
+                    foreach (KeyValuePair<string, string> kvp in mvKvpList)
+                    {
+                        RequestHeads.Remove(kvp);
+                    }
+                }
             }
+            RequestHeads.Add(new KeyValuePair<string, string>("Content-Length", RequestEntity == null ? "0" : RequestEntity.Length.ToString()));
         }
-
+        
+        public byte[] GetRawHttpRequest()
+        {
+            if (rawRequest == null)
+            {
+                StringBuilder tempResponseSb = new StringBuilder();
+                tempResponseSb.AppendLine(RequestLine);
+                foreach (var tempHead in RequestHeads)
+                {
+                    tempResponseSb.AppendLine(string.Format("{0}: {1}", tempHead.Key, tempHead.Value));
+                }
+                tempResponseSb.Append("\r\n");
+                if (RequestEntity != null)
+                {
+                    rawRequest = Encoding.UTF8.GetBytes(tempResponseSb.ToString()).Concat(RequestEntity).ToArray();
+                }
+                else
+                {
+                    rawRequest = Encoding.UTF8.GetBytes(tempResponseSb.ToString());
+                }
+            }
+            return rawRequest;
+        }
 
         public static HttpRequest GetHttpRequest(string yourRequest)
         {

@@ -1,5 +1,6 @@
 ﻿using Fiddler;
 using FreeHttp.FreeHttpControl;
+using FreeHttp.HttpHelper;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,7 +22,7 @@ namespace FreeHttp
 
         public void OnBeforeUnload()
         {
-            throw new NotImplementedException();
+            SerializableHelper.SerializRuleList(myFreeHttpWindow.RequestRuleListView);
         }
 
         private void PrintFiddlerLog(string mes)
@@ -72,7 +73,10 @@ namespace FreeHttp
 
         public void AutoTamperRequestBefore(Session oSession)
         {
-            //throw new NotImplementedException();
+            if (!isOnLoad)
+            {
+                return;
+            }
         }
 
         public void AutoTamperResponseAfter(Session oSession)

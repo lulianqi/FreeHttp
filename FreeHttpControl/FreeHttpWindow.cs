@@ -21,14 +21,39 @@ namespace FreeHttp.FreeHttpControl
             UpdateStyles();
         }
 
+        class RemindControlInfo
+        {
+            public int RemindTime { get; set; }
+            public Color OriginColor { get; set; }
+
+            public RemindControlInfo(int yourRemindTime,Color yourOriginColor)
+            {
+                RemindTime = yourRemindTime;
+                OriginColor = yourOriginColor;
+            }
+        }
+
+        enum RuleEditMode
+        {
+            NewRuleMode,
+            EditRequsetRule,
+            EditResponseRule
+        }
+
         public event EventHandler OnGetSession;
 
-        bool isRequestRuleEnable;
-        bool isResponseRuleEnable;
+        bool IsRequestRuleEnable { get; set; }
+        bool IsResponseRuleEnable { get; set; }
 
+        public ListView RequestRuleListView { get { return lv_requestRuleList; } }
+        public ListView ResponseRuleListView { get { return lv_responseRuleList; } }
+
+        ListViewItem EditListViewItem { get; set; }
+        RuleEditMode NowEditMode { get; set; }
 
         Timer myTimer = new Timer();
         Dictionary<ListViewItem, int> highlightItemDc;
+        Dictionary<Control, RemindControlInfo> remindControlDc;
 
         private void FreeHttpWindow_Load(object sender, EventArgs e)
         {
@@ -38,6 +63,7 @@ namespace FreeHttp.FreeHttpControl
             }
 
             highlightItemDc = new Dictionary<ListViewItem, int>();
+            remindControlDc = new Dictionary<Control, RemindControlInfo>();
             myTimer.Interval = 1000;
             myTimer.Tick += myTimer_Tick;
             myTimer.Start();
@@ -53,21 +79,32 @@ namespace FreeHttp.FreeHttpControl
             get { return !panel_requestReplace_startLine.Visible; }
         }
 
-        private void ChangeEditRuleMode(int modeId ,string mes)
+        private void ChangeEditRuleMode(RuleEditMode editMode, string mes, ListViewItem yourListViewItem)
         {
-            switch (modeId)
+            switch (editMode)
             {
-                case 1:
-                    lb_editRuleMode.Text = "New Mode";
+                case RuleEditMode.NewRuleMode:  // new rule
+                    lb_editRuleMode.Text = (mes == null ? "New Mode" : mes);
+                    pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.add_mode;
+                    EditListViewItem = null;
+                    break;
+                case RuleEditMode.EditRequsetRule:  //edit request
+                    lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
+                    EditListViewItem = yourListViewItem;
+                    
                     pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.add_mode;
                     break;
-                case 2:
-                    lb_editRuleMode.Text = string.Format("Edit {0}", mes);
+                case RuleEditMode.EditResponseRule:  //edit response
+                    lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
+                    EditListViewItem = yourListViewItem;
                     pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.add_mode;
                     break;
                 default:
-                    break;
+                    throw new Exception("get not support mode");
+                    //break;
             }
+            ClearModificInfo();
+            NowEditMode = editMode;
         }
         
         private void MarkRuleItem(ListViewItem yourItem)
@@ -75,7 +112,14 @@ namespace FreeHttp.FreeHttpControl
             yourItem.BackColor = Color.PowderBlue;
             if(yourItem !=null)
             {
-                highlightItemDc.Add(yourItem, 5);
+                if (highlightItemDc.ContainsKey(yourItem))
+                {
+                    highlightItemDc[yourItem] = 5;
+                }
+                else
+                {
+                    highlightItemDc.Add(yourItem, 5);
+                }
             }
         }
 
@@ -190,25 +234,8 @@ namespace FreeHttp.FreeHttpControl
 
             if (antoContentLengthToolStripMenuItem.Checked)
             {
-                //if (requsetReplace.HttpRawRequest.RequestEntity != null){}
-                List<KeyValuePair<string, string>> mvKvpList = new List<KeyValuePair<string, string>>();
-                foreach(KeyValuePair<string, string> kvp in requsetReplace.HttpRawRequest.RequestHeads)
-                {
-                    if(kvp.Key=="Content-Length")
-                    {
-                        mvKvpList.Add(kvp);
-                    }
-                }
-                if(mvKvpList.Count>0)
-                {
-                    foreach (KeyValuePair<string, string> kvp in mvKvpList)
-                    {
-                        requsetReplace.HttpRawRequest.RequestHeads.Remove(kvp);
-                    }
-                }
-                requsetReplace.HttpRawRequest.RequestHeads.Add(new KeyValuePair<string, string>("Content-Length", requsetReplace.HttpRawRequest.RequestEntity == null ? "0" : requsetReplace.HttpRawRequest.RequestEntity.Length.ToString()));
+                requsetReplace.HttpRawRequest.SetAutoContentLength();
             }
-
             return requsetReplace;
         }
 
@@ -271,7 +298,6 @@ namespace FreeHttp.FreeHttpControl
 
         private void SetRequestModificInfo(FiddlerRequsetChange fiddlerRequsetChange)
         {
-            ClearModificInfo();
             SetUriMatch(fiddlerRequsetChange.UriMatch);
             if(fiddlerRequsetChange.HttpRawRequest==null)
             {
@@ -332,7 +358,6 @@ namespace FreeHttp.FreeHttpControl
 
         private void SetResponseModificInfo(FiddlerResponseChange fiddlerResponseChange)
         {
-            ClearModificInfo();
             SetUriMatch(fiddlerResponseChange.UriMatch);
             if (fiddlerResponseChange.HttpRawResponse == null)
             {
@@ -381,7 +406,7 @@ namespace FreeHttp.FreeHttpControl
         
         public void SetModificSession(Fiddler.Session session)
         {
-            ClearModificInfo();
+            ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
 
             tb_urlFilter.Text = session.fullUrl;
             cb_macthMode.SelectedIndex = 2;
@@ -438,7 +463,7 @@ namespace FreeHttp.FreeHttpControl
             }
             tempReponseStream.Close();
 
-            ChangeEditRuleMode(1, null);
+           
         }
 
         #endregion
@@ -467,6 +492,27 @@ namespace FreeHttp.FreeHttpControl
                     highlightItemDc.Remove(tempItem);
                 }
             }
+
+            if (remindControlDc.Count > 0)
+            {
+                List<Control> tempRemoveControl = new List<Control>();
+                List<Control> tempRemindList = new List<Control>();
+                tempRemindList.AddRange(remindControlDc.Keys);
+                foreach (var tempRemindControl in tempRemindList)
+                {
+                    remindControlDc[tempRemindControl].RemindTime--;
+                    if (remindControlDc[tempRemindControl].RemindTime == 0)
+                    {
+                        tempRemindControl.BackColor = remindControlDc[tempRemindControl].OriginColor;
+                        tempRemoveControl.Add(tempRemindControl);
+                    }
+                }
+
+                foreach (var tempItem in tempRemoveControl)
+                {
+                    remindControlDc.Remove(tempItem);
+                }
+            }
         }
 
 
@@ -478,11 +524,33 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        private void tabControl_Modific_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if(NowEditMode== RuleEditMode.EditRequsetRule)
+            {
+                if (((TabControl)sender).SelectedIndex == 2 || ((TabControl)sender).SelectedIndex == 3)
+                {
+                    MessageBox.Show("the select requst rule is in editing \r\n    you can not edit response", "STOP");
+                    e.Cancel = true;
+                }
+            }
+            else if(NowEditMode== RuleEditMode.EditResponseRule)
+            {
+                if (((TabControl)sender).SelectedIndex == 0 || ((TabControl)sender).SelectedIndex == 1)
+                {
+                    MessageBox.Show("the select response rule is in editing \r\n    you can not edit requst", "STOP");
+                    e.Cancel = true;
+                }
+            }
+            
+        }
+
+
         private void lv_RuleList_DoubleClick(object sender, EventArgs e)
         {
             //Point p = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)); 
             //ListViewItem lvi = ((ListView)sender).GetItemAt(p.X, p.Y);
-            if(((ListView)sender).SelectedItems==null)
+            if (((ListView)sender).SelectedItems == null || ((ListView)sender).SelectedItems.Count==0)
             {
                 return;
             }
@@ -491,10 +559,13 @@ namespace FreeHttp.FreeHttpControl
             {
                 if(sender==lv_requestRuleList)
                 {
+                    ChangeEditRuleMode(RuleEditMode.EditRequsetRule, string.Format("Edit Requst {0}",nowListViewItem.SubItems[0].Text), nowListViewItem);
                     SetRequestModificInfo((FiddlerRequsetChange)nowListViewItem.Tag);
+                    
                 }
                 else if(sender==lv_responseRuleList)
                 {
+                    ChangeEditRuleMode(RuleEditMode.EditResponseRule, string.Format("Edit Response {0}", nowListViewItem.SubItems[0].Text), nowListViewItem);
                     SetResponseModificInfo((FiddlerResponseChange)nowListViewItem.Tag);
                 }
                 else
@@ -508,12 +579,12 @@ namespace FreeHttp.FreeHttpControl
         {
             if (sender == pb_addRequestRule)
             {
-                ClearModificInfo();
+                ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
                 tabControl_Modific.SelectedIndex = 0;
             }
             else if (sender == pb_addResponseRule)
             {
-                ClearModificInfo();
+                ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
                 tabControl_Modific.SelectedIndex = 2;
             }
             else
@@ -540,6 +611,10 @@ namespace FreeHttp.FreeHttpControl
             {
                 foreach(ListViewItem tempItem in nowRuleListView.SelectedItems)
                 {
+                    if (tempItem == EditListViewItem)
+                    {
+                        ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+                    }
                     nowRuleListView.Items.Remove(tempItem);
                 }
                 AdjustRuleListViewIndex(nowRuleListView);
@@ -647,11 +722,25 @@ namespace FreeHttp.FreeHttpControl
             {
                 if(fiddlerHttpTamper.UriMatch.Equals(tempItem.Tag))
                 {
+                    if (tempItem == EditListViewItem)
+                    {
+                        continue;
+                    }
                     if (MessageBox.Show("find same uri filter , do you want update the rule", "find same rule", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
+                        
                         nowRuleItem = tempItem;
-                        nowRuleItem.Tag = fiddlerHttpTamper;
-                        MarkRuleItem(nowRuleItem);
+                        if (EditListViewItem != null)
+                        {
+                            EditListViewItem.Tag = fiddlerHttpTamper;
+                            EditListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", fiddlerHttpTamper.UriMatch.MatchMode.ToString(), fiddlerHttpTamper.UriMatch.MatchUri);
+                            MarkRuleItem(EditListViewItem);
+                        }
+                        else
+                        {
+                            nowRuleItem.Tag = fiddlerHttpTamper;
+                            MarkRuleItem(nowRuleItem);
+                        }
                         break;
                     }
                     else
@@ -663,11 +752,29 @@ namespace FreeHttp.FreeHttpControl
 
             if (nowRuleItem == null)
             {
-                nowRuleItem = new ListViewItem(new string[] { (tamperRuleListView.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", fiddlerHttpTamper.UriMatch.MatchMode.ToString(), fiddlerHttpTamper.UriMatch.MatchUri) }, fiddlerHttpTamper.IsRawReplace ? 1 : 0);
-                nowRuleItem.Tag = fiddlerHttpTamper;
-                MarkRuleItem(nowRuleItem);
-                tamperRuleListView.Items.Add(nowRuleItem);
+                if (EditListViewItem != null)
+                {
+                    EditListViewItem.Tag = fiddlerHttpTamper;
+                    EditListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", fiddlerHttpTamper.UriMatch.MatchMode.ToString(), fiddlerHttpTamper.UriMatch.MatchUri);
+                    MarkRuleItem(EditListViewItem);
+                }
+                else
+                {
+                    nowRuleItem = new ListViewItem(new string[] { (tamperRuleListView.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", fiddlerHttpTamper.UriMatch.MatchMode.ToString(), fiddlerHttpTamper.UriMatch.MatchUri) }, fiddlerHttpTamper.IsRawReplace ? 1 : 0);
+                    nowRuleItem.Tag = fiddlerHttpTamper;
+                    MarkRuleItem(nowRuleItem);
+                    tamperRuleListView.Items.Add(nowRuleItem);
+                }
             }
+            else
+            {
+                if (EditListViewItem != null)
+                {
+                    tamperRuleListView.Items.Remove(nowRuleItem);
+                }
+            }
+
+            ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
         }
 
          //pictureBox change for all
@@ -715,29 +822,29 @@ namespace FreeHttp.FreeHttpControl
         #region rule control
         private void pb_requestRuleSwitch_Click(object sender, EventArgs e)
         {
-            if(isRequestRuleEnable)
+            if(IsRequestRuleEnable)
             {
                 pb_requestRuleSwitch.Image = Resources.MyResource.switch_off;
-                isRequestRuleEnable = false;
+                IsRequestRuleEnable = false;
             }
             else
             {
                 pb_requestRuleSwitch.Image = Resources.MyResource.switch_on;
-                isRequestRuleEnable = true;
+                IsRequestRuleEnable = true;
             }
         }
 
         private void pb_responseRuleSwitch_Click(object sender, EventArgs e)
         {
-            if(isResponseRuleEnable)
+            if(IsResponseRuleEnable)
             {
                 pb_responseRuleSwitch.Image = Resources.MyResource.switch_off;
-                isResponseRuleEnable = false;
+                IsResponseRuleEnable = false;
             }
             else
             {
                 pb_responseRuleSwitch.Image = Resources.MyResource.switch_on;
-                isResponseRuleEnable = true;
+                IsResponseRuleEnable = true;
             }
         }
         #endregion

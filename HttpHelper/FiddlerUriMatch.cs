@@ -24,6 +24,25 @@ namespace FreeHttp.HttpHelper
             MatchUri = matchUri;
         }
 
+        public bool Match(string matchString)
+        {
+            switch(MatchMode)
+            {
+                case FiddlerUriMatchMode.AllPass:
+                    return true;
+                case FiddlerUriMatchMode.Contain:
+                    return (matchString.Contains(MatchUri));
+                case FiddlerUriMatchMode.Is:
+                    return matchString == MatchUri;
+                case FiddlerUriMatchMode.Regex:
+                    return System.Text.RegularExpressions.Regex.IsMatch(matchString, MatchUri);
+                case FiddlerUriMatchMode.StartWith:
+                    return matchString.StartsWith(MatchUri);
+                default:
+                    return false;
+            }
+
+        }
         public new bool Equals(FiddlerUriMatch targetUriMatch)
         {
             return (this.MatchMode == targetUriMatch.MatchMode && this.MatchUri == targetUriMatch.MatchUri);
