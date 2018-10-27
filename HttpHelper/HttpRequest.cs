@@ -6,29 +6,30 @@ using System.Text;
 
 namespace FreeHttp.HttpHelper
 {
+     [Serializable]
     public class HttpRequest
     {
         private string requestLine;
         private string requestMethod;
         private string requestUri;
         private string requestVersions;
-        private List<KeyValuePair<string, string>> requestHeads;
+        private List<MyKeyValuePair<string, string>> requestHeads;
         private byte[] requestEntity;
 
         public string RequestLine { get { return requestLine; } set { requestLine = value; ChangeRawData(); } }
         public string RequestMethod { get { return requestMethod; } set { requestMethod = value; ChangeRawData(); } }
         public string RequestUri { get { return requestUri; } set { requestUri = value; ChangeRawData(); } }
         public string RequestVersions { get { return requestVersions; } set { requestVersions = value; ChangeRawData(); } }
-        public List<KeyValuePair<string, string>> RequestHeads { get { return requestHeads; } set { requestHeads = value; ChangeRawData(); } }
+        public List<MyKeyValuePair<string, string>> RequestHeads { get { return requestHeads; } set { requestHeads = value; ChangeRawData(); } }
         public byte[] RequestEntity { get { return requestEntity; } set { requestEntity = value; ChangeRawData(); } }
 
-
-        public string OriginSting { get;private set; }
+        //public string OriginSting { get; private set; }
+        public string OriginSting { get; set; }
 
         private byte[] rawRequest;
         public HttpRequest()
         {
-            RequestHeads = new List<KeyValuePair<string, string>>();
+            RequestHeads = new List<MyKeyValuePair<string, string>>();
             rawRequest = null;
         }
 
@@ -41,12 +42,12 @@ namespace FreeHttp.HttpHelper
         {
             if (RequestHeads==null)
             {
-                RequestHeads = new List<KeyValuePair<string, string>>();
+                RequestHeads = new List<MyKeyValuePair<string, string>>();
             }
             else
             {
-                List<KeyValuePair<string, string>> mvKvpList = new List<KeyValuePair<string, string>>();
-                foreach (KeyValuePair<string, string> kvp in RequestHeads)
+                List<MyKeyValuePair<string, string>> mvKvpList = new List<MyKeyValuePair<string, string>>();
+                foreach (MyKeyValuePair<string, string> kvp in RequestHeads)
                 {
                     if (kvp.Key == "Content-Length")
                     {
@@ -55,13 +56,13 @@ namespace FreeHttp.HttpHelper
                 }
                 if (mvKvpList.Count > 0)
                 {
-                    foreach (KeyValuePair<string, string> kvp in mvKvpList)
+                    foreach (MyKeyValuePair<string, string> kvp in mvKvpList)
                     {
                         RequestHeads.Remove(kvp);
                     }
                 }
             }
-            RequestHeads.Add(new KeyValuePair<string, string>("Content-Length", RequestEntity == null ? "0" : RequestEntity.Length.ToString()));
+            RequestHeads.Add(new MyKeyValuePair<string, string>("Content-Length", RequestEntity == null ? "0" : RequestEntity.Length.ToString()));
         }
         
         public byte[] GetRawHttpRequest()
@@ -123,7 +124,7 @@ namespace FreeHttp.HttpHelper
                     {
                         throw new Exception(string.Format("error format in response head [{0}]", tempString));
                     }
-                    httpRequest.RequestHeads.Add(new KeyValuePair<string, string>(tempString.Substring(0, tempIndex), tempString.Remove(0, tempIndex + 1).TrimStart(' ')));
+                    httpRequest.RequestHeads.Add(new MyKeyValuePair<string, string>(tempString.Substring(0, tempIndex), tempString.Remove(0, tempIndex + 1).TrimStart(' ')));
                     tempIndex = yourRequest.IndexOf("\r\n");
                 }
                 if (tempIndex < 0)

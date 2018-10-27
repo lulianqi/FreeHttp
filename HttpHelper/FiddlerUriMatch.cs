@@ -13,11 +13,18 @@ namespace FreeHttp.HttpHelper
         Regex,
         AllPass
     }
+
+     [Serializable]
     public class FiddlerUriMatch
     {
         public FiddlerUriMatchMode MatchMode { get; set; }
         public String MatchUri { get; set; }
 
+        public FiddlerUriMatch()
+        {
+            MatchMode = FiddlerUriMatchMode.AllPass;
+            MatchUri = null;
+        }
         public FiddlerUriMatch(FiddlerUriMatchMode matchMode,string matchUri)
         {
             MatchMode = matchMode;

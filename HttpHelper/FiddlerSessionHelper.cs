@@ -10,7 +10,7 @@ namespace FreeHttp.HttpHelper
 {
     class FiddlerSessionHelper
     {
-        public static IFiddlerHttpTamper FindMatchTanperRule(Session oSession,ListView ruleListView)
+        public static ListViewItem FindMatchTanperRule(Session oSession,ListView ruleListView)
         {
             if (oSession == null || ruleListView == null || ruleListView.Items.Count==0)
             {
@@ -20,7 +20,7 @@ namespace FreeHttp.HttpHelper
             {
                 if(((IFiddlerHttpTamper)tempItem.Tag).UriMatch.Match(oSession.fullUrl))
                 {
-                    return (IFiddlerHttpTamper)tempItem.Tag;
+                    return tempItem;
                 }
             }
             return null;

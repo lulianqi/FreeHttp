@@ -4,6 +4,7 @@ using FreeHttp.HttpHelper;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -20,15 +21,29 @@ namespace FreeHttp
         private FreeHttpWindow myFreeHttpWindow; //MyControl自定义控件
 
 
-        public void OnBeforeUnload()
+        private void ShowMes(string mes)
         {
-            SerializableHelper.SerializRuleList(myFreeHttpWindow.RequestRuleListView);
+            string mesStr = string.Format("【{0}】:{1}", DateTime.Now.ToString(), mes);
+            FiddlerObject.log(mesStr);
         }
 
-        private void PrintFiddlerLog(string mes)
+        private void SetStatusText(string mes)
         {
-            FiddlerObject.log(string.Format("【FiddlerFreeHttp】:{0}", mes));
+            FiddlerObject.StatusText = mes;
         }
+
+        private void MarkSession(Session oSession)
+        {
+            oSession["ui-backcolor"] = "Khaki";
+            oSession["ui-bold"] = "true";
+            oSession["ui-color"] = "Indigo";
+            oSession.RefreshUI();
+        }
+        public void OnBeforeUnload()
+        {
+            SerializableHelper.SerializeRuleList(myFreeHttpWindow.RequestRuleListView, myFreeHttpWindow.ResponseRuleListView);
+        }
+
 
         public void OnLoad()
         {
@@ -44,7 +59,7 @@ namespace FreeHttp
                     FiddlerApplication.UI.tabsViews.ImageList.Images.Add(myIco);
                     tabPage.ImageIndex = FiddlerApplication.UI.tabsViews.ImageList.Images.Count - 1;
                 }
-                myFreeHttpWindow = new FreeHttpWindow();
+                myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList());
                 myFreeHttpWindow.OnGetSession += myFreeHttpWindow_OnGetSession;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
                 tabPage.Controls.Add(myFreeHttpWindow);
@@ -69,6 +84,7 @@ namespace FreeHttp
         public void AutoTamperRequestAfter(Session oSession)
         {
             //throw new NotImplementedException();
+            
         }
 
         public void AutoTamperRequestBefore(Session oSession)
@@ -76,6 +92,42 @@ namespace FreeHttp
             if (!isOnLoad)
             {
                 return;
+            }
+            if (myFreeHttpWindow.IsRequestRuleEnable)
+            {
+                ListViewItem matchItem = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.RequestRuleListView);
+                if (matchItem != null)
+                {
+                    myFreeHttpWindow.MarkMatchRule(matchItem);
+                    MarkSession(oSession);
+                    FiddlerRequsetChange nowFiddlerRequsetChange = ((FiddlerRequsetChange)matchItem.Tag);
+
+                    if (nowFiddlerRequsetChange.IsRawReplace)
+                    {
+                        //using(MemoryStream ms = new MemoryStream(nowFiddlerRequsetChange.HttpRawRequest.GetRawHttpRequest()))
+                        //{
+                        //}
+                        oSession.oRequest.headers = new HTTPRequestHeaders();
+                        oSession.RequestMethod = nowFiddlerRequsetChange.HttpRawRequest.RequestMethod;
+                        oSession.fullUrl = nowFiddlerRequsetChange.HttpRawRequest.RequestUri;
+                        ((Fiddler.HTTPHeaders)(oSession.RequestHeaders)).HTTPVersion = nowFiddlerRequsetChange.HttpRawRequest.RequestVersions;
+                        if(nowFiddlerRequsetChange.HttpRawRequest.RequestHeads!=null)
+                        {
+                            foreach(var tempHead in nowFiddlerRequsetChange.HttpRawRequest.RequestHeads)
+                            {
+                                oSession.oRequest.headers.Add(tempHead.Key, tempHead.Value);
+                            }
+                        }
+                        oSession.requestBodyBytes = nowFiddlerRequsetChange.HttpRawRequest.RequestEntity;
+                    }
+                    else
+                    {
+                        if (nowFiddlerRequsetChange.UriModific != null && nowFiddlerRequsetChange.UriModific.ModificMode!= ContentModificMode.NoChange)
+                        {
+                            
+                        }
+                    }
+                }
             }
         }
 

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace FreeHttp.HttpHelper
 {
-    
     public interface IFiddlerHttpTamper
     {
         FiddlerUriMatch UriMatch { get; set; }

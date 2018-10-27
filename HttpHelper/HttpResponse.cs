@@ -10,21 +10,21 @@ namespace FreeHttp.HttpHelper
     {
         private string responseLine;
         private int responseCode;
-        private List<KeyValuePair<string, string>> responseHeads;
+        private List<MyKeyValuePair<string, string>> responseHeads;
         private byte[] responseEntity;
 
         public string ResponseLine { get { return responseLine; } set { responseLine = value; ChangeRawData(); } }
         public int ResponseCode { get { return responseCode; } set { responseCode = value; ChangeRawData(); } }
-        public List<KeyValuePair<string, string>> ResponseHeads { get { return responseHeads; } set { responseHeads = value; ChangeRawData(); } }
+        public List<MyKeyValuePair<string, string>> ResponseHeads { get { return responseHeads; } set { responseHeads = value; ChangeRawData(); } }
 
         public byte[] ResponseEntity { get { return responseEntity; } set { responseEntity = value; ChangeRawData(); } }
 
-        public string OriginSting { get; private set; }
+        public string OriginSting { get; set; }
 
         private byte[] rawResponse;
         public HttpResponse()
         {
-            ResponseHeads = new List<KeyValuePair<string, string>>();
+            ResponseHeads = new List<MyKeyValuePair<string, string>>();
             rawResponse = null;
         }
 
@@ -37,12 +37,12 @@ namespace FreeHttp.HttpHelper
         {
             if (ResponseHeads == null)
             {
-                ResponseHeads = new List<KeyValuePair<string, string>>();
+                ResponseHeads = new List<MyKeyValuePair<string, string>>();
             }
             else
             {
-                List<KeyValuePair<string, string>> mvKvpList = new List<KeyValuePair<string, string>>();
-                foreach (KeyValuePair<string, string> kvp in ResponseHeads)
+                List<MyKeyValuePair<string, string>> mvKvpList = new List<MyKeyValuePair<string, string>>();
+                foreach (MyKeyValuePair<string, string> kvp in ResponseHeads)
                 {
                     if (kvp.Key == "Content-Length")
                     {
@@ -51,13 +51,13 @@ namespace FreeHttp.HttpHelper
                 }
                 if (mvKvpList.Count > 0)
                 {
-                    foreach (KeyValuePair<string, string> kvp in mvKvpList)
+                    foreach (MyKeyValuePair<string, string> kvp in mvKvpList)
                     {
                         ResponseHeads.Remove(kvp);
                     }
                 }
             }
-            ResponseHeads.Add(new KeyValuePair<string, string>("Content-Length", ResponseEntity == null ? "0" : ResponseEntity.Length.ToString()));
+            ResponseHeads.Add(new MyKeyValuePair<string, string>("Content-Length", ResponseEntity == null ? "0" : ResponseEntity.Length.ToString()));
         }
 
         public byte[] GetRawHttpResponse()
@@ -125,7 +125,7 @@ namespace FreeHttp.HttpHelper
                     {
                         throw new Exception(string.Format("error format in response head [{0}]", tempString));
                     }
-                    httpResponse.ResponseHeads.Add(new KeyValuePair<string, string>(tempString.Substring(0, tempIndex), tempString.Remove(0, tempIndex + 1).TrimStart(' ')));
+                    httpResponse.ResponseHeads.Add(new MyKeyValuePair<string, string>(tempString.Substring(0, tempIndex), tempString.Remove(0, tempIndex + 1).TrimStart(' ')));
                     tempIndex = yourResponse.IndexOf("\r\n");
                 }
                 if (tempIndex < 0)

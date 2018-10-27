@@ -21,6 +21,10 @@ namespace FreeHttp.FreeHttpControl
             UpdateStyles();
         }
 
+        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection):this()
+        {
+            fiddlerModificHttpRuleCollection = yourRuleCollection;
+        }
         class RemindControlInfo
         {
             public int RemindTime { get; set; }
@@ -42,8 +46,8 @@ namespace FreeHttp.FreeHttpControl
 
         public event EventHandler OnGetSession;
 
-        bool IsRequestRuleEnable { get; set; }
-        bool IsResponseRuleEnable { get; set; }
+        public bool IsRequestRuleEnable { get; set; }
+        public bool IsResponseRuleEnable { get; set; }
 
         public ListView RequestRuleListView { get { return lv_requestRuleList; } }
         public ListView ResponseRuleListView { get { return lv_responseRuleList; } }
@@ -54,6 +58,7 @@ namespace FreeHttp.FreeHttpControl
         Timer myTimer = new Timer();
         Dictionary<ListViewItem, int> highlightItemDc;
         Dictionary<Control, RemindControlInfo> remindControlDc;
+        FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
 
         private void FreeHttpWindow_Load(object sender, EventArgs e)
         {
@@ -61,6 +66,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 
             }
+            LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
 
             highlightItemDc = new Dictionary<ListViewItem, int>();
             remindControlDc = new Dictionary<Control, RemindControlInfo>();
@@ -74,6 +80,50 @@ namespace FreeHttp.FreeHttpControl
  
 
         #region Inner Function
+
+        private void LoadFiddlerModificHttpRuleCollection(FiddlerModificHttpRuleCollection yourRuleCollecttion)
+        {
+            if(yourRuleCollecttion!=null)
+            {
+                if(yourRuleCollecttion.RequestRuleList!=null)
+                {
+                    foreach(var tempRule in yourRuleCollecttion.RequestRuleList)
+                    {
+                        AddRuleToListView(lv_requestRuleList, tempRule ,false);
+                    }
+                }
+                if(yourRuleCollecttion.ResponseRuleList!=null)
+                {
+                    foreach (var tempRule in yourRuleCollecttion.ResponseRuleList)
+                    {
+                        AddRuleToListView(lv_responseRuleList, tempRule,false);
+                    }
+                }
+            }
+        }
+
+        private void AddRuleToListView(ListView yourListViews,IFiddlerHttpTamper yourHttpTamper,bool isMark)
+        {
+            ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", yourHttpTamper.UriMatch.MatchMode.ToString(), yourHttpTamper.UriMatch.MatchUri) }, yourHttpTamper.IsRawReplace ? 1 : 0);
+            nowRuleItem.Tag = yourHttpTamper;
+            if(isMark)
+            {
+                MarkRuleItem(nowRuleItem);
+            }
+            yourListViews.Items.Add(nowRuleItem);
+        }
+
+        private void UpdataRuleToListView(ListViewItem yourListViewItem, IFiddlerHttpTamper yourHttpTamper, bool isMark)
+        {
+            yourListViewItem.Tag = yourHttpTamper;
+            yourListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", yourHttpTamper.UriMatch.MatchMode.ToString(), yourHttpTamper.UriMatch.MatchUri);
+            yourListViewItem.ImageIndex = yourHttpTamper.IsRawReplace ? 1 : 0;
+            if(isMark)
+            {
+                MarkRuleItem(yourListViewItem);
+            }
+        }
+
         private bool IsRequestReplaceRawMode
         {
             get { return !panel_requestReplace_startLine.Visible; }
@@ -92,12 +142,12 @@ namespace FreeHttp.FreeHttpControl
                     lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
                     EditListViewItem = yourListViewItem;
                     
-                    pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.add_mode;
+                    pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.edit_mode;
                     break;
                 case RuleEditMode.EditResponseRule:  //edit response
                     lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
                     EditListViewItem = yourListViewItem;
-                    pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.add_mode;
+                    pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.edit_mode;
                     break;
                 default:
                     throw new Exception("get not support mode");
@@ -184,7 +234,7 @@ namespace FreeHttp.FreeHttpControl
                 requsetReplace.HttpRawRequest.RequestVersions = cb_editRequestEdition.Text;
                 requsetReplace.HttpRawRequest.RequestLine = string.Format("{0} {1} {2}", cb_editRequestMethod.Text, tb_requestReplace_uri.Text, cb_editRequestEdition.Text);
 
-                requsetReplace.HttpRawRequest.RequestHeads = new List<KeyValuePair<string, string>>();
+                requsetReplace.HttpRawRequest.RequestHeads = new List<MyKeyValuePair<string, string>>();
                 if (elv_requsetReplace.ListDataView.Items.Count > 0)
                 {
                     foreach (ListViewItem item in elv_requsetReplace.ListDataView.Items)
@@ -194,7 +244,7 @@ namespace FreeHttp.FreeHttpControl
                         {
                             string key = headStr.Remove(headStr.IndexOf(": "));
                             string value = headStr.Substring(headStr.IndexOf(": ") + 2);
-                            requsetReplace.HttpRawRequest.RequestHeads.Add(new KeyValuePair<string, string>(key, value));
+                            requsetReplace.HttpRawRequest.RequestHeads.Add(new MyKeyValuePair<string, string>(key, value));
                         }
                         else
                         {
@@ -291,9 +341,9 @@ namespace FreeHttp.FreeHttpControl
             responseRemoveHeads.ListDataView.Items.Clear();
             responseAddHeads.ListDataView.Items.Clear();
             rtb_requestModific_body.Clear();
-            rtb_respenseModific_body.Clear();
+            rtb_requsetReplace_body.Clear();
             rtb_requestRaw.Clear();
-
+            rtb_respenseModific_body.Clear();
         }
 
         private void SetRequestModificInfo(FiddlerRequsetChange fiddlerRequsetChange)
@@ -302,7 +352,7 @@ namespace FreeHttp.FreeHttpControl
             if(fiddlerRequsetChange.HttpRawRequest==null)
             {
                 tabControl_Modific.SelectedIndex = 0;
-                if(fiddlerRequsetChange.UriModific!=null)
+                if (fiddlerRequsetChange.UriModific != null && fiddlerRequsetChange.UriModific.ModificMode != ContentModificMode.NoChange)
                 {
                     tb_requestModific_uriModificKey.Text = fiddlerRequsetChange.UriModific.TargetKey;
                     tb_requestModific_uriModificValue.Text = fiddlerRequsetChange.UriModific.ReplaceContent;
@@ -321,7 +371,7 @@ namespace FreeHttp.FreeHttpControl
                         requestAddHeads.ListDataView.Items.Add(tempHead);
                     }
                 }
-                if(fiddlerRequsetChange.BodyModific!=null)
+                if (fiddlerRequsetChange.BodyModific != null && fiddlerRequsetChange.BodyModific.ModificMode!= ContentModificMode.NoChange)
                 {
                     tb_requestModific_body.Text = fiddlerRequsetChange.BodyModific.TargetKey;
                     rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ReplaceContent);
@@ -338,8 +388,8 @@ namespace FreeHttp.FreeHttpControl
                 tb_requestReplace_uri.Text = fiddlerRequsetChange.HttpRawRequest.RequestUri;
                 cb_editRequestEdition.Text = fiddlerRequsetChange.HttpRawRequest.RequestVersions;
                 if(fiddlerRequsetChange.HttpRawRequest.RequestHeads!=null)
-                { 
-                    foreach(KeyValuePair<string,string> tempHead in fiddlerRequsetChange.HttpRawRequest.RequestHeads)
+                {
+                    foreach (MyKeyValuePair<string, string> tempHead in fiddlerRequsetChange.HttpRawRequest.RequestHeads)
                     {
                         elv_requsetReplace.ListDataView.Items.Add(string.Format("{0}: {1}", tempHead.Key, tempHead.Value));
                     }
@@ -376,8 +426,11 @@ namespace FreeHttp.FreeHttpControl
                         responseAddHeads.ListDataView.Items.Add(tempHead);
                     }
                 }
-                tb_responseModific_body.Text = fiddlerResponseChange.BodyModific.TargetKey;
-                rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent);
+                if (fiddlerResponseChange.BodyModific != null && fiddlerResponseChange.BodyModific.ModificMode != ContentModificMode.NoChange)
+                {
+                    tb_responseModific_body.Text = fiddlerResponseChange.BodyModific.TargetKey;
+                    rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent);
+                }
             }
             else
             {
@@ -466,6 +519,21 @@ namespace FreeHttp.FreeHttpControl
            
         }
 
+        public void MarkMatchRule(ListViewItem yourItem)
+        {
+            yourItem.BackColor = Color.Khaki;
+            if (yourItem != null)
+            {
+                if (highlightItemDc.ContainsKey(yourItem))
+                {
+                    highlightItemDc[yourItem] = 3;
+                }
+                else
+                {
+                    highlightItemDc.Add(yourItem, 3);
+                }
+            }
+        }
         #endregion
 
         #region Public Event
@@ -726,51 +794,58 @@ namespace FreeHttp.FreeHttpControl
                     {
                         continue;
                     }
-                    if (MessageBox.Show("find same uri filter , do you want update the rule", "find same rule", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    DialogResult tempDs;
+                    //add mode
+                    if(EditListViewItem==null)
                     {
-                        
-                        nowRuleItem = tempItem;
-                        if (EditListViewItem != null)
+                        tempDs = MessageBox.Show(string.Format("find same uri filter with [Rule:{0}], do you want update the rule \r\n    [Yes]       update the rule \r\n    [No]       new a same uri filter rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        if (tempDs == DialogResult.Yes)
                         {
-                            EditListViewItem.Tag = fiddlerHttpTamper;
-                            EditListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", fiddlerHttpTamper.UriMatch.MatchMode.ToString(), fiddlerHttpTamper.UriMatch.MatchUri);
-                            MarkRuleItem(EditListViewItem);
+                            nowRuleItem = tempItem;
+                            UpdataRuleToListView(nowRuleItem, fiddlerHttpTamper, true);
+                            break;
+                        }
+                        else if (tempDs == DialogResult.No)
+                        {
+                            continue;
                         }
                         else
                         {
-                            nowRuleItem.Tag = fiddlerHttpTamper;
-                            MarkRuleItem(nowRuleItem);
+                            return;
                         }
-                        break;
                     }
+                    //edit mode
                     else
                     {
-                        return;
+                        tempDs = MessageBox.Show(string.Format("find same uri filter with [Rule:{0}], do you want remove the rule \r\n    [Yes]       remove the rule \r\n    [No]       skip the same uri filter rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        if (tempDs == DialogResult.Yes)
+                        {
+                            tamperRuleListView.Items.Remove(tempItem);
+                            continue;
+                        }
+                        else if (tempDs == DialogResult.No)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
+                    
+                    
                 }
             }
 
             if (nowRuleItem == null)
             {
-                if (EditListViewItem != null)
+                if (EditListViewItem == null)
                 {
-                    EditListViewItem.Tag = fiddlerHttpTamper;
-                    EditListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", fiddlerHttpTamper.UriMatch.MatchMode.ToString(), fiddlerHttpTamper.UriMatch.MatchUri);
-                    MarkRuleItem(EditListViewItem);
+                    AddRuleToListView(tamperRuleListView, fiddlerHttpTamper, true);
                 }
                 else
                 {
-                    nowRuleItem = new ListViewItem(new string[] { (tamperRuleListView.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", fiddlerHttpTamper.UriMatch.MatchMode.ToString(), fiddlerHttpTamper.UriMatch.MatchUri) }, fiddlerHttpTamper.IsRawReplace ? 1 : 0);
-                    nowRuleItem.Tag = fiddlerHttpTamper;
-                    MarkRuleItem(nowRuleItem);
-                    tamperRuleListView.Items.Add(nowRuleItem);
-                }
-            }
-            else
-            {
-                if (EditListViewItem != null)
-                {
-                    tamperRuleListView.Items.Remove(nowRuleItem);
+                    UpdataRuleToListView(EditListViewItem, fiddlerHttpTamper, true);
                 }
             }
 
