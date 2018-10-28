@@ -49,5 +49,25 @@ namespace FreeHttp.HttpHelper
             }
             
         }
+
+        public string GetFinalContent(string sourceContent)
+        {
+            string finalContent = null;
+            switch(ModificMode)
+            {
+                case ContentModificMode.NoChange:
+                    finalContent = sourceContent;
+                    break;
+                case ContentModificMode.EntireReplace:
+                    finalContent = ReplaceContent;
+                    break;
+                case ContentModificMode.KeyVauleReplace:
+                    finalContent = sourceContent.Replace(TargetKey, ReplaceContent);
+                    break;
+                default:
+                    throw new Exception("not support ContentModificMode");
+            }
+            return finalContent;
+        }
     }
 }

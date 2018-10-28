@@ -739,11 +739,12 @@ namespace FreeHttp.FreeHttpControl
             "StartWith",
             "Is",
             "Regex",
-            "AllPass "});
+            "AllPass"});
             this.cb_macthMode.Location = new System.Drawing.Point(31, 19);
             this.cb_macthMode.Name = "cb_macthMode";
             this.cb_macthMode.Size = new System.Drawing.Size(89, 20);
             this.cb_macthMode.TabIndex = 2;
+            this.cb_macthMode.SelectedIndexChanged += new System.EventHandler(this.cb_macthMode_SelectedIndexChanged);
             // 
             // tb_urlFilter
             // 

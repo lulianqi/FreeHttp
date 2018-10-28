@@ -20,6 +20,7 @@ namespace FreeHttp
         private TabPage tabPage; //创建插件的选项卡页
         private FreeHttpWindow myFreeHttpWindow; //MyControl自定义控件
 
+        private bool isSkipTlsHandshake = true;
 
         private void ShowMes(string mes)
         {
@@ -98,6 +99,10 @@ namespace FreeHttp
                 ListViewItem matchItem = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.RequestRuleListView);
                 if (matchItem != null)
                 {
+                    if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                    {
+                        return;
+                    }
                     myFreeHttpWindow.MarkMatchRule(matchItem);
                     MarkSession(oSession);
                     FiddlerRequsetChange nowFiddlerRequsetChange = ((FiddlerRequsetChange)matchItem.Tag);
@@ -124,7 +129,29 @@ namespace FreeHttp
                     {
                         if (nowFiddlerRequsetChange.UriModific != null && nowFiddlerRequsetChange.UriModific.ModificMode!= ContentModificMode.NoChange)
                         {
-                            
+                            oSession.fullUrl = nowFiddlerRequsetChange.UriModific.GetFinalContent(oSession.fullUrl);
+                        }
+                        if(nowFiddlerRequsetChange.HeadDelList!=null&&nowFiddlerRequsetChange.HeadDelList.Count>0)
+                        {
+                            foreach (var tempDelHead in nowFiddlerRequsetChange.HeadDelList)
+                            {
+                                oSession.RequestHeaders.Remove(tempDelHead);
+                            }
+                        }
+                        if (nowFiddlerRequsetChange.HeadAddList != null && nowFiddlerRequsetChange.HeadAddList.Count > 0)
+                        {
+                            foreach (var tempAddHead in nowFiddlerRequsetChange.HeadAddList)
+                            {
+                                if (tempAddHead.Contains(": "))
+                                {
+                                    oSession.RequestHeaders.Add(tempAddHead.Remove(tempAddHead.IndexOf(": ")), tempAddHead.Substring(tempAddHead.IndexOf(": ") + 2));
+                                }
+                            }
+                        }
+                        if(nowFiddlerRequsetChange.BodyModific!=null && nowFiddlerRequsetChange.BodyModific.ModificMode!= ContentModificMode.NoChange)
+                        {
+                            string sourceRequestBody = oSession.GetRequestBodyAsString();
+                            oSession.requestBodyBytes = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody));
                         }
                     }
                 }
@@ -133,7 +160,44 @@ namespace FreeHttp
 
         public void AutoTamperResponseAfter(Session oSession)
         {
-            //throw new NotImplementedException();
+            if (!isOnLoad)
+            {
+                return;
+            }
+            if (myFreeHttpWindow.IsResponseRuleEnable)
+            {
+                ListViewItem matchItem = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView);
+                if (matchItem != null)
+                {
+                    if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                    {
+                        return;
+                    }
+
+                    myFreeHttpWindow.MarkMatchRule(matchItem);
+                    MarkSession(oSession);
+                    FiddlerResponseChange nowFiddlerRequsetChange = ((FiddlerResponseChange)matchItem.Tag);
+
+                    if (nowFiddlerRequsetChange.IsRawReplace)
+                    {
+                        if (!nowFiddlerRequsetChange.IsIsDirectRespons)
+                        {
+                            using (MemoryStream ms = new MemoryStream(nowFiddlerRequsetChange.HttpRawResponse.GetRawHttpResponse()))
+                            {
+                                if (!oSession.LoadResponseFromStream(ms, null))
+                                {
+                                    ShowMes("error to oSession.LoadResponseFromStream");
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
         }
 
         public void AutoTamperResponseBefore(Session oSession)

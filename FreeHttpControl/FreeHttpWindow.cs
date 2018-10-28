@@ -13,24 +13,12 @@ namespace FreeHttp.FreeHttpControl
 {
     public partial class FreeHttpWindow : UserControl
     {
-        public FreeHttpWindow()
-        {
-            InitializeComponent();
-            //this.DoubleBuffered = true;
-            SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
-            UpdateStyles();
-        }
-
-        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection):this()
-        {
-            fiddlerModificHttpRuleCollection = yourRuleCollection;
-        }
         class RemindControlInfo
         {
             public int RemindTime { get; set; }
             public Color OriginColor { get; set; }
 
-            public RemindControlInfo(int yourRemindTime,Color yourOriginColor)
+            public RemindControlInfo(int yourRemindTime, Color yourOriginColor)
             {
                 RemindTime = yourRemindTime;
                 OriginColor = yourOriginColor;
@@ -43,6 +31,20 @@ namespace FreeHttp.FreeHttpControl
             EditRequsetRule,
             EditResponseRule
         }
+
+        public FreeHttpWindow()
+        {
+            InitializeComponent();
+            //this.DoubleBuffered = true;
+            SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            UpdateStyles();
+        }
+
+        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection):this()
+        {
+            fiddlerModificHttpRuleCollection = yourRuleCollection;
+        }
+        
 
         public event EventHandler OnGetSession;
 
@@ -156,21 +158,42 @@ namespace FreeHttp.FreeHttpControl
             ClearModificInfo();
             NowEditMode = editMode;
         }
-        
-        private void MarkRuleItem(ListViewItem yourItem)
+
+        private void MarkControl(Control yourControl, Color yourColor, int yourShowTick)
         {
-            yourItem.BackColor = Color.PowderBlue;
-            if(yourItem !=null)
+            if (yourControl != null)
             {
-                if (highlightItemDc.ContainsKey(yourItem))
+                if (remindControlDc.ContainsKey(yourControl))
                 {
-                    highlightItemDc[yourItem] = 5;
+                    remindControlDc[yourControl] = new RemindControlInfo(yourShowTick, remindControlDc[yourControl].OriginColor);
                 }
                 else
                 {
-                    highlightItemDc.Add(yourItem, 5);
+                    remindControlDc.Add(yourControl, new RemindControlInfo(yourShowTick, yourControl.BackColor));
+                }
+                yourControl.BackColor = yourColor;
+            }
+        }
+
+        private void MarkRuleItem(ListViewItem yourItem,Color yourColor,int yourShowTick)
+        {
+            if (yourItem != null)
+            {
+                yourItem.BackColor = yourColor;
+                if (highlightItemDc.ContainsKey(yourItem))
+                {
+                    highlightItemDc[yourItem] = yourShowTick;
+                }
+                else
+                {
+                    highlightItemDc.Add(yourItem, yourShowTick);
                 }
             }
+        }
+
+        private void MarkRuleItem(ListViewItem yourItem)
+        {
+            MarkRuleItem(yourItem, Color.PowderBlue, 5);
         }
 
 
@@ -180,6 +203,10 @@ namespace FreeHttp.FreeHttpControl
             if (!Enum.TryParse<FiddlerUriMatchMode>(cb_macthMode.Text, out matchMode))
             {
                 throw new Exception("get error FiddlerUriMatchMode");
+            }
+            if (matchMode != FiddlerUriMatchMode.AllPass && tb_urlFilter.Text=="")
+            {
+                return null;
             }
             return new FiddlerUriMatch(matchMode, tb_urlFilter.Text);
         }
@@ -521,18 +548,7 @@ namespace FreeHttp.FreeHttpControl
 
         public void MarkMatchRule(ListViewItem yourItem)
         {
-            yourItem.BackColor = Color.Khaki;
-            if (yourItem != null)
-            {
-                if (highlightItemDc.ContainsKey(yourItem))
-                {
-                    highlightItemDc[yourItem] = 3;
-                }
-                else
-                {
-                    highlightItemDc.Add(yourItem, 3);
-                }
-            }
+            MarkRuleItem(yourItem, Color.Khaki, 3);
         }
         #endregion
 
@@ -542,6 +558,7 @@ namespace FreeHttp.FreeHttpControl
         {
             if (highlightItemDc.Count > 0)
             {
+                //MyControlHelper.SetControlFreeze(lv_requestRuleList);
                 List<ListViewItem> tempRemoveItem = new List<ListViewItem>();
                 List<ListViewItem> tempHighlightList = new List<ListViewItem>();
                 tempHighlightList.AddRange(highlightItemDc.Keys);
@@ -554,7 +571,7 @@ namespace FreeHttp.FreeHttpControl
                         tempRemoveItem.Add(tempHighlightItem);
                     }
                 }
-
+                //MyControlHelper.SetControlUnfreeze(lv_requestRuleList);
                 foreach (var tempItem in tempRemoveItem)
                 {
                     highlightItemDc.Remove(tempItem);
@@ -578,19 +595,12 @@ namespace FreeHttp.FreeHttpControl
 
                 foreach (var tempItem in tempRemoveControl)
                 {
+                    tempItem.BackColor = remindControlDc[tempItem].OriginColor;
                     remindControlDc.Remove(tempItem);
                 }
             }
         }
 
-
-        private void pb_getSession_Click(object sender, EventArgs e)
-        {
-            if(OnGetSession!=null)
-            {
-                this.OnGetSession(this, null);
-            }
-        }
 
         private void tabControl_Modific_Selecting(object sender, TabControlCancelEventArgs e)
         {
@@ -609,83 +619,6 @@ namespace FreeHttp.FreeHttpControl
                     MessageBox.Show("the select response rule is in editing \r\n    you can not edit requst", "STOP");
                     e.Cancel = true;
                 }
-            }
-            
-        }
-
-
-        private void lv_RuleList_DoubleClick(object sender, EventArgs e)
-        {
-            //Point p = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)); 
-            //ListViewItem lvi = ((ListView)sender).GetItemAt(p.X, p.Y);
-            if (((ListView)sender).SelectedItems == null || ((ListView)sender).SelectedItems.Count==0)
-            {
-                return;
-            }
-            ListViewItem nowListViewItem = ((ListView)sender).SelectedItems[0];
-            if (nowListViewItem != null)
-            {
-                if(sender==lv_requestRuleList)
-                {
-                    ChangeEditRuleMode(RuleEditMode.EditRequsetRule, string.Format("Edit Requst {0}",nowListViewItem.SubItems[0].Text), nowListViewItem);
-                    SetRequestModificInfo((FiddlerRequsetChange)nowListViewItem.Tag);
-                    
-                }
-                else if(sender==lv_responseRuleList)
-                {
-                    ChangeEditRuleMode(RuleEditMode.EditResponseRule, string.Format("Edit Response {0}", nowListViewItem.SubItems[0].Text), nowListViewItem);
-                    SetResponseModificInfo((FiddlerResponseChange)nowListViewItem.Tag);
-                }
-                else
-                {
-                    MessageBox.Show("not adaptive to lv_RuleList_DoubleClick");
-                }
-            }
-        }
-
-        private void pb_addTemperRule_Click(object sender, EventArgs e)
-        {
-            if (sender == pb_addRequestRule)
-            {
-                ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
-                tabControl_Modific.SelectedIndex = 0;
-            }
-            else if (sender == pb_addResponseRule)
-            {
-                ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
-                tabControl_Modific.SelectedIndex = 2;
-            }
-            else
-            {
-                return;
-            }
-        }
-        private void pb_removeTemperRule_Click(object sender, EventArgs e)
-        {
-            ListView nowRuleListView = null;
-            if (sender == pb_removeRequestRule)
-            {
-                nowRuleListView = lv_requestRuleList;
-            }
-            else if (sender == pb_removeResponseRule)
-            {
-                nowRuleListView = lv_responseRuleList;
-            }
-            else
-            {
-                return;
-            }
-            if(nowRuleListView.SelectedItems!=null)
-            {
-                foreach(ListViewItem tempItem in nowRuleListView.SelectedItems)
-                {
-                    if (tempItem == EditListViewItem)
-                    {
-                        ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
-                    }
-                    nowRuleListView.Items.Remove(tempItem);
-                }
-                AdjustRuleListViewIndex(nowRuleListView);
             }
             
         }
@@ -738,6 +671,7 @@ namespace FreeHttp.FreeHttpControl
             FiddlerResponseChange nowResponseChange = null;
             IFiddlerHttpTamper fiddlerHttpTamper = null;
             ListView tamperRuleListView = null;
+
             try
             {
                 switch (tabControl_Modific.SelectedIndex)
@@ -784,6 +718,12 @@ namespace FreeHttp.FreeHttpControl
                 return;
             }
 
+            if(fiddlerHttpTamper.UriMatch==null)
+            {
+                MessageBox.Show("you Uri Filter is not legal \r\n check it again", "edit again");
+                MarkControl(groupBox_urlFilter, Color.Plum, 2);
+                return;
+            }
 
             ListViewItem nowRuleItem = null;
             foreach(ListViewItem tempItem in tamperRuleListView.Items)
@@ -794,6 +734,7 @@ namespace FreeHttp.FreeHttpControl
                     {
                         continue;
                     }
+                    MarkRuleItem(tempItem, Color.Plum, 2);
                     DialogResult tempDs;
                     //add mode
                     if(EditListViewItem==null)
@@ -894,7 +835,7 @@ namespace FreeHttp.FreeHttpControl
         }
         #endregion
 
-        #region rule control
+        #region Rule control
         private void pb_requestRuleSwitch_Click(object sender, EventArgs e)
         {
             if(IsRequestRuleEnable)
@@ -922,6 +863,106 @@ namespace FreeHttp.FreeHttpControl
                 IsResponseRuleEnable = true;
             }
         }
+
+        private void lv_RuleList_DoubleClick(object sender, EventArgs e)
+        {
+            //Point p = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)); 
+            //ListViewItem lvi = ((ListView)sender).GetItemAt(p.X, p.Y);
+            if (((ListView)sender).SelectedItems == null || ((ListView)sender).SelectedItems.Count == 0)
+            {
+                return;
+            }
+            ListViewItem nowListViewItem = ((ListView)sender).SelectedItems[0];
+            if (nowListViewItem != null)
+            {
+                if (sender == lv_requestRuleList)
+                {
+                    ChangeEditRuleMode(RuleEditMode.EditRequsetRule, string.Format("Edit Requst {0}", nowListViewItem.SubItems[0].Text), nowListViewItem);
+                    SetRequestModificInfo((FiddlerRequsetChange)nowListViewItem.Tag);
+
+                }
+                else if (sender == lv_responseRuleList)
+                {
+                    ChangeEditRuleMode(RuleEditMode.EditResponseRule, string.Format("Edit Response {0}", nowListViewItem.SubItems[0].Text), nowListViewItem);
+                    SetResponseModificInfo((FiddlerResponseChange)nowListViewItem.Tag);
+                }
+                else
+                {
+                    MessageBox.Show("not adaptive to lv_RuleList_DoubleClick");
+                }
+            }
+        }
+
+        private void pb_addTemperRule_Click(object sender, EventArgs e)
+        {
+            if (sender == pb_addRequestRule)
+            {
+                ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+                tabControl_Modific.SelectedIndex = 0;
+            }
+            else if (sender == pb_addResponseRule)
+            {
+                ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+                tabControl_Modific.SelectedIndex = 2;
+            }
+            else
+            {
+                return;
+            }
+        }
+        private void pb_removeTemperRule_Click(object sender, EventArgs e)
+        {
+            ListView nowRuleListView = null;
+            if (sender == pb_removeRequestRule)
+            {
+                nowRuleListView = lv_requestRuleList;
+            }
+            else if (sender == pb_removeResponseRule)
+            {
+                nowRuleListView = lv_responseRuleList;
+            }
+            else
+            {
+                return;
+            }
+            if (nowRuleListView.SelectedItems != null)
+            {
+                foreach (ListViewItem tempItem in nowRuleListView.SelectedItems)
+                {
+                    if (tempItem == EditListViewItem)
+                    {
+                        ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+                    }
+                    nowRuleListView.Items.Remove(tempItem);
+                }
+                AdjustRuleListViewIndex(nowRuleListView);
+            }
+
+        }
+        
+        #endregion
+
+        #region Url Filter
+
+        private void pb_getSession_Click(object sender, EventArgs e)
+        {
+            if (OnGetSession != null)
+            {
+                this.OnGetSession(this, null);
+            }
+        }
+        private void cb_macthMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cb_macthMode.Text == "AllPass")
+            {
+                tb_urlFilter.Text = "";
+                tb_urlFilter.Enabled = false;
+            }
+            else
+            {
+                tb_urlFilter.Enabled = true;
+            }
+        } 
         #endregion
 
         #region RequestModific

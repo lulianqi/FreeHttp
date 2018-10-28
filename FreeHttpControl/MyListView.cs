@@ -11,7 +11,11 @@ namespace FreeHttp.FreeHttpControl
     public class MyListView : ListView
     { 
         private const int WM_LBUTTONDBLCLK = 0x0203;  //左键双击
-        public MyListView() : base() { }
+        public MyListView() : base() 
+        {
+            this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            UpdateStyles();
+        }
         protected override void WndProc(ref Message m)
         { 
             if (m.Msg == WM_LBUTTONDBLCLK)
