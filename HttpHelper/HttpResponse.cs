@@ -9,12 +9,17 @@ namespace FreeHttp.HttpHelper
     public class HttpResponse
     {
         private string responseLine;
+        private string responseVersion;
         private int responseCode;
+        private string responseStatusDescription;
         private List<MyKeyValuePair<string, string>> responseHeads;
         private byte[] responseEntity;
 
-        public string ResponseLine { get { return responseLine; } set { responseLine = value; ChangeRawData(); } }
-        public int ResponseCode { get { return responseCode; } set { responseCode = value; ChangeRawData(); } }
+        public string ResponseLine { get { return responseLine; } set { SetResponseLine(value); ChangeRawData(); } }
+        public string ResponseVersion { get { return responseVersion; } set { responseVersion = value; UpdataResponseLine(); ChangeRawData(); } }
+        public int ResponseCode { get { return responseCode; } set { responseCode = value; UpdataResponseLine(); ChangeRawData(); } }
+        public string ResponseStatusDescription { get { return responseStatusDescription; } set { responseStatusDescription = value; UpdataResponseLine(); ChangeRawData(); } }
+        
         public List<MyKeyValuePair<string, string>> ResponseHeads { get { return responseHeads; } set { responseHeads = value; ChangeRawData(); } }
 
         public byte[] ResponseEntity { get { return responseEntity; } set { responseEntity = value; ChangeRawData(); } }
@@ -26,6 +31,32 @@ namespace FreeHttp.HttpHelper
         {
             ResponseHeads = new List<MyKeyValuePair<string, string>>();
             rawResponse = null;
+        }
+
+        private void SetResponseLine(string yourResponseLine)
+        {
+             string[] responseLineStrs = yourResponseLine.Split(new char[]{' '},3);
+                if (responseLineStrs.Length < 2)
+                {
+                    throw new Exception("error format in response line");
+                }
+                responseVersion = responseLineStrs[0];
+                int tempCode;
+                if (int.TryParse(responseLineStrs[1], out tempCode))
+                {
+                    responseCode = tempCode;
+                }
+                else
+                {
+                    throw new Exception("error format in responseCode");
+                }
+                responseStatusDescription = responseLineStrs.Length == 3 ? responseLineStrs[2] : "";
+                responseLine = yourResponseLine;
+        }
+
+        private void UpdataResponseLine()
+        {
+            responseLine = string.Format("{0} {1} {2}", responseVersion == null ? "" : responseVersion, responseCode.ToString(), responseStatusDescription == null ? "" : responseStatusDescription);
         }
 
         public void ChangeRawData()
@@ -98,22 +129,27 @@ namespace FreeHttp.HttpHelper
                     throw new Exception("can not find response line");
                 }
                 tempString = yourResponse.Substring(0, tempIndex);
-                string[] ResponseLineStrs = tempString.Split(' ');
-                if (ResponseLineStrs.Length < 3)
-                {
-                    throw new Exception("error format in response line");
-                }
-                int responseCode;
-                if (int.TryParse(ResponseLineStrs[1], out responseCode))
-                {
-                    httpResponse.ResponseCode = responseCode;
-                }
-                else
-                {
-                    throw new Exception("error format in responseCode");
-                }
-                httpResponse.ResponseLine = tempString;
-                //ResponseHeads
+                httpResponse.SetResponseLine(tempString);
+                #region SetResponseLine replace 
+                //string[] ResponseLineStrs = tempString.Split(new char[]{' '},3);
+                //if (ResponseLineStrs.Length < 2)
+                //{
+                //    throw new Exception("error format in response line");
+                //}
+                //httpResponse.responseVersion = ResponseLineStrs[0];
+                //int responseCode;
+                //if (int.TryParse(ResponseLineStrs[1], out responseCode))
+                //{
+                //    httpResponse.responseCode = responseCode;
+                //}
+                //else
+                //{
+                //    throw new Exception("error format in responseCode");
+                //}
+                //httpResponse.responseStatusDescription = ResponseLineStrs.Length == 3 ? ResponseLineStrs[2] : "";
+                //httpResponse.responseLine = tempString;
+                //ResponseHeads 
+                #endregion
                 yourResponse = yourResponse.Remove(0, tempIndex + 2);
                 tempIndex = yourResponse.IndexOf("\r\n");
                 while (tempIndex > 0)

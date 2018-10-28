@@ -18,6 +18,10 @@ namespace FreeHttp.HttpHelper
             }
             foreach(ListViewItem tempItem in ruleListView.Items)
             {
+                if (!tempItem.Checked)
+                {
+                    continue;
+                }
                 if(((IFiddlerHttpTamper)tempItem.Tag).UriMatch.Match(oSession.fullUrl))
                 {
                     return tempItem;

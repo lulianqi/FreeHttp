@@ -8,6 +8,7 @@ namespace FreeHttp.HttpHelper
     [Serializable]
     public class FiddlerResponseChange : IFiddlerHttpTamper
     {
+        public bool IsEnable { get; set; }
         public FiddlerUriMatch UriMatch { get; set; }
         public HttpResponse HttpRawResponse { get; set; }
 
@@ -19,7 +20,9 @@ namespace FreeHttp.HttpHelper
 
         public ContentModific BodyModific { get; set; }
 
-
+        //[NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public object Tag { get; set; }
         public bool IsRawReplace
         {
             get { return HttpRawResponse != null; }

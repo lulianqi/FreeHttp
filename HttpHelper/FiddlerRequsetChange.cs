@@ -8,6 +8,7 @@ namespace FreeHttp.HttpHelper
     [Serializable]
     public class FiddlerRequsetChange : IFiddlerHttpTamper
     {
+        public bool IsEnable { get; set; }
         public FiddlerUriMatch UriMatch { get; set; }
         public HttpRequest HttpRawRequest { get; set; }
 
@@ -21,6 +22,8 @@ namespace FreeHttp.HttpHelper
         public ContentModific BodyModific { get; set; }
 
         //[NonSerialized]
+        [System.Xml.Serialization.XmlIgnore]
+        public object Tag { get; set; }
         public bool IsRawReplace
         {
             get { return HttpRawRequest != null; }

@@ -8,8 +8,8 @@ namespace FreeHttp.HttpHelper
 {
     public interface IFiddlerHttpTamper
     {
+        bool IsEnable { get; set; }
         FiddlerUriMatch UriMatch { get; set; }
-
         bool IsRawReplace { get; }
     }
 }

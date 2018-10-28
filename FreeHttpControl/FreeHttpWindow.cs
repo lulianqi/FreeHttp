@@ -108,6 +108,7 @@ namespace FreeHttp.FreeHttpControl
         {
             ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", yourHttpTamper.UriMatch.MatchMode.ToString(), yourHttpTamper.UriMatch.MatchUri) }, yourHttpTamper.IsRawReplace ? 1 : 0);
             nowRuleItem.Tag = yourHttpTamper;
+            nowRuleItem.Checked = yourHttpTamper.IsEnable;
             if(isMark)
             {
                 MarkRuleItem(nowRuleItem);
@@ -120,9 +121,18 @@ namespace FreeHttp.FreeHttpControl
             yourListViewItem.Tag = yourHttpTamper;
             yourListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", yourHttpTamper.UriMatch.MatchMode.ToString(), yourHttpTamper.UriMatch.MatchUri);
             yourListViewItem.ImageIndex = yourHttpTamper.IsRawReplace ? 1 : 0;
+            yourListViewItem.Checked = yourHttpTamper.IsEnable;
             if(isMark)
             {
                 MarkRuleItem(yourListViewItem);
+            }
+        }
+
+        private void SyncEnableSateToIFiddlerHttpTamper(ListViewItem yourListViewItem, IFiddlerHttpTamper yourHttpTamper)
+        {
+            if(yourListViewItem!=null && yourHttpTamper!=null)
+            {
+                yourHttpTamper.IsEnable = yourListViewItem.Checked;
             }
         }
 
@@ -743,6 +753,7 @@ namespace FreeHttp.FreeHttpControl
                         if (tempDs == DialogResult.Yes)
                         {
                             nowRuleItem = tempItem;
+                            SyncEnableSateToIFiddlerHttpTamper(nowRuleItem, fiddlerHttpTamper);
                             UpdataRuleToListView(nowRuleItem, fiddlerHttpTamper, true);
                             break;
                         }
@@ -786,6 +797,7 @@ namespace FreeHttp.FreeHttpControl
                 }
                 else
                 {
+                    SyncEnableSateToIFiddlerHttpTamper(EditListViewItem, fiddlerHttpTamper);
                     UpdataRuleToListView(EditListViewItem, fiddlerHttpTamper, true);
                 }
             }
@@ -893,6 +905,13 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        private void lv_RuleList_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (e.Item != null)
+            {
+                ((IFiddlerHttpTamper)e.Item.Tag).IsEnable = e.Item.Checked;
+            }
+        }
         private void pb_addTemperRule_Click(object sender, EventArgs e)
         {
             if (sender == pb_addRequestRule)
@@ -988,6 +1007,7 @@ namespace FreeHttp.FreeHttpControl
 
 
         #endregion
+
 
         #region ResponseModific
 

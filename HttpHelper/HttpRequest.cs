@@ -16,10 +16,10 @@ namespace FreeHttp.HttpHelper
         private List<MyKeyValuePair<string, string>> requestHeads;
         private byte[] requestEntity;
 
-        public string RequestLine { get { return requestLine; } set { requestLine = value; ChangeRawData(); } }
-        public string RequestMethod { get { return requestMethod; } set { requestMethod = value; ChangeRawData(); } }
-        public string RequestUri { get { return requestUri; } set { requestUri = value; ChangeRawData(); } }
-        public string RequestVersions { get { return requestVersions; } set { requestVersions = value; ChangeRawData(); } }
+        public string RequestLine { get { return requestLine; } set { SetRequestLine(value); ChangeRawData(); } }
+        public string RequestMethod { get { return requestMethod; } set { requestMethod = value; UpdataRequestLine(); ChangeRawData(); } }
+        public string RequestUri { get { return requestUri; } set { requestUri = value; UpdataRequestLine(); ChangeRawData(); } }
+        public string RequestVersions { get { return requestVersions; } set { requestVersions = value; UpdataRequestLine(); ChangeRawData(); } }
         public List<MyKeyValuePair<string, string>> RequestHeads { get { return requestHeads; } set { requestHeads = value; ChangeRawData(); } }
         public byte[] RequestEntity { get { return requestEntity; } set { requestEntity = value; ChangeRawData(); } }
 
@@ -31,6 +31,24 @@ namespace FreeHttp.HttpHelper
         {
             RequestHeads = new List<MyKeyValuePair<string, string>>();
             rawRequest = null;
+        }
+
+        private void SetRequestLine(string yourRequestLine)
+        {
+            string[] requestLineStrs = yourRequestLine.Split(new char[] { ' ' }, 3);
+            if (requestLineStrs.Length !=3)
+            {
+                throw new Exception("error format in response line");
+            }
+            requestMethod = requestLineStrs[0];
+            requestUri = requestLineStrs[1];
+            requestVersions = requestLineStrs[2];
+            requestLine = yourRequestLine;
+        }
+
+        private void UpdataRequestLine()
+        {
+            requestLine = string.Format("{0} {1} {2}", requestMethod == null ? "" : requestMethod, requestUri == null ? "" : requestUri, requestVersions == null ? "" : requestVersions);
         }
 
         public void ChangeRawData()
@@ -103,15 +121,7 @@ namespace FreeHttp.HttpHelper
                     throw new Exception("can not find request line");
                 }
                 tempString = yourRequest.Substring(0, tempIndex);
-                string[] requestLineStrs = tempString.Split(' ');
-                if (requestLineStrs.Length != 3)
-                {
-                    throw new Exception("error format in request line");
-                }
-                httpRequest.RequestMethod = requestLineStrs[0];
-                httpRequest.RequestUri = requestLineStrs[1];
-                httpRequest.RequestVersions = requestLineStrs[2];
-                httpRequest.RequestLine = tempString;
+                httpRequest.SetRequestLine(tempString);
                 //ResponseHeads
                 yourRequest = yourRequest.Remove(0, tempIndex + 2);
                 tempIndex = yourRequest.IndexOf("\r\n");

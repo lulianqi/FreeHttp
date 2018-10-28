@@ -38,6 +38,7 @@ namespace FreeHttp.FreeHttpControl
             this.antoContentLengthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog_addFIle = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer_main = new System.Windows.Forms.SplitContainer();
+            this.splitContainer_httpEditInfo = new System.Windows.Forms.SplitContainer();
             this.panel_modific = new FreeHttp.FreeHttpControl.MyPanel();
             this.tabControl_Modific = new System.Windows.Forms.TabControl();
             this.tabPage_requestModific = new System.Windows.Forms.TabPage();
@@ -80,6 +81,7 @@ namespace FreeHttp.FreeHttpControl
             this.rawResponseEdit = new FreeHttp.FreeHttpControl.RawResponseEdit();
             this.panel_modific_Contorl = new FreeHttp.FreeHttpControl.MyPanel();
             this.pb_ruleComfrim = new System.Windows.Forms.PictureBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.groupBox_urlFilter = new System.Windows.Forms.GroupBox();
             this.lb_editRuleMode = new System.Windows.Forms.Label();
             this.pictureBox_editRuleMode = new System.Windows.Forms.PictureBox();
@@ -104,6 +106,10 @@ namespace FreeHttp.FreeHttpControl
             this.splitContainer_main.Panel1.SuspendLayout();
             this.splitContainer_main.Panel2.SuspendLayout();
             this.splitContainer_main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpEditInfo)).BeginInit();
+            this.splitContainer_httpEditInfo.Panel1.SuspendLayout();
+            this.splitContainer_httpEditInfo.Panel2.SuspendLayout();
+            this.splitContainer_httpEditInfo.SuspendLayout();
             this.panel_modific.SuspendLayout();
             this.tabControl_Modific.SuspendLayout();
             this.tabPage_requestModific.SuspendLayout();
@@ -194,7 +200,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             // splitContainer_main.Panel1
             // 
-            this.splitContainer_main.Panel1.Controls.Add(this.panel_modific);
+            this.splitContainer_main.Panel1.Controls.Add(this.splitContainer_httpEditInfo);
             this.splitContainer_main.Panel1.Controls.Add(this.groupBox_urlFilter);
             // 
             // splitContainer_main.Panel2
@@ -204,14 +210,33 @@ namespace FreeHttp.FreeHttpControl
             this.splitContainer_main.SplitterDistance = 611;
             this.splitContainer_main.TabIndex = 0;
             // 
+            // splitContainer_httpEditInfo
+            // 
+            this.splitContainer_httpEditInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer_httpEditInfo.Location = new System.Drawing.Point(0, 44);
+            this.splitContainer_httpEditInfo.Name = "splitContainer_httpEditInfo";
+            this.splitContainer_httpEditInfo.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer_httpEditInfo.Panel1
+            // 
+            this.splitContainer_httpEditInfo.Panel1.Controls.Add(this.panel_modific);
+            // 
+            // splitContainer_httpEditInfo.Panel2
+            // 
+            this.splitContainer_httpEditInfo.Panel2.Controls.Add(this.richTextBox1);
+            this.splitContainer_httpEditInfo.Size = new System.Drawing.Size(611, 508);
+            this.splitContainer_httpEditInfo.SplitterDistance = 358;
+            this.splitContainer_httpEditInfo.TabIndex = 7;
+            // 
             // panel_modific
             // 
+            this.panel_modific.BackColor = System.Drawing.SystemColors.Control;
             this.panel_modific.Controls.Add(this.tabControl_Modific);
             this.panel_modific.Controls.Add(this.panel_modific_Contorl);
             this.panel_modific.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_modific.Location = new System.Drawing.Point(0, 44);
+            this.panel_modific.Location = new System.Drawing.Point(0, 0);
             this.panel_modific.Name = "panel_modific";
-            this.panel_modific.Size = new System.Drawing.Size(611, 508);
+            this.panel_modific.Size = new System.Drawing.Size(611, 358);
             this.panel_modific.TabIndex = 7;
             // 
             // tabControl_Modific
@@ -225,7 +250,7 @@ namespace FreeHttp.FreeHttpControl
             this.tabControl_Modific.Location = new System.Drawing.Point(0, 0);
             this.tabControl_Modific.Name = "tabControl_Modific";
             this.tabControl_Modific.SelectedIndex = 0;
-            this.tabControl_Modific.Size = new System.Drawing.Size(611, 481);
+            this.tabControl_Modific.Size = new System.Drawing.Size(611, 331);
             this.tabControl_Modific.TabIndex = 0;
             this.tabControl_Modific.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Modific_Selecting);
             this.tabControl_Modific.Resize += new System.EventHandler(this.tabControl_Modific_Resize);
@@ -240,7 +265,7 @@ namespace FreeHttp.FreeHttpControl
             this.tabPage_requestModific.Location = new System.Drawing.Point(4, 23);
             this.tabPage_requestModific.Name = "tabPage_requestModific";
             this.tabPage_requestModific.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_requestModific.Size = new System.Drawing.Size(603, 454);
+            this.tabPage_requestModific.Size = new System.Drawing.Size(603, 304);
             this.tabPage_requestModific.TabIndex = 0;
             this.tabPage_requestModific.Text = "Request Modific";
             // 
@@ -258,8 +283,8 @@ namespace FreeHttp.FreeHttpControl
             // splitContainer_requestModific.Panel2
             // 
             this.splitContainer_requestModific.Panel2.Controls.Add(this.groupBox_bodyModific);
-            this.splitContainer_requestModific.Size = new System.Drawing.Size(597, 395);
-            this.splitContainer_requestModific.SplitterDistance = 93;
+            this.splitContainer_requestModific.Size = new System.Drawing.Size(597, 245);
+            this.splitContainer_requestModific.SplitterDistance = 112;
             this.splitContainer_requestModific.TabIndex = 1;
             // 
             // groupBox_headsModific
@@ -269,7 +294,7 @@ namespace FreeHttp.FreeHttpControl
             this.groupBox_headsModific.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_headsModific.Location = new System.Drawing.Point(0, 0);
             this.groupBox_headsModific.Name = "groupBox_headsModific";
-            this.groupBox_headsModific.Size = new System.Drawing.Size(597, 93);
+            this.groupBox_headsModific.Size = new System.Drawing.Size(597, 112);
             this.groupBox_headsModific.TabIndex = 1;
             this.groupBox_headsModific.TabStop = false;
             this.groupBox_headsModific.Text = "Heads Modific";
@@ -281,7 +306,7 @@ namespace FreeHttp.FreeHttpControl
             this.requestAddHeads.IsKeyValue = true;
             this.requestAddHeads.Location = new System.Drawing.Point(284, 17);
             this.requestAddHeads.Name = "requestAddHeads";
-            this.requestAddHeads.Size = new System.Drawing.Size(310, 73);
+            this.requestAddHeads.Size = new System.Drawing.Size(310, 92);
             this.requestAddHeads.TabIndex = 1;
             // 
             // requestRemoveHeads
@@ -291,7 +316,7 @@ namespace FreeHttp.FreeHttpControl
             this.requestRemoveHeads.IsKeyValue = false;
             this.requestRemoveHeads.Location = new System.Drawing.Point(3, 17);
             this.requestRemoveHeads.Name = "requestRemoveHeads";
-            this.requestRemoveHeads.Size = new System.Drawing.Size(275, 73);
+            this.requestRemoveHeads.Size = new System.Drawing.Size(275, 92);
             this.requestRemoveHeads.TabIndex = 0;
             // 
             // groupBox_bodyModific
@@ -301,7 +326,7 @@ namespace FreeHttp.FreeHttpControl
             this.groupBox_bodyModific.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_bodyModific.Location = new System.Drawing.Point(0, 0);
             this.groupBox_bodyModific.Name = "groupBox_bodyModific";
-            this.groupBox_bodyModific.Size = new System.Drawing.Size(597, 298);
+            this.groupBox_bodyModific.Size = new System.Drawing.Size(597, 129);
             this.groupBox_bodyModific.TabIndex = 2;
             this.groupBox_bodyModific.TabStop = false;
             this.groupBox_bodyModific.Text = "Body Modific";
@@ -312,7 +337,7 @@ namespace FreeHttp.FreeHttpControl
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 50);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(591, 245);
+            this.panel2.Size = new System.Drawing.Size(591, 76);
             this.panel2.TabIndex = 48;
             // 
             // rtb_requestModific_body
@@ -320,7 +345,7 @@ namespace FreeHttp.FreeHttpControl
             this.rtb_requestModific_body.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb_requestModific_body.Location = new System.Drawing.Point(0, 0);
             this.rtb_requestModific_body.Name = "rtb_requestModific_body";
-            this.rtb_requestModific_body.Size = new System.Drawing.Size(591, 245);
+            this.rtb_requestModific_body.Size = new System.Drawing.Size(591, 76);
             this.rtb_requestModific_body.TabIndex = 0;
             this.rtb_requestModific_body.Text = "";
             // 
@@ -387,7 +412,7 @@ namespace FreeHttp.FreeHttpControl
             this.tabPage_requestReplace.Location = new System.Drawing.Point(4, 23);
             this.tabPage_requestReplace.Name = "tabPage_requestReplace";
             this.tabPage_requestReplace.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_requestReplace.Size = new System.Drawing.Size(603, 454);
+            this.tabPage_requestReplace.Size = new System.Drawing.Size(603, 304);
             this.tabPage_requestReplace.TabIndex = 1;
             this.tabPage_requestReplace.Text = "Request Replace";
             this.tabPage_requestReplace.UseVisualStyleBackColor = true;
@@ -406,8 +431,8 @@ namespace FreeHttp.FreeHttpControl
             // splitContainer_requestReplace.Panel2
             // 
             this.splitContainer_requestReplace.Panel2.Controls.Add(this.rtb_requsetReplace_body);
-            this.splitContainer_requestReplace.Size = new System.Drawing.Size(597, 415);
-            this.splitContainer_requestReplace.SplitterDistance = 142;
+            this.splitContainer_requestReplace.Size = new System.Drawing.Size(597, 265);
+            this.splitContainer_requestReplace.SplitterDistance = 108;
             this.splitContainer_requestReplace.TabIndex = 18;
             // 
             // elv_requsetReplace
@@ -417,7 +442,7 @@ namespace FreeHttp.FreeHttpControl
             this.elv_requsetReplace.IsKeyValue = true;
             this.elv_requsetReplace.Location = new System.Drawing.Point(0, 0);
             this.elv_requsetReplace.Name = "elv_requsetReplace";
-            this.elv_requsetReplace.Size = new System.Drawing.Size(597, 142);
+            this.elv_requsetReplace.Size = new System.Drawing.Size(597, 108);
             this.elv_requsetReplace.TabIndex = 2;
             // 
             // rtb_requsetReplace_body
@@ -426,7 +451,7 @@ namespace FreeHttp.FreeHttpControl
             this.rtb_requsetReplace_body.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb_requsetReplace_body.Location = new System.Drawing.Point(0, 0);
             this.rtb_requsetReplace_body.Name = "rtb_requsetReplace_body";
-            this.rtb_requsetReplace_body.Size = new System.Drawing.Size(597, 269);
+            this.rtb_requsetReplace_body.Size = new System.Drawing.Size(597, 153);
             this.rtb_requsetReplace_body.TabIndex = 1;
             this.rtb_requsetReplace_body.Text = "";
             // 
@@ -436,7 +461,7 @@ namespace FreeHttp.FreeHttpControl
             this.rtb_requestRaw.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb_requestRaw.Location = new System.Drawing.Point(3, 36);
             this.rtb_requestRaw.Name = "rtb_requestRaw";
-            this.rtb_requestRaw.Size = new System.Drawing.Size(597, 415);
+            this.rtb_requestRaw.Size = new System.Drawing.Size(597, 265);
             this.rtb_requestRaw.TabIndex = 0;
             this.rtb_requestRaw.Text = "";
             // 
@@ -523,7 +548,7 @@ namespace FreeHttp.FreeHttpControl
             this.tabPage_responseModific.Location = new System.Drawing.Point(4, 23);
             this.tabPage_responseModific.Name = "tabPage_responseModific";
             this.tabPage_responseModific.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_responseModific.Size = new System.Drawing.Size(603, 454);
+            this.tabPage_responseModific.Size = new System.Drawing.Size(603, 304);
             this.tabPage_responseModific.TabIndex = 2;
             this.tabPage_responseModific.Text = "Response Modific";
             this.tabPage_responseModific.UseVisualStyleBackColor = true;
@@ -542,8 +567,8 @@ namespace FreeHttp.FreeHttpControl
             // splitContainer_responseModific.Panel2
             // 
             this.splitContainer_responseModific.Panel2.Controls.Add(this.groupBox_responseBodyModific);
-            this.splitContainer_responseModific.Size = new System.Drawing.Size(597, 448);
-            this.splitContainer_responseModific.SplitterDistance = 105;
+            this.splitContainer_responseModific.Size = new System.Drawing.Size(597, 298);
+            this.splitContainer_responseModific.SplitterDistance = 119;
             this.splitContainer_responseModific.TabIndex = 2;
             // 
             // groupBox_reponseHeadModific
@@ -553,7 +578,7 @@ namespace FreeHttp.FreeHttpControl
             this.groupBox_reponseHeadModific.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_reponseHeadModific.Location = new System.Drawing.Point(0, 0);
             this.groupBox_reponseHeadModific.Name = "groupBox_reponseHeadModific";
-            this.groupBox_reponseHeadModific.Size = new System.Drawing.Size(597, 105);
+            this.groupBox_reponseHeadModific.Size = new System.Drawing.Size(597, 119);
             this.groupBox_reponseHeadModific.TabIndex = 1;
             this.groupBox_reponseHeadModific.TabStop = false;
             this.groupBox_reponseHeadModific.Text = "Heads Modific";
@@ -565,7 +590,7 @@ namespace FreeHttp.FreeHttpControl
             this.responseAddHeads.IsKeyValue = true;
             this.responseAddHeads.Location = new System.Drawing.Point(284, 17);
             this.responseAddHeads.Name = "responseAddHeads";
-            this.responseAddHeads.Size = new System.Drawing.Size(310, 85);
+            this.responseAddHeads.Size = new System.Drawing.Size(310, 99);
             this.responseAddHeads.TabIndex = 1;
             // 
             // responseRemoveHeads
@@ -575,7 +600,7 @@ namespace FreeHttp.FreeHttpControl
             this.responseRemoveHeads.IsKeyValue = false;
             this.responseRemoveHeads.Location = new System.Drawing.Point(3, 17);
             this.responseRemoveHeads.Name = "responseRemoveHeads";
-            this.responseRemoveHeads.Size = new System.Drawing.Size(275, 85);
+            this.responseRemoveHeads.Size = new System.Drawing.Size(275, 99);
             this.responseRemoveHeads.TabIndex = 0;
             // 
             // groupBox_responseBodyModific
@@ -585,7 +610,7 @@ namespace FreeHttp.FreeHttpControl
             this.groupBox_responseBodyModific.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox_responseBodyModific.Location = new System.Drawing.Point(0, 0);
             this.groupBox_responseBodyModific.Name = "groupBox_responseBodyModific";
-            this.groupBox_responseBodyModific.Size = new System.Drawing.Size(597, 339);
+            this.groupBox_responseBodyModific.Size = new System.Drawing.Size(597, 175);
             this.groupBox_responseBodyModific.TabIndex = 2;
             this.groupBox_responseBodyModific.TabStop = false;
             this.groupBox_responseBodyModific.Text = "Body Modific";
@@ -596,7 +621,7 @@ namespace FreeHttp.FreeHttpControl
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 50);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(591, 286);
+            this.panel3.Size = new System.Drawing.Size(591, 122);
             this.panel3.TabIndex = 48;
             // 
             // rtb_respenseModific_body
@@ -604,7 +629,7 @@ namespace FreeHttp.FreeHttpControl
             this.rtb_respenseModific_body.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb_respenseModific_body.Location = new System.Drawing.Point(0, 0);
             this.rtb_respenseModific_body.Name = "rtb_respenseModific_body";
-            this.rtb_respenseModific_body.Size = new System.Drawing.Size(591, 286);
+            this.rtb_respenseModific_body.Size = new System.Drawing.Size(591, 122);
             this.rtb_respenseModific_body.TabIndex = 0;
             this.rtb_respenseModific_body.Text = "";
             // 
@@ -642,7 +667,7 @@ namespace FreeHttp.FreeHttpControl
             this.tabPage_responseReplace.Location = new System.Drawing.Point(4, 23);
             this.tabPage_responseReplace.Name = "tabPage_responseReplace";
             this.tabPage_responseReplace.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_responseReplace.Size = new System.Drawing.Size(603, 454);
+            this.tabPage_responseReplace.Size = new System.Drawing.Size(603, 304);
             this.tabPage_responseReplace.TabIndex = 3;
             this.tabPage_responseReplace.Text = "Response Replace";
             this.tabPage_responseReplace.UseVisualStyleBackColor = true;
@@ -653,14 +678,14 @@ namespace FreeHttp.FreeHttpControl
             this.rawResponseEdit.IsDirectRespons = false;
             this.rawResponseEdit.Location = new System.Drawing.Point(3, 3);
             this.rawResponseEdit.Name = "rawResponseEdit";
-            this.rawResponseEdit.Size = new System.Drawing.Size(597, 448);
+            this.rawResponseEdit.Size = new System.Drawing.Size(597, 298);
             this.rawResponseEdit.TabIndex = 0;
             // 
             // panel_modific_Contorl
             // 
             this.panel_modific_Contorl.Controls.Add(this.pb_ruleComfrim);
             this.panel_modific_Contorl.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel_modific_Contorl.Location = new System.Drawing.Point(0, 481);
+            this.panel_modific_Contorl.Location = new System.Drawing.Point(0, 331);
             this.panel_modific_Contorl.Name = "panel_modific_Contorl";
             this.panel_modific_Contorl.Size = new System.Drawing.Size(611, 27);
             this.panel_modific_Contorl.TabIndex = 0;
@@ -678,6 +703,16 @@ namespace FreeHttp.FreeHttpControl
             this.pb_ruleComfrim.TabIndex = 37;
             this.pb_ruleComfrim.TabStop = false;
             this.pb_ruleComfrim.Click += new System.EventHandler(this.pb_ruleComfrim_Click);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(611, 146);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
             // 
             // groupBox_urlFilter
             // 
@@ -836,6 +871,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_requestRuleList.TabIndex = 0;
             this.lv_requestRuleList.UseCompatibleStateImageBehavior = false;
             this.lv_requestRuleList.View = System.Windows.Forms.View.Details;
+            this.lv_requestRuleList.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lv_RuleList_ItemChecked);
             this.lv_requestRuleList.DoubleClick += new System.EventHandler(this.lv_RuleList_DoubleClick);
             // 
             // columnHeader1
@@ -905,6 +941,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_responseRuleList.TabIndex = 1;
             this.lv_responseRuleList.UseCompatibleStateImageBehavior = false;
             this.lv_responseRuleList.View = System.Windows.Forms.View.Details;
+            this.lv_responseRuleList.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lv_RuleList_ItemChecked);
             this.lv_responseRuleList.DoubleClick += new System.EventHandler(this.lv_RuleList_DoubleClick);
             // 
             // columnHeader3
@@ -930,6 +967,10 @@ namespace FreeHttp.FreeHttpControl
             this.splitContainer_main.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main)).EndInit();
             this.splitContainer_main.ResumeLayout(false);
+            this.splitContainer_httpEditInfo.Panel1.ResumeLayout(false);
+            this.splitContainer_httpEditInfo.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpEditInfo)).EndInit();
+            this.splitContainer_httpEditInfo.ResumeLayout(false);
             this.panel_modific.ResumeLayout(false);
             this.tabControl_Modific.ResumeLayout(false);
             this.tabPage_requestModific.ResumeLayout(false);
@@ -1052,6 +1093,8 @@ namespace FreeHttp.FreeHttpControl
         private EditListView responseRemoveHeads;
         private WatermakTextBox tb_requestReplace_uri;
         private System.Windows.Forms.Label lb_editRuleMode;
+        private System.Windows.Forms.SplitContainer splitContainer_httpEditInfo;
+        private System.Windows.Forms.RichTextBox richTextBox1;
 
     }
 }

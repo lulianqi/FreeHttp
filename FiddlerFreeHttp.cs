@@ -45,7 +45,164 @@ namespace FreeHttp
             SerializableHelper.SerializeRuleList(myFreeHttpWindow.RequestRuleListView, myFreeHttpWindow.ResponseRuleListView);
         }
 
+        private void ModificSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange)
+        {
+            if (nowFiddlerRequsetChange.IsRawReplace)
+            {
+                ReplaceSessionRequest(oSession, nowFiddlerRequsetChange);
+            }
+            else
+            {
+                if (nowFiddlerRequsetChange.UriModific != null && nowFiddlerRequsetChange.UriModific.ModificMode != ContentModificMode.NoChange)
+                {
+                    oSession.fullUrl = nowFiddlerRequsetChange.UriModific.GetFinalContent(oSession.fullUrl);
+                }
+                if (nowFiddlerRequsetChange.HeadDelList != null && nowFiddlerRequsetChange.HeadDelList.Count > 0)
+                {
+                    foreach (var tempDelHead in nowFiddlerRequsetChange.HeadDelList)
+                    {
+                        oSession.RequestHeaders.Remove(tempDelHead);
+                    }
+                }
+                if (nowFiddlerRequsetChange.HeadAddList != null && nowFiddlerRequsetChange.HeadAddList.Count > 0)
+                {
+                    foreach (var tempAddHead in nowFiddlerRequsetChange.HeadAddList)
+                    {
+                        if (tempAddHead.Contains(": "))
+                        {
+                            oSession.RequestHeaders.Add(tempAddHead.Remove(tempAddHead.IndexOf(": ")), tempAddHead.Substring(tempAddHead.IndexOf(": ") + 2));
+                        }
+                        else
+                        {
+                            ShowMes(string.Format("error to deal add head string with [{0}]", tempAddHead));
+                        }
+                    }
+                }
+                if (nowFiddlerRequsetChange.BodyModific != null && nowFiddlerRequsetChange.BodyModific.ModificMode != ContentModificMode.NoChange)
+                {
+                    string sourceRequestBody = null;
+                    try  //GetRequestBodyAsString may throw exception
+                    {
+                        //oSession.utilDecodeRequest();
+                        sourceRequestBody = oSession.GetRequestBodyAsString();
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowMes(string.Format("error in GetRequestBodyAsString [{0}]", ex.Message));
+                        oSession.utilDecodeRequest();
+                        sourceRequestBody = oSession.GetRequestBodyEncoding().GetString(oSession.requestBodyBytes);
+                    }
+                    finally
+                    {
+                        //oSession.requestBodyBytes = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody)); // 直接修改内部成员
+                        //oSession.ResponseBody = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody)); //修改内部成员 更新Content-Length ，适用于hex数据
+                        oSession.utilSetRequestBody(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody));  //utilSetRequestBody 虽然会自动更新Content-Length 但是会强制使用utf8 ，适用于字符串
+                    }
+                }
+            }
+        }
 
+        private void ReplaceSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange)
+        {
+            oSession.oRequest.headers = new HTTPRequestHeaders();
+            oSession.RequestMethod = nowFiddlerRequsetChange.HttpRawRequest.RequestMethod;
+            oSession.fullUrl = nowFiddlerRequsetChange.HttpRawRequest.RequestUri;
+            ((Fiddler.HTTPHeaders)(oSession.RequestHeaders)).HTTPVersion = nowFiddlerRequsetChange.HttpRawRequest.RequestVersions;
+            if (nowFiddlerRequsetChange.HttpRawRequest.RequestHeads != null)
+            {
+                foreach (var tempHead in nowFiddlerRequsetChange.HttpRawRequest.RequestHeads)
+                {
+                    oSession.oRequest.headers.Add(tempHead.Key, tempHead.Value);
+                }
+            }
+            oSession.requestBodyBytes = nowFiddlerRequsetChange.HttpRawRequest.RequestEntity;
+        }
+
+        private void ModificSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange)
+        {
+            if (nowFiddlerResponseChange.IsRawReplace)
+            {
+                if (!nowFiddlerResponseChange.IsIsDirectRespons)
+                {
+
+                    ReplaceSessionResponse(oSession, nowFiddlerResponseChange);
+                }
+            }
+            else
+            {
+                if (nowFiddlerResponseChange.HeadDelList != null && nowFiddlerResponseChange.HeadDelList.Count > 0)
+                {
+                    foreach (var tempDelHead in nowFiddlerResponseChange.HeadDelList)
+                    {
+                        oSession.ResponseHeaders.Remove(tempDelHead);
+                    }
+                }
+                if (nowFiddlerResponseChange.HeadAddList != null && nowFiddlerResponseChange.HeadAddList.Count > 0)
+                {
+                    foreach (var tempAddHead in nowFiddlerResponseChange.HeadAddList)
+                    {
+                        if (tempAddHead.Contains(": "))
+                        {
+                            oSession.ResponseHeaders.Add(tempAddHead.Remove(tempAddHead.IndexOf(": ")), tempAddHead.Substring(tempAddHead.IndexOf(": ") + 2));
+                        }
+                        else
+                        {
+                            ShowMes(string.Format("error to deal add head string with [{0}]", tempAddHead));
+                        }
+                    }
+                }
+                if (nowFiddlerResponseChange.BodyModific != null && nowFiddlerResponseChange.BodyModific.ModificMode != ContentModificMode.NoChange)
+                {
+                    //you should not change the media data as string
+                    string sourceResponseBody = null;
+                    try
+                    {
+                        sourceResponseBody = oSession.GetResponseBodyAsString();
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowMes(string.Format("error in GetResponseBodyAsString [{0}]", ex.Message));
+                        oSession.utilDecodeResponse();
+                        sourceResponseBody = oSession.GetResponseBodyEncoding().GetString(oSession.ResponseBody);
+                    }
+                    finally
+                    {
+                        oSession.utilSetResponseBody(nowFiddlerResponseChange.BodyModific.GetFinalContent(sourceResponseBody));
+                    }
+
+                    //you can use below code to modific the body
+                    //oSession.utilDecodeResponse();
+                    //oSession.utilReplaceInResponse("","");
+                    //oSession.utilDeflateResponse();
+                }
+            }
+        }
+
+        private void ReplaceSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange)
+        {
+            using (MemoryStream ms = new MemoryStream(nowFiddlerResponseChange.HttpRawResponse.GetRawHttpResponse()))
+            {
+                if (!oSession.LoadResponseFromStream(ms, null))
+                {
+                    ShowMes("error to oSession.LoadResponseFromStream");
+                    ShowMes("try to modific the response");
+                    //modific the response
+                    oSession.oResponse.headers = new HTTPResponseHeaders();
+                    oSession.oResponse.headers.HTTPResponseCode = nowFiddlerResponseChange.HttpRawResponse.ResponseCode;
+                    oSession.ResponseHeaders.StatusDescription = nowFiddlerResponseChange.HttpRawResponse.ResponseStatusDescription;
+                    ((Fiddler.HTTPHeaders)(oSession.ResponseHeaders)).HTTPVersion = nowFiddlerResponseChange.HttpRawResponse.ResponseVersion;
+                    if (nowFiddlerResponseChange.HttpRawResponse.ResponseHeads != null && nowFiddlerResponseChange.HttpRawResponse.ResponseHeads.Count > 0)
+                    {
+                        foreach (var tempHead in nowFiddlerResponseChange.HttpRawResponse.ResponseHeads)
+                        {
+                            oSession.oResponse.headers.Add(tempHead.Key, tempHead.Value);
+                        }
+                    }
+                    oSession.responseBodyBytes = nowFiddlerResponseChange.HttpRawResponse.ResponseEntity;
+                }
+            }
+        }
+        
         public void OnLoad()
         {
             FiddlerObject.log(string.Format("【FiddlerFreeHttp】:{0}", "OnLoad"));
@@ -85,6 +242,7 @@ namespace FreeHttp
         public void AutoTamperRequestAfter(Session oSession)
         {
             //throw new NotImplementedException();
+
             
         }
 
@@ -107,52 +265,28 @@ namespace FreeHttp
                     MarkSession(oSession);
                     FiddlerRequsetChange nowFiddlerRequsetChange = ((FiddlerRequsetChange)matchItem.Tag);
 
-                    if (nowFiddlerRequsetChange.IsRawReplace)
+                    ModificSessionRequest(oSession, nowFiddlerRequsetChange);
+                }
+            }
+
+            if (myFreeHttpWindow.IsResponseRuleEnable)
+            {
+                ListViewItem matchItem = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView);
+                if (matchItem != null)
+                {
+                    if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
                     {
-                        //using(MemoryStream ms = new MemoryStream(nowFiddlerRequsetChange.HttpRawRequest.GetRawHttpRequest()))
-                        //{
-                        //}
-                        oSession.oRequest.headers = new HTTPRequestHeaders();
-                        oSession.RequestMethod = nowFiddlerRequsetChange.HttpRawRequest.RequestMethod;
-                        oSession.fullUrl = nowFiddlerRequsetChange.HttpRawRequest.RequestUri;
-                        ((Fiddler.HTTPHeaders)(oSession.RequestHeaders)).HTTPVersion = nowFiddlerRequsetChange.HttpRawRequest.RequestVersions;
-                        if(nowFiddlerRequsetChange.HttpRawRequest.RequestHeads!=null)
-                        {
-                            foreach(var tempHead in nowFiddlerRequsetChange.HttpRawRequest.RequestHeads)
-                            {
-                                oSession.oRequest.headers.Add(tempHead.Key, tempHead.Value);
-                            }
-                        }
-                        oSession.requestBodyBytes = nowFiddlerRequsetChange.HttpRawRequest.RequestEntity;
+                        return;
                     }
-                    else
+
+                    myFreeHttpWindow.MarkMatchRule(matchItem);
+                    MarkSession(oSession);
+                    FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
+
+                    if (nowFiddlerResponseChange.IsIsDirectRespons)
                     {
-                        if (nowFiddlerRequsetChange.UriModific != null && nowFiddlerRequsetChange.UriModific.ModificMode!= ContentModificMode.NoChange)
-                        {
-                            oSession.fullUrl = nowFiddlerRequsetChange.UriModific.GetFinalContent(oSession.fullUrl);
-                        }
-                        if(nowFiddlerRequsetChange.HeadDelList!=null&&nowFiddlerRequsetChange.HeadDelList.Count>0)
-                        {
-                            foreach (var tempDelHead in nowFiddlerRequsetChange.HeadDelList)
-                            {
-                                oSession.RequestHeaders.Remove(tempDelHead);
-                            }
-                        }
-                        if (nowFiddlerRequsetChange.HeadAddList != null && nowFiddlerRequsetChange.HeadAddList.Count > 0)
-                        {
-                            foreach (var tempAddHead in nowFiddlerRequsetChange.HeadAddList)
-                            {
-                                if (tempAddHead.Contains(": "))
-                                {
-                                    oSession.RequestHeaders.Add(tempAddHead.Remove(tempAddHead.IndexOf(": ")), tempAddHead.Substring(tempAddHead.IndexOf(": ") + 2));
-                                }
-                            }
-                        }
-                        if(nowFiddlerRequsetChange.BodyModific!=null && nowFiddlerRequsetChange.BodyModific.ModificMode!= ContentModificMode.NoChange)
-                        {
-                            string sourceRequestBody = oSession.GetRequestBodyAsString();
-                            oSession.requestBodyBytes = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody));
-                        }
+                        ReplaceSessionResponse(oSession, nowFiddlerResponseChange);
+                        //oSession.state = SessionStates.Done;
                     }
                 }
             }
@@ -176,25 +310,9 @@ namespace FreeHttp
 
                     myFreeHttpWindow.MarkMatchRule(matchItem);
                     MarkSession(oSession);
-                    FiddlerResponseChange nowFiddlerRequsetChange = ((FiddlerResponseChange)matchItem.Tag);
+                    FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
 
-                    if (nowFiddlerRequsetChange.IsRawReplace)
-                    {
-                        if (!nowFiddlerRequsetChange.IsIsDirectRespons)
-                        {
-                            using (MemoryStream ms = new MemoryStream(nowFiddlerRequsetChange.HttpRawResponse.GetRawHttpResponse()))
-                            {
-                                if (!oSession.LoadResponseFromStream(ms, null))
-                                {
-                                    ShowMes("error to oSession.LoadResponseFromStream");
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-
-                    }
+                    ModificSessionResponse(oSession, nowFiddlerResponseChange);
                 }
             }
 
