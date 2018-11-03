@@ -1,5 +1,989 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FiddlerModificHttpRuleCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <RequestRuleList />
-  <ResponseRuleList />
+  <RequestRuleList>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
+      </UriMatch>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://p.qiao.baidu.com/cps/site/poll?cb=jsonp_bridge_1540906955074_5328959290596671&amp;l=1&amp;v=152991525055082333&amp;s=5483667&amp;e=7758278&amp;dev=0&amp;auth=%7B%22anonym%22%3A0%2C%22key%22%3A%227818342973720319888qync6500237238%22%2C%22sn%22%3A%22740624940%22%2C%22id%22%3A%22152991525055082333%22%2C%22from%22%3A4%2C%22token%22%3A%22bridge%22%7D&amp;_time=1540906955074</MatchUri>
+      </UriMatch>
+      <HttpRawRequest>
+        <RequestLine>GET https://p.qiao.baidu.com/cps/site/poll?cb=jsonp_bridge_1540906955074_5328959290596671&amp;l=1&amp;v=152991525055082333&amp;s=5483667&amp;e=7758278&amp;dev=0&amp;auth=%7B%22anonym%22%3A0%2C%22key%22%3A%227818342973720319888qync6500237238%22%2C%22sn%22%3A%22740624940%22%2C%22id%22%3A%22152991525055082333%22%2C%22from%22%3A4%2C%22token%22%3A%22bridge%22%7D&amp;_time=1540906955074 HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>https://p.qiao.baidu.com/cps/site/poll?cb=jsonp_bridge_1540906955074_5328959290596671&amp;l=1&amp;v=152991525055082333&amp;s=5483667&amp;e=7758278&amp;dev=0&amp;auth=%7B%22anonym%22%3A0%2C%22key%22%3A%227818342973720319888qync6500237238%22%2C%22sn%22%3A%22740624940%22%2C%22id%22%3A%22152991525055082333%22%2C%22from%22%3A4%2C%22token%22%3A%22bridge%22%7D&amp;_time=1540906955074</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>p.qiao.baidu.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>keep-alive</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept</Key>
+            <Value>*/*</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Referer</Key>
+            <Value>https://www.wosign.com/faq/faq2016-0309-04.htm</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate, br</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN,zh;q=0.9</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Cookie</Key>
+            <Value>BD_CG_5330886=151599680006380101; BD_CG_9205363=151660412847952539; BD_CG_1105753=152626565271041938; BD_CG_8261381=152937375017330045; BD_CG_11634719=152937438913162287; BD_CG_5483667=152991525055082333; BD_CG_4346027=152999604772521153; BD_CG_11809821=153545809187654706; BD_CG_11754312=153664687188641646; GOUTONG_BID=152991525055082333; PSTM=1540792441; BIDUPSID=90013A2D8B8A1BF6BB1EDA378FF7D130; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; BAIDUID=EC179E1D6C43A9041DA39C991449570B:FG=1; H_PS_PSSID=2453_1454_21081_26350_22075; delPer=0; PSINO=5; BCLID=12739217214556152972; BDSFRCVID=u1LsJeC62rCvTzo7db6KUZELIitC2H7TH6aopLQA_AY8i5n6amsGEG0PjU8g0Ku-aG3kogKKKgOTHIjP; H_BDCLCKID_SF=tR4JoKt5JKI3fP36qROE-tC-hpoh546MMDbyL6rJabC38PjoKU6qLT5XhbOlWjvn2mJf0D32fI3PqCooyP5A5l0njxQpLUQaJKJAVp053D5Njx0wWxonDh8E2a7MJUntHmFqa66O5hvvOn3O3M7zjlOhjG0JJT8JJR3fL-085n52qb7kq4bohjPBDPreBtQm05bxobCyBMjEVqTx3MKV54TWBUQyKPQI-KJG5hAbWDF-MIPCD6_5ePtjMfbWetoQ265tWjrJabC3VI3cKU6qLUtbQNbmQfLt265zXR-Et4omh4b3qf6fMx0PL4teJMIEtRAOoCD-tKvjDb7GbKTD-tFO5eT22-usfGkOQhcH0KLKbqbFMlJjMJFlXHQJqTbl-Jris4bz-fb1MRjv3J_MXCuby4Q4-jbj0DcTVl5TtUJteCnTDMRhqqJXe-jyKMniWKv9-pnYJft0hD0wjT0-DjcM-Uv05-PXKCJ0X458HJOoDDvghtR5y4LdjG5LhtkjbR70abjn34-WMpQ4DxRH5PLq3-Aq54RaMGreLlr8ahcpMlbHqqQaQfbQ0-6PqP-jW5Ta-qI-HR7JOpvobUnxyMcB0aCqt5kqtJIeVbOs2ROOKRj1MJrhhCCShUFsJl_j-2Q-5hOy3KOVqbQhMfRfKqvyLq_JQ53dHmQbBqbY0q05hpFuDTtajj3QeaRt2tcyato2WnTJ25r8e5rnhPF304jDKP6-3MJO3b7L2Jb-2C5cexD9Ml-WMp_D2ljrhpj43I7JohFLtK0aMD-xe5Rhh4Fehmc22Pc22-oB0TrJabC3JDJqKU6qLUtbQNbzWn_eJKADQhTlWJRCOnvJy5jN0qvXhMrmJMIEJJPOVCI-JKv2M-JRbtQK-PvHDHDOqI62aKDsLCj1-hcqEIL4Kxb-3bIejUOatfnPyeTraRT20Ko1MUbSj4QoKMAuLJnCX6v0JC_q3R6b3h5nhMJF3j7JDMP0qfQxJ-ny523iab3vQpnzjxtu-n5jHj3LeHLj3J</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://daojia.jd.com/client?_djrandom=1540909127965150&amp;functionId=zone%2FsyncSeckillFloor&amp;body=%7B%22address%22%3A%22%E5%8F%8C%E5%9F%8E%E5%9B%BD%E9%99%85%22%2C%22city%22%3A%22%E6%9D%AD%E5%B7%9E%E5%B8%82%22%2C%22longitude%22%3A120.20034%2C%22latitude%22%3A30.20751%2C%22coordType%22%3A%222%22%2C%22h5From%22%3A%22%22%2C%22isglb%22%3A%22%22%2C%22currentPage%22%3A%22%22%2C%22storeId%22%3A%22%22%2C%22activityId%22%3A%22%22%7D&amp;platCode=H5&amp;appVersion=6.0.0&amp;appName=paidaojia&amp;jdDevice=&amp;signKey=c1dcd0ff999bcdfb4251b157f10d688c&amp;lng=120.20034&amp;lat=30.20751&amp;city_id=1213&amp;poi=%E5%8F%8C%E5%9F%8E%E5%9B%BD%E9%99%85&amp;jda=122270672.710109415.1494295656.1540861364.1540864445.54&amp;traceId=H5_DEV_E88183E5-AD15-4538-BF9C-0ECD3161210B1540909127965</MatchUri>
+      </UriMatch>
+      <HttpRawRequest>
+        <RequestLine>GET https://daojia.jd.com/client?_djrandom=1540909127965150&amp;functionId=zone%2FsyncSeckillFloor&amp;body=%7B%22address%22%3A%22%E5%8F%8C%E5%9F%8E%E5%9B%BD%E9%99%85%22%2C%22city%22%3A%22%E6%9D%AD%E5%B7%9E%E5%B8%82%22%2C%22longitude%22%3A120.20034%2C%22latitude%22%3A30.20751%2C%22coordType%22%3A%222%22%2C%22h5From%22%3A%22%22%2C%22isglb%22%3A%22%22%2C%22currentPage%22%3A%22%22%2C%22storeId%22%3A%22%22%2C%22activityId%22%3A%22%22%7D&amp;platCode=H5&amp;appVersion=6.0.0&amp;appName=paidaojia&amp;jdDevice=&amp;signKey=c1dcd0ff999bcdfb4251b157f10d688c&amp;lng=120.20034&amp;lat=30.20751&amp;city_id=1213&amp;poi=%E5%8F%8C%E5%9F%8E%E5%9B%BD%E9%99%85&amp;jda=122270672.710109415.1494295656.1540861364.1540864445.54&amp;traceId=H5_DEV_E88183E5-AD15-4538-BF9C-0ECD3161210B1540909127965 HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>https://daojia.jd.com/client?_djrandom=1540909127965150&amp;functionId=zone%2FsyncSeckillFloor&amp;body=%7B%22address%22%3A%22%E5%8F%8C%E5%9F%8E%E5%9B%BD%E9%99%85%22%2C%22city%22%3A%22%E6%9D%AD%E5%B7%9E%E5%B8%82%22%2C%22longitude%22%3A120.20034%2C%22latitude%22%3A30.20751%2C%22coordType%22%3A%222%22%2C%22h5From%22%3A%22%22%2C%22isglb%22%3A%22%22%2C%22currentPage%22%3A%22%22%2C%22storeId%22%3A%22%22%2C%22activityId%22%3A%22%22%7D&amp;platCode=H5&amp;appVersion=6.0.0&amp;appName=paidaojia&amp;jdDevice=&amp;signKey=c1dcd0ff999bcdfb4251b157f10d688c&amp;lng=120.20034&amp;lat=30.20751&amp;city_id=1213&amp;poi=%E5%8F%8C%E5%9F%8E%E5%9B%BD%E9%99%85&amp;jda=122270672.710109415.1494295656.1540861364.1540864445.54&amp;traceId=H5_DEV_E88183E5-AD15-4538-BF9C-0ECD3161210B1540909127965</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>daojia.jd.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>keep-alive</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Pragma</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Cache-Control</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept</Key>
+            <Value>application/json</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>X-Requested-With</Key>
+            <Value>XMLHttpRequest</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36 MicroMessenger/6.5.2.501 NetType/WIFI WindowsWechat QBCore/3.43.901.400 QQBrowser/9.0.2524.400</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Referer</Key>
+            <Value>https://daojia.jd.com/html/index.html?channel=weixin_gzh_order&amp;h5hash=orderlist&amp;loginFlag=1</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate, br</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN,zh;q=0.9</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Cookie</Key>
+            <Value>__jdc=122270672; __jdu=710109415; sid=13c33224cb91b7288f0bef1684c03963; shshshfpa=54ecbfe3-a4ea-095b-8c67-690229bb4b30-1533124621; shshshfpb=144865d10d96d4432b46ac628869465b5814c92353bb5d1005b61a00f4; cart_uuid=7c0693baed209b5d; deviceid_pdj_jd=H5_DEV_E88183E5-AD15-4538-BF9C-0ECD3161210B; unionid_pdj_jd_new=oCwKwuKCcWKP_coqvdU_2tJQ8xdk; openid_pdj_jd=oavWRuCFwxw4ZKhWwnMSgsSXlIQQ; o2o_m_h5_sid=5792355a-e98d-4a76-be1b-2cd59e3d9c40; PDJ_H5_JDPIN=jd_657b792d4b994; PDJ_H5_MOBILE=151****5511; PDJ_H5_PIN=JD_210fe7e4d8658ed; test=test; unpl=V2_ZzNtbRBXFkIiXEFTekpaUWIBG1pKAhAQfQARBy8RDARgAxRfclRCFXwURlVnG10UZgsZXEFcRhBFCHZXchBYAWcCGllyBBNNIEwHDCRSBUE3XHxcFVUWF3RaTwEoSVoAYwtBDkZUFBYhW0IAKElVVTUFR21yVEMldQl2UnsYXARvBhJZcmdEJUU4RlJ%2fHVQHVwIiXHIVF0l9DkdSfhoRA2cCElxKUkMRRQl2Vw%3d%3d; PCSYCityID=1158; shshshfp=aee3604f15daf4f605d100d5192e9207; __jdv=122270672|baidu-pinzhuan|t_288551095_baidupinzhuan|cpc|0f3d30c8dba7459bb52f2eb5eba8ac7d_0_c1dffe660b7e43869db499fbe9a06173|1540861424913; __jda=122270672.710109415.1494295656.1540861364.1540864445.54; ipLoc-djd=1-72-2799-0; 3AB9D23F7A4B3C9B=QCMKSBU264KKFADQDQZWMIEEWYUGKWY3EQHAF7XQMVTLTWZU5MEDEML2TDADX5XRUCIGRRYY22JHH4YXHKK3MCBFZQ; SERVERID=c611b4f88446871b186dfe54295fb008; OUTFOX_SEARCH_USER_ID_NCOO=2098747587.8438873; h5abtest=%5B%7B%22duration%22%3A%2210800000%22%2C%22experimentName%22%3A%22appIndexRecommendDisplay%22%2C%22testTag%22%3A%22appIndexRecommendDisplay%3AB%3A2018-10-30%2010%3A18%3A47%22%7D%2C%7B%22duration%22%3A%2210800000%22%2C%22experimentName%22%3A%22rank_v4_2%22%2C%22testTag%22%3A%22rank_v4_2%3ArankMedicine4%3A2018-10-30%2010%3A18%3A47%22%7D%5D</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity>eXl5eXl0dA==</RequestEntity>
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>http://notify3.note.youdao.com/pushserver3/client?ClientVer=60500000000&amp;GUID=PC5dc6c34f8c92c2ed6&amp;app=ydrive&amp;cl=desktop&amp;client_ver=60500000000&amp;cto=60000&amp;device_id=PC5dc6c34f8c92c2ed6&amp;device_name=XINYUNLIAN-PC&amp;device_type=PC&amp;did=PC5dc6c34f8c92c2ed6&amp;keyfrom=pc&amp;lp=1540879232271&amp;os=Windows&amp;os_ver=Windows%207&amp;pv=1&amp;subvendor=&amp;vendor=website&amp;vendornew=website&amp;ver=0</MatchUri>
+      </UriMatch>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>http://ocsp2.globalsign.com/gsorganizationvalsha2g2/ME0wSzBJMEcwRTAJBgUrDgMCGgUABBQMnk2cPe3vhNiR6XLHz4QGvBl7BwQUlt5h8b0cFilTHMDMfTuDAEDmGnwCDCVAhf5fZIlLdYtCcQ%3D%3D</MatchUri>
+      </UriMatch>
+      <HttpRawRequest>
+        <RequestLine>GET http://ocsp2.globalsign.com/gsorganizationvalsha2g2/ME0wSzBJMEcwRTAJBgUrDgMCGgUABBQMnk2cPe3vhNiR6XLHz4QGvBl7BwQUlt5h8b0cFilTHMDMfTuDAEDmGnwCDCVAhf5fZIlLdYtCcQ%3D%3D HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>http://ocsp2.globalsign.com/gsorganizationvalsha2g2/ME0wSzBJMEcwRTAJBgUrDgMCGgUABBQMnk2cPe3vhNiR6XLHz4QGvBl7BwQUlt5h8b0cFilTHMDMfTuDAEDmGnwCDCVAhf5fZIlLdYtCcQ%3D%3D</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept</Key>
+            <Value>*/*</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Microsoft-CryptoAPI/6.1</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>Keep-Alive</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>ocsp2.globalsign.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://img30.360buyimg.com/mobilecms/jfs/t16618/264/389480278/9818/c3b9db13/5a71b616N41f79c23.png</MatchUri>
+      </UriMatch>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList>
+        <string>Pragma: no-cache</string>
+      </HeadAddList>
+      <HeadDelList>
+        <string>Pragma</string>
+      </HeadDelList>
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <UriMatch>
+        <MatchMode>Contain</MatchMode>
+        <MatchUri>wxsytest.huala.com</MatchUri>
+      </UriMatch>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList>
+        <string>Pragma: no-cache</string>
+        <string>Cache-Control: no-cache</string>
+      </HeadAddList>
+      <HeadDelList>
+        <string>Pragma</string>
+        <string>Cache-Control</string>
+      </HeadDelList>
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://wxhl.huala.com/staticdata/mobx-react/4.3.5/index.min.js</MatchUri>
+      </UriMatch>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList>
+        <string>Pragma: no-cache</string>
+        <string>Cache-Control: no-cache</string>
+      </HeadAddList>
+      <HeadDelList>
+        <string>Pragma</string>
+        <string>Cache-Control</string>
+      </HeadDelList>
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <UriMatch>
+        <MatchMode>Regex</MatchMode>
+        <MatchUri>^https://www.baiwandian.cn/xinyunlian-weixin-ecom/static/resources/shop/js/productPage/page.\S*?.js\b</MatchUri>
+      </UriMatch>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList>
+        <string>Pragma: no-cache</string>
+        <string>Cache-Control: no-cache</string>
+      </HeadAddList>
+      <HeadDelList>
+        <string>Pragma</string>
+        <string>Cache-Control</string>
+        <string>If-None-Match</string>
+        <string>If-Modified-Since</string>
+      </HeadDelList>
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+  </RequestRuleList>
+  <ResponseRuleList>
+    <FiddlerResponseChange>
+      <IsEnable>true</IsEnable>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
+      </UriMatch>
+      <HttpRawResponse>
+        <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
+        <ResponseVersion>HTTP/1.1</ResponseVersion>
+        <ResponseCode>200</ResponseCode>
+        <ResponseStatusDescription>OK</ResponseStatusDescription>
+        <ResponseHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Type</Key>
+            <Value>text/plain; charset=utf-8</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Vary</Key>
+            <Value>Accept-Encoding</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Server</Key>
+            <Value>Microsoft-IIS/8.5</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>X-AspNet-Version</Key>
+            <Value>4.0.30319</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>X-Powered-By</Key>
+            <Value>ASP.NET</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Date</Key>
+            <Value>Wed, 31 Oct 2018 02:04:28 GMT</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Length</Key>
+            <Value>514</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>i get it</Value>
+          </MyKeyValuePairOfStringString>
+        </ResponseHeads>
+        <ResponseEntity>UE9TVCBodHRwczovL3d3dy5jbmJsb2dzLmNvbS9tdmMvdm90ZS9Wb3RlQmxvZ1Bvc3QuYXNweCBIVFRQLzEuMQ0KSG9zdDogd3d3LmNuYmxvZ3MuY29tDQpDb25uZWN0aW9uOiBrZWVwLWFsaXZlDQpDb250ZW50LUxlbmd0aDogNzQNCkFjY2VwdDogYXBwbGljYXRpb24vanNvbiwgdGV4dC9qYXZhc2NyaXB0LCAqLyo7IHE9MC4wMQ0KT3JpZ2luOiBodHRwczovL3d3dy5jbmJsb2dzLmNvbQ0KWC1SZXF1ZXN0ZWQtV2l0aDogWE1MSHR0cFJlcXVlc3QNClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDYuMTsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzYyLjAuMzIwMi43NSBTYWZhcmkvNTM3LjM2DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9VVRGLTgNClJlZmVyZXI6IGh0dHBzOi8vd3d3LmNuYmxvZ3MuY29tL2x1bGlhbnFpL3AvODE2NzUyNi5odG1sDQpBY2NlcHQtRW5jb2Rpbmc6IGd6aXAsIGRlZmxhdGUsIGJyDQpBY2NlcHQtTGFuZ3VhZ2U6IHpoLUNOLHpoO3E9MC45DQpDb29raWU6IEhtX2xwdnRfMGJhMjA0MGM2ODcyMjcxZjA3ZmNiZjYyODg0ZDZkNTg9MTQ3MjcwOTMwNDsgT1VURk9YX1NFQVJDSF9VU0VSX0lEX05DT089MTUyOTczODA1Mi4zODcxNTIyOyBIbV9scHZ0Xzc3MjliMDIzODE3ODFmZWI3ZDVlY2MzOGE2OGY4MTdhPTE0NzY0NDAzMzE7IHBndl9wdmk9OTA5ODQ3OTYxNjsgcGd2X3NpPXM1OTQ5MjYwODAwOyBIbV9scHZ0XzY3NDQzMGZiZGRkNjZhNDg4NTgwZWM4NmFiYTI4OGY3PTE0ODE4NzczNDA7IEhtX2x2dF9jYTIwZDJjNjUwMjFjYWEyNjQxOGRiN2FiMDViYWMyZj0xNDg3MTM2MzM1OyBIbV9scHZ0X2NhMjBkMmM2NTAyMWNhYTI2NDE4ZGI3YWIwNWJhYzJmPTE0ODcxMzYzMzU7IGJkc2hhcmVfZmlyc3RpbWU9MTQ4ODkzNjA4MjI2MzsgX3BrX2lkLjIuMWVkZD01N2VkNTBlMDY2MjdjNWI2LjE0OTAyNDI2NjMuMS4xNDkwMjQyNjYzLjE0OTAyNDI2NjMuOyAuQ25ibG9ncy5Bc3BOZXRDb3JlLkNvb2tpZXM9Q2ZESjhNbWI1T0JFUmQ1RnF0aVFsS1paSUc0ZWR0MV84bEF2WUFuUURYbV84RGZnX0VZU3BZRDRoTGVTcUdKMGIxVWh1dmpIUV9JSHpFTUtlenVSRC1zeDNfQkdEa2dYY0I5emF3T3Q3clpZWjlZckprejl3SEd5NjE3bmlsWkVfM21hTWRyZzE2bDQ2aDc3amQ4bllEdGNabUdJZVVQMzRnSVdGZUkxbHFia1FBQmVZOEswWjdmM0NxVWhxWmI1Zks5QWRrOWhtNnRCQmg3Y1EwSjMxOXFBTVE3cXZGdFNIOG8zelF2bTF4azd3T3RXTWVXWjdVdnpFTm9YaG9VYW5wYW5FN3RNVi1JcU85WmhaV2hPejNVM0lVUnVXWEJ4aDJTQURlSHNOSnpfcHdvSDsgYWxpeXVuZ2ZfdGM9QVFBQUFPeFloQmRTSWdvQXN2T0R0K08vVXJBVjFhK3A7IENOWlpEQVRBMTI1ODYzNzM4Nz0xMTY3Mjc5ODM3LTE0OTY5NzcxODgtbnVsbCU3QzE1MDAwODk5ODE7IFVNX2Rpc3RpbmN0aWQ9MTVmMGFlZDk0Nzk0NWEtMDhjYmEzNmYxMTc2YjUtMzMzZjU4MDMtMWZhNDAwLTE1ZjBhZWQ5NDdhOTExOyBDTlpaREFUQTc4NTgwMD1jbnp6X2VpZCUzRDIwMzM2MjY4OTktMTUwNzcxNDU2Ny0lMjZudGltZSUzRDE1MDc3MTQ1Njc7IF9fdXRtYT0yMjY1MjE5MzUuMTY2MTA1NjkuMTQ0NjQ0NjQ0My4xNDg4MDA4MDQzLjE1MDc3MTY4NjMuMTM7IF9fdXRtYz0yMjY1MjE5MzU7IF9fdXRtej0yMjY1MjE5MzUuMTUwNzcxNjg2My4xMy4xLnV0bWNjbj0oZGlyZWN0KXx1dG1jc3I9KGRpcmVjdCl8dXRtY21kPShub25lKTsgQ05aWkRBVEExMTIxODk2PWNuenpfZWlkJTNEMTAwMTU2MzE4My0xNTA4MjM1NjE5LW51bGwlMjZudGltZSUzRDE1MDgyMzU2MTk7IENOWlpEQVRBOTQzNjQ4PWNuenpfZWlkJTNENjc1MTI4MTk0LTE1MDgyMzkzNjYtbnVsbCUyNm50aW1lJTNEMTUwODIzOTM2NjsgLkNOQmxvZ3NDb29raWU9MzQ1NjAyOTI3NkNCQkQ2REU3MjdCRkNEQUNCMTgzNTM2RTFEMjVBOUY3OUI1QTM4REFGMzQwOTk0OTUzQTk3MUFCMEYzOTIxQUU5QTJFRTk0NUFCRUM1NkEwOEE2NjQ4NjE0RkRFQUREN0UxQkUwQkFGM0I4MzU4OTQ3RDc0OUNDNTYzNzdGRkI5ODM2RUIxQzI5MzAxNURGODc4ODA2NThFQ0I4OTVCOyBDTlpaREFUQTUyOTkxMDQ9Y256el9laWQlM0Q0OTk3MjY3MDQtMTQ2NjU2NTQyNC1udWxsJTI2bnRpbWUlM0QxNTE0ODc3OTA3OyBBSlNUQVRfb2tfdGltZXM9NzA7IF9fdGluc19fNDM4NTQ5MD0lN0IlMjJzaWQlMjIlM0ElMjAxNTE0ODgwNDE4NzIzJTJDJTIwJTIydmQlMjIlM0ElMjAyJTJDJTIwJTIyZXhwaXJlcyUyMiUzQSUyMDE1MTQ4ODIyMTg3MjglN0Q7IF9fNTFja2VfXz07IF9fNTFsYWlnX189MTQ7IF9nYT1HQTEuMi4xNjYxMDU2OS4xNDQ2NDQ2NDQzOyBfZ2lkPUdBMS4yLjI0MTEzNzYwNi4xNTE0ODU5MDQ1DQoNCnsiYmxvZ0FwcCI6ImFrajE1IiwicG9zdElkIjo4MTY3NTI2LCJ2b3RlVHlwZSI6IkRpZ2ciLCJpc0FiYW5kb25lZCI6ZmFsc2V9</ResponseEntity>
+        <OriginSting>HTTP/1.1 200 OK
+Content-Type: text/plain; charset=utf-8
+Vary: Accept-Encoding
+Server: Microsoft-IIS/8.5
+X-AspNet-Version: 4.0.30319
+X-Powered-By: ASP.NET
+Date: Wed, 31 Oct 2018 02:04:28 GMT
+Content-Length: 514
+Connection: i get it
+
+&lt;&lt;replace file path&gt;&gt;C:\Users\administer\Documents\Fiddler2\Captures\推荐.txt</OriginSting>
+      </HttpRawResponse>
+      <IsIsDirectRespons>true</IsIsDirectRespons>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>true</IsEnable>
+      <UriMatch>
+        <MatchMode>Regex</MatchMode>
+        <MatchUri>^https://www.baiwandian.cn/xinyunlian-weixin-ecom/static/resources/shop/js/productPage/page.\S*?.js\b</MatchUri>
+      </UriMatch>
+      <IsIsDirectRespons>false</IsIsDirectRespons>
+      <BodyModific>
+        <ModificMode>EntireReplace</ModificMode>
+        <ReplaceContent>function formatNumber(a) {
+    return a = a &lt; 10 ? "0" + a: a
+}
+function resetProductContent() {
+    $(".bottom-navigation").length &gt; 0 ? $("#productContent").height($("body").height() - $(".header").outerHeight(!0) - $(".bottom-navigation").outerHeight(!0)) : $("#productContent").height($("body").height() - $(".header").outerHeight(!0) - $(".cart-header").outerHeight(!0))
+}
+function loaded() {
+    resetProductContent(),
+    $("#productContent")[0].addEventListener("touchmove",
+    function(a) {
+        a.preventDefault()
+    },
+    !1),
+    $(".product-info").width($(".product").width() - $(".product img").outerWidth(!0) - 20),
+    pullUpEl = document.getElementById("pullUp"),
+    pullUpOffset = pullUpEl.offsetHeight,
+    myScroll = new iScroll("productContent", {
+        useTransition: !0,
+        topOffset: 0,
+        onBeforeScrollStart: function(a) {
+            var b = a.explicitOriginalTarget ? a.explicitOriginalTarget.nodeName.toLowerCase() : a.target ? a.target.nodeName.toLowerCase() : "";
+            "select" != b &amp;&amp; "option" != b &amp;&amp; "input" != b &amp;&amp; "textarea" != b &amp;&amp; a.preventDefault()
+        },
+        onScrollStart: function(a) {
+            document.activeElement &amp;&amp; document.activeElement.blur()
+        },
+        onRefresh: function() {
+            pullUpEl.className.match("loading") &amp;&amp; (pullUpEl.className = "", pullUpEl.querySelector(".pullUpLabel").innerHTML = "", pullUpOffset = pullUpEl.offsetHeight)
+        },
+        onScrollMove: function() {
+            this.y &lt; this.maxScrollY - 4 &amp;&amp; !pullUpEl.className.match("flip") &amp;&amp; (pullUpEl.className = "flip", pullUpEl.querySelector(".pullUpLabel").innerHTML = "释放加载...", this.maxScrollY = this.maxScrollY)
+        },
+        onScrollEnd: function() {
+            pullUpEl.className.match("flip") ? (pullUpEl.className = "loading", $("#productList").addClass("loading"), pullUpEl.querySelector(".pullUpLabel").innerHTML = "加载中...", setTimeout(function() {
+                PageData.insertProduct(null,
+                function(a) { (!a || a.length &lt; 1) &amp;&amp; (pullUpEl.querySelector(".pullUpLabel").innerHTML = "没有更多商品了")
+                })
+            },
+            200)) : pullUpEl.querySelector(".pullUpLabel").innerHTML = ""
+        }
+    }),
+    $(window).resize(function() {
+        resetProductContent(),
+        $(".product-info").width($(".product").width() - $(".product img").outerWidth(!0) - 20),
+        myScroll.refresh(),
+        document.activeElement &amp;&amp; $(document.activeElement).parents("#productContent").length &gt; 0 &amp;&amp; !$(document.activeElement).is("body") &amp;&amp; myScroll.scrollToElement(document.activeElement, 1e3)
+    })
+}
+function backScrollEvent() {
+    function a() {
+        myScroll.scrollTo(0, b.scrollTop, 300),
+        removeLocalStorage("scrollData")
+    }
+    if (getLocalStorage("scrollData")) {
+        var b = {
+            active: !1
+        };
+        try {
+            b = JSON.parse(getLocalStorage("scrollData"))
+        } catch(c) {
+            removeLocalStorage("scrollData")
+        }
+        if (b.active === !0) {
+            var d = $.extend({},
+            b.leavingPage, !0); ! b.leavingPage.pageNumber || 0 === b.leavingPage.pageNumber &amp;&amp; "index" === b.leavingPage.type ? a() : (PageData.currentPage = d, Page.PageDisplayChange(), "index" === b.leavingPage.type || "dealer" === b.leavingPage.type ? Page.insert(b.cacheList) : Page.replace(b.cacheList), cacheList = b.cacheList, a())
+        }
+    }
+    window.addEventListener("beforeunload",
+    function(a) {
+        var b = {
+            active: !1
+        };
+        b.leavingPage = PageData.currentPage,
+        b.scrollTop = myScroll.y,
+        b.cacheList = cacheList,
+        addLocalStorage("scrollData", JSON.stringify(b))
+    })
+}
+Date.prototype.format || (Date.prototype.format = function(a, b, c) {
+    var a = this,
+    d = formatNumber(a.getMonth() + 1),
+    e = formatNumber(a.getDate()),
+    f = formatNumber(a.getHours()),
+    g = formatNumber(a.getMinutes()),
+    h = formatNumber(a.getSeconds());
+    c || (c = "-");
+    var i = "";
+    return a &amp;&amp; (i += a.getFullYear() + c + d + c + e),
+    a &amp;&amp; b &amp;&amp; (i += " "),
+    b &amp;&amp; (i += f + ":" + g + ":" + h),
+    i
+});
+var PageData, Navigation, Search, $categoryList = $("#categoryList"),
+isDealer = $("#showDealer").val(),
+$searchMock = $(".search-header .search-mock"),
+$searchInput = $(".search-header .search-value"),
+$searchWrap = $(".search-header .search"),
+$searchResult = $(".search-header .search-result"),
+$bottomLoading = null,
+myScroll = myScroll || null,
+promotionscroll = promotionscroll || null,
+page = {},
+cacheList = [];
+page = $("#dealerId").val() ? {
+    type: "dealer",
+    id: parseInt($("#dealerId").val()),
+    key: "",
+    pageNumber: 1,
+    params: {}
+}: {
+    type: "index",
+    id: null,
+    key: "",
+    pageNumber: 5,
+    params: {}
+},
+PageData = {
+    currentPage: page,
+    indexUrl: xinyunlian.base + "/wx/index/getIndexFloor.jhtml",
+    categoryNavUrl: xinyunlian.base + "/wx/index/getProducts.jhtml",
+    promotionNavUrl: xinyunlian.base + "/wx/index/getPromotionPage.jhtml",
+    keywordUrl: xinyunlian.base + "/wx/index/searchProduct.jhtml",
+    searchCouponIdUrl: xinyunlian.base + "/wx/index/searchProduct.jhtml",
+    dealerUrl: xinyunlian.base + "/wx/product/getProductByDealer.jhtml",
+    categoryUrl: xinyunlian.base + "/wx/category/getCategory.jhtml",
+    categoryNavDealerUrl: xinyunlian.base + "/wx/product/getProductByDealer.jhtml",
+    insert: function(a, b) {
+        function c(a, b) {
+            return _.filter(b,
+            function(b, c) {
+                return b.homePageOne.id === a.homePageOne.id
+            })
+        }
+        PageData.currentPage.pageNumber = a.pageNumber,
+        Page.insert(b),
+        "index" === PageData.currentPage.type ? (_.each(cacheList,
+        function(a, d) {
+            var e = c(a, b);
+            e.length &gt; 0 &amp;&amp; (a.products = _.union(a.products, e[0].products))
+        }), _.each(b,
+        function(a, b) {
+            var d = c(a, cacheList);
+            d.length &lt; 1 &amp;&amp; cacheList.push(a)
+        })) : cacheList = $.merge(cacheList, b)
+    },
+    insertProduct: function(a, b) {
+        var c = this;
+        a = $.extend({},
+        PageData.currentPage),
+        a.pageNumber++,
+        this.requestProducts(PageData[a.type + "Url"], a,
+        function(a, d) {
+            c.insert(a, d),
+            "function" == typeof b &amp;&amp; b(d)
+        })
+    },
+    replace: function(a, b) {
+        PageData.currentPage = a,
+        Page.replace(b),
+        cacheList = b
+    },
+    replaceProduct: function(a, b) {
+        var c = this;
+        "keyword" !== a.type &amp;&amp; "dealer" !== a.type &amp;&amp; "index" !== a.type &amp;&amp; Search.clearInput(!0),
+        a.pageNumber = 1,
+        this.requestProducts(PageData[a.type + "Url"], a,
+        function(a, d) {
+            c.replace(a, d),
+            "function" == typeof b &amp;&amp; b()
+        })
+    },
+    requestProducts: function(a, b, c) {
+        PageData.currentPage.id = b.id,
+        PageData.currentPage.type = b.type,
+        PageData.currentPage.pageNumber = b.pageNumber,
+        PageData.currentPage.key = b.key;
+        var d = {};
+        if ("keyword" == b.type) {
+            var e = b.id ? encodeURIComponent(b.id) : null;
+            d = {
+                keyword: e,
+                pageNumber: b.pageNumber
+            }
+        } else if ("dealer" == b.type) {
+            if (d = {
+                pageNumber: b.pageNumber,
+                id: b.id
+            },
+            b.key) {
+                var e = b.key ? encodeURIComponent(b.key) : null;
+                d.keyword = e
+            }
+        } else d = {
+            id: b.id,
+            pageNumber: b.pageNumber
+        };
+        b.params &amp;&amp; $.each(b.params,
+        function(a, b) {
+            d[a] = b
+        }),
+        b.categoryId &amp;&amp; (d.categoryId = b.categoryId),
+        b.searchCouponId &amp;&amp; (d.searchCouponId = b.searchCouponId),
+        b.pageSize &amp;&amp; (d.pageSize = b.pageSize),
+        $.ajax({
+            url: a,
+            type: "GET",
+            data: d,
+            dataType: "JSON",
+            cache: !1,
+            beforeSend: function() {
+                Loading.pageLoading()
+            },
+            success: function(a) {
+                c(b, a)
+            },
+            complete: function() {
+                Loading.cancelPageLoading()
+            }
+        }),
+        Page.PageDisplayChange()
+    }
+},
+Navigation = {
+    current: null,
+    selector: "current",
+    dismissExcept: ["#categoryPanel", ".addBtn", ".fly", ".category-list", ".cart-footer"],
+    scroller: null,
+    resetScroller: function() {
+        Navigation.scroller ? Navigation.refreshScroller() : Navigation.scroller = $("#navigationWrap").length &gt; 0 ? new iScroll($("#navigationWrap")[0]) : null
+    },
+    refreshScroller: function() {
+        Navigation.scroller.refresh(),
+        Navigation.scroller.scrollTo(0, 0, 1e3)
+    },
+    clearSelect: function() {
+        Navigation.current &amp;&amp; Navigation.current.removeClass(this.selector)
+    },
+    getInfos: function(a) {
+        if ("dealer" == PageData.currentPage.type) {
+            var b = "dealer",
+            c = a.data("id");
+            return {
+                type: b,
+                id: PageData.currentPage.id,
+                categoryId: c,
+                key: null
+            }
+        }
+        var b = a.data("type"),
+        d = a.data("id");
+        return {
+            type: b,
+            id: d,
+            key: d
+        }
+    },
+    init: function() {
+        function a() {
+            promotionscroll ? (promotionscroll.refresh(), promotionscroll.scrollTo(0, 0, 0)) : ($("#promotionWrap").css("height", $(window).height().sub($(".bottom-navigation").height()).sub($(".header").height()).sub(20).sub(32)), $("#promotion-list").css("min-height", $(window).height().sub($(".bottom-navigation").height()).sub($(".header").height()).sub(20).sub(32)), setTimeout(function() {
+                promotionscroll = new iScroll($("#promotionWrap")[0], {
+                    vScrollbar: !1,
+                    onBeforeScrollStart: function(a) {
+                        var b = a.explicitOriginalTarget ? a.explicitOriginalTarget.nodeName.toLowerCase() : a.target ? a.target.nodeName.toLowerCase() : "";
+                        "select" != b &amp;&amp; "option" != b &amp;&amp; "input" != b &amp;&amp; "textarea" != b &amp;&amp; a.preventDefault()
+                    }
+                })
+            },
+            300))
+
+
+        }
+        var b = $("#navs").length &gt; 0 &amp;&amp; $("#navs").val() ? JSON.parse($("#navs").val()) : [];
+        $("#navigationWrap").html(template("firstLevelNavTemplate", {
+            dealer: $("#isDealer").val(),
+            navs: "dealer" === PageData.currentPage.type || 0 === groupBuyLibgroupBuyIndex.getCategory().length ? b: groupBuyLibgroupBuyIndex.getCategory()
+        })),
+        $("body").on("tap", "#categoryList .sub-list li",
+        function() {
+            var a = $(this);
+            if (!a.hasClass(c)) {
+                var b = Navigation.getInfos(a);
+                PageData.replaceProduct(b);
+                var c = Navigation.selector;
+                Navigation.current &amp;&amp; Navigation.current.removeClass(c),
+                Navigation.current = a.addClass(c)
+            }
+        }),
+        $(".main-page").on("tap", ".titleNoChildren",
+        function() {
+            $(".main-page").hasClass("removed") &amp;&amp; ($(".main-page").addClass("empty"), $(".main-page").removeClass("removed"));
+            var a = $(this),
+            b = Navigation.getInfos(a);
+            PageData.replaceProduct(b),
+            $("#categoryPanel").panel("close"),
+            $("#categoryNavigationTapped").val("true"),
+            myScroll.refresh()
+        }),
+        $("#secondLevelPageView").on("tap", ".secondLevelContent,.secondLevelTitleLink",
+        function() {
+            $(".main-page").hasClass("removed") &amp;&amp; ($(".main-page").addClass("empty"), $(".main-page").removeClass("removed"));
+            var a = $(this),
+            b = Navigation.getInfos(a);
+            PageData.replaceProduct(b),
+            $("#categoryPanel").panel("close"),
+            $("#categoryNavigationTapped").val("true"),
+            myScroll.refresh()
+        }),
+        $(window).resize(function() {
+            a()
+        }),
+        $(".main-page").on("tap", ".parent-category div.title",
+        function() {
+            function b() {
+                var a = $("#secondLevelPageView");
+                a.css("height", "100%"),
+                a.hasClass("secondLevelPageHide") &amp;&amp; (a.removeClass("secondLevelPageHide"), a.addClass("secondLevelPageShow"), $(".main-page").hasClass("empty") &amp;&amp; ($(".main-page").removeClass("empty"), $(".main-page").addClass("removed")))
+            }
+            function c(b) {
+                var c = $(b),
+                d = JSON.parse($("#navs").val()),
+                e = $(".titleTapped").attr("data-name"),
+                f = c.attr("data-type");
+                $("#secondLevelPageView").find("#promotionTitleFixed").html("&lt;div class='parentContent promotionParentContent'&gt;" + abbreviate(e, 20, "...") + "&lt;/div&gt;");
+                var g = _.filter("categoryNav" === f ? d: groupBuyLibgroupBuyIndex.getCategory(),
+                function(a) {
+                    return a.id == c.attr("data-id")
+                }),
+                h = $("#secondLevelPageView").find("#promotion-list").empty();
+                if (g.length &gt; 0) {
+                    var i = {
+                        list: g[0].children
+                    };
+                    "groupbuy" === g[0].navType &amp;&amp; (i.groupBuyId = groupBuyLibgroupBuyIndex.getGroupBuyId()),
+                    h.html(template("secondLevelNavTemplate", i))
+                } else "cuxiao" === c.attr("data-id") &amp;&amp; h.html(template("secondLevelPromotionTemplate", {
+                    list: cuxiaoList
+                }));
+                a()
+            }
+            if ($(this).hasClass("clickForIndex")) return window.location.href = "/xinyunlian-weixin-ecom/wx/index.jhtml",
+            !1;
+            if ($(this).hasClass("clickForDealerIndex")) return ! 1;
+            b(),
+            $(".parent-category .titleTapped").addClass("title"),
+            $(".parent-category .titleTapped").removeClass("titleTapped");
+            var d = $(this);
+            d.parent();
+            d.addClass("titleTapped"),
+            d.removeClass("title"),
+            c(this)
+        }),
+        $(".main-page").on("tap", ".parent-category div.clickForDealerIndex",
+        function() {
+            PageData.replaceProduct({
+                type: "dealer",
+                id: PageData.currentPage.id
+            }),
+            $("#categoryPanel").panel("close")
+        }),
+        $(document).on("tap",
+        function(a) {
+            for (var b = $(a.target), c = !0, d = 0; d &lt; Navigation.dismissExcept.length; d++) {
+                var e = Navigation.dismissExcept[d];
+                if (b.closest(e).size() &gt; 0) {
+                    c = !1;
+                    break
+                }
+            }
+        }),
+        $("#categoryPanel").on("panelclose",
+        function() {
+            "true" == $("#categoryNavigationTapped").val() &amp;&amp; $("#ad").addClass("hidden");
+            var a = $("#secondLevelPageView");
+            a.hasClass("secondLevelPageShow") &amp;&amp; ($(".main-page").hasClass("removed") &amp;&amp; ($(".main-page").addClass("empty"), $(".main-page").removeClass("removed")), a.removeClass("secondLevelPageShow"), a.addClass("secondLevelPageHide")),
+            $(".parent-category .titleTapped").addClass("title"),
+            $(".parent-category .titleTapped").removeClass("titleTapped")
+        }),
+        $("#categoryPanel .ui-panel-inner, #navigationWrap").css("height", $("body").height()),
+        Navigation.resetScroller(),
+        $("#categoryPanel").length &gt; 0 &amp;&amp; $("#categoryPanel")[0].addEventListener("touchmove",
+        function(a) {
+            a.preventDefault()
+        },
+        !1);
+        var c = $("#categoryPanel");
+        c.panel({
+            open: function() {
+                Navigation.resetScroller()
+            }
+        })
+    }
+};
+var Page = {
+    page: 1,
+    getItem: function(a) {
+        var b = $(Page.template);
+        b.data("id", a.id).addClass("product-" + a.id);
+        var c = a.image ? xinyunlian.file + "/image" + a.image: setting.defaultThumbnailProductImage;
+        b.find("img").attr("data-src", c),
+        b.find(".product-name").html(a.name),
+        a.promotions ? b.find(".promotion-info .promotion-tag").html(a.promotions) : b.find(".promotion-info").empty(),
+        a.producedDate ? b.find(".produced-date").html(new Date(a.producedDate).format(!0)) : b.find(".product-date-wrap").remove(),
+        a.guaranteeDays ? b.find(".guarantee-date").html(a.guaranteeDays) : b.find(".guarantee-date-wrap").remove(),
+        a.saleSpecification &amp;&amp; !a.packageProduct ? b.find(".saleSpecification").html(a.saleSpecification) : b.find(".saleSpecification-wrap").remove(),
+        a.deliveryDealer &amp;&amp; a.deliveryDealer.name &amp;&amp; "true" == isDealer ? ("新商盟自营" == a.deliveryDealer.name &amp;&amp; (a.deliveryDealer.name = "新商盟配送"), b.find(".deliveryDealer").html(abbreviate(a.deliveryDealer.name, 25, "..."))) : b.find(".deliveryDealer-wrap") &amp;&amp; b.find(".deliveryDealer-wrap").remove();
+        var d = a.promotionPrice ? a.promotionPrice: a.salePrice;
+        a.promotionPrice &amp;&amp; a.promotionPrice != a.salePrice ? b.find(".sale-price").html(currency(a.salePrice, !0)) : b.find(".sale-price").addClass("hidden"),
+        b.find(".promotion-price").html(currency(d, !0));
+        var e = Page.getProductCartInfo(a.id);
+        return e &amp;&amp; b.find(".btn-group").addClass("inCart").find(".quantity").val(e.quantity),
+        b.data("promotion-price", d).data("sale-price", a.salePrice).data("original-sale-Price", a.originalSalePrice),
+        b
+    },
+    getProductCartInfo: function(a) {
+        return cart.getItem(a, "product")
+    },
+    addFloor: function(a) {
+        var b = '&lt;div class="floor ' + a.id + '" data-id="' + a.id + '"&gt;&lt;div class="floor-name"&gt;&lt;label class="floor-label"&gt;&lt;/label&gt;';
+        a.productsWxUrl &amp;&amp; (b += '&lt;a class="floor-link" href="' + xinyunlian.base + "/wx/index/dealerIndex.jhtml?dealerId=" + a.productsWxUrl + '" data-ajax="false"&gt;'),
+        b += a.name ? a.name: "",
+        a.productsWxUrl &amp;&amp; (b += "&lt;/a&gt;"),
+        b += "&lt;/div&gt;&lt;/div&gt;",
+        Page.$container.append(b)
+    },
+    insert: function(a) {
+        "index" == PageData.currentPage.type ? $.each(a,
+        function(a, b) {
+            Page.$container.find(".floor." + b.homePageOne.id).length &lt; 1 &amp;&amp; Page.addFloor(b.homePageOne),
+            $.each(b.products,
+            function(a, c) {
+                Page.$container.find(".floor." + b.homePageOne.id).find(".product-" + c.id).length &lt; 1 &amp;&amp; Page.$container.find(".floor." + b.homePageOne.id).append(Page.getItem(c)),
+                cart.getItem(c.id, "product") &amp;&amp; cartWindow.triggerUpdate("product", cart.getItem(c.id, "product"))
+            }),
+            $(".product-info").width($(".product").width() - $(".product img").outerWidth(!0) - 20)
+        }) : ($.each(a,
+        function(a, b) {
+            Page.$container.append(Page.getItem(b)),
+            cart.getItem(b.id, "product") &amp;&amp; cartWindow.triggerUpdate("product", cart.getItem(b.id, "product"))
+        }), $(".product-info").width($(".product").width() - $(".product img").outerWidth(!0) - 20)),
+        1 != PageData.currentPage.pageNumber || PageData.currentPage.key || myScroll.scrollTo(0, 0, 1e3),
+        myScroll.refresh(),
+        $(window).lazyLoadXT(),
+        Page.$container.removeClass("loading")
+    },
+    replace: function(a) {
+        Page.$container.empty(),
+        Page.insert(a),
+        Page.checkPageContent(a),
+        myScroll.refresh()
+    },
+    checkPageContent: function(a) {
+        $(".no-products").hide(),
+        a.length &gt; 0 || "index" === PageData.currentPage.type ? Page.$mainPage.removeClass("empty") : (Page.$mainPage.addClass("empty"), PageData.currentPage.key &amp;&amp; $(".no-products").show())
+    },
+    PageDisplayChange: function() {
+        "dealer" != PageData.currentPage.type || PageData.currentPage.key || (PageData.currentPage.dealerId = PageData.currentPage.id),
+        "keyword" == PageData.currentPage.type &amp;&amp; PageData.currentPage.key &amp;&amp; ($searchInput.val(PageData.currentPage.key), $(".search").addClass("focus"), $(".searchMock").css("display", "none")),
+        "dealer" == PageData.currentPage.type || "keyword" == PageData.currentPage.type || "categoryNav" == PageData.currentPage.type ? ($("#brand-filter").removeClass("hidden"), $(".btn-coupon").addClass("hidden")) : ($("#brand-filter").addClass("hidden"), $(".btn-coupon").removeClass("hidden")),
+        "keyword" == PageData.currentPage.type ? ($(".category-list").addClass("hidden"), $(".search-header").addClass("search-page")) : ($(".category-list").removeClass("hidden"), $(".search-header").removeClass("search-page")),
+        "index" == PageData.currentPage.type ? $("#ad,.duobao-banner,#groupbuy-block2,.recommend-shop").removeClass("hidden") : $("#ad,.duobao-banner,#groupbuy-block2,.recommend-shop").addClass("hidden"),
+        PageData.currentPage.key || $searchInput.val("")
+    },
+    init: function() {
+        function a() {
+            var a = document.getElementById("ad");
+            if (a) {
+                a.style.height = .3125 * $(window).width() + "px";
+                var b = new Swiper(".swiper-container", {
+                    autoplay: 3e3,
+                    autoplayDisableOnInteraction: !1,
+                    loop: !0,
+                    pagination: ".swiper-pagination",
+                    lazyLoading: !0,
+                    onTap: function(a) {
+                        var b = $(a.clickedSlide);
+                        if (b.data("type")) {
+                            var c = Navigation.getInfos(b);
+                            PageData.replaceProduct(c),
+                            $("#ad").addClass("hidden")
+                        }
+                    }
+                });
+                $(".swiper-slide a").click(function(a) {
+                    1 == b.animating ? a.preventDefault() : location.href = $(this).attr("href")
+                })
+            }
+        }
+        function b() {
+            document.getElementById("secondLevelPageView") &amp;&amp; (document.getElementById("secondLevelPageView").style.width = $(window).width() - 90 + "px")
+        }
+        this.$container = $("#productList"),
+        this.$mainPage = $(".main-page"),
+        this.template = $("#itemTemplate").html();
+        var c = $("#promotionKeyword").val();
+        $("#searchCouponId").val(); (c || "0" == c) &amp;&amp; (PageData.currentPage.id = c, PageData.currentPage.key = c, PageData.currentPage.type = "keyword"),
+        $("#whiteOverlay").remove(),
+        a(),
+        b(),
+        loaded(),
+        myScroll.refresh(),
+        $("li.product").each(function() {
+            var a = $(this),
+            b = a.data("id"),
+            c = Page.getProductCartInfo(b);
+            c &amp;&amp; a.find(".btn-group").addClass("inCart").find(".quantity").val(c.quantity)
+        })
+    }
+},
+SearchInit = function() {
+    function a(a) {
+        var b = $("&lt;li&gt;" + a + "&lt;/li&gt;").data("keyword", a);
+        return b
+    }
+    var b = $(".search-header .search-mock"),
+    c = this.$searchInput = $(".search-header .search-value"),
+    d = $(".search-header .search"),
+    e = $(".search-header .search-result"),
+    f = $(".btn-search");
+    return c.val(""),
+    b.on("tap",
+    function() {
+        d.addClass("focus"),
+        c.focus()
+    }),
+    d.on("tap", ".ui-input-clear",
+    function() {
+        f.trigger("tap"),
+        c.trigger("input")
+    }),
+    c.on("blur",
+    function() {
+        var a = $(this),
+        b = a.val().trim();
+        a.val(b),
+        "" == b &amp;&amp; d.removeClass("focus"),
+        a.closest(".search-input").removeClass("focus")
+    }),
+    c.on("focus",
+    function() {
+        var a = $(this);
+        a.closest(".search-input").addClass("focus")
+    }),
+    c.on("keypress",
+    function(a) {
+        var b = event.keyCode ? event.keyCode: event.which;
+        if (13 == b) return $(this).blur(),
+        !1
+    }),
+    f.on("tap",
+    function() {
+        if ($(this).hasClass("disabled")) return ! 1;
+        var a, b = c.val().trim(),
+        d = "" == b ? null: b;
+        a = "dealer" == PageData.currentPage.type ? {
+            type: "dealer",
+            id: PageData.currentPage.id,
+            key: d
+        }: d ? {
+            type: "keyword",
+            id: d,
+            key: d,
+            pageNumber: 1
+        }: {
+            type: "keyword",
+            id: null,
+            pageNumber: 1
+        },
+        PageData.replaceProduct(a),
+        Navigation.clearSelect()
+    }),
+    c.on("input",
+    function() {
+        var b = $(this).val();
+        if ("" == $.trim(b)) e.addClass("hidden").empty();
+        else {
+            var c = null;
+            "dealer" == PageData.currentPage.type &amp;&amp; (c = PageData.currentPage.id),
+            b = b ? encodeURIComponent(b) : null,
+            $.ajax({
+                url: xinyunlian.base + "/wx/index/getTips.jhtml",
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    id: c,
+                    keyword: b
+                },
+                success: function(b) {
+                    null != b &amp;&amp; b.length &gt; 0 ? (e.empty().removeClass("hidden"), e.parent().addClass("hasResult"), $.each(b,
+                    function(b, c) {
+                        e.append(a(c))
+                    })) : (e.addClass("hidden").empty(), e.parent().removeClass("hasResult"))
+                }
+            })
+        }
+    }),
+    e.on("tap", "li",
+    function() {
+        var a = $(this)[0].innerText;
+        c.val(a),
+        b.trigger("tap"),
+        c.trigger("input"),
+        e.addClass("hidden")
+    }),
+    {
+        clearInput: function(a) {
+            c.val("").trigger("blur"),
+            null != a &amp;&amp; a || c.trigger("input")
+        }
+    }
+},
+couponCountShow = function() {
+    $.ajax({
+        url: xinyunlian.base + "/wx/discountCoupon/countCoupon.jhtml",
+        type: "get",
+        dataType: "JSON",
+        cache: !1,
+        async: !0,
+        success: function(a) {
+            "number" == typeof a &amp;&amp; (0 == a ? $(".coupon_count").hide() : ($(".coupon_count").show(), $(".coupon_count").html(a &gt; 99 ? 99 : a)))
+        }
+    })
+};
+$.onPageShow(function() {
+    loadProductAjax ? loadProductAjax.then(function() {
+        $categoryList = $("#categoryList"),
+        Page.init(),
+        Search = SearchInit(),
+        couponCountShow(),
+        0 == $(".ad .swiper-slide").length &amp;&amp; $("#ad").remove();
+        var a = $("#searchCouponId").val(); (a || "0" === a) &amp;&amp; (PageData.currentPage.type = "searchCouponId", PageData.currentPage.searchCouponId = a, PageData.replaceProduct({
+            type: "searchCouponId",
+            searchCouponId: a,
+            pageNumber: 1
+        })),
+        backScrollEvent()
+    }) : (Page.init(), Search = SearchInit(), couponCountShow(), 0 == $(".ad .swiper-slide").length &amp;&amp; $("#ad").remove(), $("#dealerId").val() &amp;&amp; Navigation.init(), backScrollEvent())
+});</ReplaceContent>
+      </BodyModific>
+    </FiddlerResponseChange>
+  </ResponseRuleList>
 </FiddlerModificHttpRuleCollection>

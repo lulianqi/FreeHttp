@@ -32,6 +32,16 @@ namespace FreeHttp.FreeHttpControl
             EditResponseRule
         }
 
+        public class GetSessionRawDataEventArgs : EventArgs
+        {
+            public bool IsShowResponse { get; set; }
+            public GetSessionRawDataEventArgs(bool isShowResponse)
+            {
+                IsShowResponse = isShowResponse;
+            }
+        }
+        public delegate void GetSessionRawDataEventHandler(object sender, GetSessionRawDataEventArgs e);
+
         public FreeHttpWindow()
         {
             InitializeComponent();
@@ -47,7 +57,7 @@ namespace FreeHttp.FreeHttpControl
         
 
         public event EventHandler OnGetSession;
-
+        public event GetSessionRawDataEventHandler OnGetSessionRawData;
         public bool IsRequestRuleEnable { get; set; }
         public bool IsResponseRuleEnable { get; set; }
 
@@ -109,11 +119,13 @@ namespace FreeHttp.FreeHttpControl
             ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", yourHttpTamper.UriMatch.MatchMode.ToString(), yourHttpTamper.UriMatch.MatchUri) }, yourHttpTamper.IsRawReplace ? 1 : 0);
             nowRuleItem.Tag = yourHttpTamper;
             nowRuleItem.Checked = yourHttpTamper.IsEnable;
-            if(isMark)
+            yourListViews.Items.Add(nowRuleItem);
+            if (isMark)
             {
                 MarkRuleItem(nowRuleItem);
+                PutWarn(string.Format("Add {0} {1}", yourListViews.Columns[1].Text, nowRuleItem.SubItems[0].Text));
             }
-            yourListViews.Items.Add(nowRuleItem);
+            
         }
 
         private void UpdataRuleToListView(ListViewItem yourListViewItem, IFiddlerHttpTamper yourHttpTamper, bool isMark)
@@ -125,6 +137,7 @@ namespace FreeHttp.FreeHttpControl
             if(isMark)
             {
                 MarkRuleItem(yourListViewItem);
+                PutWarn(string.Format("Updata {0} {1}", yourListViewItem.ListView.Columns[1].Text, yourListViewItem.SubItems[0].Text));
             }
         }
 
@@ -560,6 +573,31 @@ namespace FreeHttp.FreeHttpControl
         {
             MarkRuleItem(yourItem, Color.Khaki, 3);
         }
+
+        public void PutInfo(string info)
+        {
+            rtb_MesInfo.SelectionColor = Color.Black;
+            rtb_MesInfo.AppendText(string.Format("【{0}】:{1}", DateTime.Now.ToString(), info));
+            rtb_MesInfo.AppendText("\r\n");
+            rtb_MesInfo.SelectionColor = Color.Black;
+        }
+
+        public void PutWarn(string info)
+        {
+            rtb_MesInfo.SelectionColor = Color.Indigo;
+            rtb_MesInfo.AppendText(string.Format("【{0}】:{1}", DateTime.Now.ToString(), info));
+            rtb_MesInfo.AppendText("\r\n");
+            rtb_MesInfo.SelectionColor = Color.Black;
+        }
+
+        public void PutError(string info)
+        {
+            rtb_MesInfo.SelectionColor = Color.Red;
+            rtb_MesInfo.AppendText(string.Format("【{0}】:{1}", DateTime.Now.ToString(), info));
+            rtb_MesInfo.AppendText("\r\n");
+            rtb_MesInfo.SelectionColor = Color.Black;
+        }
+        
         #endregion
 
         #region Public Event
@@ -675,134 +713,9 @@ namespace FreeHttp.FreeHttpControl
             antoContentLengthToolStripMenuItem.Checked = !antoContentLengthToolStripMenuItem.Checked;
         }
 
-        private void pb_ruleComfrim_Click(object sender, EventArgs e)
+        private void pictureBox_editRuleMode_Click(object sender, EventArgs e)
         {
-            FiddlerRequsetChange nowRequestChange = null;
-            FiddlerResponseChange nowResponseChange = null;
-            IFiddlerHttpTamper fiddlerHttpTamper = null;
-            ListView tamperRuleListView = null;
-
-            try
-            {
-                switch (tabControl_Modific.SelectedIndex)
-                {
-                    case 0:
-                        nowRequestChange = GetRequestModificInfo();
-                        break;
-                    case 1:
-                        nowRequestChange = GetRequestReplaceInfo();
-                        break;
-                    case 2:
-                        nowResponseChange = GetResponseModificInfo();
-                        break;
-                    case 3:
-                        nowResponseChange = GetResponseReplaceInfo();
-                        break;
-                    default:
-                        throw new Exception("unknow http tamper tab");
-                        //break;
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Stop",MessageBoxButtons.OK,MessageBoxIcon.Stop);
-                nowRequestChange = null;
-                nowResponseChange = null;
-            }
-            finally
-            {
-                if (nowRequestChange != null)
-                {
-                    fiddlerHttpTamper = nowRequestChange;
-                    tamperRuleListView = lv_requestRuleList;
-                }
-                else if (nowResponseChange != null)
-                {
-                    fiddlerHttpTamper = nowResponseChange;
-                    tamperRuleListView = lv_responseRuleList;
-                }
-            }
-
-            if (fiddlerHttpTamper == null)
-            {
-                return;
-            }
-
-            if(fiddlerHttpTamper.UriMatch==null)
-            {
-                MessageBox.Show("you Uri Filter is not legal \r\n check it again", "edit again");
-                MarkControl(groupBox_urlFilter, Color.Plum, 2);
-                return;
-            }
-
-            ListViewItem nowRuleItem = null;
-            foreach(ListViewItem tempItem in tamperRuleListView.Items)
-            {
-                if(fiddlerHttpTamper.UriMatch.Equals(tempItem.Tag))
-                {
-                    if (tempItem == EditListViewItem)
-                    {
-                        continue;
-                    }
-                    MarkRuleItem(tempItem, Color.Plum, 2);
-                    DialogResult tempDs;
-                    //add mode
-                    if(EditListViewItem==null)
-                    {
-                        tempDs = MessageBox.Show(string.Format("find same uri filter with [Rule:{0}], do you want update the rule \r\n    [Yes]       update the rule \r\n    [No]       new a same uri filter rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                        if (tempDs == DialogResult.Yes)
-                        {
-                            nowRuleItem = tempItem;
-                            SyncEnableSateToIFiddlerHttpTamper(nowRuleItem, fiddlerHttpTamper);
-                            UpdataRuleToListView(nowRuleItem, fiddlerHttpTamper, true);
-                            break;
-                        }
-                        else if (tempDs == DialogResult.No)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    //edit mode
-                    else
-                    {
-                        tempDs = MessageBox.Show(string.Format("find same uri filter with [Rule:{0}], do you want remove the rule \r\n    [Yes]       remove the rule \r\n    [No]       skip the same uri filter rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-                        if (tempDs == DialogResult.Yes)
-                        {
-                            tamperRuleListView.Items.Remove(tempItem);
-                            continue;
-                        }
-                        else if (tempDs == DialogResult.No)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    
-                    
-                }
-            }
-
-            if (nowRuleItem == null)
-            {
-                if (EditListViewItem == null)
-                {
-                    AddRuleToListView(tamperRuleListView, fiddlerHttpTamper, true);
-                }
-                else
-                {
-                    SyncEnableSateToIFiddlerHttpTamper(EditListViewItem, fiddlerHttpTamper);
-                    UpdataRuleToListView(EditListViewItem, fiddlerHttpTamper, true);
-                }
-            }
-
-            ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+            pb_ruleComfrim_Click(sender, e);
         }
 
          //pictureBox change for all
@@ -847,6 +760,194 @@ namespace FreeHttp.FreeHttpControl
         }
         #endregion
 
+        #region Modific ContorLine
+        private void pb_ruleComfrim_Click(object sender, EventArgs e)
+        {
+            FiddlerRequsetChange nowRequestChange = null;
+            FiddlerResponseChange nowResponseChange = null;
+            IFiddlerHttpTamper fiddlerHttpTamper = null;
+            ListView tamperRuleListView = null;
+
+            try
+            {
+                switch (tabControl_Modific.SelectedIndex)
+                {
+                    case 0:
+                        nowRequestChange = GetRequestModificInfo();
+                        break;
+                    case 1:
+                        nowRequestChange = GetRequestReplaceInfo();
+                        break;
+                    case 2:
+                        nowResponseChange = GetResponseModificInfo();
+                        break;
+                    case 3:
+                        nowResponseChange = GetResponseReplaceInfo();
+                        break;
+                    default:
+                        throw new Exception("unknow http tamper tab");
+                    //break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                nowRequestChange = null;
+                nowResponseChange = null;
+            }
+            finally
+            {
+                if (nowRequestChange != null)
+                {
+                    fiddlerHttpTamper = nowRequestChange;
+                    tamperRuleListView = lv_requestRuleList;
+                }
+                else if (nowResponseChange != null)
+                {
+                    fiddlerHttpTamper = nowResponseChange;
+                    tamperRuleListView = lv_responseRuleList;
+                }
+            }
+
+            if (fiddlerHttpTamper == null)
+            {
+                return;
+            }
+
+            if (fiddlerHttpTamper.UriMatch == null)
+            {
+                MessageBox.Show("you Uri Filter is not legal \r\n check it again", "edit again");
+                MarkControl(groupBox_urlFilter, Color.Plum, 2);
+                return;
+            }
+
+            ListViewItem nowRuleItem = null;
+            foreach (ListViewItem tempItem in tamperRuleListView.Items)
+            {
+                if (fiddlerHttpTamper.UriMatch.Equals(tempItem.Tag))
+                {
+                    if (tempItem == EditListViewItem)
+                    {
+                        continue;
+                    }
+                    MarkRuleItem(tempItem, Color.Plum, 2);
+                    DialogResult tempDs;
+                    //add mode
+                    if (EditListViewItem == null)
+                    {
+                        tempDs = MessageBox.Show(string.Format("find same uri filter with [Rule:{0}], do you want update the rule \r\n    [Yes]       update the rule \r\n    [No]       new a same uri filter rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        if (tempDs == DialogResult.Yes)
+                        {
+                            nowRuleItem = tempItem;
+                            SyncEnableSateToIFiddlerHttpTamper(nowRuleItem, fiddlerHttpTamper);
+                            UpdataRuleToListView(nowRuleItem, fiddlerHttpTamper, true);
+                            break;
+                        }
+                        else if (tempDs == DialogResult.No)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    //edit mode
+                    else
+                    {
+                        tempDs = MessageBox.Show(string.Format("find same uri filter with [Rule:{0}], do you want remove the rule \r\n    [Yes]       remove the rule \r\n    [No]       skip the same uri filter rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        if (tempDs == DialogResult.Yes)
+                        {
+                            tamperRuleListView.Items.Remove(tempItem);
+                            continue;
+                        }
+                        else if (tempDs == DialogResult.No)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
+
+                }
+            }
+
+            if (nowRuleItem == null)
+            {
+                if (EditListViewItem == null)
+                {
+                    AddRuleToListView(tamperRuleListView, fiddlerHttpTamper, true);
+                }
+                else
+                {
+                    SyncEnableSateToIFiddlerHttpTamper(EditListViewItem, fiddlerHttpTamper);
+                    UpdataRuleToListView(EditListViewItem, fiddlerHttpTamper, true);
+                }
+            }
+
+            ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+        }
+
+        private void pb_ruleCancel_Click(object sender, EventArgs e)
+        {
+            ClearModificInfo();
+            PutWarn("Clear the Modific Info");
+            ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+        }
+
+        private void disableCacheToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(NowEditMode== RuleEditMode.EditResponseRule)
+            {
+                MessageBox.Show("your are in Response Edit Mode ","Stop");
+                return;
+            }
+            tabControl_Modific.SelectedIndex = 0;
+            requestRemoveHeads.ListDataView.Items.Add("Pragma");
+            requestRemoveHeads.ListDataView.Items.Add("Cache-Control");
+            requestRemoveHeads.ListDataView.Items.Add("If-None-Match");
+            requestRemoveHeads.ListDataView.Items.Add("If-Modified-Since");
+            requestAddHeads.ListDataView.Items.Add("Pragma: no-cache");
+            requestAddHeads.ListDataView.Items.Add("Cache-Control: no-cache");
+        }
+
+        private void addCookieToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (NowEditMode == RuleEditMode.EditResponseRule)
+            {
+                MessageBox.Show("your are in Response Edit Mode ", "Stop");
+                return;
+            }
+            tabControl_Modific.SelectedIndex = 0;
+            AddHead f = new AddHead(requestAddHeads.ListDataView, "Cookie");
+            f.ShowDialog();
+        }
+
+        private void setClientCookieToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (NowEditMode == RuleEditMode.EditRequsetRule)
+            {
+                MessageBox.Show("your are in Requset Edit Mode ", "Stop");
+                return;
+            }
+            tabControl_Modific.SelectedIndex =2;
+            EditCookieForm f = new EditCookieForm(responseAddHeads.ListDataView);
+            f.ShowDialog();
+        }
+
+        private void showSelectedSessionStreamToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(OnGetSessionRawData!=null)
+            {
+                this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(true));
+            }
+        }
+
+        #endregion
+
         #region Rule control
         private void pb_requestRuleSwitch_Click(object sender, EventArgs e)
         {
@@ -854,11 +955,13 @@ namespace FreeHttp.FreeHttpControl
             {
                 pb_requestRuleSwitch.Image = Resources.MyResource.switch_off;
                 IsRequestRuleEnable = false;
+                PutWarn("Request Temper Rule Forbidden");
             }
             else
             {
                 pb_requestRuleSwitch.Image = Resources.MyResource.switch_on;
                 IsRequestRuleEnable = true;
+                PutWarn("Request Temper Rule Enabled");
             }
         }
 
@@ -868,11 +971,13 @@ namespace FreeHttp.FreeHttpControl
             {
                 pb_responseRuleSwitch.Image = Resources.MyResource.switch_off;
                 IsResponseRuleEnable = false;
+                PutWarn("Response Temper Rule Forbidden");
             }
             else
             {
                 pb_responseRuleSwitch.Image = Resources.MyResource.switch_on;
                 IsResponseRuleEnable = true;
+                PutWarn("Response Temper Rule Enabled");
             }
         }
 
@@ -917,12 +1022,14 @@ namespace FreeHttp.FreeHttpControl
             if (sender == pb_addRequestRule)
             {
                 ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
-                tabControl_Modific.SelectedIndex = 0;
+                tabControl_Modific.SelectedIndex = 1;
+                MarkControl(pb_getSession, Color.LightYellow, 1);
             }
             else if (sender == pb_addResponseRule)
             {
                 ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
                 tabControl_Modific.SelectedIndex = 2;
+                MarkControl(pb_getSession, Color.LightYellow, 1);
             }
             else
             {
@@ -951,6 +1058,7 @@ namespace FreeHttp.FreeHttpControl
                     if (tempItem == EditListViewItem)
                     {
                         ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+                        PutWarn("you editing rule is removed ,now change to [NewRuleMode]");
                     }
                     nowRuleListView.Items.Remove(tempItem);
                 }
@@ -958,7 +1066,99 @@ namespace FreeHttp.FreeHttpControl
             }
 
         }
-        
+
+        #region RuleToolStripMenuItem
+
+        private ListView GetRuleToolStripMenuItemSourceControl(object sender)
+        {
+            object sourceControl = ((ContextMenuStrip)(((ToolStripMenuItem)sender).Owner)).SourceControl;
+            if (sourceControl == lv_requestRuleList)
+            {
+                return lv_requestRuleList;
+            }
+            else if (sourceControl == lv_responseRuleList)
+            {
+                return lv_responseRuleList;
+            }
+            else
+            {
+                throw new Exception("nonsupported SelectedRuleToolStripMenuItem_Click");
+            }
+        }
+        private void removeSelectedRuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListView tempRuleLv = GetRuleToolStripMenuItemSourceControl(sender);
+
+            if (tempRuleLv == lv_requestRuleList)
+            {
+                pb_removeTemperRule_Click(pb_removeRequestRule, null);
+            }
+            else if (tempRuleLv == lv_responseRuleList)
+            {
+                pb_removeTemperRule_Click(pb_removeResponseRule, null);
+            }
+            else
+            {
+                throw new Exception("nonsupported SelectedRuleToolStripMenuItem_Click");
+            }
+        }
+
+        private void removeAllRuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(!(MessageBox.Show("if you want remove all your tamper rule in this list","reconfirm ",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)== DialogResult.OK))
+            {
+                return;
+            }
+            ListView tempRuleLv = GetRuleToolStripMenuItemSourceControl(sender);
+            if (EditListViewItem != null && EditListViewItem.ListView == tempRuleLv)
+            {
+                ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+                PutWarn("you editing rule is removed ,now change to [NewRuleMode]");
+            }
+            tempRuleLv.Items.Clear();
+        }
+
+        private void enableThisRuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListView tempRuleLv = GetRuleToolStripMenuItemSourceControl(sender);
+            if (tempRuleLv.SelectedItems != null)
+            {
+                foreach (ListViewItem tempItem in tempRuleLv.SelectedItems)
+                {
+                    tempItem.Checked = true;
+                }
+            }
+        }
+
+        private void enableAllRuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListView tempRuleLv = GetRuleToolStripMenuItemSourceControl(sender);
+
+            foreach (ListViewItem tempItem in tempRuleLv.Items)
+            {
+                tempItem.Checked = true;
+            }
+        }
+
+        private void unableAllRuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListView tempRuleLv = GetRuleToolStripMenuItemSourceControl(sender);
+
+            foreach (ListViewItem tempItem in tempRuleLv.Items)
+            {
+                tempItem.Checked = false;
+            }
+        }
+
+        private void editThisRuleToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            ListView tempRuleLv = GetRuleToolStripMenuItemSourceControl(sender);
+            lv_RuleList_DoubleClick(tempRuleLv, null);
+        }
+
+        #endregion
+
+
         #endregion
 
         #region Url Filter
@@ -1007,7 +1207,6 @@ namespace FreeHttp.FreeHttpControl
 
 
         #endregion
-
 
         #region ResponseModific
 

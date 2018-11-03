@@ -39,6 +39,28 @@ namespace FreeHttp.FreeHttpControl
             this.openFileDialog_addFIle = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer_main = new System.Windows.Forms.SplitContainer();
             this.splitContainer_httpEditInfo = new System.Windows.Forms.SplitContainer();
+            this.rtb_MesInfo = new System.Windows.Forms.RichTextBox();
+            this.groupBox_urlFilter = new System.Windows.Forms.GroupBox();
+            this.lb_editRuleMode = new System.Windows.Forms.Label();
+            this.pictureBox_editRuleMode = new System.Windows.Forms.PictureBox();
+            this.pb_getSession = new System.Windows.Forms.PictureBox();
+            this.cb_macthMode = new System.Windows.Forms.ComboBox();
+            this.tb_urlFilter = new System.Windows.Forms.TextBox();
+            this.splitContainer_httpControl = new System.Windows.Forms.SplitContainer();
+            this.pb_addRequestRule = new System.Windows.Forms.PictureBox();
+            this.pb_removeRequestRule = new System.Windows.Forms.PictureBox();
+            this.pb_requestRuleSwitch = new System.Windows.Forms.PictureBox();
+            this.contextMenu_ruleList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeSelectedRuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeAllRuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableThisRuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableAllRuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unableAllRuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editThisRuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pb_addResponseRule = new System.Windows.Forms.PictureBox();
+            this.pb_removeResponseRule = new System.Windows.Forms.PictureBox();
+            this.pb_responseRuleSwitch = new System.Windows.Forms.PictureBox();
+            this.toolTip_forMainWindow = new System.Windows.Forms.ToolTip(this.components);
             this.panel_modific = new FreeHttp.FreeHttpControl.MyPanel();
             this.tabControl_Modific = new System.Windows.Forms.TabControl();
             this.tabPage_requestModific = new System.Windows.Forms.TabPage();
@@ -80,24 +102,18 @@ namespace FreeHttp.FreeHttpControl
             this.tabPage_responseReplace = new System.Windows.Forms.TabPage();
             this.rawResponseEdit = new FreeHttp.FreeHttpControl.RawResponseEdit();
             this.panel_modific_Contorl = new FreeHttp.FreeHttpControl.MyPanel();
+            this.pb_ruleCancel = new System.Windows.Forms.PictureBox();
+            this.menuStrip_quickRule = new System.Windows.Forms.MenuStrip();
+            this.quickRuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableCacheToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addCookieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setClientCookieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modificToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showSelectedSessionStreamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pb_ruleComfrim = new System.Windows.Forms.PictureBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.groupBox_urlFilter = new System.Windows.Forms.GroupBox();
-            this.lb_editRuleMode = new System.Windows.Forms.Label();
-            this.pictureBox_editRuleMode = new System.Windows.Forms.PictureBox();
-            this.pb_getSession = new System.Windows.Forms.PictureBox();
-            this.cb_macthMode = new System.Windows.Forms.ComboBox();
-            this.tb_urlFilter = new System.Windows.Forms.TextBox();
-            this.splitContainer_httpControl = new System.Windows.Forms.SplitContainer();
-            this.pb_addRequestRule = new System.Windows.Forms.PictureBox();
-            this.pb_removeRequestRule = new System.Windows.Forms.PictureBox();
-            this.pb_requestRuleSwitch = new System.Windows.Forms.PictureBox();
             this.lv_requestRuleList = new FreeHttp.FreeHttpControl.MyListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_requstRule = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.pb_addResponseRule = new System.Windows.Forms.PictureBox();
-            this.pb_removeResponseRule = new System.Windows.Forms.PictureBox();
-            this.pb_responseRuleSwitch = new System.Windows.Forms.PictureBox();
             this.lv_responseRuleList = new FreeHttp.FreeHttpControl.MyListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_responseRule = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -110,6 +126,20 @@ namespace FreeHttp.FreeHttpControl
             this.splitContainer_httpEditInfo.Panel1.SuspendLayout();
             this.splitContainer_httpEditInfo.Panel2.SuspendLayout();
             this.splitContainer_httpEditInfo.SuspendLayout();
+            this.groupBox_urlFilter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_editRuleMode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_getSession)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpControl)).BeginInit();
+            this.splitContainer_httpControl.Panel1.SuspendLayout();
+            this.splitContainer_httpControl.Panel2.SuspendLayout();
+            this.splitContainer_httpControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_addRequestRule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_removeRequestRule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_requestRuleSwitch)).BeginInit();
+            this.contextMenu_ruleList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_addResponseRule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_removeResponseRule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_responseRuleSwitch)).BeginInit();
             this.panel_modific.SuspendLayout();
             this.tabControl_Modific.SuspendLayout();
             this.tabPage_requestModific.SuspendLayout();
@@ -140,20 +170,9 @@ namespace FreeHttp.FreeHttpControl
             this.panel4.SuspendLayout();
             this.tabPage_responseReplace.SuspendLayout();
             this.panel_modific_Contorl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_ruleCancel)).BeginInit();
+            this.menuStrip_quickRule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ruleComfrim)).BeginInit();
-            this.groupBox_urlFilter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_editRuleMode)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_getSession)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpControl)).BeginInit();
-            this.splitContainer_httpControl.Panel1.SuspendLayout();
-            this.splitContainer_httpControl.Panel2.SuspendLayout();
-            this.splitContainer_httpControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_addRequestRule)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_removeRequestRule)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_requestRuleSwitch)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_addResponseRule)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_removeResponseRule)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_responseRuleSwitch)).BeginInit();
             this.SuspendLayout();
             // 
             // imageList_forTab
@@ -223,10 +242,271 @@ namespace FreeHttp.FreeHttpControl
             // 
             // splitContainer_httpEditInfo.Panel2
             // 
-            this.splitContainer_httpEditInfo.Panel2.Controls.Add(this.richTextBox1);
+            this.splitContainer_httpEditInfo.Panel2.Controls.Add(this.rtb_MesInfo);
             this.splitContainer_httpEditInfo.Size = new System.Drawing.Size(611, 508);
             this.splitContainer_httpEditInfo.SplitterDistance = 358;
             this.splitContainer_httpEditInfo.TabIndex = 7;
+            // 
+            // rtb_MesInfo
+            // 
+            this.rtb_MesInfo.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.rtb_MesInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_MesInfo.HideSelection = false;
+            this.rtb_MesInfo.Location = new System.Drawing.Point(0, 0);
+            this.rtb_MesInfo.Name = "rtb_MesInfo";
+            this.rtb_MesInfo.Size = new System.Drawing.Size(611, 146);
+            this.rtb_MesInfo.TabIndex = 0;
+            this.rtb_MesInfo.Text = "";
+            // 
+            // groupBox_urlFilter
+            // 
+            this.groupBox_urlFilter.Controls.Add(this.lb_editRuleMode);
+            this.groupBox_urlFilter.Controls.Add(this.pictureBox_editRuleMode);
+            this.groupBox_urlFilter.Controls.Add(this.pb_getSession);
+            this.groupBox_urlFilter.Controls.Add(this.cb_macthMode);
+            this.groupBox_urlFilter.Controls.Add(this.tb_urlFilter);
+            this.groupBox_urlFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox_urlFilter.Location = new System.Drawing.Point(0, 0);
+            this.groupBox_urlFilter.Name = "groupBox_urlFilter";
+            this.groupBox_urlFilter.Size = new System.Drawing.Size(611, 44);
+            this.groupBox_urlFilter.TabIndex = 6;
+            this.groupBox_urlFilter.TabStop = false;
+            this.groupBox_urlFilter.Text = "Url Filter";
+            // 
+            // lb_editRuleMode
+            // 
+            this.lb_editRuleMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lb_editRuleMode.AutoSize = true;
+            this.lb_editRuleMode.Location = new System.Drawing.Point(515, 23);
+            this.lb_editRuleMode.Name = "lb_editRuleMode";
+            this.lb_editRuleMode.Size = new System.Drawing.Size(53, 12);
+            this.lb_editRuleMode.TabIndex = 40;
+            this.lb_editRuleMode.Text = "New Rule";
+            // 
+            // pictureBox_editRuleMode
+            // 
+            this.pictureBox_editRuleMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox_editRuleMode.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_editRuleMode.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox_editRuleMode.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_editRuleMode.Image")));
+            this.pictureBox_editRuleMode.Location = new System.Drawing.Point(489, 17);
+            this.pictureBox_editRuleMode.Name = "pictureBox_editRuleMode";
+            this.pictureBox_editRuleMode.Size = new System.Drawing.Size(23, 22);
+            this.pictureBox_editRuleMode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_editRuleMode.TabIndex = 39;
+            this.pictureBox_editRuleMode.TabStop = false;
+            this.pictureBox_editRuleMode.Click += new System.EventHandler(this.pictureBox_editRuleMode_Click);
+            this.pictureBox_editRuleMode.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pictureBox_editRuleMode.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            // 
+            // pb_getSession
+            // 
+            this.pb_getSession.BackColor = System.Drawing.Color.Transparent;
+            this.pb_getSession.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_getSession.Image = ((System.Drawing.Image)(resources.GetObject("pb_getSession.Image")));
+            this.pb_getSession.Location = new System.Drawing.Point(5, 17);
+            this.pb_getSession.Name = "pb_getSession";
+            this.pb_getSession.Size = new System.Drawing.Size(23, 22);
+            this.pb_getSession.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_getSession.TabIndex = 38;
+            this.pb_getSession.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_getSession, "get http sesion in left session list");
+            this.pb_getSession.Click += new System.EventHandler(this.pb_getSession_Click);
+            this.pb_getSession.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pb_getSession.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            // 
+            // cb_macthMode
+            // 
+            this.cb_macthMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_macthMode.FormattingEnabled = true;
+            this.cb_macthMode.Items.AddRange(new object[] {
+            "Contain",
+            "StartWith",
+            "Is",
+            "Regex",
+            "AllPass"});
+            this.cb_macthMode.Location = new System.Drawing.Point(31, 19);
+            this.cb_macthMode.Name = "cb_macthMode";
+            this.cb_macthMode.Size = new System.Drawing.Size(89, 20);
+            this.cb_macthMode.TabIndex = 2;
+            this.cb_macthMode.SelectedIndexChanged += new System.EventHandler(this.cb_macthMode_SelectedIndexChanged);
+            // 
+            // tb_urlFilter
+            // 
+            this.tb_urlFilter.Location = new System.Drawing.Point(126, 18);
+            this.tb_urlFilter.Name = "tb_urlFilter";
+            this.tb_urlFilter.Size = new System.Drawing.Size(361, 21);
+            this.tb_urlFilter.TabIndex = 0;
+            // 
+            // splitContainer_httpControl
+            // 
+            this.splitContainer_httpControl.BackColor = System.Drawing.SystemColors.Window;
+            this.splitContainer_httpControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer_httpControl.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer_httpControl.Name = "splitContainer_httpControl";
+            this.splitContainer_httpControl.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer_httpControl.Panel1
+            // 
+            this.splitContainer_httpControl.Panel1.Controls.Add(this.pb_addRequestRule);
+            this.splitContainer_httpControl.Panel1.Controls.Add(this.pb_removeRequestRule);
+            this.splitContainer_httpControl.Panel1.Controls.Add(this.pb_requestRuleSwitch);
+            this.splitContainer_httpControl.Panel1.Controls.Add(this.lv_requestRuleList);
+            // 
+            // splitContainer_httpControl.Panel2
+            // 
+            this.splitContainer_httpControl.Panel2.Controls.Add(this.pb_addResponseRule);
+            this.splitContainer_httpControl.Panel2.Controls.Add(this.pb_removeResponseRule);
+            this.splitContainer_httpControl.Panel2.Controls.Add(this.pb_responseRuleSwitch);
+            this.splitContainer_httpControl.Panel2.Controls.Add(this.lv_responseRuleList);
+            this.splitContainer_httpControl.Size = new System.Drawing.Size(351, 552);
+            this.splitContainer_httpControl.SplitterDistance = 203;
+            this.splitContainer_httpControl.TabIndex = 0;
+            this.splitContainer_httpControl.Resize += new System.EventHandler(this.splitContainer_httpControl_Resize);
+            // 
+            // pb_addRequestRule
+            // 
+            this.pb_addRequestRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_addRequestRule.BackColor = System.Drawing.Color.Transparent;
+            this.pb_addRequestRule.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_addRequestRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_addRequestRule.Image")));
+            this.pb_addRequestRule.Location = new System.Drawing.Point(276, 1);
+            this.pb_addRequestRule.Name = "pb_addRequestRule";
+            this.pb_addRequestRule.Size = new System.Drawing.Size(20, 20);
+            this.pb_addRequestRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_addRequestRule.TabIndex = 53;
+            this.pb_addRequestRule.TabStop = false;
+            this.pb_addRequestRule.Click += new System.EventHandler(this.pb_addTemperRule_Click);
+            // 
+            // pb_removeRequestRule
+            // 
+            this.pb_removeRequestRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_removeRequestRule.BackColor = System.Drawing.Color.Transparent;
+            this.pb_removeRequestRule.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_removeRequestRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_removeRequestRule.Image")));
+            this.pb_removeRequestRule.Location = new System.Drawing.Point(296, 1);
+            this.pb_removeRequestRule.Name = "pb_removeRequestRule";
+            this.pb_removeRequestRule.Size = new System.Drawing.Size(20, 20);
+            this.pb_removeRequestRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_removeRequestRule.TabIndex = 52;
+            this.pb_removeRequestRule.TabStop = false;
+            this.pb_removeRequestRule.Click += new System.EventHandler(this.pb_removeTemperRule_Click);
+            // 
+            // pb_requestRuleSwitch
+            // 
+            this.pb_requestRuleSwitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_requestRuleSwitch.BackColor = System.Drawing.Color.Transparent;
+            this.pb_requestRuleSwitch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_requestRuleSwitch.Image = ((System.Drawing.Image)(resources.GetObject("pb_requestRuleSwitch.Image")));
+            this.pb_requestRuleSwitch.Location = new System.Drawing.Point(314, 1);
+            this.pb_requestRuleSwitch.Name = "pb_requestRuleSwitch";
+            this.pb_requestRuleSwitch.Size = new System.Drawing.Size(36, 20);
+            this.pb_requestRuleSwitch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_requestRuleSwitch.TabIndex = 38;
+            this.pb_requestRuleSwitch.TabStop = false;
+            this.pb_requestRuleSwitch.Click += new System.EventHandler(this.pb_requestRuleSwitch_Click);
+            // 
+            // contextMenu_ruleList
+            // 
+            this.contextMenu_ruleList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeSelectedRuleToolStripMenuItem,
+            this.removeAllRuleToolStripMenuItem,
+            this.enableThisRuleToolStripMenuItem,
+            this.enableAllRuleToolStripMenuItem,
+            this.unableAllRuleToolStripMenuItem,
+            this.editThisRuleToolStripMenuItem});
+            this.contextMenu_ruleList.Name = "contextMenu_ruleList";
+            this.contextMenu_ruleList.Size = new System.Drawing.Size(199, 136);
+            // 
+            // removeSelectedRuleToolStripMenuItem
+            // 
+            this.removeSelectedRuleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeSelectedRuleToolStripMenuItem.Image")));
+            this.removeSelectedRuleToolStripMenuItem.Name = "removeSelectedRuleToolStripMenuItem";
+            this.removeSelectedRuleToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.removeSelectedRuleToolStripMenuItem.Text = "remove selected rule";
+            this.removeSelectedRuleToolStripMenuItem.Click += new System.EventHandler(this.removeSelectedRuleToolStripMenuItem_Click);
+            // 
+            // removeAllRuleToolStripMenuItem
+            // 
+            this.removeAllRuleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeAllRuleToolStripMenuItem.Image")));
+            this.removeAllRuleToolStripMenuItem.Name = "removeAllRuleToolStripMenuItem";
+            this.removeAllRuleToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.removeAllRuleToolStripMenuItem.Text = "remove all rule";
+            this.removeAllRuleToolStripMenuItem.Click += new System.EventHandler(this.removeAllRuleToolStripMenuItem_Click);
+            // 
+            // enableThisRuleToolStripMenuItem
+            // 
+            this.enableThisRuleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("enableThisRuleToolStripMenuItem.Image")));
+            this.enableThisRuleToolStripMenuItem.Name = "enableThisRuleToolStripMenuItem";
+            this.enableThisRuleToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.enableThisRuleToolStripMenuItem.Text = "enable this rule";
+            this.enableThisRuleToolStripMenuItem.Click += new System.EventHandler(this.enableThisRuleToolStripMenuItem_Click);
+            // 
+            // enableAllRuleToolStripMenuItem
+            // 
+            this.enableAllRuleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("enableAllRuleToolStripMenuItem.Image")));
+            this.enableAllRuleToolStripMenuItem.Name = "enableAllRuleToolStripMenuItem";
+            this.enableAllRuleToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.enableAllRuleToolStripMenuItem.Text = "enable all rule";
+            this.enableAllRuleToolStripMenuItem.Click += new System.EventHandler(this.enableAllRuleToolStripMenuItem_Click);
+            // 
+            // unableAllRuleToolStripMenuItem
+            // 
+            this.unableAllRuleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("unableAllRuleToolStripMenuItem.Image")));
+            this.unableAllRuleToolStripMenuItem.Name = "unableAllRuleToolStripMenuItem";
+            this.unableAllRuleToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.unableAllRuleToolStripMenuItem.Text = "unable all rule";
+            this.unableAllRuleToolStripMenuItem.Click += new System.EventHandler(this.unableAllRuleToolStripMenuItem_Click);
+            // 
+            // editThisRuleToolStripMenuItem
+            // 
+            this.editThisRuleToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("editThisRuleToolStripMenuItem.Image")));
+            this.editThisRuleToolStripMenuItem.Name = "editThisRuleToolStripMenuItem";
+            this.editThisRuleToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.editThisRuleToolStripMenuItem.Text = "edit this rule";
+            this.editThisRuleToolStripMenuItem.Click += new System.EventHandler(this.editThisRuleToolStripMenuItem_Click_1);
+            // 
+            // pb_addResponseRule
+            // 
+            this.pb_addResponseRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_addResponseRule.BackColor = System.Drawing.Color.Transparent;
+            this.pb_addResponseRule.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_addResponseRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_addResponseRule.Image")));
+            this.pb_addResponseRule.Location = new System.Drawing.Point(274, 1);
+            this.pb_addResponseRule.Name = "pb_addResponseRule";
+            this.pb_addResponseRule.Size = new System.Drawing.Size(20, 20);
+            this.pb_addResponseRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_addResponseRule.TabIndex = 55;
+            this.pb_addResponseRule.TabStop = false;
+            this.pb_addResponseRule.Click += new System.EventHandler(this.pb_addTemperRule_Click);
+            // 
+            // pb_removeResponseRule
+            // 
+            this.pb_removeResponseRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_removeResponseRule.BackColor = System.Drawing.Color.Transparent;
+            this.pb_removeResponseRule.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_removeResponseRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_removeResponseRule.Image")));
+            this.pb_removeResponseRule.Location = new System.Drawing.Point(294, 1);
+            this.pb_removeResponseRule.Name = "pb_removeResponseRule";
+            this.pb_removeResponseRule.Size = new System.Drawing.Size(20, 20);
+            this.pb_removeResponseRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_removeResponseRule.TabIndex = 54;
+            this.pb_removeResponseRule.TabStop = false;
+            this.pb_removeResponseRule.Click += new System.EventHandler(this.pb_removeTemperRule_Click);
+            // 
+            // pb_responseRuleSwitch
+            // 
+            this.pb_responseRuleSwitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_responseRuleSwitch.BackColor = System.Drawing.Color.Transparent;
+            this.pb_responseRuleSwitch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_responseRuleSwitch.Image = ((System.Drawing.Image)(resources.GetObject("pb_responseRuleSwitch.Image")));
+            this.pb_responseRuleSwitch.Location = new System.Drawing.Point(314, 1);
+            this.pb_responseRuleSwitch.Name = "pb_responseRuleSwitch";
+            this.pb_responseRuleSwitch.Size = new System.Drawing.Size(36, 20);
+            this.pb_responseRuleSwitch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_responseRuleSwitch.TabIndex = 39;
+            this.pb_responseRuleSwitch.TabStop = false;
+            this.pb_responseRuleSwitch.Click += new System.EventHandler(this.pb_responseRuleSwitch_Click);
             // 
             // panel_modific
             // 
@@ -683,12 +963,91 @@ namespace FreeHttp.FreeHttpControl
             // 
             // panel_modific_Contorl
             // 
+            this.panel_modific_Contorl.Controls.Add(this.pb_ruleCancel);
+            this.panel_modific_Contorl.Controls.Add(this.menuStrip_quickRule);
             this.panel_modific_Contorl.Controls.Add(this.pb_ruleComfrim);
             this.panel_modific_Contorl.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel_modific_Contorl.Location = new System.Drawing.Point(0, 331);
             this.panel_modific_Contorl.Name = "panel_modific_Contorl";
             this.panel_modific_Contorl.Size = new System.Drawing.Size(611, 27);
             this.panel_modific_Contorl.TabIndex = 0;
+            // 
+            // pb_ruleCancel
+            // 
+            this.pb_ruleCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_ruleCancel.BackColor = System.Drawing.Color.Transparent;
+            this.pb_ruleCancel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_ruleCancel.Image = ((System.Drawing.Image)(resources.GetObject("pb_ruleCancel.Image")));
+            this.pb_ruleCancel.Location = new System.Drawing.Point(557, 2);
+            this.pb_ruleCancel.Name = "pb_ruleCancel";
+            this.pb_ruleCancel.Size = new System.Drawing.Size(23, 22);
+            this.pb_ruleCancel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_ruleCancel.TabIndex = 38;
+            this.pb_ruleCancel.TabStop = false;
+            this.pb_ruleCancel.Click += new System.EventHandler(this.pb_ruleCancel_Click);
+            this.pb_ruleCancel.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pb_ruleCancel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            // 
+            // menuStrip_quickRule
+            // 
+            this.menuStrip_quickRule.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip_quickRule.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quickRuleToolStripMenuItem,
+            this.modificToolToolStripMenuItem});
+            this.menuStrip_quickRule.Location = new System.Drawing.Point(5, 0);
+            this.menuStrip_quickRule.Name = "menuStrip_quickRule";
+            this.menuStrip_quickRule.Size = new System.Drawing.Size(182, 25);
+            this.menuStrip_quickRule.TabIndex = 2;
+            this.menuStrip_quickRule.Text = "menuStrip1";
+            // 
+            // quickRuleToolStripMenuItem
+            // 
+            this.quickRuleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.disableCacheToolStripMenuItem,
+            this.addCookieToolStripMenuItem,
+            this.setClientCookieToolStripMenuItem});
+            this.quickRuleToolStripMenuItem.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.quickRuleToolStripMenuItem.Name = "quickRuleToolStripMenuItem";
+            this.quickRuleToolStripMenuItem.Padding = new System.Windows.Forms.Padding(2, 0, 4, 0);
+            this.quickRuleToolStripMenuItem.Size = new System.Drawing.Size(80, 21);
+            this.quickRuleToolStripMenuItem.Text = "Quick Rule";
+            // 
+            // disableCacheToolStripMenuItem
+            // 
+            this.disableCacheToolStripMenuItem.Name = "disableCacheToolStripMenuItem";
+            this.disableCacheToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.disableCacheToolStripMenuItem.Text = "disable cache";
+            this.disableCacheToolStripMenuItem.Click += new System.EventHandler(this.disableCacheToolStripMenuItem_Click);
+            // 
+            // addCookieToolStripMenuItem
+            // 
+            this.addCookieToolStripMenuItem.Name = "addCookieToolStripMenuItem";
+            this.addCookieToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.addCookieToolStripMenuItem.Text = "add cookie";
+            this.addCookieToolStripMenuItem.Click += new System.EventHandler(this.addCookieToolStripMenuItem_Click);
+            // 
+            // setClientCookieToolStripMenuItem
+            // 
+            this.setClientCookieToolStripMenuItem.Name = "setClientCookieToolStripMenuItem";
+            this.setClientCookieToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.setClientCookieToolStripMenuItem.Text = "set client cookie";
+            this.setClientCookieToolStripMenuItem.Click += new System.EventHandler(this.setClientCookieToolStripMenuItem_Click);
+            // 
+            // modificToolToolStripMenuItem
+            // 
+            this.modificToolToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showSelectedSessionStreamToolStripMenuItem});
+            this.modificToolToolStripMenuItem.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.modificToolToolStripMenuItem.Name = "modificToolToolStripMenuItem";
+            this.modificToolToolStripMenuItem.Size = new System.Drawing.Size(94, 21);
+            this.modificToolToolStripMenuItem.Text = "Modific Tool";
+            // 
+            // showSelectedSessionStreamToolStripMenuItem
+            // 
+            this.showSelectedSessionStreamToolStripMenuItem.Name = "showSelectedSessionStreamToolStripMenuItem";
+            this.showSelectedSessionStreamToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.showSelectedSessionStreamToolStripMenuItem.Text = "show selected session stream";
+            this.showSelectedSessionStreamToolStripMenuItem.Click += new System.EventHandler(this.showSelectedSessionStreamToolStripMenuItem_Click);
             // 
             // pb_ruleComfrim
             // 
@@ -702,159 +1061,10 @@ namespace FreeHttp.FreeHttpControl
             this.pb_ruleComfrim.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_ruleComfrim.TabIndex = 37;
             this.pb_ruleComfrim.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_ruleComfrim, "affirm your modific rule");
             this.pb_ruleComfrim.Click += new System.EventHandler(this.pb_ruleComfrim_Click);
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(611, 146);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
-            // 
-            // groupBox_urlFilter
-            // 
-            this.groupBox_urlFilter.Controls.Add(this.lb_editRuleMode);
-            this.groupBox_urlFilter.Controls.Add(this.pictureBox_editRuleMode);
-            this.groupBox_urlFilter.Controls.Add(this.pb_getSession);
-            this.groupBox_urlFilter.Controls.Add(this.cb_macthMode);
-            this.groupBox_urlFilter.Controls.Add(this.tb_urlFilter);
-            this.groupBox_urlFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox_urlFilter.Location = new System.Drawing.Point(0, 0);
-            this.groupBox_urlFilter.Name = "groupBox_urlFilter";
-            this.groupBox_urlFilter.Size = new System.Drawing.Size(611, 44);
-            this.groupBox_urlFilter.TabIndex = 6;
-            this.groupBox_urlFilter.TabStop = false;
-            this.groupBox_urlFilter.Text = "Url Filter";
-            // 
-            // lb_editRuleMode
-            // 
-            this.lb_editRuleMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lb_editRuleMode.AutoSize = true;
-            this.lb_editRuleMode.Location = new System.Drawing.Point(515, 23);
-            this.lb_editRuleMode.Name = "lb_editRuleMode";
-            this.lb_editRuleMode.Size = new System.Drawing.Size(53, 12);
-            this.lb_editRuleMode.TabIndex = 40;
-            this.lb_editRuleMode.Text = "New Rule";
-            // 
-            // pictureBox_editRuleMode
-            // 
-            this.pictureBox_editRuleMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox_editRuleMode.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_editRuleMode.Cursor = System.Windows.Forms.Cursors.Default;
-            this.pictureBox_editRuleMode.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_editRuleMode.Image")));
-            this.pictureBox_editRuleMode.Location = new System.Drawing.Point(489, 17);
-            this.pictureBox_editRuleMode.Name = "pictureBox_editRuleMode";
-            this.pictureBox_editRuleMode.Size = new System.Drawing.Size(23, 22);
-            this.pictureBox_editRuleMode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_editRuleMode.TabIndex = 39;
-            this.pictureBox_editRuleMode.TabStop = false;
-            // 
-            // pb_getSession
-            // 
-            this.pb_getSession.BackColor = System.Drawing.Color.Transparent;
-            this.pb_getSession.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_getSession.Image = ((System.Drawing.Image)(resources.GetObject("pb_getSession.Image")));
-            this.pb_getSession.Location = new System.Drawing.Point(5, 17);
-            this.pb_getSession.Name = "pb_getSession";
-            this.pb_getSession.Size = new System.Drawing.Size(23, 22);
-            this.pb_getSession.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_getSession.TabIndex = 38;
-            this.pb_getSession.TabStop = false;
-            this.pb_getSession.Click += new System.EventHandler(this.pb_getSession_Click);
-            // 
-            // cb_macthMode
-            // 
-            this.cb_macthMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_macthMode.FormattingEnabled = true;
-            this.cb_macthMode.Items.AddRange(new object[] {
-            "Contain",
-            "StartWith",
-            "Is",
-            "Regex",
-            "AllPass"});
-            this.cb_macthMode.Location = new System.Drawing.Point(31, 19);
-            this.cb_macthMode.Name = "cb_macthMode";
-            this.cb_macthMode.Size = new System.Drawing.Size(89, 20);
-            this.cb_macthMode.TabIndex = 2;
-            this.cb_macthMode.SelectedIndexChanged += new System.EventHandler(this.cb_macthMode_SelectedIndexChanged);
-            // 
-            // tb_urlFilter
-            // 
-            this.tb_urlFilter.Location = new System.Drawing.Point(126, 18);
-            this.tb_urlFilter.Name = "tb_urlFilter";
-            this.tb_urlFilter.Size = new System.Drawing.Size(361, 21);
-            this.tb_urlFilter.TabIndex = 0;
-            // 
-            // splitContainer_httpControl
-            // 
-            this.splitContainer_httpControl.BackColor = System.Drawing.SystemColors.Window;
-            this.splitContainer_httpControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer_httpControl.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer_httpControl.Name = "splitContainer_httpControl";
-            this.splitContainer_httpControl.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer_httpControl.Panel1
-            // 
-            this.splitContainer_httpControl.Panel1.Controls.Add(this.pb_addRequestRule);
-            this.splitContainer_httpControl.Panel1.Controls.Add(this.pb_removeRequestRule);
-            this.splitContainer_httpControl.Panel1.Controls.Add(this.pb_requestRuleSwitch);
-            this.splitContainer_httpControl.Panel1.Controls.Add(this.lv_requestRuleList);
-            // 
-            // splitContainer_httpControl.Panel2
-            // 
-            this.splitContainer_httpControl.Panel2.Controls.Add(this.pb_addResponseRule);
-            this.splitContainer_httpControl.Panel2.Controls.Add(this.pb_removeResponseRule);
-            this.splitContainer_httpControl.Panel2.Controls.Add(this.pb_responseRuleSwitch);
-            this.splitContainer_httpControl.Panel2.Controls.Add(this.lv_responseRuleList);
-            this.splitContainer_httpControl.Size = new System.Drawing.Size(351, 552);
-            this.splitContainer_httpControl.SplitterDistance = 203;
-            this.splitContainer_httpControl.TabIndex = 0;
-            this.splitContainer_httpControl.Resize += new System.EventHandler(this.splitContainer_httpControl_Resize);
-            // 
-            // pb_addRequestRule
-            // 
-            this.pb_addRequestRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_addRequestRule.BackColor = System.Drawing.Color.Transparent;
-            this.pb_addRequestRule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_addRequestRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_addRequestRule.Image")));
-            this.pb_addRequestRule.Location = new System.Drawing.Point(276, 1);
-            this.pb_addRequestRule.Name = "pb_addRequestRule";
-            this.pb_addRequestRule.Size = new System.Drawing.Size(20, 20);
-            this.pb_addRequestRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_addRequestRule.TabIndex = 53;
-            this.pb_addRequestRule.TabStop = false;
-            this.pb_addRequestRule.Click += new System.EventHandler(this.pb_addTemperRule_Click);
-            // 
-            // pb_removeRequestRule
-            // 
-            this.pb_removeRequestRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_removeRequestRule.BackColor = System.Drawing.Color.Transparent;
-            this.pb_removeRequestRule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_removeRequestRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_removeRequestRule.Image")));
-            this.pb_removeRequestRule.Location = new System.Drawing.Point(296, 1);
-            this.pb_removeRequestRule.Name = "pb_removeRequestRule";
-            this.pb_removeRequestRule.Size = new System.Drawing.Size(20, 20);
-            this.pb_removeRequestRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_removeRequestRule.TabIndex = 52;
-            this.pb_removeRequestRule.TabStop = false;
-            this.pb_removeRequestRule.Click += new System.EventHandler(this.pb_removeTemperRule_Click);
-            // 
-            // pb_requestRuleSwitch
-            // 
-            this.pb_requestRuleSwitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_requestRuleSwitch.BackColor = System.Drawing.Color.Transparent;
-            this.pb_requestRuleSwitch.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_requestRuleSwitch.Image = ((System.Drawing.Image)(resources.GetObject("pb_requestRuleSwitch.Image")));
-            this.pb_requestRuleSwitch.Location = new System.Drawing.Point(314, 1);
-            this.pb_requestRuleSwitch.Name = "pb_requestRuleSwitch";
-            this.pb_requestRuleSwitch.Size = new System.Drawing.Size(36, 20);
-            this.pb_requestRuleSwitch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_requestRuleSwitch.TabIndex = 38;
-            this.pb_requestRuleSwitch.TabStop = false;
-            this.pb_requestRuleSwitch.Click += new System.EventHandler(this.pb_requestRuleSwitch_Click);
+            this.pb_ruleComfrim.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pb_ruleComfrim.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             // 
             // lv_requestRuleList
             // 
@@ -862,6 +1072,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_requestRuleList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader_requstRule});
+            this.lv_requestRuleList.ContextMenuStrip = this.contextMenu_ruleList;
             this.lv_requestRuleList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_requestRuleList.FullRowSelect = true;
             this.lv_requestRuleList.Location = new System.Drawing.Point(0, 0);
@@ -884,54 +1095,13 @@ namespace FreeHttp.FreeHttpControl
             this.columnHeader_requstRule.Text = "Request Rule";
             this.columnHeader_requstRule.Width = 280;
             // 
-            // pb_addResponseRule
-            // 
-            this.pb_addResponseRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_addResponseRule.BackColor = System.Drawing.Color.Transparent;
-            this.pb_addResponseRule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_addResponseRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_addResponseRule.Image")));
-            this.pb_addResponseRule.Location = new System.Drawing.Point(274, 1);
-            this.pb_addResponseRule.Name = "pb_addResponseRule";
-            this.pb_addResponseRule.Size = new System.Drawing.Size(20, 20);
-            this.pb_addResponseRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_addResponseRule.TabIndex = 55;
-            this.pb_addResponseRule.TabStop = false;
-            this.pb_addResponseRule.Click += new System.EventHandler(this.pb_addTemperRule_Click);
-            // 
-            // pb_removeResponseRule
-            // 
-            this.pb_removeResponseRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_removeResponseRule.BackColor = System.Drawing.Color.Transparent;
-            this.pb_removeResponseRule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_removeResponseRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_removeResponseRule.Image")));
-            this.pb_removeResponseRule.Location = new System.Drawing.Point(294, 1);
-            this.pb_removeResponseRule.Name = "pb_removeResponseRule";
-            this.pb_removeResponseRule.Size = new System.Drawing.Size(20, 20);
-            this.pb_removeResponseRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_removeResponseRule.TabIndex = 54;
-            this.pb_removeResponseRule.TabStop = false;
-            this.pb_removeResponseRule.Click += new System.EventHandler(this.pb_removeTemperRule_Click);
-            // 
-            // pb_responseRuleSwitch
-            // 
-            this.pb_responseRuleSwitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_responseRuleSwitch.BackColor = System.Drawing.Color.Transparent;
-            this.pb_responseRuleSwitch.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_responseRuleSwitch.Image = ((System.Drawing.Image)(resources.GetObject("pb_responseRuleSwitch.Image")));
-            this.pb_responseRuleSwitch.Location = new System.Drawing.Point(314, 1);
-            this.pb_responseRuleSwitch.Name = "pb_responseRuleSwitch";
-            this.pb_responseRuleSwitch.Size = new System.Drawing.Size(36, 20);
-            this.pb_responseRuleSwitch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_responseRuleSwitch.TabIndex = 39;
-            this.pb_responseRuleSwitch.TabStop = false;
-            this.pb_responseRuleSwitch.Click += new System.EventHandler(this.pb_responseRuleSwitch_Click);
-            // 
             // lv_responseRuleList
             // 
             this.lv_responseRuleList.CheckBoxes = true;
             this.lv_responseRuleList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
             this.columnHeader_responseRule});
+            this.lv_responseRuleList.ContextMenuStrip = this.contextMenu_ruleList;
             this.lv_responseRuleList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_responseRuleList.FullRowSelect = true;
             this.lv_responseRuleList.Location = new System.Drawing.Point(0, 0);
@@ -971,6 +1141,21 @@ namespace FreeHttp.FreeHttpControl
             this.splitContainer_httpEditInfo.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpEditInfo)).EndInit();
             this.splitContainer_httpEditInfo.ResumeLayout(false);
+            this.groupBox_urlFilter.ResumeLayout(false);
+            this.groupBox_urlFilter.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_editRuleMode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_getSession)).EndInit();
+            this.splitContainer_httpControl.Panel1.ResumeLayout(false);
+            this.splitContainer_httpControl.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpControl)).EndInit();
+            this.splitContainer_httpControl.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_addRequestRule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_removeRequestRule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_requestRuleSwitch)).EndInit();
+            this.contextMenu_ruleList.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_addResponseRule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_removeResponseRule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_responseRuleSwitch)).EndInit();
             this.panel_modific.ResumeLayout(false);
             this.tabControl_Modific.ResumeLayout(false);
             this.tabPage_requestModific.ResumeLayout(false);
@@ -1005,21 +1190,11 @@ namespace FreeHttp.FreeHttpControl
             this.panel4.PerformLayout();
             this.tabPage_responseReplace.ResumeLayout(false);
             this.panel_modific_Contorl.ResumeLayout(false);
+            this.panel_modific_Contorl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_ruleCancel)).EndInit();
+            this.menuStrip_quickRule.ResumeLayout(false);
+            this.menuStrip_quickRule.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ruleComfrim)).EndInit();
-            this.groupBox_urlFilter.ResumeLayout(false);
-            this.groupBox_urlFilter.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_editRuleMode)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_getSession)).EndInit();
-            this.splitContainer_httpControl.Panel1.ResumeLayout(false);
-            this.splitContainer_httpControl.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_httpControl)).EndInit();
-            this.splitContainer_httpControl.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_addRequestRule)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_removeRequestRule)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_requestRuleSwitch)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_addResponseRule)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_removeResponseRule)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_responseRuleSwitch)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1094,7 +1269,23 @@ namespace FreeHttp.FreeHttpControl
         private WatermakTextBox tb_requestReplace_uri;
         private System.Windows.Forms.Label lb_editRuleMode;
         private System.Windows.Forms.SplitContainer splitContainer_httpEditInfo;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox rtb_MesInfo;
+        private System.Windows.Forms.ContextMenuStrip contextMenu_ruleList;
+        private System.Windows.Forms.ToolStripMenuItem removeSelectedRuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeAllRuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableAllRuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem unableAllRuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableThisRuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editThisRuleToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pb_ruleCancel;
+        private System.Windows.Forms.MenuStrip menuStrip_quickRule;
+        private System.Windows.Forms.ToolStripMenuItem quickRuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableCacheToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addCookieToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setClientCookieToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modificToolToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showSelectedSessionStreamToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip_forMainWindow;
 
     }
 }

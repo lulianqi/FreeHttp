@@ -54,6 +54,12 @@
     <Compile Include="FreeHttpControl\AddHead.Designer.cs">
       <DependentUpon>AddHead.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\EditCookieForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\EditCookieForm.Designer.cs">
+      <DependentUpon>EditCookieForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\EditListView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     <EmbeddedResource Include="FreeHttpControl\AddHead.resx">
       <DependentUpon>AddHead.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\EditCookieForm.resx">
+      <DependentUpon>EditCookieForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\EditListView.resx">
       <DependentUpon>EditListView.cs</DependentUpon>
     </EmbeddedResource>
@@ -162,7 +171,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

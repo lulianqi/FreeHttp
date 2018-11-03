@@ -21,6 +21,13 @@ namespace FreeHttp.FreeHttpControl
             isAdd = yourIsAdd;
         }
 
+        public AddHead(ListView yourEditListView, string yourHeadKey)
+            : this(yourEditListView,true)
+        {
+            tb_key.Text = yourHeadKey;
+            tb_key.Enabled = false;
+        }
+
         private void AddResponseHead_Load(object sender, EventArgs e)
         {
             if(!isAdd)

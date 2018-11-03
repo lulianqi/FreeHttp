@@ -24,10 +24,27 @@ namespace FreeHttp
 
         private void ShowMes(string mes)
         {
-            string mesStr = string.Format("【{0}】:{1}", DateTime.Now.ToString(), mes);
-            FiddlerObject.log(mesStr);
+            if(!isOnLoad)
+            {
+                return;
+            }
+            myFreeHttpWindow.PutInfo(mes);
         }
 
+        private void ShowError(string mes)
+        {
+            if (!isOnLoad)
+            {
+                return;
+            }
+            FiddlerObject.log(mes);
+            myFreeHttpWindow.PutError(mes);
+        }
+
+        private void AddFiddlerObjectLog(string mes)
+        {
+            FiddlerObject.log(mes);
+        }
         private void SetStatusText(string mes)
         {
             FiddlerObject.StatusText = mes;
@@ -74,7 +91,7 @@ namespace FreeHttp
                         }
                         else
                         {
-                            ShowMes(string.Format("error to deal add head string with [{0}]", tempAddHead));
+                            ShowError(string.Format("error to deal add head string with [{0}]", tempAddHead));
                         }
                     }
                 }
@@ -88,7 +105,7 @@ namespace FreeHttp
                     }
                     catch (Exception ex)
                     {
-                        ShowMes(string.Format("error in GetRequestBodyAsString [{0}]", ex.Message));
+                        ShowError(string.Format("error in GetRequestBodyAsString [{0}]", ex.Message));
                         oSession.utilDecodeRequest();
                         sourceRequestBody = oSession.GetRequestBodyEncoding().GetString(oSession.requestBodyBytes);
                     }
@@ -122,9 +139,9 @@ namespace FreeHttp
         {
             if (nowFiddlerResponseChange.IsRawReplace)
             {
+                //if IsIsDirectRespons do nothing
                 if (!nowFiddlerResponseChange.IsIsDirectRespons)
                 {
-
                     ReplaceSessionResponse(oSession, nowFiddlerResponseChange);
                 }
             }
@@ -147,7 +164,7 @@ namespace FreeHttp
                         }
                         else
                         {
-                            ShowMes(string.Format("error to deal add head string with [{0}]", tempAddHead));
+                            ShowError(string.Format("error to deal add head string with [{0}]", tempAddHead));
                         }
                     }
                 }
@@ -161,7 +178,7 @@ namespace FreeHttp
                     }
                     catch (Exception ex)
                     {
-                        ShowMes(string.Format("error in GetResponseBodyAsString [{0}]", ex.Message));
+                        ShowError(string.Format("error in GetResponseBodyAsString [{0}]", ex.Message));
                         oSession.utilDecodeResponse();
                         sourceResponseBody = oSession.GetResponseBodyEncoding().GetString(oSession.ResponseBody);
                     }
@@ -184,8 +201,8 @@ namespace FreeHttp
             {
                 if (!oSession.LoadResponseFromStream(ms, null))
                 {
-                    ShowMes("error to oSession.LoadResponseFromStream");
-                    ShowMes("try to modific the response");
+                    ShowError("error to oSession.LoadResponseFromStream");
+                    ShowError("try to modific the response");
                     //modific the response
                     oSession.oResponse.headers = new HTTPResponseHeaders();
                     oSession.oResponse.headers.HTTPResponseCode = nowFiddlerResponseChange.HttpRawResponse.ResponseCode;
@@ -219,10 +236,41 @@ namespace FreeHttp
                 }
                 myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList());
                 myFreeHttpWindow.OnGetSession += myFreeHttpWindow_OnGetSession;
+                myFreeHttpWindow.OnGetSessionRawData += myFreeHttpWindow_OnGetSessionRawData;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
                 tabPage.Controls.Add(myFreeHttpWindow);
                 FiddlerApplication.UI.tabsViews.TabPages.Add(tabPage);
                 isOnLoad = true;
+            }
+        }
+
+        void myFreeHttpWindow_OnGetSessionRawData(object sender, FreeHttpWindow.GetSessionRawDataEventArgs e)
+        {
+            Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
+            if (tempSession != null)
+            {
+                StringBuilder sbRawData = new StringBuilder("Get Raw Data\r\n");
+                sbRawData.AppendLine(tempSession.RequestHeaders.ToString());
+                sbRawData.Append("\r\n");
+                if (tempSession.requestBodyBytes != null && tempSession.requestBodyBytes.Length>0)
+                {
+                    sbRawData.AppendLine(tempSession.GetRequestBodyAsString());
+                    sbRawData.Append("\r\n");
+                }
+                if (e.IsShowResponse && tempSession.bHasResponse)
+                {
+                    sbRawData.AppendLine(tempSession.ResponseHeaders.ToString());
+                    sbRawData.Append("\r\n");
+                    if (tempSession.responseBodyBytes != null && tempSession.responseBodyBytes.Length > 0)
+                    {
+                        sbRawData.AppendLine(tempSession.GetResponseBodyAsString());
+                    }
+                }
+                ShowMes(sbRawData.ToString());
+            }
+            else
+            {
+                Fiddler.FiddlerObject.UI.ShowAlert(new frmAlert("STOP", "please select a session", "OK"));
             }
         }
 
@@ -231,7 +279,8 @@ namespace FreeHttp
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
             if (tempSession != null)
             {
-                myFreeHttpWindow.SetModificSession(tempSession);
+                ShowMes(string.Format("Get http session in {0}",tempSession.fullUrl));
+                ((FreeHttpWindow)sender).SetModificSession(tempSession);
             }
             else
             {
@@ -261,10 +310,11 @@ namespace FreeHttp
                     {
                         return;
                     }
+                    
+                    FiddlerRequsetChange nowFiddlerRequsetChange = ((FiddlerRequsetChange)matchItem.Tag);
                     myFreeHttpWindow.MarkMatchRule(matchItem);
                     MarkSession(oSession);
-                    FiddlerRequsetChange nowFiddlerRequsetChange = ((FiddlerRequsetChange)matchItem.Tag);
-
+                    ShowMes(string.Format("macth the [requst rule {0}] with {1}",matchItem.SubItems[0].Text,oSession.fullUrl));
                     ModificSessionRequest(oSession, nowFiddlerRequsetChange);
                 }
             }
@@ -279,12 +329,13 @@ namespace FreeHttp
                         return;
                     }
 
-                    myFreeHttpWindow.MarkMatchRule(matchItem);
-                    MarkSession(oSession);
                     FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
 
                     if (nowFiddlerResponseChange.IsIsDirectRespons)
                     {
+                        myFreeHttpWindow.MarkMatchRule(matchItem);
+                        MarkSession(oSession);
+                        ShowMes(string.Format("macth the [reponse rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
                         ReplaceSessionResponse(oSession, nowFiddlerResponseChange);
                         //oSession.state = SessionStates.Done;
                     }
@@ -307,12 +358,14 @@ namespace FreeHttp
                     {
                         return;
                     }
-
-                    myFreeHttpWindow.MarkMatchRule(matchItem);
-                    MarkSession(oSession);
                     FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
-
-                    ModificSessionResponse(oSession, nowFiddlerResponseChange);
+                    if (!(nowFiddlerResponseChange.IsRawReplace && nowFiddlerResponseChange.IsIsDirectRespons))
+                    {
+                        myFreeHttpWindow.MarkMatchRule(matchItem);
+                        MarkSession(oSession);
+                        ShowMes(string.Format("macth the [reponse rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
+                        ModificSessionResponse(oSession, nowFiddlerResponseChange);
+                    }
                 }
             }
 

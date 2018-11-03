@@ -81,12 +81,16 @@ namespace FreeHttp.FreeHttpControl
                     lv_dataList.Items.Remove(lv_dataList.SelectedItems[i]);
                 }
             }
-            else
+            else if (lv_dataList.Items.Count>0)
             {
                 if(MessageBox.Show("if you want remove all data","remove all",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)==DialogResult.OK)
                 {
                     lv_dataList.Items.Clear();
                 }
+            }
+            else
+            {
+                MessageBox.Show("nothing to clear");
             }
         }
 
