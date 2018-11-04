@@ -118,6 +118,7 @@ namespace FreeHttp.FreeHttpControl
         {
             ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", yourHttpTamper.UriMatch.MatchMode.ToString(), yourHttpTamper.UriMatch.MatchUri) }, yourHttpTamper.IsRawReplace ? 1 : 0);
             nowRuleItem.Tag = yourHttpTamper;
+            nowRuleItem.ToolTipText = yourHttpTamper.UriMatch.MatchUri;
             nowRuleItem.Checked = yourHttpTamper.IsEnable;
             yourListViews.Items.Add(nowRuleItem);
             if (isMark)
@@ -125,6 +126,7 @@ namespace FreeHttp.FreeHttpControl
                 MarkRuleItem(nowRuleItem);
                 PutWarn(string.Format("Add {0} {1}", yourListViews.Columns[1].Text, nowRuleItem.SubItems[0].Text));
             }
+            AdjustRuleListViewIndex(yourListViews);
             
         }
 
@@ -133,6 +135,7 @@ namespace FreeHttp.FreeHttpControl
             yourListViewItem.Tag = yourHttpTamper;
             yourListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", yourHttpTamper.UriMatch.MatchMode.ToString(), yourHttpTamper.UriMatch.MatchUri);
             yourListViewItem.ImageIndex = yourHttpTamper.IsRawReplace ? 1 : 0;
+            yourListViewItem.ToolTipText = yourHttpTamper.UriMatch.MatchUri;
             yourListViewItem.Checked = yourHttpTamper.IsEnable;
             if(isMark)
             {
@@ -161,18 +164,20 @@ namespace FreeHttp.FreeHttpControl
                 case RuleEditMode.NewRuleMode:  // new rule
                     lb_editRuleMode.Text = (mes == null ? "New Mode" : mes);
                     pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.add_mode;
+                    this.toolTip_forMainWindow.SetToolTip(this.pictureBox_editRuleMode, "new a rule");
                     EditListViewItem = null;
                     break;
                 case RuleEditMode.EditRequsetRule:  //edit request
                     lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
                     EditListViewItem = yourListViewItem;
-                    
                     pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.edit_mode;
+                    this.toolTip_forMainWindow.SetToolTip(this.pictureBox_editRuleMode, "save change for your requst rule");
                     break;
                 case RuleEditMode.EditResponseRule:  //edit response
                     lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
                     EditListViewItem = yourListViewItem;
                     pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.edit_mode;
+                    this.toolTip_forMainWindow.SetToolTip(this.pictureBox_editRuleMode, "save change for your response rule");
                     break;
                 default:
                     throw new Exception("get not support mode");
@@ -514,6 +519,7 @@ namespace FreeHttp.FreeHttpControl
             tb_urlFilter.Text = session.fullUrl;
             cb_macthMode.SelectedIndex = 2;
 
+            tabControl_Modific.SelectedIndex = 1;
             //Request Replace
             tb_requestReplace_uri.Text = session.fullUrl;
             cb_editRequestEdition.Text = ((Fiddler.HTTPHeaders)(session.oRequest.headers)).HTTPVersion;

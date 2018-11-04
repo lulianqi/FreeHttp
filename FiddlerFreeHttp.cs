@@ -250,8 +250,15 @@ namespace FreeHttp
             if (tempSession != null)
             {
                 StringBuilder sbRawData = new StringBuilder("Get Raw Data\r\n");
-                sbRawData.AppendLine(tempSession.RequestHeaders.ToString());
-                sbRawData.Append("\r\n");
+                MemoryStream ms = new MemoryStream();
+                //tempSession.WriteToStream(SmartAssembly, false);
+                tempSession.WriteRequestToStream(true, true, ms);
+                ms.Position = 0;
+                StreamReader sr = new StreamReader(ms,Encoding.UTF8);
+                sbRawData.Append(sr.ReadToEnd());
+                sr.Close();
+                ms.Close();
+ 
                 if (tempSession.requestBodyBytes != null && tempSession.requestBodyBytes.Length>0)
                 {
                     sbRawData.AppendLine(tempSession.GetRequestBodyAsString());

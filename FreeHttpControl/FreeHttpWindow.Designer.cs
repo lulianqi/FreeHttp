@@ -295,6 +295,7 @@ namespace FreeHttp.FreeHttpControl
             this.pictureBox_editRuleMode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_editRuleMode.TabIndex = 39;
             this.pictureBox_editRuleMode.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pictureBox_editRuleMode, "new a rule");
             this.pictureBox_editRuleMode.Click += new System.EventHandler(this.pictureBox_editRuleMode_Click);
             this.pictureBox_editRuleMode.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             this.pictureBox_editRuleMode.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
@@ -376,6 +377,7 @@ namespace FreeHttp.FreeHttpControl
             this.pb_addRequestRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_addRequestRule.TabIndex = 53;
             this.pb_addRequestRule.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_addRequestRule, "add a new request rule");
             this.pb_addRequestRule.Click += new System.EventHandler(this.pb_addTemperRule_Click);
             // 
             // pb_removeRequestRule
@@ -390,6 +392,7 @@ namespace FreeHttp.FreeHttpControl
             this.pb_removeRequestRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_removeRequestRule.TabIndex = 52;
             this.pb_removeRequestRule.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_removeRequestRule, "remove selected rule");
             this.pb_removeRequestRule.Click += new System.EventHandler(this.pb_removeTemperRule_Click);
             // 
             // pb_requestRuleSwitch
@@ -404,6 +407,7 @@ namespace FreeHttp.FreeHttpControl
             this.pb_requestRuleSwitch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_requestRuleSwitch.TabIndex = 38;
             this.pb_requestRuleSwitch.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_requestRuleSwitch, "enable the requst rule");
             this.pb_requestRuleSwitch.Click += new System.EventHandler(this.pb_requestRuleSwitch_Click);
             // 
             // contextMenu_ruleList
@@ -478,6 +482,7 @@ namespace FreeHttp.FreeHttpControl
             this.pb_addResponseRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_addResponseRule.TabIndex = 55;
             this.pb_addResponseRule.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_addResponseRule, "add a new response rule");
             this.pb_addResponseRule.Click += new System.EventHandler(this.pb_addTemperRule_Click);
             // 
             // pb_removeResponseRule
@@ -492,6 +497,7 @@ namespace FreeHttp.FreeHttpControl
             this.pb_removeResponseRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_removeResponseRule.TabIndex = 54;
             this.pb_removeResponseRule.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_removeResponseRule, "remove selected rule");
             this.pb_removeResponseRule.Click += new System.EventHandler(this.pb_removeTemperRule_Click);
             // 
             // pb_responseRuleSwitch
@@ -506,6 +512,7 @@ namespace FreeHttp.FreeHttpControl
             this.pb_responseRuleSwitch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_responseRuleSwitch.TabIndex = 39;
             this.pb_responseRuleSwitch.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_responseRuleSwitch, "enable the response rule");
             this.pb_responseRuleSwitch.Click += new System.EventHandler(this.pb_responseRuleSwitch_Click);
             // 
             // panel_modific
@@ -984,6 +991,7 @@ namespace FreeHttp.FreeHttpControl
             this.pb_ruleCancel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_ruleCancel.TabIndex = 38;
             this.pb_ruleCancel.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_ruleCancel, "clear your rule edit info");
             this.pb_ruleCancel.Click += new System.EventHandler(this.pb_ruleCancel_Click);
             this.pb_ruleCancel.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             this.pb_ruleCancel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
@@ -1068,6 +1076,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             // lv_requestRuleList
             // 
+            this.lv_requestRuleList.AllowDrop = true;
             this.lv_requestRuleList.CheckBoxes = true;
             this.lv_requestRuleList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -1077,6 +1086,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_requestRuleList.FullRowSelect = true;
             this.lv_requestRuleList.Location = new System.Drawing.Point(0, 0);
             this.lv_requestRuleList.Name = "lv_requestRuleList";
+            this.lv_requestRuleList.ShowItemToolTips = true;
             this.lv_requestRuleList.Size = new System.Drawing.Size(351, 203);
             this.lv_requestRuleList.SmallImageList = this.imageList_forTab;
             this.lv_requestRuleList.TabIndex = 0;
@@ -1106,6 +1116,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_responseRuleList.FullRowSelect = true;
             this.lv_responseRuleList.Location = new System.Drawing.Point(0, 0);
             this.lv_responseRuleList.Name = "lv_responseRuleList";
+            this.lv_responseRuleList.ShowItemToolTips = true;
             this.lv_responseRuleList.Size = new System.Drawing.Size(351, 345);
             this.lv_responseRuleList.SmallImageList = this.imageList_forTab;
             this.lv_responseRuleList.TabIndex = 1;
