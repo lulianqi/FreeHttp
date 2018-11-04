@@ -9,10 +9,29 @@ using System.Windows.Forms;
 using System.IO;
 using FreeHttp.HttpHelper;
 
+/*******************************************************************************
+* Copyright (c) 2018 lulianqi
+* All rights reserved.
+* 
+* 文件名称: 
+* 内容摘要: mycllq@hotmail.com
+* 
+* 历史记录:
+* 日	  期:   20181103           创建人: lulianqi [mycllq@hotmail.com]
+* 描    述: 创建
+*
+* 历史记录:
+* 日	  期:                      修改:  
+* 描    述: 
+*******************************************************************************/
+
 namespace FreeHttp.FreeHttpControl
 {
     public partial class FreeHttpWindow : UserControl
     {
+        /// <summary>
+        /// the information for the mark Control
+        /// </summary>
         class RemindControlInfo
         {
             public int RemindTime { get; set; }
@@ -25,7 +44,10 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
-        enum RuleEditMode
+        /// <summary>
+        /// Http modific mode
+        /// </summary>
+        public enum RuleEditMode
         {
             NewRuleMode,
             EditRequsetRule,
@@ -50,22 +72,54 @@ namespace FreeHttp.FreeHttpControl
             UpdateStyles();
         }
 
+        /// <summary>
+        /// FreeHttpWindow
+        /// </summary>
+        /// <param name="yourRuleCollection">the history rule</param>
         public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection):this()
         {
             fiddlerModificHttpRuleCollection = yourRuleCollection;
         }
         
 
+        /// <summary>
+        /// On get the http session button click
+        /// </summary>
         public event EventHandler OnGetSession;
+        /// <summary>
+        /// On get the raw http data link click
+        /// </summary>
         public event GetSessionRawDataEventHandler OnGetSessionRawData;
-        public bool IsRequestRuleEnable { get; set; }
-        public bool IsResponseRuleEnable { get; set; }
 
+        /// <summary>
+        /// Is Request Rule Enable
+        /// </summary>
+        public bool IsRequestRuleEnable { get;private set; }
+       
+        /// <summary>
+        /// Is Response Rule Enable
+        /// </summary>
+        public bool IsResponseRuleEnable { get; private set; }
+
+        /// <summary>
+        /// Get the RequestRule ListView
+        /// </summary>
         public ListView RequestRuleListView { get { return lv_requestRuleList; } }
+
+        /// <summary>
+        /// Get the ResponseRule ListView
+        /// </summary>
         public ListView ResponseRuleListView { get { return lv_responseRuleList; } }
 
-        ListViewItem EditListViewItem { get; set; }
-        RuleEditMode NowEditMode { get; set; }
+        /// <summary>
+        /// Get edit ListViewItem (if it is not in edit mode return null)
+        /// </summary>
+        public ListViewItem EditListViewItem { get; private set; }
+       
+        /// <summary>
+        /// Get now edit mode
+        /// </summary>
+        public RuleEditMode NowEditMode { get; private set; }
 
         Timer myTimer = new Timer();
         Dictionary<ListViewItem, int> highlightItemDc;
@@ -92,7 +146,10 @@ namespace FreeHttp.FreeHttpControl
  
 
         #region Inner Function
-
+        /// <summary>
+        /// load history rule list
+        /// </summary>
+        /// <param name="yourRuleCollecttion">RuleCollecttion</param>
         private void LoadFiddlerModificHttpRuleCollection(FiddlerModificHttpRuleCollection yourRuleCollecttion)
         {
             if(yourRuleCollecttion!=null)
@@ -517,7 +574,7 @@ namespace FreeHttp.FreeHttpControl
             ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
 
             tb_urlFilter.Text = session.fullUrl;
-            cb_macthMode.SelectedIndex = 2;
+            //cb_macthMode.SelectedIndex = 2;
 
             tabControl_Modific.SelectedIndex = 1;
             //Request Replace
@@ -932,6 +989,20 @@ namespace FreeHttp.FreeHttpControl
             f.ShowDialog();
         }
 
+
+        private void addUserAgentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (NowEditMode == RuleEditMode.EditResponseRule)
+            {
+                MessageBox.Show("your are in Response Edit Mode ", "Stop");
+                return;
+            }
+            tabControl_Modific.SelectedIndex = 0;
+            requestRemoveHeads.ListDataView.Items.Add("User-Agent");
+            AddHead f = new AddHead(requestAddHeads.ListDataView, "User-Agent");
+            f.ShowDialog();
+        }
+
         private void setClientCookieToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (NowEditMode == RuleEditMode.EditRequsetRule)
@@ -1202,12 +1273,14 @@ namespace FreeHttp.FreeHttpControl
                 panel_requestReplace_startLine.Visible = splitContainer_requestReplace.Visible = false;
                 pb_requestReplace_changeMode.Visible = true;
                 tabPage_requestReplace.Controls.Add(pb_requestReplace_changeMode);
+                this.toolTip_forMainWindow.SetToolTip(this.pb_requestReplace_changeMode, "change request replace mode to format mode");
                 pb_requestReplace_changeMode.BringToFront();
             }
             else
             {
                 panel_requestReplace_startLine.Visible = splitContainer_requestReplace.Visible = true;
                 panel_requestReplace_startLine.Controls.Add(pb_requestReplace_changeMode);
+                this.toolTip_forMainWindow.SetToolTip(this.pb_requestReplace_changeMode, "change request replace mode to raw mode");
             }
         }
 

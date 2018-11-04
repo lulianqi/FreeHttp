@@ -6,6 +6,7 @@ using System.Text;
 
 namespace FreeHttp.HttpHelper
 {
+    [Serializable]
     public class HttpResponse
     {
         private string responseLine;
@@ -15,15 +16,39 @@ namespace FreeHttp.HttpHelper
         private List<MyKeyValuePair<string, string>> responseHeads;
         private byte[] responseEntity;
 
+        /// <summary>
+        /// get or set the response line (it will updata ResponseStatusDescription,ResponseVersion,ResponseCode)
+        /// </summary>
         public string ResponseLine { get { return responseLine; } set { SetResponseLine(value); ChangeRawData(); } }
+
+        /// <summary>
+        /// get or set the response version (it will updata ResponseLine)
+        /// </summary>
         public string ResponseVersion { get { return responseVersion; } set { responseVersion = value; UpdataResponseLine(); ChangeRawData(); } }
+
+        /// <summary>
+        /// get or set the response code (it will updata ResponseLine)
+        /// </summary>
         public int ResponseCode { get { return responseCode; } set { responseCode = value; UpdataResponseLine(); ChangeRawData(); } }
+
+        /// <summary>
+        /// get or set the response StatusDescription (it will updata ResponseLine)
+        /// </summary>
         public string ResponseStatusDescription { get { return responseStatusDescription; } set { responseStatusDescription = value; UpdataResponseLine(); ChangeRawData(); } }
-        
+
+        /// <summary>
+        /// get or set response heads (if you not set the List<MyKeyValuePair<string, string>> and just change or add a element ,the ChangeRawData() will not trigger ,so your should call ChangeRawData() )
+        /// </summary>
         public List<MyKeyValuePair<string, string>> ResponseHeads { get { return responseHeads; } set { responseHeads = value; ChangeRawData(); } }
 
+        /// <summary>
+        /// get or set response body (if you not set the byte[] and just change or add a element ,the ChangeRawData() will not trigger ,so your should call ChangeRawData() )
+        /// </summary>
         public byte[] ResponseEntity { get { return responseEntity; } set { responseEntity = value; ChangeRawData(); } }
 
+        /// <summary>
+        /// get or set OriginSting (the OriginSting is not the infor in http ,it only use for show ui)
+        /// </summary>
         public string OriginSting { get; set; }
 
         private byte[] rawResponse;
@@ -35,23 +60,23 @@ namespace FreeHttp.HttpHelper
 
         private void SetResponseLine(string yourResponseLine)
         {
-             string[] responseLineStrs = yourResponseLine.Split(new char[]{' '},3);
-                if (responseLineStrs.Length < 2)
-                {
-                    throw new Exception("error format in response line");
-                }
-                responseVersion = responseLineStrs[0];
-                int tempCode;
-                if (int.TryParse(responseLineStrs[1], out tempCode))
-                {
-                    responseCode = tempCode;
-                }
-                else
-                {
-                    throw new Exception("error format in responseCode");
-                }
-                responseStatusDescription = responseLineStrs.Length == 3 ? responseLineStrs[2] : "";
-                responseLine = yourResponseLine;
+            string[] responseLineStrs = yourResponseLine.Split(new char[] { ' ' }, 3);
+            if (responseLineStrs.Length < 2)
+            {
+                throw new Exception("error format in response line");
+            }
+            responseVersion = responseLineStrs[0];
+            int tempCode;
+            if (int.TryParse(responseLineStrs[1], out tempCode))
+            {
+                responseCode = tempCode;
+            }
+            else
+            {
+                throw new Exception("error format in responseCode");
+            }
+            responseStatusDescription = responseLineStrs.Length == 3 ? responseLineStrs[2] : "";
+            responseLine = yourResponseLine;
         }
 
         private void UpdataResponseLine()
@@ -59,11 +84,17 @@ namespace FreeHttp.HttpHelper
             responseLine = string.Format("{0} {1} {2}", responseVersion == null ? "" : responseVersion, responseCode.ToString(), responseStatusDescription == null ? "" : responseStatusDescription);
         }
 
+        /// <summary>
+        /// when you want refresh the GetRawHttpResponse cache call it
+        /// </summary>
         public void ChangeRawData()
         {
             rawResponse = null;
         }
 
+        /// <summary>
+        /// reset ContentLength with the accurate value
+        /// </summary>
         public void SetAutoContentLength()
         {
             if (ResponseHeads == null)
@@ -91,6 +122,10 @@ namespace FreeHttp.HttpHelper
             ResponseHeads.Add(new MyKeyValuePair<string, string>("Content-Length", ResponseEntity == null ? "0" : ResponseEntity.Length.ToString()));
         }
 
+        /// <summary>
+        /// Get the raw byte[] response (it will use cache ,if you want refresh it just call ChangeRawData() first)
+        /// </summary>
+        /// <returns></returns>
         public byte[] GetRawHttpResponse()
         {
             if (rawResponse == null)
@@ -114,6 +149,11 @@ namespace FreeHttp.HttpHelper
             return rawResponse;
         }
 
+        /// <summary>
+        /// Get HttpResponse from a raw data string (it will throw exception when find the error string)
+        /// </summary>
+        /// <param name="yourResponse">raw response string</param>
+        /// <returns>HttpResponse</returns>
         public static HttpResponse GetHttpResponse(string yourResponse)
         {
             HttpResponse httpResponse = new HttpResponse();
@@ -130,7 +170,7 @@ namespace FreeHttp.HttpHelper
                 }
                 tempString = yourResponse.Substring(0, tempIndex);
                 httpResponse.SetResponseLine(tempString);
-                #region SetResponseLine replace 
+                #region SetResponseLine replace
                 //string[] ResponseLineStrs = tempString.Split(new char[]{' '},3);
                 //if (ResponseLineStrs.Length < 2)
                 //{

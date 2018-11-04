@@ -9,17 +9,35 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+/*******************************************************************************
+* Copyright (c) 2018 lulianqi
+* All rights reserved.
+* 
+* 文件名称: 
+* 内容摘要: mycllq@hotmail.com
+* 
+* 历史记录:
+* 日	  期:   20181103           创建人: lulianqi [mycllq@hotmail.com]
+* 描    述: 创建
+*
+* 历史记录:
+* 日	  期:                      修改:  
+* 描    述: 
+*******************************************************************************/
 
 [assembly: Fiddler.RequiredVersion("2.3.5.0")]
 namespace FreeHttp
 {
     
-    public class FiddlerFreeHttp : IAutoTamper
+    public class FiddlerFreeHttp : IAutoTamper ,IDisposable
     {
         private bool isOnLoad = false;
-        private TabPage tabPage; //创建插件的选项卡页
-        private FreeHttpWindow myFreeHttpWindow; //MyControl自定义控件
+        private TabPage tabPage; 
+        private FreeHttpWindow myFreeHttpWindow; 
 
+        /// <summary>
+        /// the rule will skip tls handshake when it is true
+        /// </summary>
         private bool isSkipTlsHandshake = true;
 
         private void ShowMes(string mes)
@@ -62,6 +80,11 @@ namespace FreeHttp
             SerializableHelper.SerializeRuleList(myFreeHttpWindow.RequestRuleListView, myFreeHttpWindow.ResponseRuleListView);
         }
 
+        /// <summary>
+        /// Modific the http request in oSession with your rule
+        /// </summary>
+        /// <param name="oSession">oSession</param>
+        /// <param name="nowFiddlerRequsetChange">FiddlerRequsetChange</param>
         private void ModificSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange)
         {
             if (nowFiddlerRequsetChange.IsRawReplace)
@@ -119,6 +142,11 @@ namespace FreeHttp
             }
         }
 
+        /// <summary>
+        /// Replace the http request in oSession with your rule (it may call by ModificSessionRequest)
+        /// </summary>
+        /// <param name="oSession">oSession</param>
+        /// <param name="nowFiddlerRequsetChange">FiddlerRequsetChange</param>
         private void ReplaceSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange)
         {
             oSession.oRequest.headers = new HTTPRequestHeaders();
@@ -135,6 +163,11 @@ namespace FreeHttp
             oSession.requestBodyBytes = nowFiddlerRequsetChange.HttpRawRequest.RequestEntity;
         }
 
+        /// <summary>
+        /// Modific the http response in oSession with your rule (if IsRawReplace and  IsIsDirectRespons it will not call ReplaceSessionResponse)
+        /// </summary>
+        /// <param name="oSession">oSession</param>
+        /// <param name="nowFiddlerResponseChange">FiddlerResponseChange</param>
         private void ModificSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange)
         {
             if (nowFiddlerResponseChange.IsRawReplace)
@@ -195,6 +228,11 @@ namespace FreeHttp
             }
         }
 
+        /// <summary>
+        /// Replace the http response in oSession with your rule
+        /// </summary>
+        /// <param name="oSession">oSession</param>
+        /// <param name="nowFiddlerResponseChange">FiddlerResponseChange</param>
         private void ReplaceSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange)
         {
             using (MemoryStream ms = new MemoryStream(nowFiddlerResponseChange.HttpRawResponse.GetRawHttpResponse()))
@@ -388,5 +426,11 @@ namespace FreeHttp
             //throw new NotImplementedException();
         }
 
+
+        public void Dispose()
+        {
+            tabPage.Dispose();
+            myFreeHttpWindow.Dispose();
+        }
     }
 }

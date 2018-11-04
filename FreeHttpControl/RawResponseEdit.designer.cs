@@ -34,10 +34,10 @@
             this.rtb_rawResponse = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip_forRtbResponse = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.antoContentLengthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog_responseFile = new System.Windows.Forms.OpenFileDialog();
             this.ck_directResponse = new System.Windows.Forms.CheckBox();
             this.toolTip_RawResponseEdit = new System.Windows.Forms.ToolTip(this.components);
-            this.antoContentLengthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_forRtbResponse.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +49,7 @@
             this.cb_responseLine.Name = "cb_responseLine";
             this.cb_responseLine.Size = new System.Drawing.Size(329, 20);
             this.cb_responseLine.TabIndex = 0;
+            this.toolTip_RawResponseEdit.SetToolTip(this.cb_responseLine, "you can select http response template here");
             this.cb_responseLine.SelectedIndexChanged += new System.EventHandler(this.cb_responseLine_SelectedIndexChanged);
             // 
             // rtb_rawResponse
@@ -68,7 +69,7 @@
             this.addFileToolStripMenuItem,
             this.antoContentLengthToolStripMenuItem});
             this.contextMenuStrip_forRtbResponse.Name = "contextMenuStrip_forRtbResponse";
-            this.contextMenuStrip_forRtbResponse.Size = new System.Drawing.Size(196, 70);
+            this.contextMenuStrip_forRtbResponse.Size = new System.Drawing.Size(196, 48);
             // 
             // addFileToolStripMenuItem
             // 
@@ -77,6 +78,13 @@
             this.addFileToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.addFileToolStripMenuItem.Text = "add file";
             this.addFileToolStripMenuItem.Click += new System.EventHandler(this.addFileToolStripMenuItem_Click);
+            // 
+            // antoContentLengthToolStripMenuItem
+            // 
+            this.antoContentLengthToolStripMenuItem.Name = "antoContentLengthToolStripMenuItem";
+            this.antoContentLengthToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.antoContentLengthToolStripMenuItem.Text = "anto Content-Length";
+            this.antoContentLengthToolStripMenuItem.Click += new System.EventHandler(this.antoContentLengthToolStripMenuItem_Click);
             // 
             // openFileDialog_responseFile
             // 
@@ -92,13 +100,6 @@
             this.ck_directResponse.Text = "Response Direct";
             this.toolTip_RawResponseEdit.SetToolTip(this.ck_directResponse, "not send the request to the real sever \r\nit will direct return your response");
             this.ck_directResponse.UseVisualStyleBackColor = true;
-            // 
-            // antoContentLengthToolStripMenuItem
-            // 
-            this.antoContentLengthToolStripMenuItem.Name = "antoContentLengthToolStripMenuItem";
-            this.antoContentLengthToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.antoContentLengthToolStripMenuItem.Text = "anto Content-Length";
-            this.antoContentLengthToolStripMenuItem.Click += new System.EventHandler(this.antoContentLengthToolStripMenuItem_Click);
             // 
             // RawResponseEdit
             // 

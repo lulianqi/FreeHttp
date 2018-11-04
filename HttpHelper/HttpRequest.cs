@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FreeHttp.HttpHelper
 {
-     [Serializable]
+    [Serializable]
     public class HttpRequest
     {
         private string requestLine;
@@ -16,14 +16,40 @@ namespace FreeHttp.HttpHelper
         private List<MyKeyValuePair<string, string>> requestHeads;
         private byte[] requestEntity;
 
+        /// <summary>
+        /// get or set the request line (it will updata RequestMethod,RequestUri,RequestVersions)
+        /// </summary>
         public string RequestLine { get { return requestLine; } set { SetRequestLine(value); ChangeRawData(); } }
+        
+        /// <summary>
+        /// get or set the requst method (it will updata RequestLine)
+        /// </summary>
         public string RequestMethod { get { return requestMethod; } set { requestMethod = value; UpdataRequestLine(); ChangeRawData(); } }
+        
+        /// <summary>
+        /// get or set the requst uri (it will updata RequestLine)
+        /// </summary>
         public string RequestUri { get { return requestUri; } set { requestUri = value; UpdataRequestLine(); ChangeRawData(); } }
+        
+        /// <summary>
+        /// get or set the requst versions (it will updata RequestLine)
+        /// </summary>
         public string RequestVersions { get { return requestVersions; } set { requestVersions = value; UpdataRequestLine(); ChangeRawData(); } }
+        
+        /// <summary>
+        /// get or set request heads (if you not set the List<MyKeyValuePair<string, string>> and just change or add a element ,the ChangeRawData() will not trigger ,so your should call ChangeRawData() )
+        /// </summary>
         public List<MyKeyValuePair<string, string>> RequestHeads { get { return requestHeads; } set { requestHeads = value; ChangeRawData(); } }
+
+        /// <summary>
+        /// get or set request body (if you not set the byte[] and just change or add a element ,the ChangeRawData() will not trigger ,so your should call ChangeRawData() )
+        /// </summary>
         public byte[] RequestEntity { get { return requestEntity; } set { requestEntity = value; ChangeRawData(); } }
 
         //public string OriginSting { get; private set; }
+        /// <summary>
+        /// get or set OriginSting (the OriginSting is not the infor in http ,it only use for show ui)
+        /// </summary>
         public string OriginSting { get; set; }
 
         private byte[] rawRequest;
@@ -51,11 +77,17 @@ namespace FreeHttp.HttpHelper
             requestLine = string.Format("{0} {1} {2}", requestMethod == null ? "" : requestMethod, requestUri == null ? "" : requestUri, requestVersions == null ? "" : requestVersions);
         }
 
+        /// <summary>
+        /// when you want refresh the GetRawHttpRequest cache call it
+        /// </summary>
         public void ChangeRawData()
         {
             rawRequest = null;
         }
 
+        /// <summary>
+        /// reset ContentLength with the accurate value
+        /// </summary>
         public void SetAutoContentLength()
         {
             if (RequestHeads==null)
@@ -83,6 +115,10 @@ namespace FreeHttp.HttpHelper
             RequestHeads.Add(new MyKeyValuePair<string, string>("Content-Length", RequestEntity == null ? "0" : RequestEntity.Length.ToString()));
         }
         
+        /// <summary>
+        /// Get the raw byte[] request (it will use cache ,if you want refresh it just call ChangeRawData() first)
+        /// </summary>
+        /// <returns>request bytes</returns>
         public byte[] GetRawHttpRequest()
         {
             if (rawRequest == null)
@@ -106,6 +142,11 @@ namespace FreeHttp.HttpHelper
             return rawRequest;
         }
 
+        /// <summary>
+        /// Get HttpRequest from a raw data string (it will throw exception when find the error string)
+        /// </summary>
+        /// <param name="yourRequest">raw request string </param>
+        /// <returns>HttpRequest</returns>
         public static HttpRequest GetHttpRequest(string yourRequest)
         {
             HttpRequest httpRequest = new HttpRequest();

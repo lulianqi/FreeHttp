@@ -12,6 +12,12 @@ namespace FreeHttp.FreeHttpControl
     { 
         private const int WM_LBUTTONDBLCLK = 0x0203;  //左键双击
         private int moveItemIndex = -1;
+        
+        /// <summary>
+        /// this ListView disable double click to check the checkbox
+        /// enable DoubleBuffer
+        /// implement items drag in detail mode
+        /// </summary>
         public MyListView() : base() 
         {
             InitializeComponent();
@@ -47,6 +53,11 @@ namespace FreeHttp.FreeHttpControl
 
         }
 
+        /// <summary>
+        /// is your item above your move items (just like AppearsAfterItem)   [if you want enable drag just set ListView AllowDrop is true]
+        /// </summary>
+        /// <param name="nowIndex">you now item index</param>
+        /// <returns>is above item</returns>
         private bool AppearAboveItem(int nowIndex)
         {
             if (nowIndex < moveItemIndex)
@@ -56,6 +67,11 @@ namespace FreeHttp.FreeHttpControl
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MyListView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             if (this.SelectedItems!=null && this.SelectedItems.Count>0)
@@ -65,6 +81,11 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        /// <summary>
+        /// drag complete
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MyListView_DragDrop(object sender, DragEventArgs e)
         {
             int targetIndex = this.InsertionMark.Index;
@@ -73,6 +94,12 @@ namespace FreeHttp.FreeHttpControl
                 return;
             }
             SelectedListViewItemCollection draggedItems =(SelectedListViewItemCollection)e.Data.GetData(typeof(SelectedListViewItemCollection));
+            if (draggedItems == null || draggedItems.Count == 0 || draggedItems[0].ListView != this)
+            {
+                this.InsertionMark.Index = -1;
+                return;
+            }
+
             foreach (ListViewItem draggedItem in draggedItems)
             {
                 this.Items.Remove(draggedItem);
@@ -85,11 +112,23 @@ namespace FreeHttp.FreeHttpControl
 
         }
 
+
         private void MyListView_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effect = e.AllowedEffect;
+            SelectedListViewItemCollection draggedItems = (SelectedListViewItemCollection)e.Data.GetData(typeof(SelectedListViewItemCollection));
+            e.Effect = (draggedItems == null || draggedItems.Count == 0 || draggedItems[0].ListView != this) ? DragDropEffects.None : e.AllowedEffect;
         }
 
+        private void MyListView_DragLeave(object sender, EventArgs e)
+        {
+            this.InsertionMark.Index = -1;
+        }
+
+        /// <summary>
+        /// drag over the contor boundary
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MyListView_DragOver(object sender, DragEventArgs e)
         {
             Point targetPoint = this.PointToClient(new Point(e.X, e.Y));
@@ -105,9 +144,5 @@ namespace FreeHttp.FreeHttpControl
             this.InsertionMark.Index = targetIndex;
         }
 
-        private void MyListView_DragLeave(object sender, EventArgs e)
-        {
-            this.InsertionMark.Index = -1;
-        }
     }
 }
