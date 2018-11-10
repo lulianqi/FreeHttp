@@ -97,6 +97,12 @@
     <Compile Include="FreeHttpControl\RemoveHead.Designer.cs">
       <DependentUpon>RemoveHead.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\TextBoxEditer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\TextBoxEditer.Designer.cs">
+      <DependentUpon>TextBoxEditer.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\WatermakTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -148,6 +154,9 @@
     <EmbeddedResource Include="FreeHttpControl\RemoveHead.resx">
       <DependentUpon>RemoveHead.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\TextBoxEditer.resx">
+      <DependentUpon>TextBoxEditer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -172,9 +181,15 @@
   <ItemGroup>
     <None Include="Resources\开关_开.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\确定 %281%29.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

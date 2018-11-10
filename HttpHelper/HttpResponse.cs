@@ -151,6 +151,7 @@ namespace FreeHttp.HttpHelper
 
         /// <summary>
         /// Get HttpResponse from a raw data string (it will throw exception when find the error string)
+        /// in http heads and line it segmentation with CRLF (\r\n) ,but in entity it usual use \n to new line
         /// </summary>
         /// <param name="yourResponse">raw response string</param>
         /// <returns>HttpResponse</returns>
@@ -208,9 +209,9 @@ namespace FreeHttp.HttpHelper
                 {
                     throw new Exception("Please ensure that there is a single empty line after the HTTP headers.");
                 }
-                //ResponseEntity
+                //ResponseEntity   tempIndex=0
                 yourResponse = yourResponse.Remove(0, tempIndex + 2);
-                if (yourResponse == "\r\n")
+                if (yourResponse == "")
                 {
                     httpResponse.ResponseEntity = new byte[0];
                     return httpResponse;
@@ -238,6 +239,7 @@ namespace FreeHttp.HttpHelper
                 }
                 else
                 {
+                    //yourResponse = yourResponse.Replace("\r\n", "\n");   if you want strict format,your should replace \r\n 
                     httpResponse.ResponseEntity = Encoding.UTF8.GetBytes(yourResponse);
                 }
             }

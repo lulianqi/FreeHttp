@@ -278,8 +278,14 @@ namespace FreeHttp
                 myFreeHttpWindow.Dock = DockStyle.Fill;
                 tabPage.Controls.Add(myFreeHttpWindow);
                 FiddlerApplication.UI.tabsViews.TabPages.Add(tabPage);
+                Fiddler.FiddlerApplication.UI.Deactivate += UI_Deactivate;
                 isOnLoad = true;
             }
+        }
+
+        void UI_Deactivate(object sender, EventArgs e)
+        {
+            myFreeHttpWindow.CloseEditRtb();
         }
 
         void myFreeHttpWindow_OnGetSessionRawData(object sender, FreeHttpWindow.GetSessionRawDataEventArgs e)
@@ -305,7 +311,6 @@ namespace FreeHttp
                 if (e.IsShowResponse && tempSession.bHasResponse)
                 {
                     sbRawData.AppendLine(tempSession.ResponseHeaders.ToString());
-                    sbRawData.Append("\r\n");
                     if (tempSession.responseBodyBytes != null && tempSession.responseBodyBytes.Length > 0)
                     {
                         sbRawData.AppendLine(tempSession.GetResponseBodyAsString());
@@ -336,7 +341,6 @@ namespace FreeHttp
         public void AutoTamperRequestAfter(Session oSession)
         {
             //throw new NotImplementedException();
-
             
         }
 

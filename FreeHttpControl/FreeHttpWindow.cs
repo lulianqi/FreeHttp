@@ -62,6 +62,7 @@ namespace FreeHttp.FreeHttpControl
                 IsShowResponse = isShowResponse;
             }
         }
+
         public delegate void GetSessionRawDataEventHandler(object sender, GetSessionRawDataEventArgs e);
 
         public FreeHttpWindow()
@@ -133,7 +134,10 @@ namespace FreeHttp.FreeHttpControl
                 
             }
             LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
-
+            tbe_RequestBodyModific.Visible = false;
+            tbe_ResponseBodyModific.Visible = false;
+            tbe_RequestBodyModific.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
+            tbe_ResponseBodyModific.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
             highlightItemDc = new Dictionary<ListViewItem, int>();
             remindControlDc = new Dictionary<Control, RemindControlInfo>();
             myTimer.Interval = 1000;
@@ -142,8 +146,6 @@ namespace FreeHttp.FreeHttpControl
 
             cb_macthMode.SelectedIndex = 0;
         }
-
- 
 
         #region Inner Function
         /// <summary>
@@ -569,14 +571,29 @@ namespace FreeHttp.FreeHttpControl
 
         #region Public Function
         
+        public void CloseEditRtb()
+        {
+            tbe_RequestBodyModific.CloseRichTextBox();
+            tbe_ResponseBodyModific.CloseRichTextBox();
+            tbe_RequestBodyModific.Visible = tb_requestModific_body.Focused;
+            tbe_ResponseBodyModific.Visible = tb_responseModific_body.Focused;
+        }
         public void SetModificSession(Fiddler.Session session)
         {
             ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
 
             tb_urlFilter.Text = session.fullUrl;
-            //cb_macthMode.SelectedIndex = 2;
+            cb_macthMode.SelectedIndex = 2;
 
-            tabControl_Modific.SelectedIndex = 1;
+            if (tabControl_Modific.SelectedIndex == 0)
+            {
+                tabControl_Modific.SelectedIndex = 1;
+            }
+            else if (tabControl_Modific.SelectedIndex == 2)
+            {
+                tabControl_Modific.SelectedIndex = 3;
+            }
+
             //Request Replace
             tb_requestReplace_uri.Text = session.fullUrl;
             cb_editRequestEdition.Text = ((Fiddler.HTTPHeaders)(session.oRequest.headers)).HTTPVersion;
@@ -781,7 +798,7 @@ namespace FreeHttp.FreeHttpControl
             pb_ruleComfrim_Click(sender, e);
         }
 
-         //pictureBox change for all
+        //pictureBox change for all
         public void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             ((PictureBox)sender).BackColor = Color.Honeydew;
@@ -791,6 +808,53 @@ namespace FreeHttp.FreeHttpControl
         public void pictureBox_MouseLeave(object sender, EventArgs e)
         {
             ((PictureBox)sender).BackColor = Color.Transparent;
+        }
+
+
+        private void tb_Modific_body_Enter(object sender, EventArgs e)
+        {
+            TextBoxEditer tbe = null;
+            if (sender == tb_requestModific_body)
+            {
+                tbe = tbe_RequestBodyModific;
+            }
+            else if (sender == tb_responseModific_body)
+            {
+                tbe = tbe_ResponseBodyModific;
+            }
+            else
+            {
+                throw new Exception("nonsupport sender in tb_Modific_body_Enter");
+            }
+            tbe.Visible = true;
+        }
+
+        private void tb_Modific_body_Leave(object sender, EventArgs e)
+        {
+            TextBoxEditer tbe = null;
+            if (sender == tb_requestModific_body)
+            {
+                tbe = tbe_RequestBodyModific;
+            }
+            else if (sender == tb_responseModific_body)
+            {
+                tbe = tbe_ResponseBodyModific;
+            }
+            else
+            {
+                throw new Exception("nonsupport sender in tb_Modific_body_Enter");
+            }
+
+            if (!(tbe.IsShowEditRichTextBox))
+            {
+                tbe.Visible = false;
+            }
+           
+        }
+
+        void tbe_BodyModific_OnCloseEditBox(object sender, TextBoxEditer.CloseEditBoxEventArgs e)
+        {
+            ((TextBoxEditer)sender).Visible = false;
         }
 
         private void tabControl_Modific_Resize(object sender, EventArgs e)
@@ -1000,6 +1064,18 @@ namespace FreeHttp.FreeHttpControl
             tabControl_Modific.SelectedIndex = 0;
             requestRemoveHeads.ListDataView.Items.Add("User-Agent");
             AddHead f = new AddHead(requestAddHeads.ListDataView, "User-Agent");
+            f.ShowDialog();
+        }
+
+        private void deleteCookieToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (NowEditMode == RuleEditMode.EditRequsetRule)
+            {
+                MessageBox.Show("your are in Requset Edit Mode ", "Stop");
+                return;
+            }
+            tabControl_Modific.SelectedIndex = 2;
+            EditCookieForm f = new EditCookieForm(responseAddHeads.ListDataView, null, null, "Max-Age=1;Domain=www.yourhost.com;Path=/");
             f.ShowDialog();
         }
 
@@ -1227,7 +1303,7 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
-        private void editThisRuleToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private void editThisRuleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ListView tempRuleLv = GetRuleToolStripMenuItemSourceControl(sender);
             lv_RuleList_DoubleClick(tempRuleLv, null);

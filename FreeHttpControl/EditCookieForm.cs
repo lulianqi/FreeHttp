@@ -18,13 +18,22 @@ namespace FreeHttp.FreeHttpControl
         {
             InitializeComponent();
             editListView = yourEditListView;
+            tb_name.Text = "name";
+            rtb_value.Text = "vaule";
+            tb_attribute.Text = "Path=/";
+        }
+
+        public EditCookieForm(ListView yourEditListView , string name, string vaule, string attribute)
+            : this(yourEditListView)
+        {
+            if (name != null) { tb_name.Text = name; }
+            if (vaule != null) { rtb_value.Text = vaule; }
+            if (attribute != null) { tb_attribute.Text = attribute; }
         }
 
         private void EditCookieForm_Load(object sender, EventArgs e)
         {
-            tb_name.Text = "name";
-            rtb_value.Text = "vaule";
-            tb_attribute.Text = "Path=/";
+            
             UpdataSetText();
         }
 

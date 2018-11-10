@@ -144,6 +144,7 @@ namespace FreeHttp.HttpHelper
 
         /// <summary>
         /// Get HttpRequest from a raw data string (it will throw exception when find the error string)
+        /// in http heads and line it  segmentation with CRLF (\r\n) ,but in entity it usual use \n to new line
         /// </summary>
         /// <param name="yourRequest">raw request string </param>
         /// <returns>HttpRequest</returns>
@@ -184,7 +185,7 @@ namespace FreeHttp.HttpHelper
                 }
                 //ResponseEntity
                 yourRequest = yourRequest.Remove(0, tempIndex + 2);
-                if (yourRequest == "\r\n")
+                if (yourRequest == "")
                 {
                     httpRequest.RequestEntity = new byte[0];
                     return httpRequest;
@@ -212,6 +213,7 @@ namespace FreeHttp.HttpHelper
                 }
                 else
                 {
+                    //httpRequest = httpRequest.Replace("\r\n", "\n");   if you want strict format,your should replace \r\n 
                     httpRequest.RequestEntity = Encoding.UTF8.GetBytes(yourRequest);
                 }
             }
