@@ -92,6 +92,16 @@ namespace FreeHttp.FreeHttpControl
         /// </summary>
         public event GetSessionRawDataEventHandler OnGetSessionRawData;
 
+        
+        /// <summary>
+        /// get or set IsSetResponseLatencyEable
+        /// </summary>
+        public bool IsSetResponseLatencyEable
+        {
+            get { return isSetResponseLatencyEable; }
+            private set { isSetResponseLatencyEable = value; ChangeSetResponseLatencyMode(value==true?"":null); }
+        }
+
         /// <summary>
         /// Is Request Rule Enable
         /// </summary>
@@ -126,6 +136,8 @@ namespace FreeHttp.FreeHttpControl
         Dictionary<ListViewItem, int> highlightItemDc;
         Dictionary<Control, RemindControlInfo> remindControlDc;
         FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
+        bool isSetResponseLatencyEable;
+
 
         private void FreeHttpWindow_Load(object sender, EventArgs e)
         {
@@ -145,6 +157,8 @@ namespace FreeHttp.FreeHttpControl
             myTimer.Start();
 
             cb_macthMode.SelectedIndex = 0;
+            tabControl_Modific.SelectedIndex = 0;
+            IsSetResponseLatencyEable = false;
         }
 
         #region Inner Function
@@ -298,6 +312,11 @@ namespace FreeHttp.FreeHttpControl
             return new FiddlerUriMatch(matchMode, tb_urlFilter.Text);
         }
 
+        private int GetResponseLatency()
+        {
+            return lbl_ResponseLatency.Text == "" ? 0 : int.Parse(lbl_ResponseLatency.Text);
+        }
+
         private void SetUriMatch(FiddlerUriMatch fiddlerUriMatch)
         {
             if (fiddlerUriMatch != null)
@@ -305,6 +324,11 @@ namespace FreeHttp.FreeHttpControl
                 cb_macthMode.Text = fiddlerUriMatch.MatchMode.ToString();
                 tb_urlFilter.Text = string.IsNullOrEmpty(fiddlerUriMatch.MatchUri) ? "" : fiddlerUriMatch.MatchUri;
             }
+        }
+
+        private void SetResponseLatency(string yourLatency)
+        {
+            ChangeSetResponseLatencyMode(yourLatency);
         }
         private FiddlerRequsetChange GetRequestModificInfo()
         {
@@ -408,6 +432,7 @@ namespace FreeHttp.FreeHttpControl
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
             responseChange.HttpRawResponse = null;
             responseChange.UriMatch = GetUriMatch();
+            responseChange.LesponseLatency = GetResponseLatency();
             if (responseRemoveHeads.ListDataView.Items.Count > 0)
             {
                 responseChange.HeadDelList = new List<string>();
@@ -432,6 +457,7 @@ namespace FreeHttp.FreeHttpControl
         {
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
             responseChange.UriMatch = GetUriMatch();
+            responseChange.LesponseLatency = GetResponseLatency();
             responseChange.HttpRawResponse = rawResponseEdit.GetHttpResponse();
             responseChange.IsIsDirectRespons = rawResponseEdit.IsDirectRespons;
             return responseChange;
@@ -457,7 +483,7 @@ namespace FreeHttp.FreeHttpControl
             rtb_requestModific_body.Clear();
             rtb_requsetReplace_body.Clear();
             rtb_requestRaw.Clear();
-            rtb_respenseModific_body.Clear();
+            tabControl_Modific_Selecting(this.tabControl_Modific, null);
         }
 
         private void SetRequestModificInfo(FiddlerRequsetChange fiddlerRequsetChange)
@@ -518,6 +544,7 @@ namespace FreeHttp.FreeHttpControl
                 }
 
             }
+            SetResponseLatency(null);
         }
 
         private void SetResponseModificInfo(FiddlerResponseChange fiddlerResponseChange)
@@ -555,6 +582,7 @@ namespace FreeHttp.FreeHttpControl
                     rawResponseEdit.SetText(fiddlerResponseChange.HttpRawResponse.OriginSting);
                 }
             }
+            SetResponseLatency(fiddlerResponseChange.LesponseLatency.ToString());
         }
         private void AdjustRuleListViewIndex(ListView ruleListView)
         {
@@ -747,8 +775,18 @@ namespace FreeHttp.FreeHttpControl
                     MessageBox.Show("the select response rule is in editing \r\n    you can not edit requst", "STOP");
                     e.Cancel = true;
                 }
+            } 
+            else
+            {
+                if (((TabControl)sender).SelectedIndex == 0 || ((TabControl)sender).SelectedIndex == 1)
+                {
+                    IsSetResponseLatencyEable = false;
+                }
+                else
+                {
+                    IsSetResponseLatencyEable = true;
+                }
             }
-            
         }
 
         private void addFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1025,6 +1063,67 @@ namespace FreeHttp.FreeHttpControl
             ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
         }
 
+        private void pb_responseLatency_Click(object sender, EventArgs e)
+        {
+            if (IsSetResponseLatencyEable)
+            {
+                SetVaule f = new SetVaule("Set Latency", "Enter the exact number of milliseconds by which to delay the response", sender == pb_responseLatency ? "0" : lbl_ResponseLatency.Text, new Func<string, bool>((string checkValue) => { int tempValue; if (checkValue == "") return true; return int.TryParse(checkValue, out tempValue); }));
+                f.OnSetValue += f_OnSetValue;
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Can not set latency  in reqest modific mode\r\njust change to response modific mode", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+            }
+        }
+
+        private void ChangeSetResponseLatencyMode(string yourLatency)
+        {
+            if(yourLatency==null)
+            {
+                lbl_ResponseLatency.Text = "";
+                lbl_ResponseLatency.Visible = false;
+                pb_responseLatency.Image = Resources.MyResource.naozhong_off;
+                pb_responseLatency.Visible = true;
+                isSetResponseLatencyEable = false;
+            }
+            else if (yourLatency == "" || yourLatency == "0")
+            {
+                lbl_ResponseLatency.Text = "";
+                lbl_ResponseLatency.Visible = false;
+                pb_responseLatency.Image = Resources.MyResource.naozhong_on;
+                pb_responseLatency.Visible = true;
+                isSetResponseLatencyEable = true;
+            }
+            else
+            {
+               lbl_ResponseLatency.Text = yourLatency;
+                if (lbl_ResponseLatency.Width <= pb_responseLatency.Width)
+                {
+                    lbl_ResponseLatency.Location = new Point( pb_responseLatency.Location.X,lbl_ResponseLatency.Location.Y);
+                }
+                else
+                {
+                    lbl_ResponseLatency.Location = new Point( pb_responseLatency.Location.X - (lbl_ResponseLatency.Width - pb_responseLatency.Width),lbl_ResponseLatency.Location.Y);
+                }
+                lbl_ResponseLatency.Visible = true;
+                pb_responseLatency.Visible = false;
+                isSetResponseLatencyEable = true;
+            }
+        }
+
+        void f_OnSetValue(object sender, SetVaule.SetVauleEventArgs e)
+        {
+            if (e.SetValue == null || e.SetValue == "0" || e.SetValue == "")
+            {
+                ChangeSetResponseLatencyMode("");
+            }
+            else
+            {
+                ChangeSetResponseLatencyMode(e.SetValue);
+            }
+        }
+
         private void disableCacheToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(NowEditMode== RuleEditMode.EditResponseRule)
@@ -1052,7 +1151,6 @@ namespace FreeHttp.FreeHttpControl
             AddHead f = new AddHead(requestAddHeads.ListDataView, "Cookie");
             f.ShowDialog();
         }
-
 
         private void addUserAgentToolStripMenuItem_Click(object sender, EventArgs e)
         {

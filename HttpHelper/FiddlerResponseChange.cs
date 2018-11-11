@@ -27,5 +27,7 @@ namespace FreeHttp.HttpHelper
         {
             get { return HttpRawResponse != null; }
         }
+
+        public int LesponseLatency { get; set; }
     }
 }

@@ -97,6 +97,12 @@
     <Compile Include="FreeHttpControl\RemoveHead.Designer.cs">
       <DependentUpon>RemoveHead.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\SetVaule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\SetVaule.Designer.cs">
+      <DependentUpon>SetVaule.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\TextBoxEditer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -154,6 +160,9 @@
     <EmbeddedResource Include="FreeHttpControl\RemoveHead.resx">
       <DependentUpon>RemoveHead.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\SetVaule.resx">
+      <DependentUpon>SetVaule.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\TextBoxEditer.resx">
       <DependentUpon>TextBoxEditer.cs</DependentUpon>
     </EmbeddedResource>
@@ -187,9 +196,15 @@
   <ItemGroup>
     <None Include="Resources\确定 %281%29.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\naozhong_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\naozhong_on.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -104,12 +104,15 @@ namespace FreeHttp.FreeHttpControl
             this.tabPage_responseReplace = new System.Windows.Forms.TabPage();
             this.rawResponseEdit = new FreeHttp.FreeHttpControl.RawResponseEdit();
             this.panel_modific_Contorl = new FreeHttp.FreeHttpControl.MyPanel();
+            this.lbl_ResponseLatency = new System.Windows.Forms.LinkLabel();
+            this.pb_responseLatency = new System.Windows.Forms.PictureBox();
             this.pb_ruleComfrim = new System.Windows.Forms.PictureBox();
             this.pb_ruleCancel = new System.Windows.Forms.PictureBox();
             this.menuStrip_quickRule = new System.Windows.Forms.MenuStrip();
             this.quickRuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disableCacheToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addCookieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteCookieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setClientCookieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addUserAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modificToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,7 +123,6 @@ namespace FreeHttp.FreeHttpControl
             this.lv_responseRuleList = new FreeHttp.FreeHttpControl.MyListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_responseRule = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.deleteCookieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_AddFile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main)).BeginInit();
             this.splitContainer_main.Panel1.SuspendLayout();
@@ -174,6 +176,7 @@ namespace FreeHttp.FreeHttpControl
             this.panel4.SuspendLayout();
             this.tabPage_responseReplace.SuspendLayout();
             this.panel_modific_Contorl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_responseLatency)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ruleComfrim)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ruleCancel)).BeginInit();
             this.menuStrip_quickRule.SuspendLayout();
@@ -1010,6 +1013,8 @@ namespace FreeHttp.FreeHttpControl
             // 
             // panel_modific_Contorl
             // 
+            this.panel_modific_Contorl.Controls.Add(this.lbl_ResponseLatency);
+            this.panel_modific_Contorl.Controls.Add(this.pb_responseLatency);
             this.panel_modific_Contorl.Controls.Add(this.pb_ruleComfrim);
             this.panel_modific_Contorl.Controls.Add(this.pb_ruleCancel);
             this.panel_modific_Contorl.Controls.Add(this.menuStrip_quickRule);
@@ -1018,6 +1023,34 @@ namespace FreeHttp.FreeHttpControl
             this.panel_modific_Contorl.Name = "panel_modific_Contorl";
             this.panel_modific_Contorl.Size = new System.Drawing.Size(611, 27);
             this.panel_modific_Contorl.TabIndex = 0;
+            // 
+            // lbl_ResponseLatency
+            // 
+            this.lbl_ResponseLatency.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_ResponseLatency.AutoSize = true;
+            this.lbl_ResponseLatency.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.lbl_ResponseLatency.Location = new System.Drawing.Point(534, 8);
+            this.lbl_ResponseLatency.Name = "lbl_ResponseLatency";
+            this.lbl_ResponseLatency.Size = new System.Drawing.Size(11, 12);
+            this.lbl_ResponseLatency.TabIndex = 41;
+            this.lbl_ResponseLatency.TabStop = true;
+            this.lbl_ResponseLatency.Text = "0";
+            this.lbl_ResponseLatency.Click += new System.EventHandler(this.pb_responseLatency_Click);
+            // 
+            // pb_responseLatency
+            // 
+            this.pb_responseLatency.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_responseLatency.BackColor = System.Drawing.Color.Transparent;
+            this.pb_responseLatency.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_responseLatency.Image = ((System.Drawing.Image)(resources.GetObject("pb_responseLatency.Image")));
+            this.pb_responseLatency.Location = new System.Drawing.Point(531, 2);
+            this.pb_responseLatency.Name = "pb_responseLatency";
+            this.pb_responseLatency.Size = new System.Drawing.Size(24, 24);
+            this.pb_responseLatency.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_responseLatency.TabIndex = 39;
+            this.pb_responseLatency.TabStop = false;
+            this.toolTip_forMainWindow.SetToolTip(this.pb_responseLatency, "set response latency");
+            this.pb_responseLatency.Click += new System.EventHandler(this.pb_responseLatency_Click);
             // 
             // pb_ruleComfrim
             // 
@@ -1061,7 +1094,7 @@ namespace FreeHttp.FreeHttpControl
             this.modificToolToolStripMenuItem});
             this.menuStrip_quickRule.Location = new System.Drawing.Point(5, 0);
             this.menuStrip_quickRule.Name = "menuStrip_quickRule";
-            this.menuStrip_quickRule.Size = new System.Drawing.Size(274, 25);
+            this.menuStrip_quickRule.Size = new System.Drawing.Size(182, 25);
             this.menuStrip_quickRule.TabIndex = 2;
             this.menuStrip_quickRule.Text = "menuStrip1";
             // 
@@ -1092,6 +1125,13 @@ namespace FreeHttp.FreeHttpControl
             this.addCookieToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.addCookieToolStripMenuItem.Text = "add cookie";
             this.addCookieToolStripMenuItem.Click += new System.EventHandler(this.addCookieToolStripMenuItem_Click);
+            // 
+            // deleteCookieToolStripMenuItem
+            // 
+            this.deleteCookieToolStripMenuItem.Name = "deleteCookieToolStripMenuItem";
+            this.deleteCookieToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.deleteCookieToolStripMenuItem.Text = "delete cookie";
+            this.deleteCookieToolStripMenuItem.Click += new System.EventHandler(this.deleteCookieToolStripMenuItem_Click);
             // 
             // setClientCookieToolStripMenuItem
             // 
@@ -1185,13 +1225,6 @@ namespace FreeHttp.FreeHttpControl
             this.columnHeader_responseRule.Text = "Response Rule";
             this.columnHeader_responseRule.Width = 280;
             // 
-            // deleteCookieToolStripMenuItem
-            // 
-            this.deleteCookieToolStripMenuItem.Name = "deleteCookieToolStripMenuItem";
-            this.deleteCookieToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.deleteCookieToolStripMenuItem.Text = "delete cookie";
-            this.deleteCookieToolStripMenuItem.Click += new System.EventHandler(this.deleteCookieToolStripMenuItem_Click);
-            // 
             // FreeHttpWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1259,6 +1292,7 @@ namespace FreeHttp.FreeHttpControl
             this.tabPage_responseReplace.ResumeLayout(false);
             this.panel_modific_Contorl.ResumeLayout(false);
             this.panel_modific_Contorl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_responseLatency)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ruleComfrim)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ruleCancel)).EndInit();
             this.menuStrip_quickRule.ResumeLayout(false);
@@ -1358,6 +1392,8 @@ namespace FreeHttp.FreeHttpControl
         private TextBoxEditer tbe_RequestBodyModific;
         private TextBoxEditer tbe_ResponseBodyModific;
         private System.Windows.Forms.ToolStripMenuItem deleteCookieToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pb_responseLatency;
+        private System.Windows.Forms.LinkLabel lbl_ResponseLatency;
 
     }
 }
