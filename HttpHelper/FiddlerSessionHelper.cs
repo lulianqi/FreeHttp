@@ -10,12 +10,13 @@ namespace FreeHttp.HttpHelper
 {
     class FiddlerSessionHelper
     {
-        public static ListViewItem FindMatchTanperRule(Session oSession,ListView ruleListView)
+        public static List<ListViewItem> FindMatchTanperRule(Session oSession,ListView ruleListView)
         {
             if (oSession == null || ruleListView == null || ruleListView.Items.Count==0)
             {
                 return null;
             }
+            List<ListViewItem> matchItemList = new List<ListViewItem>();
             foreach(ListViewItem tempItem in ruleListView.Items)
             {
                 if (!tempItem.Checked)
@@ -24,10 +25,10 @@ namespace FreeHttp.HttpHelper
                 }
                 if(((IFiddlerHttpTamper)tempItem.Tag).UriMatch.Match(oSession.fullUrl))
                 {
-                    return tempItem;
+                    matchItemList.Add(tempItem);
                 }
             }
-            return null;
+            return matchItemList;
         }
     }
 }

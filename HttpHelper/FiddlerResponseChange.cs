@@ -14,6 +14,8 @@ namespace FreeHttp.HttpHelper
 
         public bool IsIsDirectRespons { get; set; } //only for HttpRawResponse
 
+        public int LesponseLatency { get; set; }
+
         public List<string> HeadAddList { get; set; }
 
         public List<string> HeadDelList { get; set; }
@@ -28,6 +30,5 @@ namespace FreeHttp.HttpHelper
             get { return HttpRawResponse != null; }
         }
 
-        public int LesponseLatency { get; set; }
     }
 }

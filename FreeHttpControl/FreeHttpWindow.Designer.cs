@@ -117,12 +117,14 @@ namespace FreeHttp.FreeHttpControl
             this.addUserAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modificToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showSelectedSessionStreamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbe_urlFilter = new FreeHttp.FreeHttpControl.TextBoxEditer();
             this.lv_requestRuleList = new FreeHttp.FreeHttpControl.MyListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_requstRule = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lv_responseRuleList = new FreeHttp.FreeHttpControl.MyListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_responseRule = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.httpTamperSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_AddFile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main)).BeginInit();
             this.splitContainer_main.Panel1.SuspendLayout();
@@ -268,6 +270,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             // groupBox_urlFilter
             // 
+            this.groupBox_urlFilter.Controls.Add(this.tbe_urlFilter);
             this.groupBox_urlFilter.Controls.Add(this.lb_editRuleMode);
             this.groupBox_urlFilter.Controls.Add(this.pictureBox_editRuleMode);
             this.groupBox_urlFilter.Controls.Add(this.pb_getSession);
@@ -348,6 +351,8 @@ namespace FreeHttp.FreeHttpControl
             this.tb_urlFilter.Size = new System.Drawing.Size(361, 21);
             this.tb_urlFilter.TabIndex = 0;
             this.toolTip_forMainWindow.SetToolTip(this.tb_urlFilter, "the match vaule (match full url include http:// and ？key=value)");
+            this.tb_urlFilter.Enter += new System.EventHandler(this.tb_Modific_body_Enter);
+            this.tb_urlFilter.Leave += new System.EventHandler(this.tb_Modific_body_Leave);
             // 
             // splitContainer_httpControl
             // 
@@ -807,6 +812,8 @@ namespace FreeHttp.FreeHttpControl
             this.pb_requestReplace_changeMode.TabStop = false;
             this.toolTip_forMainWindow.SetToolTip(this.pb_requestReplace_changeMode, "change request replace");
             this.pb_requestReplace_changeMode.Click += new System.EventHandler(this.pb_requestReplace_changeMode_Click);
+            this.pb_requestReplace_changeMode.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pb_requestReplace_changeMode.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             // 
             // lb_editStartLine
             // 
@@ -1035,6 +1042,7 @@ namespace FreeHttp.FreeHttpControl
             this.lbl_ResponseLatency.TabIndex = 41;
             this.lbl_ResponseLatency.TabStop = true;
             this.lbl_ResponseLatency.Text = "0";
+            this.toolTip_forMainWindow.SetToolTip(this.lbl_ResponseLatency, "set response latency");
             this.lbl_ResponseLatency.Click += new System.EventHandler(this.pb_responseLatency_Click);
             // 
             // pb_responseLatency
@@ -1094,7 +1102,7 @@ namespace FreeHttp.FreeHttpControl
             this.modificToolToolStripMenuItem});
             this.menuStrip_quickRule.Location = new System.Drawing.Point(5, 0);
             this.menuStrip_quickRule.Name = "menuStrip_quickRule";
-            this.menuStrip_quickRule.Size = new System.Drawing.Size(182, 25);
+            this.menuStrip_quickRule.Size = new System.Drawing.Size(274, 25);
             this.menuStrip_quickRule.TabIndex = 2;
             this.menuStrip_quickRule.Text = "menuStrip1";
             // 
@@ -1150,7 +1158,8 @@ namespace FreeHttp.FreeHttpControl
             // modificToolToolStripMenuItem
             // 
             this.modificToolToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showSelectedSessionStreamToolStripMenuItem});
+            this.showSelectedSessionStreamToolStripMenuItem,
+            this.httpTamperSettingToolStripMenuItem});
             this.modificToolToolStripMenuItem.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.modificToolToolStripMenuItem.Name = "modificToolToolStripMenuItem";
             this.modificToolToolStripMenuItem.Size = new System.Drawing.Size(94, 21);
@@ -1162,6 +1171,16 @@ namespace FreeHttp.FreeHttpControl
             this.showSelectedSessionStreamToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.showSelectedSessionStreamToolStripMenuItem.Text = "show selected session stream";
             this.showSelectedSessionStreamToolStripMenuItem.Click += new System.EventHandler(this.showSelectedSessionStreamToolStripMenuItem_Click);
+            // 
+            // tbe_urlFilter
+            // 
+            this.tbe_urlFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbe_urlFilter.EditTextBox = this.tb_urlFilter;
+            this.tbe_urlFilter.Location = new System.Drawing.Point(466, 18);
+            this.tbe_urlFilter.MainContainerControl = this;
+            this.tbe_urlFilter.Name = "tbe_urlFilter";
+            this.tbe_urlFilter.Size = new System.Drawing.Size(21, 21);
+            this.tbe_urlFilter.TabIndex = 50;
             // 
             // lv_requestRuleList
             // 
@@ -1224,6 +1243,12 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.columnHeader_responseRule.Text = "Response Rule";
             this.columnHeader_responseRule.Width = 280;
+            // 
+            // httpTamperSettingToolStripMenuItem
+            // 
+            this.httpTamperSettingToolStripMenuItem.Name = "httpTamperSettingToolStripMenuItem";
+            this.httpTamperSettingToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.httpTamperSettingToolStripMenuItem.Text = "http tamper setting";
             // 
             // FreeHttpWindow
             // 
@@ -1394,6 +1419,8 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.ToolStripMenuItem deleteCookieToolStripMenuItem;
         private System.Windows.Forms.PictureBox pb_responseLatency;
         private System.Windows.Forms.LinkLabel lbl_ResponseLatency;
+        private TextBoxEditer tbe_urlFilter;
+        private System.Windows.Forms.ToolStripMenuItem httpTamperSettingToolStripMenuItem;
 
     }
 }

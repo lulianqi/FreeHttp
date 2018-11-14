@@ -41,7 +41,6 @@ D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.MyListVi
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.MyListView.resources
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.TextBoxEditer.resources
-C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.SetVaule.resources
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.TextBoxEditer.resources
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Xceed.Zip.v5.4.dll
@@ -54,3 +53,6 @@ D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.dll
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Fiddler.pdb
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Analytics.pdb
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.pdb
+C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.SetVaule.resources
+C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.MyEnableSwitch.resources
+C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.SettingWindow.resources

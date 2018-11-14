@@ -30,7 +30,19 @@ namespace FreeHttp.HttpHelper
                 TextWriter writer = new StreamWriter("RuleData.xml", false);
                 XmlSerializer serializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
                 //serializer = new XmlSerializer(typeof(List<IFiddlerHttpTamper>));
-                serializer.Serialize(writer, new FiddlerModificHttpRuleCollection(requestList,responseList));
+                serializer.Serialize(writer, new FiddlerModificHttpRuleCollection(requestList, responseList));
+                writer.Close();
+            }
+        }
+
+        public static void SerializeRuleList(FiddlerModificSettingInfo modificSettingInfo)
+        {
+            if(modificSettingInfo!=null)
+            {
+                TextWriter writer = new StreamWriter("HttpFreeSetting.xml", false);
+                XmlSerializer serializer = new XmlSerializer(typeof(FiddlerModificSettingInfo));
+                //serializer = new XmlSerializer(typeof(List<IFiddlerHttpTamper>));
+                serializer.Serialize(writer, modificSettingInfo);
                 writer.Close();
             }
         }
@@ -57,6 +69,30 @@ namespace FreeHttp.HttpHelper
                 }
             }
             return fiddlerModificHttpRuleCollection;
+        }
+
+        public static FiddlerModificSettingInfo DeserializeModificSetting()
+        {
+            FiddlerModificSettingInfo modificSettingInfo = null;
+            if (File.Exists("HttpFreeSetting.xml"))
+            {
+                XmlSerializer mySerializer = new XmlSerializer(typeof(FiddlerModificSettingInfo));
+                FileStream myFileStream = new FileStream("HttpFreeSetting.xml", FileMode.Open);
+                try
+                {
+                    modificSettingInfo = (FiddlerModificSettingInfo)mySerializer.Deserialize(myFileStream);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException.Message), "load user setting fail");
+                    File.Copy("HttpFreeSetting.xml", "HttpFreeSetting.lastErrorFile", true);
+                }
+                finally
+                {
+                    myFileStream.Close();
+                }
+            }
+            return modificSettingInfo;
         }
     }
 

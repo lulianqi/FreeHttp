@@ -66,6 +66,9 @@
     <Compile Include="FreeHttpControl\EditListView.Designer.cs">
       <DependentUpon>EditListView.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\FreeHttpWindowFunction.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="FreeHttpControl\FreeHttpWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -78,6 +81,12 @@
     </Compile>
     <Compile Include="FreeHttpControl\MyPanel.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\MyEnableSwitch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\MyEnableSwitch.Designer.cs">
+      <DependentUpon>MyEnableSwitch.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\RawRequestEdit.cs">
       <SubType>UserControl</SubType>
@@ -97,6 +106,12 @@
     <Compile Include="FreeHttpControl\RemoveHead.Designer.cs">
       <DependentUpon>RemoveHead.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\SettingWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\SettingWindow.Designer.cs">
+      <DependentUpon>SettingWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\SetVaule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +129,7 @@
     </Compile>
     <Compile Include="HttpHelper\ContentModific.cs" />
     <Compile Include="HttpHelper\FiddlerModificHttpRuleCollection.cs" />
+    <Compile Include="HttpHelper\FiddlerModificSettingInfo.cs" />
     <Compile Include="HttpHelper\FiddlerRequsetChange.cs" />
     <Compile Include="HttpHelper\FiddlerResponseChange.cs" />
     <Compile Include="HttpHelper\FiddlerSessionHelper.cs" />
@@ -151,6 +167,9 @@
     <EmbeddedResource Include="FreeHttpControl\MyListView.resx">
       <DependentUpon>MyListView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\MyEnableSwitch.resx">
+      <DependentUpon>MyEnableSwitch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RawRequestEdit.resx">
       <DependentUpon>RawRequestEdit.cs</DependentUpon>
     </EmbeddedResource>
@@ -159,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RemoveHead.resx">
       <DependentUpon>RemoveHead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\SettingWindow.resx">
+      <DependentUpon>SettingWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\SetVaule.resx">
       <DependentUpon>SetVaule.cs</DependentUpon>
@@ -202,9 +224,15 @@
   <ItemGroup>
     <None Include="Resources\naozhong_on.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\switch_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\switch_on.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

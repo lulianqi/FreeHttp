@@ -26,6 +26,7 @@ namespace FreeHttp.FreeHttpControl
             InitializeComponent();
             myResources = new System.ComponentModel.ComponentResourceManager(typeof(TextBoxEditer));
             rtb_editTextBox.Leave += rtb_editTextBox_Leave;
+            rtb_editTextBox.DetectUrls = false;
             IsShowEditRichTextBox = false;
         }
 
@@ -36,6 +37,7 @@ namespace FreeHttp.FreeHttpControl
 
         private RichTextBox rtb_editTextBox = new RichTextBox();
         private bool isShowEditRichTextBox;   //not set this vaule (you should call IsShowEditRichTextBox to set this vaule)
+        private TextBox editTextBox;
         System.ComponentModel.ComponentResourceManager myResources;
         public delegate void CloseEditBoxEventHandler(object sender, CloseEditBoxEventArgs e);
 
@@ -58,13 +60,25 @@ namespace FreeHttp.FreeHttpControl
             } 
         }
 
-        
+
 
         [DescriptionAttribute("the TextBox that you want to binding")]
         /// <summary>
         /// get or set EditTextBox (the TextBox that you want to binding)
         /// </summary>
-        public TextBox EditTextBox { get; set; }
+        public TextBox EditTextBox
+        {
+            get { return editTextBox; }
+            set 
+            { 
+                editTextBox = value; 
+                if(editTextBox!=null)
+                {
+                    editTextBox.Resize += editTextBox_Resize;
+                    editTextBox.Move += editTextBox_Move;
+                }
+            }
+        }
 
         [DescriptionAttribute("the main window that RichTextBox will add it")]
         /// <summary>
@@ -84,7 +98,7 @@ namespace FreeHttp.FreeHttpControl
             ((PictureBox)sender).BackColor = Color.Transparent;
         }
 
-        private void pb_editTextBox_Click(object sender, EventArgs e)
+        void pb_editTextBox_Click(object sender, EventArgs e)
         {
             if(IsShowEditRichTextBox)
             {
@@ -100,7 +114,23 @@ namespace FreeHttp.FreeHttpControl
         {
             CloseRichTextBox();    
         }
- 
+
+        void editTextBox_Resize(object sender, EventArgs e)
+        {
+            if (rtb_editTextBox != null && IsShowEditRichTextBox)
+            {
+                rtb_editTextBox.Width = ((TextBox)sender).Width;
+            }
+        }
+
+        void editTextBox_Move(object sender, EventArgs e)
+        {
+            if (rtb_editTextBox != null && IsShowEditRichTextBox)
+            {
+                Point myClientLocation = MainContainerControl.PointToClient(EditTextBox.Parent.PointToScreen(EditTextBox.Location));
+                rtb_editTextBox.Location = new Point(myClientLocation.X, myClientLocation.Y + EditTextBox.Height);
+            }
+        }
         /// <summary>
         /// Close EditRichTextBox  (when the windows Deactivate you should call it )
         /// </summary>

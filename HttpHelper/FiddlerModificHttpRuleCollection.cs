@@ -15,6 +15,7 @@ namespace FreeHttp.HttpHelper
         public List<FiddlerRequsetChange> RequestRuleList { get { return requestRuleList; } set { requestRuleList = value; } }
         public List<FiddlerResponseChange> ResponseRuleList { get { return responseRuleList; } set { responseRuleList = value; } }
 
+
         public FiddlerModificHttpRuleCollection()
         {
             requestRuleList = null;

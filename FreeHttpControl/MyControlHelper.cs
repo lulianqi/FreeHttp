@@ -38,4 +38,36 @@ namespace FreeHttp.FreeHttpControl
         public static extern int SendMessage(IntPtr hwnd, int wMsg, int wParam, IntPtr lParam);
 
     }
+
+    public static class MyExtensionMethods
+    {
+        public static int GetLatency(this System.Windows.Forms.LinkLabel llb)
+        {
+            //delay:200ms
+            string tempText = llb.Text;
+            int latency = 0;
+            if (tempText.StartsWith("delay:") && tempText.EndsWith("ms"))
+            {
+                tempText = tempText.Substring(6, tempText.Length - 8);
+                if(!int.TryParse(tempText,out latency))
+                {
+                    latency = 0;
+                }
+            }
+            return latency;
+        }
+
+        public static void SetLatency(this System.Windows.Forms.LinkLabel llb, int latency)
+        {
+            if(latency>0)
+            {
+                llb.Text = string.Format("delay:{0}ms", latency);
+            }
+            else
+            {
+                llb.Text = "";
+            }
+        }
+
+    }
 }

@@ -40,6 +40,11 @@ namespace FreeHttp
         /// </summary>
         private bool isSkipTlsHandshake = true;
 
+        /// <summary>
+        /// if it is true the FiddlerFreeHttp will only match the fist request or response rule 
+        /// </summary>
+        private bool isOnlyMatchFistTamperRule = false;
+
         private void ShowMes(string mes)
         {
             if(!isOnLoad)
@@ -258,6 +263,7 @@ namespace FreeHttp
             }
         }
         
+
         public void OnLoad()
         {
             FiddlerObject.log(string.Format("【FiddlerFreeHttp】:{0}", "OnLoad"));
@@ -321,6 +327,7 @@ namespace FreeHttp
             else
             {
                 Fiddler.FiddlerObject.UI.ShowAlert(new frmAlert("STOP", "please select a session", "OK"));
+                ((FreeHttpWindow)sender).MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
             }
         }
 
@@ -335,6 +342,8 @@ namespace FreeHttp
             else
             {
                 Fiddler.FiddlerObject.UI.ShowAlert(new frmAlert("STOP", "please select a session", "OK"));
+                //((FreeHttpWindow)sender).MarkWarnControl(Fiddler.FiddlerApplication.UI.Controls[0]);
+                ((FreeHttpWindow)sender).MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
             }
         }
 
@@ -346,47 +355,65 @@ namespace FreeHttp
 
         public void AutoTamperRequestBefore(Session oSession)
         {
+
+            if (oSession.HTTPMethodIs("CONNECT") && oSession.HostnameIs("api.map.baidu.com"))
+            {
+                oSession["x-OverrideSslProtocols"] = "ssl3.0";
+            }
+            oSession.oRequest["AddOrigin"] = "from lijie PC";
             if (!isOnLoad)
             {
                 return;
             }
             if (myFreeHttpWindow.IsRequestRuleEnable)
             {
-                ListViewItem matchItem = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.RequestRuleListView);
-                if (matchItem != null)
+                //IsRequestRuleEnable is more efficient then string comparison (so if not IsRequestRuleEnable the string comparison will not execute)
+                if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
                 {
-                    if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                    return;
+                }
+                List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.RequestRuleListView);
+                if (matchItems != null && matchItems.Count>0)
+                {
+                    foreach (var matchItem in matchItems)
                     {
-                        return;
+                        FiddlerRequsetChange nowFiddlerRequsetChange = ((FiddlerRequsetChange)matchItem.Tag);
+                        myFreeHttpWindow.MarkMatchRule(matchItem);
+                        MarkSession(oSession);
+                        ShowMes(string.Format("macth the [requst rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
+                        ModificSessionRequest(oSession, nowFiddlerRequsetChange);
+                        if(isOnlyMatchFistTamperRule)
+                        {
+                            break;
+                        }
                     }
-                    
-                    FiddlerRequsetChange nowFiddlerRequsetChange = ((FiddlerRequsetChange)matchItem.Tag);
-                    myFreeHttpWindow.MarkMatchRule(matchItem);
-                    MarkSession(oSession);
-                    ShowMes(string.Format("macth the [requst rule {0}] with {1}",matchItem.SubItems[0].Text,oSession.fullUrl));
-                    ModificSessionRequest(oSession, nowFiddlerRequsetChange);
                 }
             }
 
             if (myFreeHttpWindow.IsResponseRuleEnable)
             {
-                ListViewItem matchItem = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView);
-                if (matchItem != null)
+                if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
                 {
-                    if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                    return;
+                }
+                List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView);
+                if (matchItems != null && matchItems.Count>0)
+                {
+                    foreach (var matchItem in matchItems)
                     {
-                        return;
-                    }
-
-                    FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
-
-                    if (nowFiddlerResponseChange.IsIsDirectRespons)
-                    {
-                        myFreeHttpWindow.MarkMatchRule(matchItem);
-                        MarkSession(oSession);
-                        ShowMes(string.Format("macth the [reponse rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
-                        ReplaceSessionResponse(oSession, nowFiddlerResponseChange);
-                        //oSession.state = SessionStates.Done;
+                        FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
+                        if (nowFiddlerResponseChange.IsIsDirectRespons)
+                        {
+                            myFreeHttpWindow.MarkMatchRule(matchItem);
+                            MarkSession(oSession);
+                            ShowMes(string.Format("macth the [reponse rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
+                            ReplaceSessionResponse(oSession, nowFiddlerResponseChange);
+                            //oSession.state = SessionStates.Done;
+                            if (isOnlyMatchFistTamperRule)
+                            {
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -400,20 +427,32 @@ namespace FreeHttp
             }
             if (myFreeHttpWindow.IsResponseRuleEnable)
             {
-                ListViewItem matchItem = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView);
-                if (matchItem != null)
+                if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
                 {
-                    if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                    return;
+                }
+                List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView);
+                if (matchItems != null && matchItems.Count>0)
+                {
+                    foreach (var matchItem in matchItems)
                     {
-                        return;
-                    }
-                    FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
-                    if (!(nowFiddlerResponseChange.IsRawReplace && nowFiddlerResponseChange.IsIsDirectRespons))
-                    {
-                        myFreeHttpWindow.MarkMatchRule(matchItem);
-                        MarkSession(oSession);
-                        ShowMes(string.Format("macth the [reponse rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
-                        ModificSessionResponse(oSession, nowFiddlerResponseChange);
+                        FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
+                        if (!(nowFiddlerResponseChange.IsRawReplace && nowFiddlerResponseChange.IsIsDirectRespons))
+                        {
+                            myFreeHttpWindow.MarkMatchRule(matchItem);
+                            MarkSession(oSession);
+                            ShowMes(string.Format("macth the [reponse rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
+                            ModificSessionResponse(oSession, nowFiddlerResponseChange);
+                        }
+                        if (nowFiddlerResponseChange.LesponseLatency > 0)
+                        {
+                            ShowMes(string.Format("[reponse rule {0}] is modified , now lesponse {1} ms", matchItem.SubItems[0].Text, nowFiddlerResponseChange.LesponseLatency));
+                            System.Threading.Thread.Sleep(nowFiddlerResponseChange.LesponseLatency);
+                        }
+                        if (isOnlyMatchFistTamperRule)
+                        {
+                            break;
+                        }
                     }
                 }
             }
