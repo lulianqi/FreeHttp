@@ -154,34 +154,12 @@ namespace FreeHttp.FreeHttpControl
 
         private void MarkControl(Control yourControl, Color yourColor, int yourShowTick)
         {
-            if (yourControl != null)
-            {
-                if (remindControlDc.ContainsKey(yourControl))
-                {
-                    remindControlDc[yourControl] = new RemindControlInfo(yourShowTick, remindControlDc[yourControl].OriginColor);
-                }
-                else
-                {
-                    remindControlDc.Add(yourControl, new RemindControlInfo(yourShowTick, yourControl.BackColor));
-                }
-                yourControl.BackColor = yourColor;
-            }
+            markControlService.MarkControl(yourControl, yourColor, yourShowTick);
         }
 
         private void MarkRuleItem(ListViewItem yourItem, Color yourColor, int yourShowTick)
         {
-            if (yourItem != null)
-            {
-                yourItem.BackColor = yourColor;
-                if (highlightItemDc.ContainsKey(yourItem))
-                {
-                    highlightItemDc[yourItem] = yourShowTick;
-                }
-                else
-                {
-                    highlightItemDc.Add(yourItem, yourShowTick);
-                }
-            }
+            markControlService.MarkControl(yourItem, yourColor, yourShowTick);
         }
 
         private void MarkRuleItem(ListViewItem yourItem)
@@ -191,20 +169,12 @@ namespace FreeHttp.FreeHttpControl
 
         private void MarkRuleInEdit(ListViewItem yourItem)
         {
-            if (highlightItemDc.ContainsKey(yourItem))
-            {
-                yourItem.BackColor = Color.Transparent;
-                highlightItemDc.Remove(yourItem);
-            }
-            yourItem.BackColor = Color.Pink;
+            markControlService.SetColor(yourItem, Color.Pink);
         }
 
         private void MarkRuleOutEdit(ListViewItem yourItem)
         {
-            if (!highlightItemDc.ContainsKey(yourItem))
-            {
-                yourItem.BackColor = Color.Transparent;
-            }
+            markControlService.SetColor(yourItem, Color.Transparent);
         }
 
 

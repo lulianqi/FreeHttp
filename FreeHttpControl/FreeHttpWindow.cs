@@ -30,21 +30,6 @@ namespace FreeHttp.FreeHttpControl
     public partial class FreeHttpWindow : UserControl
     {
         /// <summary>
-        /// the information for the mark Control
-        /// </summary>
-        class RemindControlInfo
-        {
-            public int RemindTime { get; set; }
-            public Color OriginColor { get; set; }
-
-            public RemindControlInfo(int yourRemindTime, Color yourOriginColor)
-            {
-                RemindTime = yourRemindTime;
-                OriginColor = yourOriginColor;
-            }
-        }
-
-        /// <summary>
         /// Http modific mode
         /// </summary>
         public enum RuleEditMode
@@ -137,9 +122,8 @@ namespace FreeHttp.FreeHttpControl
         /// </summary>
         public RuleEditMode NowEditMode { get; private set; }
 
-        Timer myTimer = new Timer();
-        Dictionary<ListViewItem, int>  highlightItemDc;
-        Dictionary<Control, RemindControlInfo> remindControlDc;
+
+        MarkControlService markControlService;
         FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
         bool isSetResponseLatencyEable;
 
@@ -162,67 +146,14 @@ namespace FreeHttp.FreeHttpControl
             tbe_RequestBodyModific.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
             tbe_ResponseBodyModific.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
             tbe_urlFilter.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
-            highlightItemDc = new Dictionary<ListViewItem, int>();
-            remindControlDc = new Dictionary<Control, RemindControlInfo>();
-            myTimer.Interval = 1000;
-            myTimer.Tick += myTimer_Tick;
-            myTimer.Start();
 
+            markControlService = new MarkControlService(1000);
             cb_macthMode.SelectedIndex = 0;
             tabControl_Modific.SelectedIndex = 0;
             IsSetResponseLatencyEable = false;
         }
 
         #region Public Event
-
-        void myTimer_Tick(object sender, EventArgs e)
-        {
-            if (highlightItemDc.Count > 0)
-            {
-                //MyControlHelper.SetControlFreeze(lv_requestRuleList);
-                List<ListViewItem> tempRemoveItem = new List<ListViewItem>();
-                List<ListViewItem> tempHighlightList = new List<ListViewItem>();
-                tempHighlightList.AddRange(highlightItemDc.Keys);
-                foreach (var tempHighlightItem in tempHighlightList)
-                {
-                    highlightItemDc[tempHighlightItem]--;
-                    if (highlightItemDc[tempHighlightItem] == 0)
-                    {
-                        tempHighlightItem.BackColor = Color.Transparent;
-                        tempRemoveItem.Add(tempHighlightItem);
-                    }
-                }
-                //MyControlHelper.SetControlUnfreeze(lv_requestRuleList);
-                foreach (var tempItem in tempRemoveItem)
-                {
-                    highlightItemDc.Remove(tempItem);
-                }
-            }
-
-            if (remindControlDc.Count > 0)
-            {
-                List<Control> tempRemoveControl = new List<Control>();
-                List<Control> tempRemindList = new List<Control>();
-                tempRemindList.AddRange(remindControlDc.Keys);
-                foreach (var tempRemindControl in tempRemindList)
-                {
-                    remindControlDc[tempRemindControl].RemindTime--;
-                    if (remindControlDc[tempRemindControl].RemindTime == 0)
-                    {
-                        tempRemindControl.BackColor = remindControlDc[tempRemindControl].OriginColor;
-                        tempRemoveControl.Add(tempRemindControl);
-                    }
-                }
-
-                foreach (var tempItem in tempRemoveControl)
-                {
-                    tempItem.BackColor = remindControlDc[tempItem].OriginColor;
-                    remindControlDc.Remove(tempItem);
-                }
-            }
-        }
-
-
         private void tabControl_Modific_Selecting(object sender, TabControlCancelEventArgs e)
         {
             if(NowEditMode== RuleEditMode.EditRequsetRule)
