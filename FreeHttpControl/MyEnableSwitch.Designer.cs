@@ -45,13 +45,14 @@
             this.pb_switch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_switch.TabIndex = 39;
             this.pb_switch.TabStop = false;
+            this.pb_switch.Click += new System.EventHandler(this.pb_switch_Click);
             // 
-            // MySwitch
+            // MyEnableSwitch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pb_switch);
-            this.Name = "MySwitch";
+            this.Name = "MyEnableSwitch";
             this.Size = new System.Drawing.Size(36, 20);
             ((System.ComponentModel.ISupportInitialize)(this.pb_switch)).EndInit();
             this.ResumeLayout(false);

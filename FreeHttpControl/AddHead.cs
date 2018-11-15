@@ -39,6 +39,8 @@ namespace FreeHttp.FreeHttpControl
                     rtb_value.Text = headStr.Substring(headStr.IndexOf(": ") + 2);
                 }
             }
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
         }
         private void bt_ok_Click(object sender, EventArgs e)
         {

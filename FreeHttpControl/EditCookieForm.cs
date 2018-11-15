@@ -33,8 +33,9 @@ namespace FreeHttp.FreeHttpControl
 
         private void EditCookieForm_Load(object sender, EventArgs e)
         {
-            
             UpdataSetText();
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
         }
 
 

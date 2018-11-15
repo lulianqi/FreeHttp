@@ -35,16 +35,6 @@ namespace FreeHttp
         private TabPage tabPage; 
         private FreeHttpWindow myFreeHttpWindow; 
 
-        /// <summary>
-        /// the rule will skip tls handshake when it is true
-        /// </summary>
-        private bool isSkipTlsHandshake = true;
-
-        /// <summary>
-        /// if it is true the FiddlerFreeHttp will only match the fist request or response rule 
-        /// </summary>
-        private bool isOnlyMatchFistTamperRule = false;
-
         private void ShowMes(string mes)
         {
             if(!isOnLoad)
@@ -83,6 +73,7 @@ namespace FreeHttp
         public void OnBeforeUnload()
         {
             SerializableHelper.SerializeRuleList(myFreeHttpWindow.RequestRuleListView, myFreeHttpWindow.ResponseRuleListView);
+            SerializableHelper.SerializeData<FiddlerModificSettingInfo>(myFreeHttpWindow.ModificSettingInfo, "FreeHttpSetting.xml");
         }
 
         /// <summary>
@@ -278,7 +269,7 @@ namespace FreeHttp
                     FiddlerApplication.UI.tabsViews.ImageList.Images.Add(myIco);
                     tabPage.ImageIndex = FiddlerApplication.UI.tabsViews.ImageList.Images.Count - 1;
                 }
-                myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList());
+                myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList(), SerializableHelper.DeserializeData<FiddlerModificSettingInfo>("FreeHttpSetting.xml"));
                 myFreeHttpWindow.OnGetSession += myFreeHttpWindow_OnGetSession;
                 myFreeHttpWindow.OnGetSessionRawData += myFreeHttpWindow_OnGetSessionRawData;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
@@ -368,7 +359,7 @@ namespace FreeHttp
             if (myFreeHttpWindow.IsRequestRuleEnable)
             {
                 //IsRequestRuleEnable is more efficient then string comparison (so if not IsRequestRuleEnable the string comparison will not execute)
-                if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                if (myFreeHttpWindow.ModificSettingInfo.IsSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
                 {
                     return;
                 }
@@ -382,7 +373,7 @@ namespace FreeHttp
                         MarkSession(oSession);
                         ShowMes(string.Format("macth the [requst rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
                         ModificSessionRequest(oSession, nowFiddlerRequsetChange);
-                        if(isOnlyMatchFistTamperRule)
+                        if(myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
                         {
                             break;
                         }
@@ -392,7 +383,7 @@ namespace FreeHttp
 
             if (myFreeHttpWindow.IsResponseRuleEnable)
             {
-                if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                if (myFreeHttpWindow.ModificSettingInfo.IsSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
                 {
                     return;
                 }
@@ -409,7 +400,7 @@ namespace FreeHttp
                             ShowMes(string.Format("macth the [reponse rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
                             ReplaceSessionResponse(oSession, nowFiddlerResponseChange);
                             //oSession.state = SessionStates.Done;
-                            if (isOnlyMatchFistTamperRule)
+                            if (myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
                             {
                                 break;
                             }
@@ -427,7 +418,7 @@ namespace FreeHttp
             }
             if (myFreeHttpWindow.IsResponseRuleEnable)
             {
-                if (isSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                if (myFreeHttpWindow.ModificSettingInfo.IsSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
                 {
                     return;
                 }
@@ -449,7 +440,7 @@ namespace FreeHttp
                             ShowMes(string.Format("[reponse rule {0}] is modified , now lesponse {1} ms", matchItem.SubItems[0].Text, nowFiddlerResponseChange.LesponseLatency));
                             System.Threading.Thread.Sleep(nowFiddlerResponseChange.LesponseLatency);
                         }
-                        if (isOnlyMatchFistTamperRule)
+                        if (myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
                         {
                             break;
                         }

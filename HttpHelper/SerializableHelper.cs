@@ -35,18 +35,6 @@ namespace FreeHttp.HttpHelper
             }
         }
 
-        public static void SerializeRuleList(FiddlerModificSettingInfo modificSettingInfo)
-        {
-            if(modificSettingInfo!=null)
-            {
-                TextWriter writer = new StreamWriter("HttpFreeSetting.xml", false);
-                XmlSerializer serializer = new XmlSerializer(typeof(FiddlerModificSettingInfo));
-                //serializer = new XmlSerializer(typeof(List<IFiddlerHttpTamper>));
-                serializer.Serialize(writer, modificSettingInfo);
-                writer.Close();
-            }
-        }
-
         public static FiddlerModificHttpRuleCollection DeserializeRuleList()
         {
             FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection = null;
@@ -71,21 +59,33 @@ namespace FreeHttp.HttpHelper
             return fiddlerModificHttpRuleCollection;
         }
 
-        public static FiddlerModificSettingInfo DeserializeModificSetting()
+        public static void SerializeData<T>(T modificSettingInfo, string filePath)
         {
-            FiddlerModificSettingInfo modificSettingInfo = null;
-            if (File.Exists("HttpFreeSetting.xml"))
+            if (modificSettingInfo != null)
             {
-                XmlSerializer mySerializer = new XmlSerializer(typeof(FiddlerModificSettingInfo));
-                FileStream myFileStream = new FileStream("HttpFreeSetting.xml", FileMode.Open);
+                TextWriter writer = new StreamWriter(filePath, false);
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                //serializer = new XmlSerializer(typeof(List<IFiddlerHttpTamper>));
+                serializer.Serialize(writer, modificSettingInfo);
+                writer.Close();
+            }
+        }
+
+        public static T DeserializeData<T>(string filePath)
+        {
+            T modificSettingInfo = default(T); //对于数值类型会返回零。 对于结构，此关键字将返回初始化为零或 null 的每个结构成员，具体取决于这些结构是值类型还是引用类型,对于数值类型会返回零。 对于结构，此关键字将返回初始化为零或 null 的每个结构成员，具体取决于这些结构是值类型还是引用类型
+            if (File.Exists(filePath))
+            {
+                XmlSerializer mySerializer = new XmlSerializer(typeof(T));
+                FileStream myFileStream = new FileStream(filePath, FileMode.Open);
                 try
                 {
-                    modificSettingInfo = (FiddlerModificSettingInfo)mySerializer.Deserialize(myFileStream);
+                    modificSettingInfo = (T)mySerializer.Deserialize(myFileStream);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException.Message), "load user setting fail");
-                    File.Copy("HttpFreeSetting.xml", "HttpFreeSetting.lastErrorFile", true);
+                    File.Copy(filePath, string.Format("{0}.lastErrorFile", filePath), true);
                 }
                 finally
                 {

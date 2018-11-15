@@ -75,6 +75,7 @@
     <Compile Include="FreeHttpControl\FreeHttpWindow.Designer.cs">
       <DependentUpon>FreeHttpWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\MarkControlService.cs" />
     <Compile Include="FreeHttpControl\MyControlHelper.cs" />
     <Compile Include="FreeHttpControl\MyListView.cs">
       <SubType>Component</SubType>

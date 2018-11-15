@@ -77,9 +77,10 @@ namespace FreeHttp.FreeHttpControl
         /// FreeHttpWindow
         /// </summary>
         /// <param name="yourRuleCollection">the history rule</param>
-        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection):this()
+        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection , FiddlerModificSettingInfo yourModifcSettingInfo):this()
         {
             fiddlerModificHttpRuleCollection = yourRuleCollection;
+            ModificSettingInfo = yourModifcSettingInfo;
         }
         
 
@@ -137,7 +138,7 @@ namespace FreeHttp.FreeHttpControl
         public RuleEditMode NowEditMode { get; private set; }
 
         Timer myTimer = new Timer();
-        Dictionary<ListViewItem, int> highlightItemDc;
+        Dictionary<ListViewItem, int>  highlightItemDc;
         Dictionary<Control, RemindControlInfo> remindControlDc;
         FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
         bool isSetResponseLatencyEable;
@@ -145,11 +146,16 @@ namespace FreeHttp.FreeHttpControl
 
         private void FreeHttpWindow_Load(object sender, EventArgs e)
         {
-            foreach(Control contor in this.Controls)
-            {
-                
-            }
             LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+            if(ModificSettingInfo==null)
+            {
+                ModificSettingInfo = new FiddlerModificSettingInfo(false, true, true);
+            }
+            if(ModificSettingInfo.IsDefaultEnableRule)
+            {
+                pb_requestRuleSwitch_Click(null, null);
+                pb_responseRuleSwitch_Click(null, null);
+            }
             tbe_RequestBodyModific.Visible = false;
             tbe_ResponseBodyModific.Visible = false;
             tbe_urlFilter.Visible = false;
@@ -630,6 +636,12 @@ namespace FreeHttp.FreeHttpControl
             {
                 this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(true));
             }
+        }
+
+        private void httpTamperSettingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingWindow f = new SettingWindow(ModificSettingInfo);
+            f.ShowDialog();
         }
 
         #endregion

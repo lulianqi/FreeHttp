@@ -29,6 +29,8 @@ namespace FreeHttp.FreeHttpControl
             {
                 tb_key.Text = editListView.SelectedItems[0].Text;
             }
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
         }
 
         private void bt_ok_Click(object sender, EventArgs e)

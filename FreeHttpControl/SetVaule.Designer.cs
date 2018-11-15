@@ -73,6 +73,7 @@
             this.Name = "SetVaule";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SetVaule";
+            this.Load += new System.EventHandler(this.SetVaule_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

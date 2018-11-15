@@ -29,23 +29,14 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingWindow));
-            this.myEnableSwitch1 = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.lb_info_1 = new System.Windows.Forms.Label();
             this.lb_info_2 = new System.Windows.Forms.Label();
             this.lb_info_3 = new System.Windows.Forms.Label();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.myEnableSwitch2 = new FreeHttp.FreeHttpControl.MyEnableSwitch();
-            this.myEnableSwitch3 = new FreeHttp.FreeHttpControl.MyEnableSwitch();
+            this.myEnableSwitch_IsDefaultEnableRule = new FreeHttp.FreeHttpControl.MyEnableSwitch();
+            this.myEnableSwitch_IsSkipTlsHandshake = new FreeHttp.FreeHttpControl.MyEnableSwitch();
+            this.myEnableSwitch_IsOnlyMatchFistTamperRule = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.SuspendLayout();
-            // 
-            // myEnableSwitch1
-            // 
-            this.myEnableSwitch1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.myEnableSwitch1.IsEnable = false;
-            this.myEnableSwitch1.Location = new System.Drawing.Point(284, 12);
-            this.myEnableSwitch1.Name = "myEnableSwitch1";
-            this.myEnableSwitch1.Size = new System.Drawing.Size(54, 27);
-            this.myEnableSwitch1.TabIndex = 0;
             // 
             // lb_info_1
             // 
@@ -85,36 +76,45 @@
             this.splitter1.TabIndex = 4;
             this.splitter1.TabStop = false;
             // 
-            // myEnableSwitch2
+            // myEnableSwitch_IsDefaultEnableRule
             // 
-            this.myEnableSwitch2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.myEnableSwitch2.IsEnable = false;
-            this.myEnableSwitch2.Location = new System.Drawing.Point(284, 48);
-            this.myEnableSwitch2.Name = "myEnableSwitch2";
-            this.myEnableSwitch2.Size = new System.Drawing.Size(54, 27);
-            this.myEnableSwitch2.TabIndex = 5;
+            this.myEnableSwitch_IsDefaultEnableRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.myEnableSwitch_IsDefaultEnableRule.IsEnable = false;
+            this.myEnableSwitch_IsDefaultEnableRule.Location = new System.Drawing.Point(284, 84);
+            this.myEnableSwitch_IsDefaultEnableRule.Name = "myEnableSwitch_IsDefaultEnableRule";
+            this.myEnableSwitch_IsDefaultEnableRule.Size = new System.Drawing.Size(54, 27);
+            this.myEnableSwitch_IsDefaultEnableRule.TabIndex = 6;
             // 
-            // myEnableSwitch3
+            // myEnableSwitch_IsSkipTlsHandshake
             // 
-            this.myEnableSwitch3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.myEnableSwitch3.IsEnable = false;
-            this.myEnableSwitch3.Location = new System.Drawing.Point(284, 84);
-            this.myEnableSwitch3.Name = "myEnableSwitch3";
-            this.myEnableSwitch3.Size = new System.Drawing.Size(54, 27);
-            this.myEnableSwitch3.TabIndex = 6;
+            this.myEnableSwitch_IsSkipTlsHandshake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.myEnableSwitch_IsSkipTlsHandshake.IsEnable = false;
+            this.myEnableSwitch_IsSkipTlsHandshake.Location = new System.Drawing.Point(284, 48);
+            this.myEnableSwitch_IsSkipTlsHandshake.Name = "myEnableSwitch_IsSkipTlsHandshake";
+            this.myEnableSwitch_IsSkipTlsHandshake.Size = new System.Drawing.Size(54, 27);
+            this.myEnableSwitch_IsSkipTlsHandshake.TabIndex = 5;
+            // 
+            // myEnableSwitch_IsOnlyMatchFistTamperRule
+            // 
+            this.myEnableSwitch_IsOnlyMatchFistTamperRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.myEnableSwitch_IsOnlyMatchFistTamperRule.IsEnable = false;
+            this.myEnableSwitch_IsOnlyMatchFistTamperRule.Location = new System.Drawing.Point(284, 12);
+            this.myEnableSwitch_IsOnlyMatchFistTamperRule.Name = "myEnableSwitch_IsOnlyMatchFistTamperRule";
+            this.myEnableSwitch_IsOnlyMatchFistTamperRule.Size = new System.Drawing.Size(54, 27);
+            this.myEnableSwitch_IsOnlyMatchFistTamperRule.TabIndex = 0;
             // 
             // SettingWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(338, 123);
-            this.Controls.Add(this.myEnableSwitch3);
-            this.Controls.Add(this.myEnableSwitch2);
+            this.Controls.Add(this.myEnableSwitch_IsDefaultEnableRule);
+            this.Controls.Add(this.myEnableSwitch_IsSkipTlsHandshake);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.lb_info_3);
             this.Controls.Add(this.lb_info_2);
             this.Controls.Add(this.lb_info_1);
-            this.Controls.Add(this.myEnableSwitch1);
+            this.Controls.Add(this.myEnableSwitch_IsOnlyMatchFistTamperRule);
             this.Font = new System.Drawing.Font("华文楷体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -122,6 +122,7 @@
             this.Name = "SettingWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SettingWindow";
+            this.Load += new System.EventHandler(this.SettingWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,12 +130,12 @@
 
         #endregion
 
-        private MyEnableSwitch myEnableSwitch1;
+        private MyEnableSwitch myEnableSwitch_IsOnlyMatchFistTamperRule;
         private System.Windows.Forms.Label lb_info_1;
         private System.Windows.Forms.Label lb_info_2;
         private System.Windows.Forms.Label lb_info_3;
         private System.Windows.Forms.Splitter splitter1;
-        private MyEnableSwitch myEnableSwitch2;
-        private MyEnableSwitch myEnableSwitch3;
+        private MyEnableSwitch myEnableSwitch_IsSkipTlsHandshake;
+        private MyEnableSwitch myEnableSwitch_IsDefaultEnableRule;
     }
 }

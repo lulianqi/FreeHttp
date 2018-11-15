@@ -1160,7 +1160,7 @@ ww:222
 </OriginSting>
       </HttpRawResponse>
       <IsIsDirectRespons>false</IsIsDirectRespons>
-      <LesponseLatency>1</LesponseLatency>
+      <LesponseLatency>5</LesponseLatency>
       <HeadAddList />
       <HeadDelList />
     </FiddlerResponseChange>

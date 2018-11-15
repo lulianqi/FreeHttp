@@ -37,6 +37,11 @@ namespace FreeHttp.FreeHttpControl
             if (checkValueDelegate != null) { CheckValueFunc = checkValueDelegate; }
         }
 
+        private void SetVaule_Load(object sender, EventArgs e)
+        {
+            this.MaximumSize = this.Size;
+            this.MinimumSize = this.Size;
+        }
 
         private void bt_ok_Click(object sender, EventArgs e)
         {
@@ -53,5 +58,6 @@ namespace FreeHttp.FreeHttpControl
 
             this.Close();
         }
+
     }
 }
