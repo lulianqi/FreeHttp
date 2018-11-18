@@ -46,6 +46,12 @@ namespace FreeHttp.FreeHttpControl
 
         private void bt_ok_Click(object sender, EventArgs e)
         {
+            if (tb_attribute.Text.Contains("Domain=www.yourhost.com"))
+            {
+                MessageBox.Show("please change Domain=www.yourhost.com to your web host\r\nwww.yourhost.com is just a example", "edit Domain");
+                editListView.Tag = null;
+                return;
+            }
             editListView.Items.Add(rtb_setValue.Text);
             this.Close();
         }

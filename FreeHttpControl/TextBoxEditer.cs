@@ -27,6 +27,7 @@ namespace FreeHttp.FreeHttpControl
             myResources = new System.ComponentModel.ComponentResourceManager(typeof(TextBoxEditer));
             rtb_editTextBox.Leave += rtb_editTextBox_Leave;
             rtb_editTextBox.DetectUrls = false;
+            rtb_editTextBox.BackColor = Color.AliceBlue;
             IsShowEditRichTextBox = false;
         }
 

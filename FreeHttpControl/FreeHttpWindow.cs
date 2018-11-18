@@ -831,7 +831,22 @@ namespace FreeHttp.FreeHttpControl
             {
                 tb_urlFilter.Enabled = true;
             }
-        } 
+        }
+
+        private void tb_urlFilter_DragEnter(object sender, DragEventArgs e)
+        {
+            Fiddler.Session[] draggedSessions = (Fiddler.Session[])e.Data.GetData(typeof(Fiddler.Session[]));
+            e.Effect = (draggedSessions == null || draggedSessions.Length < 1) ? DragDropEffects.None : e.AllowedEffect;
+        }
+
+        private void tb_urlFilter_DragDrop(object sender, DragEventArgs e)
+        {
+            Fiddler.Session[] draggedSessions = (Fiddler.Session[])e.Data.GetData(typeof(Fiddler.Session[]));
+            if (draggedSessions != null && draggedSessions.Length > 0)
+            {
+                tb_urlFilter.Text = draggedSessions[0].fullUrl;
+            }
+        }
         #endregion
 
         #region RequestModific
