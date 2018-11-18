@@ -167,6 +167,17 @@ namespace FreeHttp.FreeHttpControl
             MarkRuleItem(yourItem, Color.PowderBlue, 5);
         }
 
+        public void MarkMatchRule(ListViewItem yourItem)
+        {
+            MarkRuleItem(yourItem, Color.Khaki, 3);
+        }
+
+        public void MarkWarnControl(Control yourControl)
+        {
+            MarkControl(yourControl, Color.Plum, 2);
+        }
+
+
         private void MarkRuleInEdit(ListViewItem yourItem)
         {
             markControlService.SetColor(yourItem, Color.Pink);
@@ -597,53 +608,48 @@ namespace FreeHttp.FreeHttpControl
 
         public void SetClientCookies(string yourCookieString)
         {
-            if (yourCookieString == null)
+            if (string.IsNullOrEmpty(yourCookieString))
             {
-                return;
-            }
-            
-            if (yourCookieString != null)
-            {
-                string[] tempCS = yourCookieString.Split(';');
-                if (tempCS.Length > 0)
+                MessageBox.Show("can not find any cookies in you selected session \r\nselect session again", "select session again");
+                if(Fiddler.FiddlerApplication.UI.lvSessions.SelectedItems!=null&&Fiddler.FiddlerApplication.UI.lvSessions.SelectedItems.Count>0)
                 {
-                    List<KeyValuePair<string, string>> tempCL = null;
-                    tempCL = new List<KeyValuePair<string, string>>();
-                    foreach (string eachCookies in tempCS)
-                    {
-                        string cookieKey = null;
-                        string cookieVaule = null;
-                        int splitIndex = eachCookies.IndexOf('=');
-                        if (splitIndex < 0)
-                        {
-                            PutWarn(string.Format("find illegal cookie with {0}", eachCookies));
-                            continue;
-                        }
-                        cookieKey = eachCookies.Remove(splitIndex).Trim();
-                        cookieVaule = eachCookies.Substring(splitIndex + 1);
-                        tempCL.Add(new KeyValuePair<string, string>(cookieKey, cookieVaule));
-                    }
-
-                    foreach(var formatedCooke in tempCL)
-                    {
-                        responseAddHeads.ListDataView.Items.Add(string.Format("Set-Cookie: {0}={1};{2}", formatedCooke.Key, formatedCooke.Value,"Path=/" ));
-                    }
+                    MarkRuleItem(Fiddler.FiddlerApplication.UI.lvSessions.SelectedItems[0], Color.Plum, 2);
                 }
                 else
                 {
-                    MessageBox.Show("can not find any cookies in selected session \r\nplease check again");
+                    MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
                 }
             }
-        }
+           
+            string[] tempCS = yourCookieString.Split(';');
+            if (tempCS.Length > 0)
+            {
+                List<KeyValuePair<string, string>> tempCL = null;
+                tempCL = new List<KeyValuePair<string, string>>();
+                foreach (string eachCookies in tempCS)
+                {
+                    string cookieKey = null;
+                    string cookieVaule = null;
+                    int splitIndex = eachCookies.IndexOf('=');
+                    if (splitIndex < 0)
+                    {
+                        PutWarn(string.Format("find illegal cookie with {0}", eachCookies));
+                        continue;
+                    }
+                    cookieKey = eachCookies.Remove(splitIndex).Trim();
+                    cookieVaule = eachCookies.Substring(splitIndex + 1);
+                    tempCL.Add(new KeyValuePair<string, string>(cookieKey, cookieVaule));
+                }
 
-        public void MarkMatchRule(ListViewItem yourItem)
-        {
-            MarkRuleItem(yourItem, Color.Khaki, 3);
-        }
-
-        public void MarkWarnControl(Control yourControl)
-        {
-            MarkControl(yourControl, Color.Plum, 2);
+                foreach(var formatedCooke in tempCL)
+                {
+                    responseAddHeads.ListDataView.Items.Add(string.Format("Set-Cookie: {0}={1};{2}", formatedCooke.Key, formatedCooke.Value,"Path=/" ));
+                }
+            }
+            else
+            {
+                MessageBox.Show("the cookies in selected session is illegal\r\nplease check again");
+            }
         }
 
         public void PutInfo(string info)
