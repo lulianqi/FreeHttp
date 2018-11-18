@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FiddlerFreeHttp.cs" />
+    <Compile Include="FiddlerSessionTamper.cs" />
     <Compile Include="FreeHttpControl\AddHead.cs">
       <SubType>Form</SubType>
     </Compile>

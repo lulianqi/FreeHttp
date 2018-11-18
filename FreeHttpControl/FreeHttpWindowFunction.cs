@@ -595,6 +595,47 @@ namespace FreeHttp.FreeHttpControl
 
         }
 
+        public void SetClientCookies(string yourCookieString)
+        {
+            if (yourCookieString == null)
+            {
+                return;
+            }
+            
+            if (yourCookieString != null)
+            {
+                string[] tempCS = yourCookieString.Split(';');
+                if (tempCS.Length > 0)
+                {
+                    List<KeyValuePair<string, string>> tempCL = null;
+                    tempCL = new List<KeyValuePair<string, string>>();
+                    foreach (string eachCookies in tempCS)
+                    {
+                        string cookieKey = null;
+                        string cookieVaule = null;
+                        int splitIndex = eachCookies.IndexOf('=');
+                        if (splitIndex < 0)
+                        {
+                            PutWarn(string.Format("find illegal cookie with {0}", eachCookies));
+                            continue;
+                        }
+                        cookieKey = eachCookies.Remove(splitIndex).Trim();
+                        cookieVaule = eachCookies.Substring(splitIndex + 1);
+                        tempCL.Add(new KeyValuePair<string, string>(cookieKey, cookieVaule));
+                    }
+
+                    foreach(var formatedCooke in tempCL)
+                    {
+                        responseAddHeads.ListDataView.Items.Add(string.Format("Set-Cookie: {0}={1};{2}", formatedCooke.Key, formatedCooke.Value,"Path=/" ));
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("can not find any cookies in selected session \r\nplease check again");
+                }
+            }
+        }
+
         public void MarkMatchRule(ListViewItem yourItem)
         {
             MarkRuleItem(yourItem, Color.Khaki, 3);

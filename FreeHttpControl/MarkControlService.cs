@@ -13,7 +13,7 @@ namespace FreeHttp.FreeHttpControl
         /// <summary>
         /// the information for the mark Control
         /// </summary>
-        public class RemindControlInfo
+        class RemindControlInfo
         {
             public int RemindTime { get; set; }
             public Color OriginColor { get; set; }

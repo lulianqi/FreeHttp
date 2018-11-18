@@ -41,10 +41,12 @@ namespace FreeHttp.FreeHttpControl
 
         public class GetSessionRawDataEventArgs : EventArgs
         {
+            public bool IsGetCookies { get; set; }
             public bool IsShowResponse { get; set; }
-            public GetSessionRawDataEventArgs(bool isShowResponse)
+            public GetSessionRawDataEventArgs(bool isShowResponse, bool isGetCookies)
             {
                 IsShowResponse = isShowResponse;
+                IsGetCookies = isGetCookies;
             }
         }
 
@@ -561,11 +563,25 @@ namespace FreeHttp.FreeHttpControl
             f.ShowDialog();
         }
 
+        private void copySessionCookiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (NowEditMode == RuleEditMode.EditRequsetRule)
+            {
+                MessageBox.Show("your are in Requset Edit Mode ", "Stop");
+                return;
+            }
+            tabControl_Modific.SelectedIndex = 2;
+            if (OnGetSessionRawData != null)
+            {
+                this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(false, true));
+            }
+             
+        }
         private void showSelectedSessionStreamToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(OnGetSessionRawData!=null)
             {
-                this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(true));
+                this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(true,false));
             }
         }
 
@@ -646,6 +662,7 @@ namespace FreeHttp.FreeHttpControl
                 ((IFiddlerHttpTamper)e.Item.Tag).IsEnable = e.Item.Checked;
             }
         }
+ 
         private void pb_addTemperRule_Click(object sender, EventArgs e)
         {
             if (sender == pb_addRequestRule)
@@ -665,6 +682,7 @@ namespace FreeHttp.FreeHttpControl
                 return;
             }
         }
+
         private void pb_removeTemperRule_Click(object sender, EventArgs e)
         {
             ListView nowRuleListView = null;
@@ -790,7 +808,6 @@ namespace FreeHttp.FreeHttpControl
         }
 
         #endregion
-
 
         #endregion
 
