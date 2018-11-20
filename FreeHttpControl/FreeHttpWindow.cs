@@ -153,6 +153,14 @@ namespace FreeHttp.FreeHttpControl
             cb_macthMode.SelectedIndex = 0;
             tabControl_Modific.SelectedIndex = 0;
             IsSetResponseLatencyEable = false;
+
+            //rtb_MesInfo.AllowDrop = true;
+            //rtb_MesInfo.DragEnter += rtb_MesInfo_DragEnter;
+            //rtb_MesInfo.DragDrop += rtb_MesInfo_DragDrop;
+
+            splitContainer_httpEditInfo.AllowDrop = true;
+            splitContainer_httpEditInfo.DragEnter += rtb_MesInfo_DragEnter;
+            splitContainer_httpEditInfo.DragDrop += rtb_MesInfo_DragDrop;
         }
 
         #region Public Event
@@ -847,6 +855,26 @@ namespace FreeHttp.FreeHttpControl
                 tb_urlFilter.Text = draggedSessions[0].fullUrl;
             }
         }
+
+        void rtb_MesInfo_DragEnter(object sender, DragEventArgs e)
+        {
+            Fiddler.Session[] draggedSessions = (Fiddler.Session[])e.Data.GetData(typeof(Fiddler.Session[]));
+            e.Effect = (draggedSessions == null || draggedSessions.Length < 1) ? DragDropEffects.None : e.AllowedEffect;
+        }
+        void rtb_MesInfo_DragDrop(object sender, DragEventArgs e)
+        {
+            Fiddler.Session[] draggedSessions = (Fiddler.Session[])e.Data.GetData(typeof(Fiddler.Session[]));
+            if (draggedSessions != null && draggedSessions.Length > 0)
+            {
+                for(int i =0;i<draggedSessions.Length;i++)
+                {
+                    string tempStr = FiddlerSessionTamper.GetSessionRawData(draggedSessions[i], true);
+                    PutInfo(tempStr == null ? "error session" : string.Format("Get Raw Data\r\n{0}", tempStr));
+                }
+            }
+        }
+
+        
         #endregion
 
         #region RequestModific

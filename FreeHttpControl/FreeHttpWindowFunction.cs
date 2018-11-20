@@ -652,6 +652,14 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        public void ShowOwnerWindow(string name,string info)
+        {
+            ShowTextForm f = new ShowTextForm(name,info);
+            f.Owner = Fiddler.FiddlerApplication.UI;
+            f.StartPosition = FormStartPosition.CenterParent;
+            f.Show();
+        }
+
         public void PutInfo(string info)
         {
             rtb_MesInfo.SelectionColor = Color.Black;

@@ -115,30 +115,9 @@ namespace FreeHttp
                 {
                     myFreeHttpWindow.SetClientCookies(tempSession.RequestHeaders["Cookie"]);
                 }
-                StringBuilder sbRawData = new StringBuilder("Get Raw Data\r\n");
-                MemoryStream ms = new MemoryStream();
-                //tempSession.WriteToStream(SmartAssembly, false);
-                tempSession.WriteRequestToStream(true, true, ms);
-                ms.Position = 0;
-                StreamReader sr = new StreamReader(ms,Encoding.UTF8);
-                sbRawData.Append(sr.ReadToEnd());
-                sr.Close();
-                ms.Close();
- 
-                if (tempSession.requestBodyBytes != null && tempSession.requestBodyBytes.Length>0)
-                {
-                    sbRawData.AppendLine(tempSession.GetRequestBodyAsString());
-                    sbRawData.Append("\r\n");
-                }
-                if (e.IsShowResponse && tempSession.bHasResponse)
-                {
-                    sbRawData.AppendLine(tempSession.ResponseHeaders.ToString());
-                    if (tempSession.responseBodyBytes != null && tempSession.responseBodyBytes.Length > 0)
-                    {
-                        sbRawData.AppendLine(tempSession.GetResponseBodyAsString());
-                    }
-                }
-                ShowMes(sbRawData.ToString());
+                string tempStr = FiddlerSessionTamper.GetSessionRawData(tempSession, e.IsShowResponse);
+                ShowMes(tempStr == null ? "error session" : string.Format("Get Raw Data\r\n{0}", tempStr));
+                myFreeHttpWindow.ShowOwnerWindow("RwaFiddlerSession",tempStr);
             }
             else
             {

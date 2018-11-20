@@ -36,7 +36,7 @@
             this.lb_info_2 = new System.Windows.Forms.Label();
             this.lb_info_3 = new System.Windows.Forms.Label();
             this.bt_ok = new System.Windows.Forms.Button();
-            this.tb_attribute = new WatermakTextBox();
+            this.tb_attribute = new FreeHttp.FreeHttpControl.WatermakTextBox();
             this.SuspendLayout();
             // 
             // rtb_setValue

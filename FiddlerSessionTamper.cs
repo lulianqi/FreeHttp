@@ -189,5 +189,36 @@ namespace FreeHttp
             }
         }
         
+        public static string GetSessionRawData(Session oSession,bool isHaveResponse)
+        {
+            if(oSession==null)
+            {
+                return null;
+            }
+            StringBuilder sbRawData = new StringBuilder();
+            MemoryStream ms = new MemoryStream();
+            //tempSession.WriteToStream(SmartAssembly, false);
+            oSession.WriteRequestToStream(true, true, ms);
+            ms.Position = 0;
+            StreamReader sr = new StreamReader(ms, Encoding.UTF8);
+            sbRawData.Append(sr.ReadToEnd());
+            sr.Close();
+            ms.Close();
+
+            if (oSession.requestBodyBytes != null && oSession.requestBodyBytes.Length > 0)
+            {
+                sbRawData.AppendLine(oSession.GetRequestBodyAsString());
+                sbRawData.Append("\r\n");
+            }
+            if (isHaveResponse && oSession.bHasResponse)
+            {
+                sbRawData.AppendLine(oSession.ResponseHeaders.ToString());
+                if (oSession.responseBodyBytes != null && oSession.responseBodyBytes.Length > 0)
+                {
+                    sbRawData.AppendLine(oSession.GetResponseBodyAsString());
+                }
+            }
+            return sbRawData.ToString();
+        }
     }
 }

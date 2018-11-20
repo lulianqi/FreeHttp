@@ -125,7 +125,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABa
-        CQAAAk1TRnQBSQFMAgEBBAEAARABCQEQAQkBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CQAAAk1TRnQBSQFMAgEBBAEAAfABCQHwAQkBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -636,7 +636,7 @@ Response Replace : creat a response replace rule , it will replace all the http 
   <data name="disableCacheToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC42/Ixj3wAAE6VJREFUeF7tnQ2w
+        vAAADrwBlbxySQAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC42/Ixj3wAAE6VJREFUeF7tnQ2w
         JFV1xxeM+BVF41eCUSwTwRCNmlUTNJqF3ezuTM9bUbNKlCQluDFRk4BYRhQEP0MskKAEjEASv6KClDEG
         YVWCsLf7vYXnChYbvj+iFcjKFkQWF5el++R/+p3dN9PvzE73TM9M3+7zr/rVezPTt/uec0/fvrf79r3L
         TCaTKdXyeXp0ezMdEszSqsDR6zshvbUT0V/j/w8GYXxGJ4zPD1z81SBMLu+EyUb8vQifL8D3Z2LbU7Hd
@@ -865,7 +865,7 @@ Response Replace : creat a response replace rule , it will replace all the http 
   <data name="copySessionCookiesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC42/Ixj3wAAAUlJREFUeF7t3LFN
+        vAAADrwBlbxySQAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC42/Ixj3wAAAUlJREFUeF7t3LFN
         w1AARdGMwAhUzEBBLAZgAxiAMahIOrZhBScVbAQp3CUFVhC6DudKr7X1fVy58EqSJEmSJEn5hs34eNjL
         pe7udX8zHXUZDdvxfdjuvi51B5CH6ajLCEgsILGAxAISC0gsILGAxAISC0gsILGAxAISC0gsIDO6f/u4
         OvWNf+7Wm/3zdMmjgMzodjNen7rJ3K23u8/pkkcBmRGQ8wckNiCxAYkNSGxAYgMSG5DYgMQGJDYgsQGJ

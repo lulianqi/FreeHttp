@@ -58,3 +58,5 @@ C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeH
 C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.SettingWindow.resources
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.MyEnableSwitch.resources
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.SettingWindow.resources
+C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
+C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.ShowTextForm.resources

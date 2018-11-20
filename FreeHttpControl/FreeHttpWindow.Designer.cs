@@ -650,6 +650,7 @@ namespace FreeHttp.FreeHttpControl
             // rtb_requestModific_body
             // 
             this.rtb_requestModific_body.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtb_requestModific_body.EnableAutoDragDrop = true;
             this.rtb_requestModific_body.Location = new System.Drawing.Point(0, 0);
             this.rtb_requestModific_body.Name = "rtb_requestModific_body";
             this.rtb_requestModific_body.Size = new System.Drawing.Size(591, 76);
@@ -1024,6 +1025,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             // panel_modific_Contorl
             // 
+            this.panel_modific_Contorl.AllowDrop = true;
             this.panel_modific_Contorl.Controls.Add(this.lbl_ResponseLatency);
             this.panel_modific_Contorl.Controls.Add(this.pb_responseLatency);
             this.panel_modific_Contorl.Controls.Add(this.pb_ruleComfrim);
