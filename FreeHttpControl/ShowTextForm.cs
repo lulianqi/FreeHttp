@@ -19,8 +19,13 @@ namespace FreeHttp.FreeHttpControl
 
         public ShowTextForm(string name,string textInfo):this()
         {
-            this.Name = string.IsNullOrEmpty(name) ? "" : name;
+            this.Text = string.IsNullOrEmpty(name) ? "" : name;
             if (textInfo!=null){ rtb_textInfo.AppendText(textInfo); }
+        }
+
+        private void ShowTextForm_Load(object sender, EventArgs e)
+        {
+
         } 
     }
 }

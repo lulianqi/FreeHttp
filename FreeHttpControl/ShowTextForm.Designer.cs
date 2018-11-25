@@ -40,7 +40,7 @@
             this.rtb_textInfo.Location = new System.Drawing.Point(0, 0);
             this.rtb_textInfo.Name = "rtb_textInfo";
             this.rtb_textInfo.ReadOnly = true;
-            this.rtb_textInfo.Size = new System.Drawing.Size(628, 284);
+            this.rtb_textInfo.Size = new System.Drawing.Size(878, 437);
             this.rtb_textInfo.TabIndex = 0;
             this.rtb_textInfo.Text = "";
             // 
@@ -48,12 +48,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 284);
+            this.ClientSize = new System.Drawing.Size(878, 437);
             this.Controls.Add(this.rtb_textInfo);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.Name = "ShowTextForm";
             this.Text = "ShowTextForm";
+            this.Load += new System.EventHandler(this.ShowTextForm_Load);
             this.ResumeLayout(false);
 
         }

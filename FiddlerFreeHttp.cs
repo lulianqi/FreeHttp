@@ -117,7 +117,7 @@ namespace FreeHttp
                 }
                 string tempStr = FiddlerSessionTamper.GetSessionRawData(tempSession, e.IsShowResponse);
                 ShowMes(tempStr == null ? "error session" : string.Format("Get Raw Data\r\n{0}", tempStr));
-                myFreeHttpWindow.ShowOwnerWindow("RwaFiddlerSession",tempStr);
+                myFreeHttpWindow.ShowOwnerWindow(tempSession.fullUrl, tempStr);
             }
             else
             {

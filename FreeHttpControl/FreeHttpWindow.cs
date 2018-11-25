@@ -161,6 +161,10 @@ namespace FreeHttp.FreeHttpControl
             splitContainer_httpEditInfo.AllowDrop = true;
             splitContainer_httpEditInfo.DragEnter += rtb_MesInfo_DragEnter;
             splitContainer_httpEditInfo.DragDrop += rtb_MesInfo_DragDrop;
+
+            panel_modific_Contorl.AllowDrop = true;
+            panel_modific_Contorl.DragEnter += rtb_MesInfo_DragEnter;
+            panel_modific_Contorl.DragDrop += rtb_MesInfo_DragDrop;
         }
 
         #region Public Event
@@ -660,6 +664,7 @@ namespace FreeHttp.FreeHttpControl
                 {
                     MessageBox.Show("not adaptive to lv_RuleList_DoubleClick");
                 }
+                nowListViewItem.ListView.SelectedItems.Clear();
             }
         }
 

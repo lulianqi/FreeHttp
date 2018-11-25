@@ -181,6 +181,7 @@ namespace FreeHttp.FreeHttpControl
         private void MarkRuleInEdit(ListViewItem yourItem)
         {
             markControlService.SetColor(yourItem, Color.Pink);
+            markControlService.MarkControl(lb_editRuleMode, Color.Pink,2);
         }
 
         private void MarkRuleOutEdit(ListViewItem yourItem)
