@@ -603,6 +603,11 @@ namespace FreeHttp.FreeHttpControl
             f.ShowDialog();
         }
 
+        private void issuesAndSuggestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/lulianqi/FreeHttp/issues");
+        }
+
         #endregion
 
         #region Rule control
@@ -907,6 +912,8 @@ namespace FreeHttp.FreeHttpControl
 
 
         #endregion
+
+       
 
         #region ResponseModific
 

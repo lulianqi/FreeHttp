@@ -69,6 +69,8 @@
             this.Controls.Add(this.lb_info_1);
             this.Controls.Add(this.tb_key);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "RemoveHead";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "RemoveHead";
