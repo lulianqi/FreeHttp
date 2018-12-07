@@ -151,11 +151,11 @@ namespace FreeHttp
         public void AutoTamperRequestBefore(Session oSession)
         {
 
-            if (oSession.HTTPMethodIs("CONNECT") && oSession.HostnameIs("api.map.baidu.com"))
-            {
-                oSession["x-OverrideSslProtocols"] = "ssl3.0";
-            }
-            oSession.oRequest["AddOrigin"] = "from lijie PC";
+            //if (oSession.HTTPMethodIs("CONNECT") && oSession.HostnameIs("api.map.baidu.com"))
+            //{
+            //    oSession["x-OverrideSslProtocols"] = "ssl3.0";
+            //}
+            //oSession.oRequest["AddOrigin"] = "from lijie PC";
             if (!isOnLoad)
             {
                 return;

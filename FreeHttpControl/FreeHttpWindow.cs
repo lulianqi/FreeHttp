@@ -519,7 +519,10 @@ namespace FreeHttp.FreeHttpControl
             }
             tabControl_Modific.SelectedIndex = 0;
             requestRemoveHeads.ListDataView.Items.Add("Pragma");
+            //requestRemoveHeads.ListDataView.Items.Add("Expires");//If there is a Cache-Control header with the max-age or s-maxage directive in the response, the Expires header is ignored.   <Expires: Wed, 21 Oct 2018 15:28:00 GMT>   Expires是一个响应头
             requestRemoveHeads.ListDataView.Items.Add("Cache-Control");
+            //requestRemoveHeads.ListDataView.Items.Add("ETag");//ETag 也是HTTP响应头。 与If-None-Match 完成缓存验证 ，与 If-Match 请求头部，检测到"空中碰撞"的编辑冲突。
+            //requestRemoveHeads.ListDataView.Items.Add("Last-Modified");//Last-Modified  是一个响应首部，其中包含源头服务器认定的资源做出修改的日期及时间。 它通常被用作一个验证器来判断接收到的或者存储的资源是否彼此一致。由于精确度比  ETag 要低，所以这是一个备用机制。包含有  If-Modified-Since 或 If-Unmodified-Since 首部的条件请求会使用这个字段。
             requestRemoveHeads.ListDataView.Items.Add("If-None-Match");
             requestRemoveHeads.ListDataView.Items.Add("If-Modified-Since");
             requestAddHeads.ListDataView.Items.Add("Pragma: no-cache");
