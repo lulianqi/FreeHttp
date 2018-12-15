@@ -10,33 +10,35 @@ using System.Windows.Forms;
 
 namespace FreeHttp.FreeHttpControl
 {
-    public partial class AddHead : Form
+    public partial class EditKeyVaule : Form
     {
         ListView editListView;
-        bool isAdd;
-        public AddHead(ListView yourEditListView , bool yourIsAdd)
+        string splitStr; //splitStr ": "
+        bool isAdd;      //add or edit mode
+        public EditKeyVaule(ListView yourEditListView , bool yourIsAdd ,string yourSplitStr)
         {
             InitializeComponent();
             editListView = yourEditListView;
             isAdd = yourIsAdd;
+            splitStr = yourSplitStr == null ? ": " : yourSplitStr;
         }
 
-        public AddHead(ListView yourEditListView, string yourHeadKey)
-            : this(yourEditListView,true)
+        public EditKeyVaule(ListView yourEditListView, string yourHeadKey,string yourSplitStr)
+            : this(yourEditListView, true, yourSplitStr)
         {
             tb_key.Text = yourHeadKey;
             tb_key.Enabled = false;
         }
 
-        private void AddResponseHead_Load(object sender, EventArgs e)
+        private void EditKeyVaule_Load(object sender, EventArgs e)
         {
             if(!isAdd)
             {
                 string headStr= editListView.SelectedItems[0].Text;
-                if (headStr.Contains(": "))
+                if (headStr.Contains(splitStr))
                 {
-                    tb_key.Text = headStr.Remove(headStr.IndexOf(": "));
-                    rtb_value.Text = headStr.Substring(headStr.IndexOf(": ") + 2);
+                    tb_key.Text = headStr.Remove(headStr.IndexOf(splitStr));
+                    rtb_value.Text = headStr.Substring(headStr.IndexOf(splitStr) + splitStr.Length);
                 }
             }
             this.MaximumSize = this.Size;
@@ -52,11 +54,11 @@ namespace FreeHttp.FreeHttpControl
             {
                 if (isAdd)
                 {
-                    editListView.Items.Add(String.Format("{0}: {1}", tb_key.Text, rtb_value.Text));
+                    editListView.Items.Add(String.Format("{0}{1}{2}", tb_key.Text,splitStr, rtb_value.Text));
                 }
                 else
                 {
-                    editListView.SelectedItems[0].Text = String.Format("{0}: {1}", tb_key.Text, rtb_value.Text);
+                    editListView.SelectedItems[0].Text = String.Format("{0}{1}{2}", tb_key.Text,splitStr, rtb_value.Text);
                 }
                 this.Close();
             }

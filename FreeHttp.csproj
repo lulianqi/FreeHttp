@@ -49,11 +49,11 @@
   <ItemGroup>
     <Compile Include="FiddlerFreeHttp.cs" />
     <Compile Include="FiddlerSessionTamper.cs" />
-    <Compile Include="FreeHttpControl\AddHead.cs">
+    <Compile Include="FreeHttpControl\EditKeyVaule.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\AddHead.Designer.cs">
-      <DependentUpon>AddHead.cs</DependentUpon>
+    <Compile Include="FreeHttpControl\EditKeyVaule.Designer.cs">
+      <DependentUpon>EditKeyVaule.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\EditCookieForm.cs">
       <SubType>Form</SubType>
@@ -75,6 +75,12 @@
     </Compile>
     <Compile Include="FreeHttpControl\FreeHttpWindow.Designer.cs">
       <DependentUpon>FreeHttpWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\HttpFilterWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\HttpFilterWindow.Designer.cs">
+      <DependentUpon>HttpFilterWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\MarkControlService.cs" />
     <Compile Include="FreeHttpControl\MyControlHelper.cs" />
@@ -141,7 +147,7 @@
     <Compile Include="HttpHelper\FiddlerRequsetChange.cs" />
     <Compile Include="HttpHelper\FiddlerResponseChange.cs" />
     <Compile Include="HttpHelper\FiddlerSessionHelper.cs" />
-    <Compile Include="HttpHelper\FiddlerUriMatch.cs" />
+    <Compile Include="HttpHelper\FiddlerHttpFilter.cs" />
     <Compile Include="HttpHelper\HttpRequest.cs" />
     <Compile Include="HttpHelper\HttpResponse.cs" />
     <Compile Include="HttpHelper\IFiddlerHttpTamper.cs" />
@@ -160,8 +166,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FreeHttpControl\AddHead.resx">
-      <DependentUpon>AddHead.cs</DependentUpon>
+    <EmbeddedResource Include="FreeHttpControl\EditKeyVaule.resx">
+      <DependentUpon>EditKeyVaule.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\EditCookieForm.resx">
       <DependentUpon>EditCookieForm.cs</DependentUpon>
@@ -171,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\FreeHttpWindow.resx">
       <DependentUpon>FreeHttpWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\HttpFilterWindow.resx">
+      <DependentUpon>HttpFilterWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\MyListView.resx">
       <DependentUpon>MyListView.cs</DependentUpon>

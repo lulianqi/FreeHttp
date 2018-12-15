@@ -57,9 +57,9 @@ namespace FreeHttp.FreeHttpControl
 
         private void AddRuleToListView(ListView yourListViews, IFiddlerHttpTamper yourHttpTamper, bool isMark)
         {
-            ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", yourHttpTamper.UriMatch.MatchMode.ToString(), yourHttpTamper.UriMatch.MatchUri) }, yourHttpTamper.IsRawReplace ? 1 : 0);
+            ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", yourHttpTamper.HttpFilter.UriMatch.MatchMode.ToString(), yourHttpTamper.HttpFilter.UriMatch.MatchUri) }, yourHttpTamper.IsRawReplace ? 1 : 0);
             nowRuleItem.Tag = yourHttpTamper;
-            nowRuleItem.ToolTipText = yourHttpTamper.UriMatch.MatchUri;
+            nowRuleItem.ToolTipText = yourHttpTamper.HttpFilter.UriMatch.MatchUri;
             nowRuleItem.Checked = yourHttpTamper.IsEnable;
             yourListViews.Items.Add(nowRuleItem);
             if (isMark)
@@ -74,9 +74,9 @@ namespace FreeHttp.FreeHttpControl
         private void UpdataRuleToListView(ListViewItem yourListViewItem, IFiddlerHttpTamper yourHttpTamper, bool isMark)
         {
             yourListViewItem.Tag = yourHttpTamper;
-            yourListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", yourHttpTamper.UriMatch.MatchMode.ToString(), yourHttpTamper.UriMatch.MatchUri);
+            yourListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", yourHttpTamper.HttpFilter.UriMatch.MatchMode.ToString(), yourHttpTamper.HttpFilter.UriMatch.MatchUri);
             yourListViewItem.ImageIndex = yourHttpTamper.IsRawReplace ? 1 : 0;
-            yourListViewItem.ToolTipText = yourHttpTamper.UriMatch.MatchUri;
+            yourListViewItem.ToolTipText = yourHttpTamper.HttpFilter.UriMatch.MatchUri;
             yourListViewItem.Checked = yourHttpTamper.IsEnable;
             if (isMark)
             {
@@ -204,6 +204,24 @@ namespace FreeHttp.FreeHttpControl
             return new FiddlerUriMatch(matchMode, tb_urlFilter.Text);
         }
 
+        private FiddlerHttpFilter GetHttpFilter()
+        {
+            if(pictureBox_editHttpFilter.Tag==null)
+            {
+                return new FiddlerHttpFilter(GetUriMatch());
+            }
+            else
+            {
+                FiddlerHttpFilter returnFiddlerHttpFilter = pictureBox_editHttpFilter.Tag as FiddlerHttpFilter;
+                if(returnFiddlerHttpFilter==null)
+                {
+                    throw new Exception("get error in FiddlerHttpFilter");
+                }
+                returnFiddlerHttpFilter.UriMatch = GetUriMatch();
+                return returnFiddlerHttpFilter;
+            }
+        }
+
         private int GetResponseLatency()
         {
             return lbl_ResponseLatency.GetLatency();
@@ -215,6 +233,18 @@ namespace FreeHttp.FreeHttpControl
             {
                 cb_macthMode.Text = fiddlerUriMatch.MatchMode.ToString();
                 tb_urlFilter.Text = string.IsNullOrEmpty(fiddlerUriMatch.MatchUri) ? "" : fiddlerUriMatch.MatchUri;
+            }
+        }
+
+        private void SetHttpMatch(FiddlerHttpFilter fiddlerHttpFilter)
+        {
+            if (fiddlerHttpFilter != null)
+            {
+                SetUriMatch(fiddlerHttpFilter.UriMatch);
+                if(fiddlerHttpFilter.HeadMatch!=null && fiddlerHttpFilter.BodyMatch!=null)
+                {
+                    pictureBox_editHttpFilter.Tag = fiddlerHttpFilter;
+                }
             }
         }
 
@@ -261,7 +291,7 @@ namespace FreeHttp.FreeHttpControl
         {
             FiddlerRequsetChange requsetChange = new FiddlerRequsetChange();
             requsetChange.HttpRawRequest = null;
-            requsetChange.UriMatch = GetUriMatch();
+            requsetChange.HttpFilter = GetHttpFilter();
             requsetChange.UriModific = new ContentModific(tb_requestModific_uriModificKey.Text, tb_requestModific_uriModificValue.Text);
             if (requestRemoveHeads.ListDataView.Items.Count > 0)
             {
@@ -286,7 +316,7 @@ namespace FreeHttp.FreeHttpControl
         private FiddlerRequsetChange GetRequestReplaceInfo()
         {
             FiddlerRequsetChange requsetReplace = new FiddlerRequsetChange();
-            requsetReplace.UriMatch = GetUriMatch();
+            requsetReplace.HttpFilter = GetHttpFilter();
             if (IsRequestReplaceRawMode)
             {
                 requsetReplace.HttpRawRequest = HttpRequest.GetHttpRequest(rtb_requestRaw.Text.Replace("\n", "\r\n"));
@@ -358,7 +388,7 @@ namespace FreeHttp.FreeHttpControl
         {
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
             responseChange.HttpRawResponse = null;
-            responseChange.UriMatch = GetUriMatch();
+            responseChange.HttpFilter = GetHttpFilter();
             responseChange.LesponseLatency = GetResponseLatency();
             if (responseRemoveHeads.ListDataView.Items.Count > 0)
             {
@@ -383,7 +413,7 @@ namespace FreeHttp.FreeHttpControl
         private FiddlerResponseChange GetResponseReplaceInfo()
         {
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
-            responseChange.UriMatch = GetUriMatch();
+            responseChange.HttpFilter = GetHttpFilter();
             responseChange.LesponseLatency = GetResponseLatency();
             responseChange.HttpRawResponse = rawResponseEdit.GetHttpResponse();
             responseChange.IsIsDirectRespons = rawResponseEdit.IsDirectRespons;
@@ -416,7 +446,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void SetRequestModificInfo(FiddlerRequsetChange fiddlerRequsetChange)
         {
-            SetUriMatch(fiddlerRequsetChange.UriMatch);
+            SetHttpMatch(fiddlerRequsetChange.HttpFilter);
             if (fiddlerRequsetChange.HttpRawRequest == null)
             {
                 tabControl_Modific.SelectedIndex = 0;
@@ -477,7 +507,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void SetResponseModificInfo(FiddlerResponseChange fiddlerResponseChange)
         {
-            SetUriMatch(fiddlerResponseChange.UriMatch);
+            SetHttpMatch(fiddlerResponseChange.HttpFilter);
             SetResponseLatency(fiddlerResponseChange.LesponseLatency);
             if (fiddlerResponseChange.HttpRawResponse == null)
             {

@@ -9,7 +9,8 @@ namespace FreeHttp.HttpHelper
     public interface IFiddlerHttpTamper
     {
         bool IsEnable { get; set; }
-        FiddlerUriMatch UriMatch { get; set; }
+        //FiddlerUriMatch UriMatch { get; set; }
+        FiddlerHttpFilter HttpFilter { get; set; }
         bool IsRawReplace { get; }
     }
 }

@@ -16,7 +16,7 @@ namespace FreeHttp.HttpHelper
         public List<FiddlerResponseChange> ResponseRuleList { get { return responseRuleList; } set { responseRuleList = value; } }
 
 
-        public FiddlerModificHttpRuleCollection()
+        public FiddlerModificHttpRuleCollection()  // Serializable 需要空参数的构造函数
         {
             requestRuleList = null;
             responseRuleList = null;

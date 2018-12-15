@@ -111,13 +111,16 @@ namespace FreeHttp
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
             if (tempSession != null)
             {
-                if(e.IsGetCookies)
+                if (e.IsGetCookies)
                 {
                     myFreeHttpWindow.SetClientCookies(tempSession.RequestHeaders["Cookie"]);
                 }
-                string tempStr = FiddlerSessionTamper.GetSessionRawData(tempSession, e.IsShowResponse);
-                ShowMes(tempStr == null ? "error session" : string.Format("Get Raw Data\r\n{0}", tempStr));
-                myFreeHttpWindow.ShowOwnerWindow(tempSession.fullUrl, tempStr);
+                else
+                {
+                    string tempStr = FiddlerSessionTamper.GetSessionRawData(tempSession, e.IsShowResponse);
+                    ShowMes(tempStr == null ? "error session" : string.Format("Get Raw Data\r\n{0}", tempStr));
+                    myFreeHttpWindow.ShowOwnerWindow(tempSession.fullUrl, tempStr);
+                }
             }
             else
             {

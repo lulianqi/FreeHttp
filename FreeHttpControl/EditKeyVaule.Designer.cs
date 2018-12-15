@@ -1,6 +1,6 @@
 ﻿namespace FreeHttp.FreeHttpControl
 {
-    partial class AddHead
+    partial class EditKeyVaule
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddHead));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditKeyVaule));
             this.lb_info_2 = new System.Windows.Forms.Label();
             this.lb_info_1 = new System.Windows.Forms.Label();
             this.rtb_value = new System.Windows.Forms.RichTextBox();
@@ -95,7 +95,7 @@
             this.Name = "AddHead";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddHead";
-            this.Load += new System.EventHandler(this.AddResponseHead_Load);
+            this.Load += new System.EventHandler(this.EditKeyVaule_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

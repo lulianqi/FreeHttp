@@ -10,6 +10,8 @@ namespace FreeHttp.HttpHelper
     {
         public bool IsEnable { get; set; }
         public FiddlerUriMatch UriMatch { get; set; }
+        public FiddlerHttpFilter HttpFilter{ get; set; }
+        
         public HttpRequest HttpRawRequest { get; set; }
 
         public ContentModific UriModific { get; set; }
@@ -28,5 +30,6 @@ namespace FreeHttp.HttpHelper
         {
             get { return HttpRawRequest != null; }
         }
+       
     }
 }

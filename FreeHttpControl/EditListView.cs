@@ -16,7 +16,14 @@ namespace FreeHttp.FreeHttpControl
         {
             InitializeComponent();
             columnHeader_data.Text = ColumnHeaderName;
+            SplitStr=SplitStr==null?": ":SplitStr;
         }
+
+        /// <summary>
+        /// 编辑或添加时 key value 的默认分割
+        /// </summary>
+        [DescriptionAttribute("编辑或添加时 key value 的默认分割")]
+        public string SplitStr { get; set; }
 
         /// <summary>
         /// 是否以key value方式显示
@@ -61,7 +68,7 @@ namespace FreeHttp.FreeHttpControl
         {
             if(IsKeyValue)
             {
-                AddHead f = new AddHead(lv_dataList, true);
+                EditKeyVaule f = new EditKeyVaule(lv_dataList, true, SplitStr);
                 f.ShowDialog();
             }
             else
@@ -100,7 +107,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 if (IsKeyValue)
                 {
-                    AddHead f = new AddHead(lv_dataList, false);
+                    EditKeyVaule f = new EditKeyVaule(lv_dataList, false, SplitStr);
                     f.ShowDialog();
                 }
                 else

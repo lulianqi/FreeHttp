@@ -10,6 +10,7 @@ namespace FreeHttp.HttpHelper
     {
         public bool IsEnable { get; set; }
         public FiddlerUriMatch UriMatch { get; set; }
+        public FiddlerHttpFilter HttpFilter { get; set; }
         public HttpResponse HttpRawResponse { get; set; }
 
         public bool IsIsDirectRespons { get; set; } //only for HttpRawResponse

@@ -132,7 +132,15 @@ namespace FreeHttp.FreeHttpControl
 
         private void FreeHttpWindow_Load(object sender, EventArgs e)
         {
-            LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+            try
+            {
+                LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException.Message), "load user rule fail");
+                File.Copy("RuleData.xml", "RuleData.lastErrorFile", true);
+            }
             if(ModificSettingInfo==null)
             {
                 ModificSettingInfo = new FiddlerModificSettingInfo(false, true, true);
@@ -245,6 +253,11 @@ namespace FreeHttp.FreeHttpControl
         {
             pb_ruleComfrim_Click(sender, e);
         }
+        private void pictureBox_editHttpFilter_Click(object sender, EventArgs e)
+        {
+            HttpFilterWindow f = new HttpFilterWindow();
+            f.ShowDialog();
+        }
 
         //pictureBox change for all
         public void pictureBox_MouseMove(object sender, MouseEventArgs e)
@@ -315,7 +328,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void tabControl_Modific_Resize(object sender, EventArgs e)
         {
-            tb_urlFilter.Width = tabControl_Modific.Width - 250;
+            tb_urlFilter.Width = tabControl_Modific.Width - 275;
 
             //tabPage_requestModific
             requestRemoveHeads.Width = (tabControl_Modific.Width - 22) / 3;
@@ -398,7 +411,7 @@ namespace FreeHttp.FreeHttpControl
                 return;
             }
 
-            if (fiddlerHttpTamper.UriMatch == null)
+            if (fiddlerHttpTamper.HttpFilter == null || fiddlerHttpTamper.HttpFilter.UriMatch == null)
             {
                 MessageBox.Show("you Uri Filter is not legal \r\n check it again", "edit again");
                 MarkControl(groupBox_urlFilter, Color.Plum, 2);
@@ -408,7 +421,7 @@ namespace FreeHttp.FreeHttpControl
             ListViewItem nowRuleItem = null;
             foreach (ListViewItem tempItem in tamperRuleListView.Items)
             {
-                if (fiddlerHttpTamper.UriMatch.Equals(tempItem.Tag))
+                if (fiddlerHttpTamper.HttpFilter.UriMatch.Equals(tempItem.Tag))
                 {
                     if (tempItem == EditListViewItem)
                     {
@@ -537,7 +550,7 @@ namespace FreeHttp.FreeHttpControl
                 return;
             }
             tabControl_Modific.SelectedIndex = 0;
-            AddHead f = new AddHead(requestAddHeads.ListDataView, "Cookie");
+            EditKeyVaule f = new EditKeyVaule(requestAddHeads.ListDataView, "Cookie", ": ");
             f.ShowDialog();
         }
 
@@ -550,7 +563,7 @@ namespace FreeHttp.FreeHttpControl
             }
             tabControl_Modific.SelectedIndex = 0;
             requestRemoveHeads.ListDataView.Items.Add("User-Agent");
-            AddHead f = new AddHead(requestAddHeads.ListDataView, "User-Agent");
+            EditKeyVaule f = new EditKeyVaule(requestAddHeads.ListDataView, "User-Agent", ": ");
             f.ShowDialog();
         }
 
@@ -915,8 +928,6 @@ namespace FreeHttp.FreeHttpControl
 
 
         #endregion
-
-       
 
         #region ResponseModific
 
