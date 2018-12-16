@@ -3,12 +3,10 @@
   <RequestRuleList>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
+      </UriMatch>
       <UriModific>
         <ModificMode>NoChange</ModificMode>
       </UriModific>
@@ -22,12 +20,10 @@
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Contain</MatchMode>
-          <MatchUri>baidu.com</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Contain</MatchMode>
+        <MatchUri>baidu.com</MatchUri>
+      </UriMatch>
       <UriModific>
         <ModificMode>KeyVauleReplace</ModificMode>
         <TargetKey>baidu.com</TargetKey>
@@ -41,12 +37,10 @@
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler</MatchUri>
+      </UriMatch>
       <HttpRawRequest>
         <RequestLine>GET http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler HTTP/1.1</RequestLine>
         <RequestMethod>GET</RequestMethod>
@@ -114,12 +108,10 @@ AddOrigin: from lijie PC
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/be887dfd-9d39-40d5-9d31-6b04cd873261.jpg</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/be887dfd-9d39-40d5-9d31-6b04cd873261.jpg</MatchUri>
+      </UriMatch>
       <UriModific>
         <ModificMode>KeyVauleReplace</ModificMode>
         <TargetKey>ecom-qa.baiwandian.cn</TargetKey>
@@ -133,12 +125,10 @@ AddOrigin: from lijie PC
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False0p</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False0p</MatchUri>
+      </UriMatch>
       <HttpRawRequest>
         <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>
         <RequestMethod>GET</RequestMethod>
@@ -185,12 +175,10 @@ AddOrigin: from lijie PC
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Regex</MatchMode>
-          <MatchUri>^https://www.baiwandian.cn/xinyunlian-weixin-ecom/static/resources/shop/js/productPage/page.\S*?.js\b</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Regex</MatchMode>
+        <MatchUri>^https://www.baiwandian.cn/xinyunlian-weixin-ecom/static/resources/shop/js/productPage/page.\S*?.js\b</MatchUri>
+      </UriMatch>
       <UriModific>
         <ModificMode>NoChange</ModificMode>
       </UriModific>
@@ -210,12 +198,10 @@ AddOrigin: from lijie PC
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg</MatchUri>
+      </UriMatch>
       <HttpRawRequest>
         <RequestLine>GET http://www.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg HTTP/1.1</RequestLine>
         <RequestMethod>GET</RequestMethod>
@@ -288,12 +274,10 @@ AddOrigin: from lijie PC
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://test.huala.com/home</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://test.huala.com/home</MatchUri>
+      </UriMatch>
       <UriModific>
         <ModificMode>NoChange</ModificMode>
       </UriModific>
@@ -307,12 +291,10 @@ AddOrigin: from lijie PC
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://test.huala.com/huala/v3/goods/1/10356</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://test.huala.com/huala/v3/goods/1/10356</MatchUri>
+      </UriMatch>
       <UriModific>
         <ModificMode>NoChange</ModificMode>
       </UriModific>
@@ -326,12 +308,10 @@ AddOrigin: from lijie PC
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://test.huala.com/webapp/app.16a2a043428357bce5d7.js</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://test.huala.com/webapp/app.16a2a043428357bce5d7.js</MatchUri>
+      </UriMatch>
       <UriModific>
         <ModificMode>NoChange</ModificMode>
       </UriModific>
@@ -347,12 +327,10 @@ AddOrigin: from lijie PC
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>true</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://wxsytest.huala.com/lijie/test.css2</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://wxsytest.huala.com/lijie/test.css</MatchUri>
+      </UriMatch>
       <UriModific>
         <ModificMode>NoChange</ModificMode>
       </UriModific>
@@ -368,12 +346,10 @@ AddOrigin: from lijie PC
   <ResponseRuleList>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/6594fe02-076c-47f4-8dd3-3c0df3ffe6cb.jpg</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/6594fe02-076c-47f4-8dd3-3c0df3ffe6cb.jpg</MatchUri>
+      </UriMatch>
       <HttpRawResponse>
         <ResponseLine>HTTP/1.1 302 Redirect</ResponseLine>
         <ResponseVersion>HTTP/1.1</ResponseVersion>
@@ -413,12 +389,10 @@ Content-Length: 0
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Regex</MatchMode>
-          <MatchUri>^https://www.baiwandian.cn/xinyunlian-weixin-ecom/static/resources/shop/js/productPage/page.\S*?.js\b</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Regex</MatchMode>
+        <MatchUri>^https://www.baiwandian.cn/xinyunlian-weixin-ecom/static/resources/shop/js/productPage/page.\S*?.js\b</MatchUri>
+      </UriMatch>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList />
@@ -1071,12 +1045,10 @@ $.onPageShow(function() {
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/3613e290-8028-4ddc-946c-b89c67f4f31a.jpg</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/3613e290-8028-4ddc-946c-b89c67f4f31a.jpg</MatchUri>
+      </UriMatch>
       <HttpRawResponse>
         <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
         <ResponseVersion>HTTP/1.1</ResponseVersion>
@@ -1111,12 +1083,10 @@ Content-Length: 51
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/40506472-908f-4796-bc38-f4ee0c878613.jpg</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/40506472-908f-4796-bc38-f4ee0c878613.jpg</MatchUri>
+      </UriMatch>
       <HttpRawResponse>
         <ResponseLine>HTTP/1.1 302 Redirect</ResponseLine>
         <ResponseVersion>HTTP/1.1</ResponseVersion>
@@ -1156,12 +1126,10 @@ Content-Length: 0
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://re.csdn.net/csdnbi</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://re.csdn.net/csdnbi</MatchUri>
+      </UriMatch>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList>
@@ -1174,12 +1142,10 @@ Content-Length: 0
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>StartWith</MatchMode>
-          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-weixin-ecom/wx/index/getPromotionNavPage.jhtml?pageNum=1&amp;_=1</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>StartWith</MatchMode>
+        <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-weixin-ecom/wx/index/getPromotionNavPage.jhtml?pageNum=1&amp;_=1</MatchUri>
+      </UriMatch>
       <HttpRawResponse>
         <ResponseLine>HTTP/1.1 200 </ResponseLine>
         <ResponseVersion>HTTP/1.1</ResponseVersion>
@@ -1234,12 +1200,10 @@ Content-Length: 1964
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://www.wireshark.org:443</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>http://www.wireshark.org:443</MatchUri>
+      </UriMatch>
       <HttpRawResponse>
         <ResponseLine>HTTP/1.1 200 Connection Established</ResponseLine>
         <ResponseVersion>HTTP/1.1</ResponseVersion>
@@ -1286,12 +1250,10 @@ ssl380445.cloudflaressl.com, *.ad-oil.com.ua, *.akivo.ca, *.artyramaonline.com, 
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://api.map.baidu.com/sdkcs/verify</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://api.map.baidu.com/sdkcs/verify</MatchUri>
+      </UriMatch>
       <HttpRawResponse>
         <ResponseLine>HTTP/1.1 404 Not Found</ResponseLine>
         <ResponseVersion>HTTP/1.1</ResponseVersion>
@@ -1331,12 +1293,10 @@ Fiddler: HTTP/404 Not Found</OriginSting>
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>StartWith</MatchMode>
-          <MatchUri>https://smp-qa.baiwandian.cn/xinyunlian-smp/resources/lib/select2/js/select2.js?</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>StartWith</MatchMode>
+        <MatchUri>https://smp-qa.baiwandian.cn/xinyunlian-smp/resources/lib/select2/js/select2.js?</MatchUri>
+      </UriMatch>
       <HttpRawResponse>
         <ResponseLine>HTTP/1.1 404 Not Found</ResponseLine>
         <ResponseVersion>HTTP/1.1</ResponseVersion>
@@ -1376,12 +1336,10 @@ Fiddler: HTTP/404 Not Found</OriginSting>
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://www.googletagmanager.com/gtag/js?id=UA-121797223-1</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://www.googletagmanager.com/gtag/js?id=UA-121797223-1</MatchUri>
+      </UriMatch>
       <HttpRawResponse>
         <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
         <ResponseVersion>HTTP/1.1</ResponseVersion>
@@ -1674,12 +1632,10 @@ a:{if(!qe)break a;B.setInterval(re,864E5);}jd=(new Date).getTime()}};Bi.Gf();
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Regex</MatchMode>
-          <MatchUri>^https://wxsytest.huala.com/hlman-pic\S*?.png\b</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Regex</MatchMode>
+        <MatchUri>^https://wxsytest.huala.com/hlman-pic\S*?.png\b</MatchUri>
+      </UriMatch>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>10000</LesponseLatency>
       <HeadAddList />
@@ -1690,12 +1646,10 @@ a:{if(!qe)break a;B.setInterval(re,864E5);}jd=(new Date).getTime()}};Bi.Gf();
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Regex</MatchMode>
-          <MatchUri>^https://wxsytest.huala.com/hlman-pic/\.png</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Regex</MatchMode>
+        <MatchUri>^https://wxsytest.huala.com/hlman-pic/\.png</MatchUri>
+      </UriMatch>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>1000</LesponseLatency>
       <HeadAddList />
@@ -1706,12 +1660,10 @@ a:{if(!qe)break a;B.setInterval(re,864E5);}jd=(new Date).getTime()}};Bi.Gf();
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://test.huala.com/webapp/main.css</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://test.huala.com/webapp/main.css</MatchUri>
+      </UriMatch>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList>
@@ -1726,12 +1678,10 @@ a:{if(!qe)break a;B.setInterval(re,864E5);}jd=(new Date).getTime()}};Bi.Gf();
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://wxsytest.huala.com/lijie/test.css</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://wxsytest.huala.com/lijie/test.css</MatchUri>
+      </UriMatch>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList>
@@ -1744,12 +1694,10 @@ a:{if(!qe)break a;B.setInterval(re,864E5);}jd=(new Date).getTime()}};Bi.Gf();
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://wxsytest.huala.com/webapp/main.css</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://wxsytest.huala.com/webapp/main.css</MatchUri>
+      </UriMatch>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList>
@@ -1766,12 +1714,10 @@ a:{if(!qe)break a;B.setInterval(re,864E5);}jd=(new Date).getTime()}};Bi.Gf();
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://wxsytest.huala.com/home</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://wxsytest.huala.com/home</MatchUri>
+      </UriMatch>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList>
@@ -1784,12 +1730,10 @@ a:{if(!qe)break a;B.setInterval(re,864E5);}jd=(new Date).getTime()}};Bi.Gf();
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>true</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://test.huala.com/huala/v3/goods/1/10357</MatchUri>
-        </UriMatch>
-      </HttpFilter>
+      <UriMatch>
+        <MatchMode>Is</MatchMode>
+        <MatchUri>https://test.huala.com/huala/v3/goods/1/10357</MatchUri>
+      </UriMatch>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList />

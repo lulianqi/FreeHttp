@@ -20,12 +20,10 @@ namespace FreeHttp.HttpHelper
                 List<FiddlerResponseChange> responseList = new List<FiddlerResponseChange>();
                 foreach (ListViewItem tempItem in requestRuleListView.Items)
                 {
-                    ((FiddlerRequsetChange)tempItem.Tag).HttpFilter = new FiddlerHttpFilter(((FiddlerRequsetChange)tempItem.Tag).UriMatch);
                     requestList.Add((FiddlerRequsetChange)tempItem.Tag);
                 }
                 foreach (ListViewItem tempItem in reponseRuleListView.Items)
                 {
-                    ((FiddlerResponseChange)tempItem.Tag).HttpFilter = new FiddlerHttpFilter(((FiddlerResponseChange)tempItem.Tag).UriMatch);
                     responseList.Add((FiddlerResponseChange)tempItem.Tag);
                 }
                 //Stream stream = File.Open("data.xml", FileMode.Create);
@@ -50,7 +48,7 @@ namespace FreeHttp.HttpHelper
                 }
                 catch(Exception ex)
                 {
-                    MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException.Message),"load user rule fail");
+                    MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message), "load user rule fail");
                     File.Copy("RuleData.xml", "RuleData.lastErrorFile",true);
                 }
                 finally
@@ -86,7 +84,7 @@ namespace FreeHttp.HttpHelper
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException.Message), "load user setting fail");
+                    MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message), "load user setting fail");
                     File.Copy(filePath, string.Format("{0}.lastErrorFile", filePath), true);
                 }
                 finally

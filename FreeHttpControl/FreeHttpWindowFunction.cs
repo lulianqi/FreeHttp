@@ -42,6 +42,7 @@ namespace FreeHttp.FreeHttpControl
                 {
                     foreach (var tempRule in yourRuleCollecttion.RequestRuleList)
                     {
+                        //tempRule.HttpFilter = new FiddlerHttpFilter(tempRule.UriMatch);
                         AddRuleToListView(lv_requestRuleList, tempRule, false);
                     }
                 }
@@ -49,6 +50,7 @@ namespace FreeHttp.FreeHttpControl
                 {
                     foreach (var tempRule in yourRuleCollecttion.ResponseRuleList)
                     {
+                        //tempRule.HttpFilter = new FiddlerHttpFilter(tempRule.UriMatch);
                         AddRuleToListView(lv_responseRuleList, tempRule, false);
                     }
                 }

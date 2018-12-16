@@ -9,7 +9,7 @@ namespace FreeHttp.HttpHelper
     public class FiddlerResponseChange : IFiddlerHttpTamper
     {
         public bool IsEnable { get; set; }
-        public FiddlerUriMatch UriMatch { get; set; }
+        //public FiddlerUriMatch UriMatch { get; set; }
         public FiddlerHttpFilter HttpFilter { get; set; }
         public HttpResponse HttpRawResponse { get; set; }
 

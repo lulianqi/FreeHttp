@@ -138,7 +138,7 @@ namespace FreeHttp.FreeHttpControl
             }
             catch(Exception ex)
             {
-                MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException.Message), "load user rule fail");
+                MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException==null? "":ex.InnerException.Message), "load user rule fail");
                 File.Copy("RuleData.xml", "RuleData.lastErrorFile", true);
             }
             if(ModificSettingInfo==null)
