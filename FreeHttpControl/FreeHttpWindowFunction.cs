@@ -117,6 +117,8 @@ namespace FreeHttp.FreeHttpControl
                         MarkRuleOutEdit(EditListViewItem);
                     }
                     EditListViewItem = null;
+                    pictureBox_editHttpFilter.Tag = null;
+                    pictureBox_editHttpFilter.Image = Resources.MyResource.filter_off;
                     break;
                 case RuleEditMode.EditRequsetRule:  //edit request
                     lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
@@ -243,9 +245,14 @@ namespace FreeHttp.FreeHttpControl
             if (fiddlerHttpFilter != null)
             {
                 SetUriMatch(fiddlerHttpFilter.UriMatch);
-                if(fiddlerHttpFilter.HeadMatch!=null && fiddlerHttpFilter.BodyMatch!=null)
+                pictureBox_editHttpFilter.Tag = fiddlerHttpFilter;
+                if(fiddlerHttpFilter.HeadMatch!=null || fiddlerHttpFilter.BodyMatch!=null)
                 {
-                    pictureBox_editHttpFilter.Tag = fiddlerHttpFilter;
+                    pictureBox_editHttpFilter.Image = Resources.MyResource.filter_on;
+                }
+                else
+                {
+                    pictureBox_editHttpFilter.Image = Resources.MyResource.filter_off;
                 }
             }
         }
@@ -571,10 +578,10 @@ namespace FreeHttp.FreeHttpControl
         public void SetModificSession(Fiddler.Session session)
         {
             ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
-
             tb_urlFilter.Text = session.fullUrl;
             cb_macthMode.SelectedIndex = 2;
 
+            pictureBox_editHttpFilter.Tag = GetHttpFilter();
             if (tabControl_Modific.SelectedIndex == 0)
             {
                 tabControl_Modific.SelectedIndex = 1;

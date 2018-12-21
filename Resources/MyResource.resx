@@ -124,6 +124,12 @@
   <data name="edit_mode" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>edit_mode.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="filter_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>filter_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="filter_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>filter_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="freehttpico" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>freehttpico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

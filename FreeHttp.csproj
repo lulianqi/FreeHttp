@@ -151,6 +151,7 @@
     <Compile Include="HttpHelper\HttpRequest.cs" />
     <Compile Include="HttpHelper\HttpResponse.cs" />
     <Compile Include="HttpHelper\IFiddlerHttpTamper.cs" />
+    <Compile Include="HttpHelper\MyExtensionMethods.cs" />
     <Compile Include="HttpHelper\MyKeyValuePair.cs" />
     <Compile Include="HttpHelper\SerializableHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -250,9 +251,15 @@
   <ItemGroup>
     <None Include="Resources\switch_on.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_off.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

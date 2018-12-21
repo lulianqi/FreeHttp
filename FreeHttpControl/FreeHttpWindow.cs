@@ -255,8 +255,21 @@ namespace FreeHttp.FreeHttpControl
         }
         private void pictureBox_editHttpFilter_Click(object sender, EventArgs e)
         {
-            HttpFilterWindow f = new HttpFilterWindow();
+            if (pictureBox_editHttpFilter.Tag==null)
+            {
+                pictureBox_editHttpFilter.Tag = GetHttpFilter();
+            }
+            HttpFilterWindow f = new HttpFilterWindow(pictureBox_editHttpFilter.Tag);
             f.ShowDialog();
+
+            if (((FiddlerHttpFilter)pictureBox_editHttpFilter.Tag).HeadMatch != null || ((FiddlerHttpFilter)pictureBox_editHttpFilter.Tag).BodyMatch != null)
+            {
+                pictureBox_editHttpFilter.Image = Resources.MyResource.filter_on;
+            }
+            else
+            {
+                pictureBox_editHttpFilter.Image = Resources.MyResource.filter_off;
+            }
         }
 
         //pictureBox change for all
@@ -421,12 +434,13 @@ namespace FreeHttp.FreeHttpControl
             ListViewItem nowRuleItem = null;
             foreach (ListViewItem tempItem in tamperRuleListView.Items)
             {
-                if (fiddlerHttpTamper.HttpFilter.UriMatch.Equals(tempItem.Tag))
+                if (tempItem == EditListViewItem)
                 {
-                    if (tempItem == EditListViewItem)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
+                //if (fiddlerHttpTamper.HttpFilter.UriMatch.Equals(tempItem.Tag))
+                if (fiddlerHttpTamper.HttpFilter.Equals(tempItem.Tag))
+                {
                     MarkRuleItem(tempItem, Color.Plum, 2);
                     DialogResult tempDs;
                     //add mode
@@ -484,7 +498,6 @@ namespace FreeHttp.FreeHttpControl
                     UpdataRuleToListView(EditListViewItem, fiddlerHttpTamper, true);
                 }
             }
-
             ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
         }
 

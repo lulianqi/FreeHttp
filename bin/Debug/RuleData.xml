@@ -310,8 +310,20 @@ AddOrigin: from lijie PC
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
-          <MatchUri>https://test.huala.com/huala/v3/goods/1/10356</MatchUri>
+          <MatchUri>http://127.0.0.1:50000/word=test&amp;heartbeating=true&amp;src=&amp;</MatchUri>
         </UriMatch>
+        <HeadMatch>
+          <HeadsFilter>
+            <MyKeyValuePairOfStringString>
+              <Key>55</Key>
+              <Value>5555</Value>
+            </MyKeyValuePairOfStringString>
+          </HeadsFilter>
+        </HeadMatch>
+        <BodyMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>55555</MatchUri>
+        </BodyMatch>
       </HttpFilter>
       <UriModific>
         <ModificMode>NoChange</ModificMode>
@@ -352,6 +364,18 @@ AddOrigin: from lijie PC
           <MatchMode>Is</MatchMode>
           <MatchUri>https://wxsytest.huala.com/lijie/test.css2</MatchUri>
         </UriMatch>
+        <HeadMatch>
+          <HeadsFilter>
+            <MyKeyValuePairOfStringString>
+              <Key>ww</Key>
+              <Value>www</Value>
+            </MyKeyValuePairOfStringString>
+          </HeadsFilter>
+        </HeadMatch>
+        <BodyMatch>
+          <MatchMode>StartWith</MatchMode>
+          <MatchUri>dssdsf</MatchUri>
+        </BodyMatch>
       </HttpFilter>
       <UriModific>
         <ModificMode>NoChange</ModificMode>
@@ -363,6 +387,267 @@ AddOrigin: from lijie PC
       <BodyModific>
         <ModificMode>NoChange</ModificMode>
       </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Contain</MatchMode>
+          <MatchUri>6666</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
+        </UriMatch>
+        <BodyMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>r2</MatchUri>
+        </BodyMatch>
+      </HttpFilter>
+      <HttpRawRequest>
+        <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Fiddler/5.0.20182.28034 (.NET 4.5.2; WinNT 6.1.7601 SP1; zh-CN; 4xAMD64; Auto Update; Full Instance; Extensions: APITesting, AutoSaveExt, EventLog, FiddlerFreeCookies, FiddlerFreeHttp, FiddlerOrchestraAddon, FiddlerWatcherExtension, HostsFile, MyHandleExecAction, RulesTab2, SAZClipboardFactory, SimpleFilter, TestExtension, TestForXyl, Timeline)</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Pragma</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>www.fiddler2.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Referer</Key>
+            <Value>http://fiddler2.com/client/5.0.20182.28034</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>close</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
+        </UriMatch>
+        <BodyMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>r</MatchUri>
+        </BodyMatch>
+      </HttpFilter>
+      <HttpRawRequest>
+        <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Fiddler/5.0.20182.28034 (.NET 4.5.2; WinNT 6.1.7601 SP1; zh-CN; 4xAMD64; Auto Update; Full Instance; Extensions: APITesting, AutoSaveExt, EventLog, FiddlerFreeCookies, FiddlerFreeHttp, FiddlerOrchestraAddon, FiddlerWatcherExtension, HostsFile, MyHandleExecAction, RulesTab2, SAZClipboardFactory, SimpleFilter, TestExtension, TestForXyl, Timeline)</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Pragma</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>www.fiddler2.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Referer</Key>
+            <Value>http://fiddler2.com/client/5.0.20182.28034</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>close</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
+        </UriMatch>
+        <HeadMatch>
+          <HeadsFilter>
+            <MyKeyValuePairOfStringString>
+              <Key>123</Key>
+              <Value>123</Value>
+            </MyKeyValuePairOfStringString>
+            <MyKeyValuePairOfStringString>
+              <Key>123</Key>
+              <Value>123</Value>
+            </MyKeyValuePairOfStringString>
+          </HeadsFilter>
+        </HeadMatch>
+        <BodyMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>r2</MatchUri>
+        </BodyMatch>
+      </HttpFilter>
+      <HttpRawRequest>
+        <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Fiddler/5.0.20182.28034 (.NET 4.5.2; WinNT 6.1.7601 SP1; zh-CN; 4xAMD64; Auto Update; Full Instance; Extensions: APITesting, AutoSaveExt, EventLog, FiddlerFreeCookies, FiddlerFreeHttp, FiddlerOrchestraAddon, FiddlerWatcherExtension, HostsFile, MyHandleExecAction, RulesTab2, SAZClipboardFactory, SimpleFilter, TestExtension, TestForXyl, Timeline)</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Pragma</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>www.fiddler2.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Referer</Key>
+            <Value>http://fiddler2.com/client/5.0.20182.28034</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>close</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+      </HttpRawRequest>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
+        </UriMatch>
+        <HeadMatch>
+          <HeadsFilter>
+            <MyKeyValuePairOfStringString>
+              <Key>123</Key>
+              <Value>123</Value>
+            </MyKeyValuePairOfStringString>
+            <MyKeyValuePairOfStringString>
+              <Key>12</Key>
+              <Value>12</Value>
+            </MyKeyValuePairOfStringString>
+          </HeadsFilter>
+        </HeadMatch>
+        <BodyMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>r2</MatchUri>
+        </BodyMatch>
+      </HttpFilter>
+      <HttpRawRequest>
+        <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Fiddler/5.0.20182.28034 (.NET 4.5.2; WinNT 6.1.7601 SP1; zh-CN; 4xAMD64; Auto Update; Full Instance; Extensions: APITesting, AutoSaveExt, EventLog, FiddlerFreeCookies, FiddlerFreeHttp, FiddlerOrchestraAddon, FiddlerWatcherExtension, HostsFile, MyHandleExecAction, RulesTab2, SAZClipboardFactory, SimpleFilter, TestExtension, TestForXyl, Timeline)</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Pragma</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>www.fiddler2.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Referer</Key>
+            <Value>http://fiddler2.com/client/5.0.20182.28034</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>close</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+      </HttpRawRequest>
     </FiddlerRequsetChange>
   </RequestRuleList>
   <ResponseRuleList>
@@ -1801,6 +2086,68 @@ a:{if(!qe)break a;B.setInterval(re,864E5);}jd=(new Date).getTime()}};Bi.Gf();
       <BodyModific>
         <ModificMode>NoChange</ModificMode>
       </BodyModific>
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://127.0.0.1:50000/word=test&amp;heartbeating=true&amp;src=&amp;</MatchUri>
+        </UriMatch>
+        <HeadMatch>
+          <HeadsFilter>
+            <MyKeyValuePairOfStringString>
+              <Key>55</Key>
+              <Value>5555</Value>
+            </MyKeyValuePairOfStringString>
+          </HeadsFilter>
+        </HeadMatch>
+        <BodyMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>55555</MatchUri>
+        </BodyMatch>
+      </HttpFilter>
+      <HttpRawResponse>
+        <ResponseLine>HTTP/1.1 504 Fiddler - Receive Failure</ResponseLine>
+        <ResponseVersion>HTTP/1.1</ResponseVersion>
+        <ResponseCode>504</ResponseCode>
+        <ResponseStatusDescription>Fiddler - Receive Failure</ResponseStatusDescription>
+        <ResponseHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>Date</Key>
+            <Value>Thu, 20 Dec 2018 06:36:39 GMT</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Type</Key>
+            <Value>text/html; charset=UTF-8</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>close</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Cache-Control</Key>
+            <Value>no-cache, must-revalidate</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Timestamp</Key>
+            <Value>14:36:39.969</Value>
+          </MyKeyValuePairOfStringString>
+        </ResponseHeads>
+        <ResponseEntity>W0ZpZGRsZXJdIFJlYWRSZXNwb25zZSgpIGZhaWxlZDogVGhlIHNlcnZlciBkaWQgbm90IHJldHVybiBhIGNvbXBsZXRlIHJlc3BvbnNlIGZvciB0aGlzIHJlcXVlc3QuIFNlcnZlciByZXR1cm5lZCAwIGJ5dGVzLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=</ResponseEntity>
+        <OriginSting>HTTP/1.1 504 Fiddler - Receive Failure
+Date: Thu, 20 Dec 2018 06:36:39 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: close
+Cache-Control: no-cache, must-revalidate
+Timestamp: 14:36:39.969
+
+[Fiddler] ReadResponse() failed: The server did not return a complete response for this request. Server returned 0 bytes.                                                                                                                                                                                                                                                                                                                                                                                                       </OriginSting>
+      </HttpRawResponse>
+      <IsIsDirectRespons>false</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
+      <HeadAddList />
+      <HeadDelList />
     </FiddlerResponseChange>
   </ResponseRuleList>
 </FiddlerModificHttpRuleCollection>

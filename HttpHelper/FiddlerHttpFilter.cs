@@ -81,6 +81,15 @@ namespace FreeHttp.HttpHelper
             HeadsFilter = headsFilter;
         }
 
+        public void AddHeadMatch(MyKeyValuePair<string, string> yourHeadMatch)
+        {
+            if(HeadsFilter==null)
+            {
+                HeadsFilter=new List<MyKeyValuePair<string,string>>();
+            }
+            HeadsFilter.Add(yourHeadMatch);
+        }
+
         public bool Match(HTTPHeaders matchHeaders)
         {
             if(HeadsFilter!=null && HeadsFilter.Count>0)
@@ -94,6 +103,30 @@ namespace FreeHttp.HttpHelper
                 }
             }
             return true;
+        }
+
+        public bool Equals(FiddlerHeadMatch yourFiddlerHeadMatch)
+        {
+            if (yourFiddlerHeadMatch.HeadsFilter.Count == HeadsFilter.Count)
+            {
+                List<MyKeyValuePair<string, string>> HeadsFilterForEqual = HeadsFilter.MyClone();
+                foreach(var tempHead in yourFiddlerHeadMatch.HeadsFilter)
+                {
+                    if(HeadsFilterForEqual.MyContains(tempHead))
+                    {
+                        HeadsFilterForEqual.Remove(tempHead);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                if(HeadsFilterForEqual.Count==0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
@@ -138,6 +171,50 @@ namespace FreeHttp.HttpHelper
                 }
             }
             return isMatch;
+        }
+    
+        public bool Equals(FiddlerHttpFilter yourFiddlerHttpFilter)
+        {
+            if (!UriMatch.Equals(yourFiddlerHttpFilter.UriMatch))
+            {
+                return false;
+            }
+
+            if ((HeadMatch == null || yourFiddlerHttpFilter.HeadMatch == null) && (!(HeadMatch == null && yourFiddlerHttpFilter.HeadMatch == null)))
+            {
+                return false;
+            }
+            if (HeadMatch != null && yourFiddlerHttpFilter.HeadMatch != null)
+            {
+                if(!HeadMatch.Equals(yourFiddlerHttpFilter.HeadMatch))
+                {
+                    return false;
+                }
+            }
+
+            if ((BodyMatch == null || yourFiddlerHttpFilter.BodyMatch == null) && (!(BodyMatch == null && yourFiddlerHttpFilter.BodyMatch == null)))
+            {
+                return false;
+            }
+            if (BodyMatch != null && yourFiddlerHttpFilter.BodyMatch != null)
+            {
+                if (!BodyMatch.Equals(yourFiddlerHttpFilter.BodyMatch))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public new bool Equals(object targetFiddlerHttpFilter)
+        {
+            IFiddlerHttpTamper fiddlerHttpTamper = targetFiddlerHttpFilter as IFiddlerHttpTamper;
+            if (fiddlerHttpTamper == null)
+            {
+                return false;
+            }
+            return this.Equals(fiddlerHttpTamper.HttpFilter);
         }
     }
 }
