@@ -84,6 +84,7 @@
             // 
             this.FilterHeads.ColumnHeaderName = "Head Filter";
             this.FilterHeads.Dock = System.Windows.Forms.DockStyle.Top;
+            this.FilterHeads.IsItemUnique = true;
             this.FilterHeads.IsKeyValue = true;
             this.FilterHeads.Location = new System.Drawing.Point(0, 0);
             this.FilterHeads.Name = "FilterHeads";

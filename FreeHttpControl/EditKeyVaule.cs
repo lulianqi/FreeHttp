@@ -15,6 +15,7 @@ namespace FreeHttp.FreeHttpControl
         ListView editListView;
         string splitStr; //splitStr ": "
         bool isAdd;      //add or edit mode
+        bool isUnique;   //is not allow repetition
         public EditKeyVaule(ListView yourEditListView , bool yourIsAdd ,string yourSplitStr)
         {
             InitializeComponent();
@@ -28,6 +29,12 @@ namespace FreeHttp.FreeHttpControl
         {
             tb_key.Text = yourHeadKey;
             tb_key.Enabled = false;
+        }
+
+        public EditKeyVaule(ListView yourEditListView, bool yourIsAdd, bool yourIsUnique, string yourSplitStr)
+            : this(yourEditListView, yourIsAdd, yourSplitStr)
+        {
+            isUnique = yourIsUnique;
         }
 
         private void EditKeyVaule_Load(object sender, EventArgs e)
@@ -52,13 +59,29 @@ namespace FreeHttp.FreeHttpControl
             }
             else
             {
+                string tempItemStr = String.Format("{0}{1}{2}", tb_key.Text, splitStr, rtb_value.Text);
+                if(isUnique)
+                {
+                    foreach(ListViewItem tempItem in editListView.Items)
+                    {
+                        if (tempItem.Text == tempItemStr)
+                        {
+                            if(!isAdd && tempItem==editListView.SelectedItems[0])
+                            {
+                                continue;
+                            }
+                            MessageBox.Show("Find the same data in the list", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            return;
+                        }
+                    }
+                }
                 if (isAdd)
                 {
-                    editListView.Items.Add(String.Format("{0}{1}{2}", tb_key.Text,splitStr, rtb_value.Text));
+                    editListView.Items.Add(tempItemStr);
                 }
                 else
                 {
-                    editListView.SelectedItems[0].Text = String.Format("{0}{1}{2}", tb_key.Text,splitStr, rtb_value.Text);
+                    editListView.SelectedItems[0].Text = tempItemStr;
                 }
                 this.Close();
             }

@@ -32,6 +32,12 @@ namespace FreeHttp.FreeHttpControl
         public bool IsKeyValue { get; set; }
 
         /// <summary>
+        /// List Item 的值是否保持唯一性
+        /// </summary>
+        [DescriptionAttribute("编辑或添加时List Item 的值是否保持唯一性")]
+        public bool IsItemUnique { get; set; }
+
+        /// <summary>
         /// 可用于显示的列名
         /// </summary>
         [DescriptionAttribute("可用于显示的列名")]
@@ -68,12 +74,12 @@ namespace FreeHttp.FreeHttpControl
         {
             if(IsKeyValue)
             {
-                EditKeyVaule f = new EditKeyVaule(lv_dataList, true, SplitStr);
+                EditKeyVaule f = new EditKeyVaule(lv_dataList, true,IsItemUnique, SplitStr);
                 f.ShowDialog();
             }
             else
             {
-                RemoveHead f = new RemoveHead(lv_dataList, true);
+                RemoveHead f = new RemoveHead(lv_dataList, true, IsItemUnique);
                 f.ShowDialog();
             }
         }
@@ -107,12 +113,12 @@ namespace FreeHttp.FreeHttpControl
             {
                 if (IsKeyValue)
                 {
-                    EditKeyVaule f = new EditKeyVaule(lv_dataList, false, SplitStr);
+                    EditKeyVaule f = new EditKeyVaule(lv_dataList, false,IsItemUnique, SplitStr);
                     f.ShowDialog();
                 }
                 else
                 {
-                    RemoveHead f = new RemoveHead(lv_dataList, false);
+                    RemoveHead f = new RemoveHead(lv_dataList,IsItemUnique, false);
                     f.ShowDialog();
                 }
             }

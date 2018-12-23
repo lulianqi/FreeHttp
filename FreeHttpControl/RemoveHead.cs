@@ -12,16 +12,20 @@ namespace FreeHttp.FreeHttpControl
 {
     public partial class RemoveHead : Form
     {
+        ListView editListView;
+        bool isAdd;
+        bool isUnique;   //is not allow repetition
+
         public RemoveHead(ListView yourEditListView, bool yourIsAdd)
+            : this(yourEditListView, yourIsAdd, false) { }
+
+        public RemoveHead(ListView yourEditListView, bool yourIsAdd, bool yourIsUnique)
         {
             InitializeComponent();
             editListView = yourEditListView;
             isAdd = yourIsAdd;
+            isUnique = yourIsUnique;
         }
-
-
-        ListView editListView;
-        bool isAdd;
 
         private void RemoveHead_Load(object sender, EventArgs e)
         {
@@ -41,13 +45,29 @@ namespace FreeHttp.FreeHttpControl
             }
             else
             {
+                string tempItemStr = tb_key.Text;
+                if (isUnique)
+                {
+                    foreach (ListViewItem tempItem in editListView.Items)
+                    {
+                        if (tempItem.Text == tempItemStr)
+                        {
+                            if (!isAdd && tempItem == editListView.SelectedItems[0])
+                            {
+                                continue;
+                            }
+                            MessageBox.Show("Find the same data in the list", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                            return;
+                        }
+                    }
+                }
                 if (isAdd)
                 {
-                    editListView.Items.Add(tb_key.Text);
+                    editListView.Items.Add(tempItemStr);
                 }
                 else
                 {
-                    editListView.SelectedItems[0].Text = tb_key.Text;
+                    editListView.SelectedItems[0].Text = tempItemStr;
                 }
                 this.Close();
             }
