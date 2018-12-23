@@ -170,7 +170,7 @@ namespace FreeHttp
                 {
                     return;
                 }
-                List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.RequestRuleListView);
+                List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.RequestRuleListView,true);
                 if (matchItems != null && matchItems.Count>0)
                 {
                     foreach (var matchItem in matchItems)
@@ -194,7 +194,7 @@ namespace FreeHttp
                 {
                     return;
                 }
-                List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView);
+                List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView,false);
                 if (matchItems != null && matchItems.Count>0)
                 {
                     foreach (var matchItem in matchItems)
@@ -229,7 +229,7 @@ namespace FreeHttp
                 {
                     return;
                 }
-                List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView);
+                List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView,false);
                 if (matchItems != null && matchItems.Count>0)
                 {
                     foreach (var matchItem in matchItems)

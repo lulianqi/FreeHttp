@@ -64,6 +64,11 @@ namespace FreeHttp.HttpHelper
             }
             return this.Equals(fiddlerHttpTamper.HttpFilter.UriMatch);
         }
+
+        public new string ToString()
+        {
+            return string.Format("[{0}] {1}", MatchMode.ToString(), string.IsNullOrEmpty(MatchUri) ? "" : MatchUri);
+        }
     }
 
     [Serializable]
@@ -128,12 +133,26 @@ namespace FreeHttp.HttpHelper
             }
             return false;
         }
+
+        public new string ToString()
+        {
+            if (HeadsFilter == null || HeadsFilter.Count == 0)
+            {
+                return null;
+            }
+            StringBuilder tempSb = new StringBuilder(HeadsFilter.Count * 30);
+            foreach(MyKeyValuePair<string, string> tempKv in HeadsFilter)
+            {
+                tempSb.AppendLine(string.Format("{0} [contain] {1}", tempKv.Key, tempKv.Value));
+            }
+            return tempSb.ToString();
+        }
     }
 
     [Serializable]
     public class FiddlerHttpFilter
     {
-        public FiddlerUriMatch UriMatch { get; set; }
+        public FiddlerUriMatch UriMatch { get; set; }   //UriMatch  must not be null
         public FiddlerHeadMatch HeadMatch { get; set; }
         public FiddlerUriMatch BodyMatch { get; set; }
 
@@ -215,6 +234,20 @@ namespace FreeHttp.HttpHelper
                 return false;
             }
             return this.Equals(fiddlerHttpTamper.HttpFilter);
+        }
+
+        public new string ToString()
+        {
+            StringBuilder tempSb = new StringBuilder(string.Format("Uri:\r\n{0}\r\n",UriMatch.ToString()));
+            if(HeadMatch!=null)
+            {
+                tempSb.Append(string.Format("Heads:\r\n{0}", HeadMatch.ToString()));
+            }
+            if(BodyMatch!=null)
+            {
+                tempSb.AppendLine(string.Format("Body:\r\n{0}", BodyMatch.ToString()));
+            }
+            return tempSb.ToString();
         }
     }
 }

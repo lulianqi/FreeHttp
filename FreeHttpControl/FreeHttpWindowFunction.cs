@@ -61,7 +61,7 @@ namespace FreeHttp.FreeHttpControl
         {
             ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), string.Format("【{0}】: {1}", yourHttpTamper.HttpFilter.UriMatch.MatchMode.ToString(), yourHttpTamper.HttpFilter.UriMatch.MatchUri) }, yourHttpTamper.IsRawReplace ? 1 : 0);
             nowRuleItem.Tag = yourHttpTamper;
-            nowRuleItem.ToolTipText = yourHttpTamper.HttpFilter.UriMatch.MatchUri;
+            nowRuleItem.ToolTipText = yourHttpTamper.HttpFilter.ToString();
             nowRuleItem.Checked = yourHttpTamper.IsEnable;
             yourListViews.Items.Add(nowRuleItem);
             if (isMark)
@@ -78,7 +78,7 @@ namespace FreeHttp.FreeHttpControl
             yourListViewItem.Tag = yourHttpTamper;
             yourListViewItem.SubItems[1].Text = string.Format("【{0}】: {1}", yourHttpTamper.HttpFilter.UriMatch.MatchMode.ToString(), yourHttpTamper.HttpFilter.UriMatch.MatchUri);
             yourListViewItem.ImageIndex = yourHttpTamper.IsRawReplace ? 1 : 0;
-            yourListViewItem.ToolTipText = yourHttpTamper.HttpFilter.UriMatch.MatchUri;
+            yourListViewItem.ToolTipText = yourHttpTamper.HttpFilter.ToString();
             yourListViewItem.Checked = yourHttpTamper.IsEnable;
             if (isMark)
             {
@@ -192,7 +192,6 @@ namespace FreeHttp.FreeHttpControl
         {
             markControlService.SetColor(yourItem, Color.Transparent);
         }
-
 
         private FiddlerUriMatch GetUriMatch()
         {
