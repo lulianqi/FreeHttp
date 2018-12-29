@@ -336,20 +336,24 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.requestAddHeads.ColumnHeaderName = "Add Head";
             this.requestAddHeads.Dock = System.Windows.Forms.DockStyle.Right;
+            this.requestAddHeads.IsItemUnique = false;
             this.requestAddHeads.IsKeyValue = true;
             this.requestAddHeads.Location = new System.Drawing.Point(284, 17);
             this.requestAddHeads.Name = "requestAddHeads";
             this.requestAddHeads.Size = new System.Drawing.Size(310, 92);
+            this.requestAddHeads.SplitStr = ": ";
             this.requestAddHeads.TabIndex = 1;
             // 
             // requestRemoveHeads
             // 
             this.requestRemoveHeads.ColumnHeaderName = "Remove Head";
             this.requestRemoveHeads.Dock = System.Windows.Forms.DockStyle.Left;
+            this.requestRemoveHeads.IsItemUnique = false;
             this.requestRemoveHeads.IsKeyValue = false;
             this.requestRemoveHeads.Location = new System.Drawing.Point(3, 17);
             this.requestRemoveHeads.Name = "requestRemoveHeads";
             this.requestRemoveHeads.Size = new System.Drawing.Size(275, 92);
+            this.requestRemoveHeads.SplitStr = ": ";
             this.requestRemoveHeads.TabIndex = 0;
             // 
             // groupBox_bodyModific
@@ -490,10 +494,12 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.elv_requsetReplace.ColumnHeaderName = "Request Heads";
             this.elv_requsetReplace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elv_requsetReplace.IsItemUnique = false;
             this.elv_requsetReplace.IsKeyValue = true;
             this.elv_requsetReplace.Location = new System.Drawing.Point(0, 0);
             this.elv_requsetReplace.Name = "elv_requsetReplace";
             this.elv_requsetReplace.Size = new System.Drawing.Size(597, 108);
+            this.elv_requsetReplace.SplitStr = ": ";
             this.elv_requsetReplace.TabIndex = 2;
             // 
             // rtb_requsetReplace_body
@@ -641,20 +647,24 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.responseAddHeads.ColumnHeaderName = "Add Head";
             this.responseAddHeads.Dock = System.Windows.Forms.DockStyle.Right;
+            this.responseAddHeads.IsItemUnique = false;
             this.responseAddHeads.IsKeyValue = true;
             this.responseAddHeads.Location = new System.Drawing.Point(284, 17);
             this.responseAddHeads.Name = "responseAddHeads";
             this.responseAddHeads.Size = new System.Drawing.Size(310, 99);
+            this.responseAddHeads.SplitStr = ": ";
             this.responseAddHeads.TabIndex = 1;
             // 
             // responseRemoveHeads
             // 
             this.responseRemoveHeads.ColumnHeaderName = "Remove Head";
             this.responseRemoveHeads.Dock = System.Windows.Forms.DockStyle.Left;
+            this.responseRemoveHeads.IsItemUnique = false;
             this.responseRemoveHeads.IsKeyValue = false;
             this.responseRemoveHeads.Location = new System.Drawing.Point(3, 17);
             this.responseRemoveHeads.Name = "responseRemoveHeads";
             this.responseRemoveHeads.Size = new System.Drawing.Size(275, 99);
+            this.responseRemoveHeads.SplitStr = ": ";
             this.responseRemoveHeads.TabIndex = 0;
             // 
             // groupBox_responseBodyModific
@@ -938,7 +948,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             // rtb_MesInfo
             // 
-            this.rtb_MesInfo.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.rtb_MesInfo.BackColor = System.Drawing.Color.Azure;
             this.rtb_MesInfo.DetectUrls = false;
             this.rtb_MesInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb_MesInfo.HideSelection = false;

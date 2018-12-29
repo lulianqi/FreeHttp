@@ -152,6 +152,7 @@ namespace FreeHttp.HttpHelper
     [Serializable]
     public class FiddlerHttpFilter
     {
+        public string Name { get; set; } 
         public FiddlerUriMatch UriMatch { get; set; }   //UriMatch  must not be null
         public FiddlerHeadMatch HeadMatch { get; set; }
         public FiddlerUriMatch BodyMatch { get; set; }

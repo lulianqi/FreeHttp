@@ -2,7 +2,7 @@
 <FiddlerModificHttpRuleCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <RequestRuleList>
     <FiddlerRequsetChange>
-      <IsEnable>false</IsEnable>
+      <IsEnable>true</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -10,11 +10,15 @@
         </UriMatch>
       </HttpFilter>
       <UriModific>
-        <ModificMode>NoChange</ModificMode>
+        <ModificMode>KeyVauleReplace</ModificMode>
+        <TargetKey>isBeta=False</TargetKey>
+        <ReplaceContent>isBeta=true</ReplaceContent>
       </UriModific>
-      <HeadAddList />
+      <HeadAddList>
+        <string>Connection: test state</string>
+      </HeadAddList>
       <HeadDelList>
-        <string>l</string>
+        <string>Connection</string>
       </HeadDelList>
       <BodyModific>
         <ModificMode>NoChange</ModificMode>
@@ -38,253 +42,6 @@
       <BodyModific>
         <ModificMode>NoChange</ModificMode>
       </BodyModific>
-    </FiddlerRequsetChange>
-    <FiddlerRequsetChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <HttpRawRequest>
-        <RequestLine>GET http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler HTTP/1.1</RequestLine>
-        <RequestMethod>GET</RequestMethod>
-        <RequestUri>http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler</RequestUri>
-        <RequestVersions>HTTP/1.1</RequestVersions>
-        <RequestHeads>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept</Key>
-            <Value>text/html, application/xhtml+xml, */*</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept-Language</Key>
-            <Value>zh-CN</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>User-Agent</Key>
-            <Value>Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept-Encoding</Key>
-            <Value>gzip, deflate</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Connection</Key>
-            <Value>Keep-Alive</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Host</Key>
-            <Value>docs.telerik.com</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>If-Modified-Since</Key>
-            <Value>Tue, 03 Jul 2018 14:23:20 GMT</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>If-None-Match</Key>
-            <Value>"96ba9c64d912d41:0"</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Cookie</Key>
-            <Value>_ga=GA1.3.1383622492.1520578663; ki_t=1520578705181%3B1537518239887%3B1537519007408%3B10%3B24; ki_r=; ki_u=e078a6bd-3e91-9355-dbe1-9d2b; ki_s=184871%3A1.1.0.1.2; _ga=GA1.2.1383622492.1520578663; bf_lead=1e6o41qtrep00; sf-data-intell-subject=865f924d-13c4-4017-9232-37bbaf34539a; OptanonConsent=landingPath=NotLandingPage&amp;datestamp=Tue+Oct+23+2018+20%3A05%3A18+GMT%2B0800+(%E4%B8%AD%E5%9B%BD%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4)&amp;version=3.6.18&amp;groups=0_91363%3A1%2C1%3A1%2C0_91364%3A1%2C2%3A1%2C0_91361%3A1%2C0_91362%3A1%2C0_91365%3A1%2C3%3A1%2C0_91366%3A1%2C4%3A1%2C0_91367%3A1%2C0_91369%3A1%2C0_91370%3A1%2C0_91371%3A1%2C0_97749%3A1%2C0_104065%3A1%2C0_104063%3A1%2C0_104082%3A1%2C0_104081%3A1%2C0_104079%3A1%2C0_97750%3A1%2C0_104077%3A1%2C0_104075%3A1%2C0_104073%3A1%2C0_104071%3A1%2C0_104069%3A1%2C0_104067%3A1%2C0_104064%3A1%2C0_104080%3A1%2C0_104078%3A1%2C0_97751%3A1%2C0_104076%3A1%2C0_104074%3A1%2C0_104072%3A1%2C0_104070%3A1%2C0_104068%3A1%2C0_104066%3A1%2C101%3A1%2C102%3A1%2C103%3A1%2C104%3A1%2C105%3A1%2C106%3A1%2C109%3A1%2C110%3A1%2C113%3A1&amp;AwaitingReconsent=false; gauuid=a677cacf-beed-4215-90e8-e0e70fc0d39a; _gaexp=GAX1.2.Ak8-AAc_QqG3QKS67I25wA.17892.1; _biz_uid=7981acbfb76b478fddbaddf8f1de0232; _biz_nA=16; _biz_pendingA=%5B%22m%2Fipv%3F_biz_r%3Dhttps%253A%252F%252Fwww.telerik.com%252Ffiddler%252Fadd-ons%26_biz_h%3D802059049%26p%3D2%26_biz_u%3D7981acbfb76b478fddbaddf8f1de0232%26_biz_s%3D586cae%26_biz_l%3Dhttps%253A%252F%252Fwww.telerik.com%252Ffiddler%26_biz_t%3D1538200329542%26_biz_i%3D%250A%2509Fiddler%2520-%2520Free%2520Web%2520Debugging%2520Proxy%2520-%2520Telerik%250A%26_biz_n%3D15%26rnd%3D30456%22%5D; _biz_flagsA=%7B%22Version%22%3A1%2C%22XDomain%22%3A%221%22%2C%22ViewThrough%22%3A%221%22%7D; OptanonAlertBoxClosed=2018-09-12T05:44:37.097Z; _gcl_au=1.1.1992739381.1537518214; _biz_dfsA=%5B%5D</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>AddOrigin</Key>
-            <Value>from lijie PC</Value>
-          </MyKeyValuePairOfStringString>
-        </RequestHeads>
-        <RequestEntity />
-        <OriginSting>GET http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler HTTP/1.1
-Accept: text/html, application/xhtml+xml, */*
-Accept-Language: zh-CN
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
-Accept-Encoding: gzip, deflate
-Connection: Keep-Alive
-Host: docs.telerik.com
-If-Modified-Since: Tue, 03 Jul 2018 14:23:20 GMT
-If-None-Match: "96ba9c64d912d41:0"
-Cookie: _ga=GA1.3.1383622492.1520578663; ki_t=1520578705181%3B1537518239887%3B1537519007408%3B10%3B24; ki_r=; ki_u=e078a6bd-3e91-9355-dbe1-9d2b; ki_s=184871%3A1.1.0.1.2; _ga=GA1.2.1383622492.1520578663; bf_lead=1e6o41qtrep00; sf-data-intell-subject=865f924d-13c4-4017-9232-37bbaf34539a; OptanonConsent=landingPath=NotLandingPage&amp;datestamp=Tue+Oct+23+2018+20%3A05%3A18+GMT%2B0800+(%E4%B8%AD%E5%9B%BD%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4)&amp;version=3.6.18&amp;groups=0_91363%3A1%2C1%3A1%2C0_91364%3A1%2C2%3A1%2C0_91361%3A1%2C0_91362%3A1%2C0_91365%3A1%2C3%3A1%2C0_91366%3A1%2C4%3A1%2C0_91367%3A1%2C0_91369%3A1%2C0_91370%3A1%2C0_91371%3A1%2C0_97749%3A1%2C0_104065%3A1%2C0_104063%3A1%2C0_104082%3A1%2C0_104081%3A1%2C0_104079%3A1%2C0_97750%3A1%2C0_104077%3A1%2C0_104075%3A1%2C0_104073%3A1%2C0_104071%3A1%2C0_104069%3A1%2C0_104067%3A1%2C0_104064%3A1%2C0_104080%3A1%2C0_104078%3A1%2C0_97751%3A1%2C0_104076%3A1%2C0_104074%3A1%2C0_104072%3A1%2C0_104070%3A1%2C0_104068%3A1%2C0_104066%3A1%2C101%3A1%2C102%3A1%2C103%3A1%2C104%3A1%2C105%3A1%2C106%3A1%2C109%3A1%2C110%3A1%2C113%3A1&amp;AwaitingReconsent=false; gauuid=a677cacf-beed-4215-90e8-e0e70fc0d39a; _gaexp=GAX1.2.Ak8-AAc_QqG3QKS67I25wA.17892.1; _biz_uid=7981acbfb76b478fddbaddf8f1de0232; _biz_nA=16; _biz_pendingA=%5B%22m%2Fipv%3F_biz_r%3Dhttps%253A%252F%252Fwww.telerik.com%252Ffiddler%252Fadd-ons%26_biz_h%3D802059049%26p%3D2%26_biz_u%3D7981acbfb76b478fddbaddf8f1de0232%26_biz_s%3D586cae%26_biz_l%3Dhttps%253A%252F%252Fwww.telerik.com%252Ffiddler%26_biz_t%3D1538200329542%26_biz_i%3D%250A%2509Fiddler%2520-%2520Free%2520Web%2520Debugging%2520Proxy%2520-%2520Telerik%250A%26_biz_n%3D15%26rnd%3D30456%22%5D; _biz_flagsA=%7B%22Version%22%3A1%2C%22XDomain%22%3A%221%22%2C%22ViewThrough%22%3A%221%22%7D; OptanonAlertBoxClosed=2018-09-12T05:44:37.097Z; _gcl_au=1.1.1992739381.1537518214; _biz_dfsA=%5B%5D
-AddOrigin: from lijie PC
-
-</OriginSting>
-      </HttpRawRequest>
-      <HeadAddList />
-      <HeadDelList />
-    </FiddlerRequsetChange>
-    <FiddlerRequsetChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/be887dfd-9d39-40d5-9d31-6b04cd873261.jpg</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <UriModific>
-        <ModificMode>KeyVauleReplace</ModificMode>
-        <TargetKey>ecom-qa.baiwandian.cn</TargetKey>
-        <ReplaceContent>www.baiwandian.cn</ReplaceContent>
-      </UriModific>
-      <HeadAddList />
-      <HeadDelList />
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
-    </FiddlerRequsetChange>
-    <FiddlerRequsetChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False0p</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <HttpRawRequest>
-        <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>
-        <RequestMethod>GET</RequestMethod>
-        <RequestUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</RequestUri>
-        <RequestVersions>HTTP/1.1</RequestVersions>
-        <RequestHeads>
-          <MyKeyValuePairOfStringString>
-            <Key>User-Agent</Key>
-            <Value>Fiddler/5.0.20182.28034 (.NET 4.5.2; WinNT 6.1.7601 SP1; zh-CN; 4xAMD64; Auto Update; Full Instance; Extensions: APITesting, AutoSaveExt, EventLog, FiddlerFreeCookies, FiddlerFreeHttp, FiddlerOrchestraAddon, FiddlerWatcherExtension, HostsFile, MyHandleExecAction, RulesTab2, SAZClipboardFactory, SimpleFilter, TestExtension, TestForXyl, Timeline)</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Pragma</Key>
-            <Value>no-cache</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Host</Key>
-            <Value>www.fiddler2.com</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept-Language</Key>
-            <Value>zh-CN</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Referer</Key>
-            <Value>http://fiddler2.com/client/5.0.20182.28034</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept-Encoding</Key>
-            <Value>gzip, deflate</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Connection</Key>
-            <Value>close</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>AddOrigin</Key>
-            <Value>from lijie PC</Value>
-          </MyKeyValuePairOfStringString>
-        </RequestHeads>
-        <RequestEntity />
-      </HttpRawRequest>
-      <HeadAddList />
-      <HeadDelList />
-    </FiddlerRequsetChange>
-    <FiddlerRequsetChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Regex</MatchMode>
-          <MatchUri>^https://www.baiwandian.cn/xinyunlian-weixin-ecom/static/resources/shop/js/productPage/page.\S*?.js\b</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <UriModific>
-        <ModificMode>NoChange</ModificMode>
-      </UriModific>
-      <HeadAddList>
-        <string>Pragma: no-cache</string>
-        <string>Cache-Control: no-cache</string>
-      </HeadAddList>
-      <HeadDelList>
-        <string>Pragma</string>
-        <string>Cache-Control</string>
-        <string>If-None-Match</string>
-        <string>If-Modified-Since</string>
-      </HeadDelList>
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
-    </FiddlerRequsetChange>
-    <FiddlerRequsetChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <HttpRawRequest>
-        <RequestLine>GET http://www.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg HTTP/1.1</RequestLine>
-        <RequestMethod>GET</RequestMethod>
-        <RequestUri>http://www.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg</RequestUri>
-        <RequestVersions>HTTP/1.1</RequestVersions>
-        <RequestHeads>
-          <MyKeyValuePairOfStringString>
-            <Key>Host</Key>
-            <Value>www.baiwandian.cn</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Connection</Key>
-            <Value>keep-alive</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Pragma</Key>
-            <Value>no-cache</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Cache-Control</Key>
-            <Value>no-cache</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Upgrade-Insecure-Requests</Key>
-            <Value>1</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>User-Agent</Key>
-            <Value>Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept</Key>
-            <Value>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept-Encoding</Key>
-            <Value>gzip, deflate</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept-Language</Key>
-            <Value>zh-CN,zh;q=0.9</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Cookie</Key>
-            <Value>XYLPCSESSIONID=455c7dd716e04d33a015d5ee71df2cbc.tomcatEcom; token=1fa2b9af-6a8c-46da-8134-3d6b02950b74; LOCAL=dl; CHANGEPASSWORDAREA=1; CANRECEIVE=false; feusername=%E5%8D%97%E9%97%A8%E8%A1%97%E9%81%931; fullArea=%E6%B1%9F%E8%8B%8F%E7%9C%81%E8%8B%8F%E5%B7%9E%E5%B8%82%E5%A7%91%E8%8B%8F%E5%8C%BA; memberrank=1; mobile=15158155511; isDealer=true; backLink=http%3A%2F%2Fhome.xinshangmeng.com%2Fhome%2Findex.htm; hotLine=400-801-9906; qqnumber=4008019906; UM_distinctid=166ce6b2dab2b-0b8db7d1940ed2-5c11301c-1fa400-166ce6b2dac4d8; XYLWXSESSIONID=01569f5b7be4483fa0aec40236d19f91.WXEcom; OUTFOX_SEARCH_USER_ID_NCOO=1652200530.2982454; username=320104000000XSM; v=; openId=obOcRtw9zXzxP3ly3qvQXM8LR45U; CNZZDATA1273025666=1769384378-1539666312-https%253A%252F%252Fwww.baiwandian.cn%252F%7C1541124467</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>AddOrigin</Key>
-            <Value>from lijie PC</Value>
-          </MyKeyValuePairOfStringString>
-        </RequestHeads>
-        <RequestEntity />
-        <OriginSting>GET http://www.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg HTTP/1.1
-Host: www.baiwandian.cn
-Connection: keep-alive
-Pragma: no-cache
-Cache-Control: no-cache
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
-Accept-Encoding: gzip, deflate
-Accept-Language: zh-CN,zh;q=0.9
-Cookie: XYLPCSESSIONID=455c7dd716e04d33a015d5ee71df2cbc.tomcatEcom; token=1fa2b9af-6a8c-46da-8134-3d6b02950b74; LOCAL=dl; CHANGEPASSWORDAREA=1; CANRECEIVE=false; feusername=%E5%8D%97%E9%97%A8%E8%A1%97%E9%81%931; fullArea=%E6%B1%9F%E8%8B%8F%E7%9C%81%E8%8B%8F%E5%B7%9E%E5%B8%82%E5%A7%91%E8%8B%8F%E5%8C%BA; memberrank=1; mobile=15158155511; isDealer=true; backLink=http%3A%2F%2Fhome.xinshangmeng.com%2Fhome%2Findex.htm; hotLine=400-801-9906; qqnumber=4008019906; UM_distinctid=166ce6b2dab2b-0b8db7d1940ed2-5c11301c-1fa400-166ce6b2dac4d8; XYLWXSESSIONID=01569f5b7be4483fa0aec40236d19f91.WXEcom; OUTFOX_SEARCH_USER_ID_NCOO=1652200530.2982454; username=320104000000XSM; v=; openId=obOcRtw9zXzxP3ly3qvQXM8LR45U; CNZZDATA1273025666=1769384378-1539666312-https%253A%252F%252Fwww.baiwandian.cn%252F%7C1541124467
-AddOrigin: from lijie PC
-
-</OriginSting>
-      </HttpRawRequest>
-      <HeadAddList />
-      <HeadDelList />
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
@@ -358,7 +115,7 @@ AddOrigin: from lijie PC
       </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -384,23 +141,6 @@ AddOrigin: from lijie PC
       <HeadDelList>
         <string>cache-control</string>
       </HeadDelList>
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
-    </FiddlerRequsetChange>
-    <FiddlerRequsetChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Contain</MatchMode>
-          <MatchUri>6666</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <UriModific>
-        <ModificMode>NoChange</ModificMode>
-      </UriModific>
-      <HeadAddList />
-      <HeadDelList />
       <BodyModific>
         <ModificMode>NoChange</ModificMode>
       </BodyModific>
@@ -520,6 +260,61 @@ AddOrigin: from lijie PC
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
       <HttpFilter>
+        <Name />
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False
+dsdsdsfdsf</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <HttpRawRequest>
+        <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Fiddler/5.0.20182.28034 (.NET 4.5.2; WinNT 6.1.7601 SP1; zh-CN; 4xAMD64; Auto Update; Full Instance; Extensions: APITesting, AutoSaveExt, EventLog, FiddlerFreeCookies, FiddlerFreeHttp, FiddlerOrchestraAddon, FiddlerWatcherExtension, HostsFile, MyHandleExecAction, RulesTab2, SAZClipboardFactory, SimpleFilter, TestExtension, TestForXyl, Timeline)</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Pragma</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>www.fiddler2.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Referer</Key>
+            <Value>http://fiddler2.com/client/5.0.20182.28034</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>close</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <Name />
         <UriMatch>
           <MatchMode>Is</MatchMode>
           <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
@@ -527,18 +322,18 @@ AddOrigin: from lijie PC
         <HeadMatch>
           <HeadsFilter>
             <MyKeyValuePairOfStringString>
-              <Key>123</Key>
-              <Value>123</Value>
+              <Key>host</Key>
+              <Value>fiddler</Value>
             </MyKeyValuePairOfStringString>
             <MyKeyValuePairOfStringString>
-              <Key>123</Key>
-              <Value>123</Value>
+              <Key>Connection</Key>
+              <Value>keep</Value>
             </MyKeyValuePairOfStringString>
           </HeadsFilter>
         </HeadMatch>
         <BodyMatch>
           <MatchMode>Is</MatchMode>
-          <MatchUri>r2</MatchUri>
+          <MatchUri>true</MatchUri>
         </BodyMatch>
       </HttpFilter>
       <HttpRawRequest>
@@ -582,6 +377,8 @@ AddOrigin: from lijie PC
         </RequestHeads>
         <RequestEntity />
       </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
@@ -597,8 +394,8 @@ AddOrigin: from lijie PC
               <Value>123</Value>
             </MyKeyValuePairOfStringString>
             <MyKeyValuePairOfStringString>
-              <Key>12</Key>
-              <Value>12</Value>
+              <Key>123</Key>
+              <Value>123</Value>
             </MyKeyValuePairOfStringString>
           </HeadsFilter>
         </HeadMatch>
@@ -648,12 +445,268 @@ AddOrigin: from lijie PC
         </RequestHeads>
         <RequestEntity />
       </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <HttpRawRequest>
+        <RequestLine>GET http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept</Key>
+            <Value>text/html, application/xhtml+xml, */*</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>Keep-Alive</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>docs.telerik.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>If-Modified-Since</Key>
+            <Value>Tue, 03 Jul 2018 14:23:20 GMT</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>If-None-Match</Key>
+            <Value>"96ba9c64d912d41:0"</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Cookie</Key>
+            <Value>_ga=GA1.3.1383622492.1520578663; ki_t=1520578705181%3B1537518239887%3B1537519007408%3B10%3B24; ki_r=; ki_u=e078a6bd-3e91-9355-dbe1-9d2b; ki_s=184871%3A1.1.0.1.2; _ga=GA1.2.1383622492.1520578663; bf_lead=1e6o41qtrep00; sf-data-intell-subject=865f924d-13c4-4017-9232-37bbaf34539a; OptanonConsent=landingPath=NotLandingPage&amp;datestamp=Tue+Oct+23+2018+20%3A05%3A18+GMT%2B0800+(%E4%B8%AD%E5%9B%BD%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4)&amp;version=3.6.18&amp;groups=0_91363%3A1%2C1%3A1%2C0_91364%3A1%2C2%3A1%2C0_91361%3A1%2C0_91362%3A1%2C0_91365%3A1%2C3%3A1%2C0_91366%3A1%2C4%3A1%2C0_91367%3A1%2C0_91369%3A1%2C0_91370%3A1%2C0_91371%3A1%2C0_97749%3A1%2C0_104065%3A1%2C0_104063%3A1%2C0_104082%3A1%2C0_104081%3A1%2C0_104079%3A1%2C0_97750%3A1%2C0_104077%3A1%2C0_104075%3A1%2C0_104073%3A1%2C0_104071%3A1%2C0_104069%3A1%2C0_104067%3A1%2C0_104064%3A1%2C0_104080%3A1%2C0_104078%3A1%2C0_97751%3A1%2C0_104076%3A1%2C0_104074%3A1%2C0_104072%3A1%2C0_104070%3A1%2C0_104068%3A1%2C0_104066%3A1%2C101%3A1%2C102%3A1%2C103%3A1%2C104%3A1%2C105%3A1%2C106%3A1%2C109%3A1%2C110%3A1%2C113%3A1&amp;AwaitingReconsent=false; gauuid=a677cacf-beed-4215-90e8-e0e70fc0d39a; _gaexp=GAX1.2.Ak8-AAc_QqG3QKS67I25wA.17892.1; _biz_uid=7981acbfb76b478fddbaddf8f1de0232; _biz_nA=16; _biz_pendingA=%5B%22m%2Fipv%3F_biz_r%3Dhttps%253A%252F%252Fwww.telerik.com%252Ffiddler%252Fadd-ons%26_biz_h%3D802059049%26p%3D2%26_biz_u%3D7981acbfb76b478fddbaddf8f1de0232%26_biz_s%3D586cae%26_biz_l%3Dhttps%253A%252F%252Fwww.telerik.com%252Ffiddler%26_biz_t%3D1538200329542%26_biz_i%3D%250A%2509Fiddler%2520-%2520Free%2520Web%2520Debugging%2520Proxy%2520-%2520Telerik%250A%26_biz_n%3D15%26rnd%3D30456%22%5D; _biz_flagsA=%7B%22Version%22%3A1%2C%22XDomain%22%3A%221%22%2C%22ViewThrough%22%3A%221%22%7D; OptanonAlertBoxClosed=2018-09-12T05:44:37.097Z; _gcl_au=1.1.1992739381.1537518214; _biz_dfsA=%5B%5D</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+        <OriginSting>GET http://docs.telerik.com/fiddler/configure-fiddler/tasks/configurefiddler HTTP/1.1
+Accept: text/html, application/xhtml+xml, */*
+Accept-Language: zh-CN
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+Accept-Encoding: gzip, deflate
+Connection: Keep-Alive
+Host: docs.telerik.com
+If-Modified-Since: Tue, 03 Jul 2018 14:23:20 GMT
+If-None-Match: "96ba9c64d912d41:0"
+Cookie: _ga=GA1.3.1383622492.1520578663; ki_t=1520578705181%3B1537518239887%3B1537519007408%3B10%3B24; ki_r=; ki_u=e078a6bd-3e91-9355-dbe1-9d2b; ki_s=184871%3A1.1.0.1.2; _ga=GA1.2.1383622492.1520578663; bf_lead=1e6o41qtrep00; sf-data-intell-subject=865f924d-13c4-4017-9232-37bbaf34539a; OptanonConsent=landingPath=NotLandingPage&amp;datestamp=Tue+Oct+23+2018+20%3A05%3A18+GMT%2B0800+(%E4%B8%AD%E5%9B%BD%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4)&amp;version=3.6.18&amp;groups=0_91363%3A1%2C1%3A1%2C0_91364%3A1%2C2%3A1%2C0_91361%3A1%2C0_91362%3A1%2C0_91365%3A1%2C3%3A1%2C0_91366%3A1%2C4%3A1%2C0_91367%3A1%2C0_91369%3A1%2C0_91370%3A1%2C0_91371%3A1%2C0_97749%3A1%2C0_104065%3A1%2C0_104063%3A1%2C0_104082%3A1%2C0_104081%3A1%2C0_104079%3A1%2C0_97750%3A1%2C0_104077%3A1%2C0_104075%3A1%2C0_104073%3A1%2C0_104071%3A1%2C0_104069%3A1%2C0_104067%3A1%2C0_104064%3A1%2C0_104080%3A1%2C0_104078%3A1%2C0_97751%3A1%2C0_104076%3A1%2C0_104074%3A1%2C0_104072%3A1%2C0_104070%3A1%2C0_104068%3A1%2C0_104066%3A1%2C101%3A1%2C102%3A1%2C103%3A1%2C104%3A1%2C105%3A1%2C106%3A1%2C109%3A1%2C110%3A1%2C113%3A1&amp;AwaitingReconsent=false; gauuid=a677cacf-beed-4215-90e8-e0e70fc0d39a; _gaexp=GAX1.2.Ak8-AAc_QqG3QKS67I25wA.17892.1; _biz_uid=7981acbfb76b478fddbaddf8f1de0232; _biz_nA=16; _biz_pendingA=%5B%22m%2Fipv%3F_biz_r%3Dhttps%253A%252F%252Fwww.telerik.com%252Ffiddler%252Fadd-ons%26_biz_h%3D802059049%26p%3D2%26_biz_u%3D7981acbfb76b478fddbaddf8f1de0232%26_biz_s%3D586cae%26_biz_l%3Dhttps%253A%252F%252Fwww.telerik.com%252Ffiddler%26_biz_t%3D1538200329542%26_biz_i%3D%250A%2509Fiddler%2520-%2520Free%2520Web%2520Debugging%2520Proxy%2520-%2520Telerik%250A%26_biz_n%3D15%26rnd%3D30456%22%5D; _biz_flagsA=%7B%22Version%22%3A1%2C%22XDomain%22%3A%221%22%2C%22ViewThrough%22%3A%221%22%7D; OptanonAlertBoxClosed=2018-09-12T05:44:37.097Z; _gcl_au=1.1.1992739381.1537518214; _biz_dfsA=%5B%5D
+AddOrigin: from lijie PC
+
+</OriginSting>
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/be887dfd-9d39-40d5-9d31-6b04cd873261.jpg</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <UriModific>
+        <ModificMode>KeyVauleReplace</ModificMode>
+        <TargetKey>ecom-qa.baiwandian.cn</TargetKey>
+        <ReplaceContent>www.baiwandian.cn</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <Name>test rule 001</Name>
+        <UriMatch>
+          <MatchMode>Contain</MatchMode>
+          <MatchUri>6666</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False0p</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <HttpRawRequest>
+        <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Fiddler/5.0.20182.28034 (.NET 4.5.2; WinNT 6.1.7601 SP1; zh-CN; 4xAMD64; Auto Update; Full Instance; Extensions: APITesting, AutoSaveExt, EventLog, FiddlerFreeCookies, FiddlerFreeHttp, FiddlerOrchestraAddon, FiddlerWatcherExtension, HostsFile, MyHandleExecAction, RulesTab2, SAZClipboardFactory, SimpleFilter, TestExtension, TestForXyl, Timeline)</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Pragma</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>www.fiddler2.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Referer</Key>
+            <Value>http://fiddler2.com/client/5.0.20182.28034</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>close</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <Name>test rule 002</Name>
+        <UriMatch>
+          <MatchMode>Regex</MatchMode>
+          <MatchUri>^https://www.baiwandian.cn/xinyunlian-weixin-ecom/static/resources/shop/js/productPage/page.\S*?.js\b</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList>
+        <string>Pragma: no-cache</string>
+        <string>Cache-Control: no-cache</string>
+      </HeadAddList>
+      <HeadDelList>
+        <string>Pragma</string>
+        <string>Cache-Control</string>
+        <string>If-None-Match</string>
+        <string>If-Modified-Since</string>
+      </HeadDelList>
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <Name>test rule 003</Name>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <HttpRawRequest>
+        <RequestLine>GET http://www.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg HTTP/1.1</RequestLine>
+        <RequestMethod>GET</RequestMethod>
+        <RequestUri>http://www.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/b1398efd-5986-4ba1-af30-672bbd8da3a1.jpg</RequestUri>
+        <RequestVersions>HTTP/1.1</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>www.baiwandian.cn</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>keep-alive</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Pragma</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Cache-Control</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Upgrade-Insecure-Requests</Key>
+            <Value>1</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept</Key>
+            <Value>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Encoding</Key>
+            <Value>gzip, deflate</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Accept-Language</Key>
+            <Value>zh-CN,zh;q=0.9</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Cookie</Key>
+            <Value>XYLPCSESSIONID=455c7dd716e04d33a015d5ee71df2cbc.tomcatEcom; token=1fa2b9af-6a8c-46da-8134-3d6b02950b74; LOCAL=dl; CHANGEPASSWORDAREA=1; CANRECEIVE=false; feusername=%E5%8D%97%E9%97%A8%E8%A1%97%E9%81%931; fullArea=%E6%B1%9F%E8%8B%8F%E7%9C%81%E8%8B%8F%E5%B7%9E%E5%B8%82%E5%A7%91%E8%8B%8F%E5%8C%BA; memberrank=1; mobile=15158155511; isDealer=true; backLink=http%3A%2F%2Fhome.xinshangmeng.com%2Fhome%2Findex.htm; hotLine=400-801-9906; qqnumber=4008019906; UM_distinctid=166ce6b2dab2b-0b8db7d1940ed2-5c11301c-1fa400-166ce6b2dac4d8; XYLWXSESSIONID=01569f5b7be4483fa0aec40236d19f91.WXEcom; OUTFOX_SEARCH_USER_ID_NCOO=1652200530.2982454; username=320104000000XSM; v=; openId=obOcRtw9zXzxP3ly3qvQXM8LR45U; CNZZDATA1273025666=1769384378-1539666312-https%253A%252F%252Fwww.baiwandian.cn%252F%7C1541124467</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity />
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
     </FiddlerRequsetChange>
   </RequestRuleList>
   <ResponseRuleList>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
       <HttpFilter>
+        <Name>test rule 006</Name>
         <UriMatch>
           <MatchMode>Is</MatchMode>
           <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/6594fe02-076c-47f4-8dd3-3c0df3ffe6cb.jpg</MatchUri>
@@ -699,6 +752,7 @@ Content-Length: 0
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
       <HttpFilter>
+        <Name>test rule 007</Name>
         <UriMatch>
           <MatchMode>Regex</MatchMode>
           <MatchUri>^https://www.baiwandian.cn/xinyunlian-weixin-ecom/static/resources/shop/js/productPage/page.\S*?.js\b</MatchUri>
@@ -1355,8 +1409,9 @@ $.onPageShow(function() {
       </BodyModific>
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>false</IsEnable>
+      <IsEnable>true</IsEnable>
       <HttpFilter>
+        <Name>test rule 008</Name>
         <UriMatch>
           <MatchMode>Is</MatchMode>
           <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/3613e290-8028-4ddc-946c-b89c67f4f31a.jpg</MatchUri>
@@ -1378,7 +1433,7 @@ $.onPageShow(function() {
           </MyKeyValuePairOfStringString>
           <MyKeyValuePairOfStringString>
             <Key>Content-Length</Key>
-            <Value>6914</Value>
+            <Value>51</Value>
           </MyKeyValuePairOfStringString>
         </ResponseHeads>
         <ResponseEntity>/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAABkAAD/4QMqaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjUtYzAxNCA3OS4xNTE0ODEsIDIwMTMvMDMvMTMtMTI6MDk6MTUgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RUFGMjM1RTUxODI2MTFFNkE3RTI4OEE5NEZBQTJFOUQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RUFGMjM1RTYxODI2MTFFNkE3RTI4OEE5NEZBQTJFOUQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFQUYyMzVFMzE4MjYxMUU2QTdFMjg4QTk0RkFBMkU5RCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFQUYyMzVFNDE4MjYxMUU2QTdFMjg4QTk0RkFBMkU5RCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv/uAA5BZG9iZQBkwAAAAAH/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEB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</ResponseEntity>
@@ -1397,6 +1452,7 @@ Content-Length: 51
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
       <HttpFilter>
+        <Name>test rule 008</Name>
         <UriMatch>
           <MatchMode>Is</MatchMode>
           <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-admin/static/upload/image/201605/40506472-908f-4796-bc38-f4ee0c878613.jpg</MatchUri>
@@ -1443,8 +1499,8 @@ Content-Length: 0
       <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://re.csdn.net/csdnbi</MatchUri>
+          <MatchMode>Regex</MatchMode>
+          <MatchUri>^https://re.csdn.net/csdnbi\S*?.png\b</MatchUri>
         </UriMatch>
       </HttpFilter>
       <IsIsDirectRespons>false</IsIsDirectRespons>
@@ -1460,6 +1516,7 @@ Content-Length: 0
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
       <HttpFilter>
+        <Name>test rule 009</Name>
         <UriMatch>
           <MatchMode>StartWith</MatchMode>
           <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-weixin-ecom/wx/index/getPromotionNavPage.jhtml?pageNum=1&amp;_=1</MatchUri>
@@ -1617,6 +1674,7 @@ Fiddler: HTTP/404 Not Found</OriginSting>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
       <HttpFilter>
+        <Name>test rule 004</Name>
         <UriMatch>
           <MatchMode>StartWith</MatchMode>
           <MatchUri>https://smp-qa.baiwandian.cn/xinyunlian-smp/resources/lib/select2/js/select2.js?</MatchUri>

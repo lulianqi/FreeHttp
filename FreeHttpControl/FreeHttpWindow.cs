@@ -255,10 +255,9 @@ namespace FreeHttp.FreeHttpControl
         }
         private void pictureBox_editHttpFilter_Click(object sender, EventArgs e)
         {
-            if (pictureBox_editHttpFilter.Tag==null)
-            {
-                pictureBox_editHttpFilter.Tag = GetHttpFilter();
-            }
+
+            pictureBox_editHttpFilter.Tag = GetHttpFilter();
+
             HttpFilterWindow f = new HttpFilterWindow(pictureBox_editHttpFilter.Tag);
             f.ShowDialog();
 
@@ -270,6 +269,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 pictureBox_editHttpFilter.Image = Resources.MyResource.filter_off;
             }
+            SetUriMatch(((FiddlerHttpFilter)pictureBox_editHttpFilter.Tag).UriMatch);
         }
 
         //pictureBox change for all

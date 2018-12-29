@@ -106,7 +106,7 @@ namespace FreeHttp.HttpHelper
                 List<MyKeyValuePair<string, string>> mvKvpList = new List<MyKeyValuePair<string, string>>();
                 foreach (MyKeyValuePair<string, string> kvp in ResponseHeads)
                 {
-                    if (kvp.Key == "Content-Length")
+                    if (kvp.Key.ToLower() == "content-length")
                     {
                         mvKvpList.Add(kvp);
                     }

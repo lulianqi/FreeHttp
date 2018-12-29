@@ -28,12 +28,21 @@ namespace FreeHttp.FreeHttpControl
         {
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
+            tbe_urlFilter.Visible = tb_urlFilter.Focused;
+            tbe_urlFilter.OnCloseEditBox += tbe_urlFilter_OnCloseEditBox;
             if (httpFilter == null)
             {
                 MessageBox.Show("your FiddlerHttpFilter is null","error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 this.Close();
                 return;
             }
+
+            if(httpFilter.UriMatch!=null)
+            {
+                cb_macthUriMode.Text = httpFilter.UriMatch.MatchMode.ToString();
+                tb_urlFilter.Text = string.IsNullOrEmpty(httpFilter.UriMatch.MatchUri) ? "" : httpFilter.UriMatch.MatchUri;
+            }
+
             if(httpFilter.HeadMatch!=null)
             {
                 foreach(var tempHeadsFilter in httpFilter.HeadMatch.HeadsFilter)
@@ -41,6 +50,7 @@ namespace FreeHttp.FreeHttpControl
                     FilterHeads.ListDataView.Items.Add(string.Format("{0}{1}{2}", tempHeadsFilter.Key, FilterHeads.SplitStr, tempHeadsFilter.Value));
                 }
             }
+
             if(httpFilter.BodyMatch!=null)
             {
                 cb_macthMode.Text = httpFilter.BodyMatch.MatchMode.ToString();
@@ -50,11 +60,31 @@ namespace FreeHttp.FreeHttpControl
             {
                 cb_macthMode.SelectedIndex = 4;
             }
+
+            if(!string.IsNullOrEmpty(httpFilter.Name))
+            {
+                tb_RuleAlias.Text = httpFilter.Name;
+            }
                
         }
 
         private void bt_ok_Click(object sender, EventArgs e)
         {
+            FiddlerUriMatchMode matchUriMode = FiddlerUriMatchMode.AllPass;
+            if (!Enum.TryParse<FiddlerUriMatchMode>(cb_macthUriMode.Text, out matchUriMode))
+            {
+                throw new Exception("get error FiddlerUriMatchMode");
+            }
+            if (httpFilter.UriMatch!=null)
+            {
+                httpFilter.UriMatch.MatchMode = matchUriMode;
+                httpFilter.UriMatch.MatchUri = tb_urlFilter.Text;
+            }
+            else
+            {
+                httpFilter.UriMatch = new FiddlerUriMatch(matchUriMode, tb_urlFilter.Text);
+            }
+
             if(FilterHeads.ListDataView.Items.Count>0)
             {
                 httpFilter.HeadMatch = new FiddlerHeadMatch();
@@ -83,7 +113,7 @@ namespace FreeHttp.FreeHttpControl
             FiddlerUriMatchMode matchMode = FiddlerUriMatchMode.AllPass;
             if (!Enum.TryParse<FiddlerUriMatchMode>(cb_macthMode.Text, out matchMode))
             {
-                throw new Exception("get error FiddlerUriMatchMode");
+                throw new Exception("get error FiddlerBodyMatchMode");
             }
             if (matchMode == FiddlerUriMatchMode.AllPass || (rtb_bodyFilter.Text == "" && matchMode != FiddlerUriMatchMode.Is))
             {
@@ -94,6 +124,12 @@ namespace FreeHttp.FreeHttpControl
                 httpFilter.BodyMatch = new FiddlerUriMatch(matchMode, rtb_bodyFilter.Text);
                 
             }
+
+            if (tb_RuleAlias.Text!=null)
+            {
+                httpFilter.Name = tb_RuleAlias.Text;
+            }
+
             this.Close();
         }
 
@@ -107,6 +143,32 @@ namespace FreeHttp.FreeHttpControl
             else
             {
                 rtb_bodyFilter.Enabled = true;
+            }
+        }
+
+
+        void tbe_urlFilter_OnCloseEditBox(object sender, TextBoxEditer.CloseEditBoxEventArgs e)
+        {
+            //如果主窗口失活导致编辑窗关闭，不会有textbox Leave的事件
+            tbe_urlFilter.Visible = false;
+        }
+
+        private void HttpFilterWindow_Deactivate(object sender, EventArgs e)
+        {
+            tbe_urlFilter.CloseRichTextBox();
+            tbe_urlFilter.Visible = tb_urlFilter.Focused;
+        }
+
+        private void tb_urlFilter_Enter(object sender, EventArgs e)
+        {
+            tbe_urlFilter.Visible = true;
+        }
+
+        private void tb_urlFilter_Leave(object sender, EventArgs e)
+        {
+            if (!(tbe_urlFilter.IsShowEditRichTextBox))
+            {
+                tbe_urlFilter.Visible = false;
             }
         }
 
