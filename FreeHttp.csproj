@@ -47,6 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoTest\MyCommonTool.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\IRunTimeDataSource.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\IRunTimeStaticData.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataIndex.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataList.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataLong.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataNowTime.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataRandomStr.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataSourceCsv.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataStrIndex.cs" />
     <Compile Include="FiddlerFreeHttp.cs" />
     <Compile Include="FiddlerSessionTamper.cs" />
     <Compile Include="FreeHttpControl\EditKeyVaule.cs">
@@ -257,9 +267,10 @@
   <ItemGroup>
     <None Include="Resources\filter_off.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
