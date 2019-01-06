@@ -48,6 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoTest\MyCommonTool.cs" />
+    <Compile Include="AutoTest\MyExtensionMethods.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\ActuatorStaticDataCollection.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\CaseRunTimeDataTypeEngine.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\CaseStaticDataType.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\IRunTimeDataSource.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\IRunTimeStaticData.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataIndex.cs" />
