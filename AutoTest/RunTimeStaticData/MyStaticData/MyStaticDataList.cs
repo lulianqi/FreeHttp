@@ -9,7 +9,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     ///  为StaticData提供当基于List的列表数据支持据【IRunTimeStaticData】
     /// </summary>
-    public struct MyStaticDataList : IRunTimeStaticData
+    public class MyStaticDataList : IRunTimeStaticData
     {
         private bool isNew;
         private string souseData;
@@ -18,11 +18,15 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
         private bool isRandom;
         private Random ran;
 
-        public string RunTimeStaticDataType
+        public string OriginalConnectString { get;private set; }
+        public string RunTimeStaticDataTypeAlias
         {
             get { return "staticData_list"; }
         }
-
+        public CaseStaticDataType RunTimeStaticDataType
+        {
+            get { return CaseStaticDataType.caseStaticData_list; }
+        }
         public MyStaticDataList(string yourSourceData, bool isRandomNext)
         {
             isNew = true;
@@ -38,6 +42,12 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             {
                 ran = null;
             }
+        }
+
+        public MyStaticDataList(string yourSourceData, bool isRandomNext, string originalConnectString)
+            : this(yourSourceData, isRandomNext)
+        {
+            OriginalConnectString = originalConnectString;
         }
 
         public object Clone()

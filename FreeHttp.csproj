@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoTest\CsvFileHelper.cs" />
     <Compile Include="AutoTest\MyCommonTool.cs" />
     <Compile Include="AutoTest\MyExtensionMethods.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\ActuatorStaticDataCollection.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataRandomStr.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataSourceCsv.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataStrIndex.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\RunTimeStaticDataHelper.cs" />
     <Compile Include="FiddlerFreeHttp.cs" />
     <Compile Include="FiddlerSessionTamper.cs" />
     <Compile Include="FreeHttpControl\EditKeyVaule.cs">
@@ -97,6 +99,9 @@
       <DependentUpon>HttpFilterWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\MarkControlService.cs" />
+    <Compile Include="FreeHttpControl\MyBaseInfoWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FreeHttpControl\MyControlHelper.cs" />
     <Compile Include="FreeHttpControl\MyListView.cs">
       <SubType>Component</SubType>
@@ -109,6 +114,9 @@
     </Compile>
     <Compile Include="FreeHttpControl\MyEnableSwitch.Designer.cs">
       <DependentUpon>MyEnableSwitch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\MyPictureButton.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="FreeHttpControl\RawRequestEdit.cs">
       <SubType>UserControl</SubType>
@@ -145,6 +153,18 @@
     </Compile>
     <Compile Include="FreeHttpControl\ShowTextForm.Designer.cs">
       <DependentUpon>ShowTextForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\StaticDataCollectionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\StaticDataCollectionWindow.Designer.cs">
+      <DependentUpon>StaticDataCollectionWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\StaticDataManageWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\StaticDataManageWindow.Designer.cs">
+      <DependentUpon>StaticDataManageWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\TextBoxEditer.cs">
       <SubType>UserControl</SubType>
@@ -196,6 +216,9 @@
     <EmbeddedResource Include="FreeHttpControl\HttpFilterWindow.resx">
       <DependentUpon>HttpFilterWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\MyBaseInfoWindow.resx">
+      <DependentUpon>MyBaseInfoWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\MyListView.resx">
       <DependentUpon>MyListView.cs</DependentUpon>
     </EmbeddedResource>
@@ -219,6 +242,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\ShowTextForm.resx">
       <DependentUpon>ShowTextForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\StaticDataCollectionWindow.resx">
+      <DependentUpon>StaticDataCollectionWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\StaticDataManageWindow.resx">
+      <DependentUpon>StaticDataManageWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\TextBoxEditer.resx">
       <DependentUpon>TextBoxEditer.cs</DependentUpon>
@@ -271,10 +300,15 @@
   <ItemGroup>
     <None Include="Resources\filter_off.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minimize.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

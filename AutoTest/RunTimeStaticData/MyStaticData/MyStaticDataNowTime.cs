@@ -9,20 +9,30 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     /// 为StaticData提供当前时间的动态数据【IRunTimeStaticData】
     /// </summary>
-    public struct MyStaticDataNowTime : IRunTimeStaticData
+    public class MyStaticDataNowTime : IRunTimeStaticData
     {
         string myNowStr;
         string myDataFormatInfo;
 
-        public string RunTimeStaticDataType
+        public string OriginalConnectString { get; private set; }
+        public string RunTimeStaticDataTypeAlias
         {
             get { return "staticData_time"; }
         }
-
+        public CaseStaticDataType RunTimeStaticDataType
+        {
+            get { return CaseStaticDataType.caseStaticData_time; }
+        }
         public MyStaticDataNowTime(string yourRormatInfo)
         {
             myNowStr = "";
             myDataFormatInfo = yourRormatInfo;
+        }
+
+        public MyStaticDataNowTime(string yourRormatInfo, string originalConnectString)
+            : this(yourRormatInfo)
+        {
+            OriginalConnectString = originalConnectString;
         }
 
         public object Clone()

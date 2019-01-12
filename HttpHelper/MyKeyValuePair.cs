@@ -72,6 +72,18 @@ namespace FreeHttp.HttpHelper
             return base.Equals(obj);
         }
 
+        public override int GetHashCode()
+        {
+            try
+            {
+                return key.GetHashCode() ^ value.GetHashCode();
+            }
+            catch
+            {
+                return base.GetHashCode();
+            }
+        }
+
         public object Clone()
         {
             return new MyKeyValuePair<TKey, TValue>(key, value);

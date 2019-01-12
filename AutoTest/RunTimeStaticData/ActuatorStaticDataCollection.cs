@@ -12,6 +12,15 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
     /// </summary>
     public class ActuatorStaticDataCollection : IDisposable, ICloneable
     {
+        public class ChangeDataEventArgs : EventArgs
+        {
+            public bool IsAddOrDel { get; set; }
+            public ChangeDataEventArgs(bool isAddOrDel)
+            {
+                IsAddOrDel = isAddOrDel;
+            }
+        }
+
         /// <summary>
         /// RunTimeParameter List
         /// </summary>
@@ -43,7 +52,9 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             runActuatorStaticDataSouceList = yourActuatorStaticDataSouceList;
         }
 
-
+        //public event EventHandler OnChangeCollection;
+        public delegate void ChangeCollectionEventHandler(object sender, ChangeDataEventArgs e);
+        public event ChangeCollectionEventHandler OnChangeCollection;
 
         private object IsHasSameKey(string key, int ignoreListIndex)
         {
@@ -62,8 +73,12 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             return null;
         }
 
-        private void OnListChanged()
+        private void OnListChanged(bool isAddOrDel)
         {
+            if(OnChangeCollection!=null)
+            {
+                this.OnChangeCollection(this, new ChangeDataEventArgs(isAddOrDel));
+            }
         }
 
         public Dictionary<string, string> RunActuatorStaticDataKeyList
@@ -108,7 +123,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 }
             }
             runActuatorStaticDataKeyList.MyAdd(key, vaule);
-            OnListChanged();
+            OnListChanged(true);
             return true;
         }
 
@@ -129,7 +144,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 }
             }
             runActuatorStaticDataParameterList.MyAdd<IRunTimeStaticData>(key, vaule);
-            OnListChanged();
+            OnListChanged(true);
             return true;
         }
 
@@ -150,7 +165,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 }
             }
             runActuatorStaticDataSouceList.MyAdd<IRunTimeDataSource>(key, vaule);
-            OnListChanged();
+            OnListChanged(true);
             return true;
         }
 
@@ -260,7 +275,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 }
 
             }
-            OnListChanged();
+            OnListChanged(true);
             return true;
         }
 
@@ -297,7 +312,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 //ErrorLog.PutInLog(string.Format("error to [RemoveStaticData] in ActuatorStaticDataCollection  the key is {0} ", key));
                 return false;
             }
-            OnListChanged();
+            OnListChanged(false);
             return true;
         }
 

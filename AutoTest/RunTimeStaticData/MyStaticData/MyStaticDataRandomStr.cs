@@ -9,22 +9,32 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     /// 为StaticData提供随机字符串动态数据【IRunTimeStaticData】
     /// </summary>
-    public struct MyStaticDataRandomStr : IRunTimeStaticData
+    public class MyStaticDataRandomStr : IRunTimeStaticData
     {
         string myNowStr;
         int myStrNum;
         int myStrType;
 
-        public string RunTimeStaticDataType
+        public string OriginalConnectString { get; private set; }
+        public string RunTimeStaticDataTypeAlias
         {
             get { return "staticData_random"; }
         }
-
+        public CaseStaticDataType RunTimeStaticDataType
+        {
+            get { return CaseStaticDataType.caseStaticData_random; }
+        }
         public MyStaticDataRandomStr(int yourStrNum, int yourStrType)
         {
             myNowStr = "";
             myStrNum = yourStrNum;
             myStrType = yourStrType;
+        }
+
+        public MyStaticDataRandomStr(int yourStrNum, int yourStrType, string originalConnectString)
+            : this(yourStrNum, yourStrType)
+        {
+            OriginalConnectString = originalConnectString;
         }
 
         public object Clone()

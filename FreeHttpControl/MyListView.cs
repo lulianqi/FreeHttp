@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace FreeHttp.FreeHttpControl
 {
+    /// <summary>
+    /// item 可拖放排序的ListView
+    /// </summary>
     public class MyListView : ListView
     { 
         private const int WM_LBUTTONDBLCLK = 0x0203;  //左键双击

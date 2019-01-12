@@ -9,7 +9,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     /// 为StaticData提供类似索引递增的动态数据【IRunTimeStaticData】
     /// </summary>
-    public struct MyStaticDataIndex : IRunTimeStaticData
+    public class MyStaticDataIndex : IRunTimeStaticData
     {
         private bool isNew;
         private int dataIndex;
@@ -17,17 +17,27 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
         private int defaultEnd;
         private int defaultStep;
 
-        public string RunTimeStaticDataType
+        public string OriginalConnectString { get; private set; }
+        public string RunTimeStaticDataTypeAlias
         {
             get { return "staticData_index"; }
         }
-
+        public CaseStaticDataType RunTimeStaticDataType
+        {
+            get { return CaseStaticDataType.caseStaticData_index; }
+        }
         public MyStaticDataIndex(int yourStart, int yourEnd, int yourStep)
         {
             isNew = true;
             dataIndex = defaultStart = yourStart;
             defaultEnd = yourEnd;
             defaultStep = yourStep;
+        }
+
+        public MyStaticDataIndex(int yourStart, int yourEnd, int yourStep, string originalConnectString)
+            : this(yourStart, yourEnd, yourStep)
+        {
+            OriginalConnectString = originalConnectString;
         }
 
         public object Clone()

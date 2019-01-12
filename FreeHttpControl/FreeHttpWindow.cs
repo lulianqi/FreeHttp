@@ -632,6 +632,12 @@ namespace FreeHttp.FreeHttpControl
             f.ShowDialog();
         }
 
+        private void parameterDataManageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StaticDataManageWindow f = new StaticDataManageWindow(null);
+            f.ShowDialog();
+        }
+
         private void issuesAndSuggestToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/lulianqi/FreeHttp/issues");
@@ -941,6 +947,7 @@ namespace FreeHttp.FreeHttpControl
 
 
         #endregion
+
 
         #region ResponseModific
 

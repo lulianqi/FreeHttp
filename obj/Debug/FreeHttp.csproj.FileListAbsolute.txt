@@ -51,7 +51,6 @@ C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeH
 C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.EditKeyVaule.resources
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.EditKeyVaule.resources
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.HttpFilterWindow.resources
-C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Xceed.Zip.v5.4.dll
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Xceed.FileSystem.v5.4.dll
@@ -63,3 +62,7 @@ D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.dll
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Fiddler.pdb
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Analytics.pdb
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.pdb
+C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.StaticDataCollectionWindow.resources
+C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.MyBaseInfoWindow.resources
+C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.StaticDataManageWindow.resources
+C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache

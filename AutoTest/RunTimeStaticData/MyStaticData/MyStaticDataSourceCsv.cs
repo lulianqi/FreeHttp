@@ -6,24 +6,34 @@ using System.Threading.Tasks;
 
 namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
 {
-    public struct MyStaticDataSourceCsv : IRunTimeDataSource
+    public class MyStaticDataSourceCsv : IRunTimeDataSource
     {
         private bool isNew;
         private int nowRowIndex;
         private int nowColumnIndex;
         private List<List<string>> csvData;
 
-        public string RunTimeStaticDataType
+        public string OriginalConnectString { get; private set; }
+        public string RunTimeStaticDataTypeAlias
         {
             get { return "staticDataSource_csv"; }
         }
-
+        public CaseStaticDataType RunTimeStaticDataType
+        {
+            get { return CaseStaticDataType.caseStaticData_csv; }
+        }
         public MyStaticDataSourceCsv(List<List<string>> yourCsvData)
         {
             isNew = true;
             nowRowIndex = 0;
             nowColumnIndex = 0;
             csvData = yourCsvData;
+        }
+
+        public MyStaticDataSourceCsv(List<List<string>> yourCsvData, string originalConnectString)
+            : this(yourCsvData)
+        {
+            OriginalConnectString = originalConnectString;
         }
         public object Clone()
         {

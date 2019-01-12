@@ -15,6 +15,18 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
     {
         #region TypeDictionary
 
+        public static Dictionary<CaseStaticDataType, List<string>> dictionaryStaticDataAnnotation = new Dictionary<CaseStaticDataType, List<string>>()
+        {
+            {CaseStaticDataType.caseStaticData_vaule,new List<string>(){"Key-Value","value","value","this value the meaning is the key","provide a key value list like dictionary"}},
+            {CaseStaticDataType.caseStaticData_index,new List<string>(){"Index","start-end-step","1-1000-2","start: the start of the number \nend: the end of the number (the max is 2147483647)\nstep: when get next value the number will add step (default is 1)","provide a number index ,you can get a increase index each time"}},
+            {CaseStaticDataType.caseStaticData_long,new List<string>(){"LongIndex","start-end-step","1-1000-2","start: the start of the number \nend: the end of the number (the max is 9223372036854775807)\nstep: when get next value the number will add step (default is 1)","provide a number long index ,you can get a increase index each time"}},
+            {CaseStaticDataType.caseStaticData_strIndex,new List<string>(){"StringIndex","start-end-step","0001-1000-2","start: the start of the number string (the lengh should equal to the end lengh)\nend: the end of the number sting (the max is 9223372036854775807)\nstep: when get next value the number will add step (default is 1)","provide a number string index ,you can keep the same lengh of the string each time"}},
+            {CaseStaticDataType.caseStaticData_time,new List<string>(){"Time","DateTimeFormatInfo","yyyy-MM-ddTHH:mm:ss","DateTimeFormatInfo: the format for data time (find DateTimeFormatInfo in dotnet doc)","provide a data time string with your format"}},
+            {CaseStaticDataType.caseStaticData_random,new List<string>(){"Random","len-type","10-1","len: the lengh of the random string\ntype: the type of random mode  (0 is all the visible asc2 ; 1 is only number ; 2 is letter in upper ; 3 is letter in lower ; 4 is the special character ; 5 is all the letters ; 6 is all the letters or numbers)(default is 1)","provide a random strng with your mode"}},
+            {CaseStaticDataType.caseStaticData_list,new List<string>(){"List","v1,v2,v3,v4-mode","ab,c,de-1","v1,v2,v3: the value of the list (the value list segmentation by ,) \nmode: the mode read 1 is read by order ; 2 is read by random (default is 1)","provide a list value ,you can get it by order or random"}},
+            {CaseStaticDataType.caseStaticData_csv,new List<string>(){"CSV","path-encode","csvdatasouce.csv-65001","path: the file path (start with @ means absolute path) \nencode: the encode of the file (default is 65001)","provide a data souce form csv file ,you can get it by order or location"}}
+        };
+
         /// <summary>
         /// 参数化数据类型映射表
         /// </summary>
@@ -241,7 +253,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
         public static bool GetCsvStaticDataSource(out IRunTimeDataSource yourStaticData, out string errorMes, string yourFormatData)
         {
             errorMes = null;
-            yourStaticData = new MyStaticDataSourceCsv();
+            yourStaticData = null;
             string csvPath = null;
             int CodePage = 65001;
             Encoding csvEncoding = null;
@@ -266,7 +278,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 errorMes = string.Format("[GetCsvStaticDataSource]error in 【CodePage】 [{0}]", yourFormatData);
                 return false;
             }
-            csvPath = csvPath.StartsWith("@") ? csvPath.Remove(0, 1) : string.Format("{0}\\casefile\\{1}", CaseTool.rootPath, csvPath);
+            csvPath = csvPath.StartsWith("@") ? csvPath.Remove(0, 1) : string.Format("{0}\\casefile\\{1}", MyCommonTool.rootPath, csvPath);
             if (!System.IO.File.Exists(csvPath))
             {
                 errorMes = string.Format("[GetCsvStaticDataSource]error in csv path [path not exixts] [{0}]", yourFormatData);

@@ -8,6 +8,8 @@ namespace FreeHttp.AutoTest
 {
     public static class MyCommonTool
     {
+        public static string rootPath = System.Environment.CurrentDirectory;
+
         /// <summary>
         /// seed for GenerateRandomStr
         /// </summary>

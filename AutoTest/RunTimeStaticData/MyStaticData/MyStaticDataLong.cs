@@ -9,7 +9,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     /// 为StaticData提供长数字索引支持【IRunTimeStaticData】
     /// </summary>
-    public struct MyStaticDataLong : IRunTimeStaticData
+    public class MyStaticDataLong : IRunTimeStaticData
     {
         private bool isNew;
         private long dataIndex;
@@ -17,9 +17,14 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
         private long defaultEnd;
         private long defaultStep;
 
-        public string RunTimeStaticDataType
+        public string OriginalConnectString { get; private set; }
+        public string RunTimeStaticDataTypeAlias
         {
             get { return "staticData_long"; }
+        }
+        public CaseStaticDataType RunTimeStaticDataType
+        {
+            get { return CaseStaticDataType.caseStaticData_long; }
         }
         public MyStaticDataLong(long yourStart, long yourEnd, long yourStep)
         {
@@ -27,6 +32,12 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             dataIndex = defaultStart = yourStart;
             defaultEnd = yourEnd;
             defaultStep = yourStep;
+        }
+
+        public MyStaticDataLong(long yourStart, long yourEnd, long yourStep, string originalConnectString)
+            : this(yourStart, yourEnd, yourStep)
+        {
+            OriginalConnectString = originalConnectString;
         }
 
         public object Clone()
