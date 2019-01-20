@@ -13,7 +13,7 @@ namespace FreeHttp.FiddlerHelper
         //public FiddlerUriMatch UriMatch { get; set; }
         public FiddlerHttpFilter HttpFilter{ get; set; }
 
-        public HttpRequest HttpRawRequest { get; set; }
+        public ParameterHttpRequest HttpRawRequest { get; set; }
 
         public ContentModific UriModific { get; set; }
 

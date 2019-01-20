@@ -212,7 +212,7 @@ namespace FreeHttp
                         FreeHttpWindow.MarkMatchRule(matchItem);
                         MarkSession(oSession);
                         ShowMes(string.Format("macth the [requst rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
-                        FiddlerSessionTamper.ModificSessionRequest(oSession, nowFiddlerRequsetChange,ShowError);
+                        FiddlerSessionTamper.ModificSessionRequest(oSession, nowFiddlerRequsetChange,ShowError,ShowMes);
                         if(myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
                         {
                             break;

@@ -32,6 +32,12 @@ namespace FreeHttp.FreeHttpControl
             set { ck_directResponse.Checked = value; }
         }
 
+        public bool IsUseParameterData
+        {
+            get { return useParameterDataToolStripMenuItem.Checked; }
+            set { useParameterDataToolStripMenuItem.Checked = value; }
+        }
+
         public HttpResponse RawResponse
         {
             get { return httpResponse; }
@@ -116,7 +122,8 @@ namespace FreeHttp.FreeHttpControl
         public void ClearInfo()
         {
             rtb_rawResponse.Clear();
-            ck_directResponse.Checked = false;
+            IsDirectRespons = false;
+            IsUseParameterData = false;
             if (cb_responseLine.Items.Count>0)
             {
                 cb_responseLine.SelectedIndex = 0;

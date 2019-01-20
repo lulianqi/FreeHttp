@@ -347,16 +347,17 @@ namespace FreeHttp.FreeHttpControl
             requsetReplace.HttpFilter = GetHttpFilter();
             if (IsRequestReplaceRawMode)
             {
-                requsetReplace.HttpRawRequest = HttpRequest.GetHttpRequest(rtb_requestRaw.Text.Replace("\n", "\r\n"));
+                requsetReplace.HttpRawRequest = ParameterHttpRequest.GetHttpRequest(rtb_requestRaw.Text.Replace("\n", "\r\n"), useParameterDataToolStripMenuItem.Checked, StaticDataCollection);
             }
             else
             {
-                requsetReplace.HttpRawRequest = new HttpRequest();
+                requsetReplace.HttpRawRequest = new ParameterHttpRequest();
                 requsetReplace.HttpRawRequest.RequestMethod = cb_editRequestMethod.Text;
                 requsetReplace.HttpRawRequest.RequestUri = tb_requestReplace_uri.Text;
                 requsetReplace.HttpRawRequest.RequestVersions = cb_editRequestEdition.Text;
                 requsetReplace.HttpRawRequest.RequestLine = string.Format("{0} {1} {2}", cb_editRequestMethod.Text, tb_requestReplace_uri.Text, cb_editRequestEdition.Text);
-
+                StringBuilder requestSb = new StringBuilder(requsetReplace.HttpRawRequest.RequestLine);
+                requestSb.Append("\r\n\r\n");
                 requsetReplace.HttpRawRequest.RequestHeads = new List<MyKeyValuePair<string, string>>();
                 if (elv_requsetReplace.ListDataView.Items.Count > 0)
                 {
@@ -373,10 +374,13 @@ namespace FreeHttp.FreeHttpControl
                         {
                             throw new Exception(string.Format("find eror head with {0}", headStr));
                         }
+                        requestSb.AppendLine(headStr);
                     }
+                    requestSb.Append("\r\n");
                 }
 
                 string tempRequstBody = rtb_requsetReplace_body.Text;
+                requestSb.AppendLine(tempRequstBody);
                 if (tempRequstBody.StartsWith("\n<<replace file path>>"))
                 {
                     string tempPath = tempRequstBody.Remove(0, 22);
@@ -403,6 +407,7 @@ namespace FreeHttp.FreeHttpControl
                 {
                     requsetReplace.HttpRawRequest.RequestEntity = Encoding.UTF8.GetBytes(tempRequstBody);
                 }
+                requsetReplace.HttpRawRequest.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(requestSb.ToString(), useParameterDataToolStripMenuItem.Checked);
             }
 
             if (antoContentLengthToolStripMenuItem.Checked)
@@ -469,6 +474,8 @@ namespace FreeHttp.FreeHttpControl
             rtb_requsetReplace_body.Clear();
             rtb_respenseModific_body.Clear();
             rtb_requestRaw.Clear();
+            antoContentLengthToolStripMenuItem.Checked = false;
+            useParameterDataToolStripMenuItem.Checked = false;
             tabControl_Modific_Selecting(this.tabControl_Modific, null);
         }
 
@@ -564,6 +571,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 tabControl_Modific.SelectedIndex = 3;
                 rawResponseEdit.IsDirectRespons = fiddlerResponseChange.IsIsDirectRespons;
+                rawResponseEdit.IsUseParameterData = fiddlerResponseChange.HttpRawResponse.ParameterizationContent.hasParameter;
                 if (fiddlerResponseChange.HttpRawResponse.OriginSting != null)
                 {
                     rawResponseEdit.SetText(fiddlerResponseChange.HttpRawResponse.OriginSting);

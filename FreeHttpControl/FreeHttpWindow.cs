@@ -260,20 +260,55 @@ namespace FreeHttp.FreeHttpControl
                     tempRtb.Text = tempRtb.Text.Remove(tempIndex);
                 }
 
-                if (!tempRtb.Text.EndsWith("\n"))
+                if (!tempRtb.Text.EndsWith("\n") && tempRtb == rtb_requestRaw)
                 {
                     tempRtb.AppendText("\n");
                 }
 
                 tempRtb.AppendText(string.Format("<<replace file path>>{0}", tempPath));
             }
+        }
 
-            
+        private void addParameterDataToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            keyValueToolStripMenuItem.DropDownItems.Clear();
+            parameterToolStripMenuItem.DropDownItems.Clear();
+            dataSouceToolStripMenuItem.DropDownItems.Clear();
+            if(StaticDataCollection==null)
+            {
+                return;
+            }
+            if (StaticDataCollection.RunActuatorStaticDataKeyList != null && StaticDataCollection.RunActuatorStaticDataKeyList.Count>0)
+            {
+                foreach(var tempItem in StaticDataCollection.RunActuatorStaticDataKeyList)
+                {
+                    keyValueToolStripMenuItem.DropDownItems.Add(tempItem.Key);
+                }
+            }
+            if (StaticDataCollection.RunActuatorStaticDataParameterList != null && StaticDataCollection.RunActuatorStaticDataParameterList.Count > 0)
+            {
+                foreach (var tempItem in StaticDataCollection.RunActuatorStaticDataParameterList)
+                {
+                    parameterToolStripMenuItem.DropDownItems.Add(tempItem.Key);
+                }
+            }
+            if (StaticDataCollection.RunActuatorStaticDataSouceList != null && StaticDataCollection.RunActuatorStaticDataSouceList.Count > 0)
+            {
+                foreach (var tempItem in StaticDataCollection.RunActuatorStaticDataSouceList)
+                {
+                    dataSouceToolStripMenuItem.DropDownItems.Add(tempItem.Key);
+                }
+            }
         }
 
         private void antoContentLengthToolStripMenuItem_Click(object sender, EventArgs e)
         {
             antoContentLengthToolStripMenuItem.Checked = !antoContentLengthToolStripMenuItem.Checked;
+        }
+
+        private void useParameterDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            useParameterDataToolStripMenuItem.Checked = !useParameterDataToolStripMenuItem.Checked;
         }
 
         private void pictureBox_editRuleMode_Click(object sender, EventArgs e)

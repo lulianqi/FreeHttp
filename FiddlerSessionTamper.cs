@@ -19,11 +19,11 @@ namespace FreeHttp
         /// </summary>
         /// <param name="oSession">oSession</param>
         /// <param name="nowFiddlerRequsetChange">FiddlerRequsetChange</param>
-        public static void ModificSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange, Action<string> ShowError)
+        public static void ModificSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange, Action<string> ShowError, Action<string> ShowMes)
         {
             if (nowFiddlerRequsetChange.IsRawReplace)
             {
-                ReplaceSessionRequest(oSession, nowFiddlerRequsetChange, ShowError);
+                ReplaceSessionRequest(oSession, nowFiddlerRequsetChange, ShowError, ShowMes);
             }
             else
             {
@@ -81,8 +81,30 @@ namespace FreeHttp
         /// </summary>
         /// <param name="oSession">oSession</param>
         /// <param name="nowFiddlerRequsetChange">FiddlerRequsetChange</param>
-        public static void ReplaceSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange, Action<string> ShowError)
+        public static void ReplaceSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange, Action<string> ShowError, Action<string> ShowMes)
         {
+            if (nowFiddlerRequsetChange.HttpRawRequest.ParameterizationContent.hasParameter)
+            {
+                string errMes;
+                NameValueCollection nameValueCollection;
+                try
+                {
+                    nowFiddlerRequsetChange.HttpRawRequest.UpdateHttpRequest(out errMes, out nameValueCollection);
+                }
+                catch (Exception ex)
+                {
+                    ShowError(string.Format("Fail to ReplaceSessionResponse :{0}", ex.Message));
+                    return;
+                }
+                if (errMes != null)
+                {
+                    ShowError(errMes);
+                }
+                if (nameValueCollection != null && nameValueCollection.Count > 0)
+                {
+                    ShowMes(string.Format("[ParameterizationContent]:{0}", nameValueCollection.MyToFormatString()));
+                }
+            }
             oSession.oRequest.headers = new HTTPRequestHeaders();
             oSession.RequestMethod = nowFiddlerRequsetChange.HttpRawRequest.RequestMethod;
             oSession.fullUrl = nowFiddlerRequsetChange.HttpRawRequest.RequestUri;

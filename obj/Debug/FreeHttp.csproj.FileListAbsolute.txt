@@ -65,3 +65,6 @@ D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.pdb
 C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.MyBaseInfoWindow.resources
 C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.StaticDataManageWindow.resources
 C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.StaticDataAddWindow.resources
+D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.MyBaseInfoWindow.resources
+D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.StaticDataAddWindow.resources
+D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.StaticDataManageWindow.resources
