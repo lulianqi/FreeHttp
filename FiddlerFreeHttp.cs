@@ -1,6 +1,9 @@
 ﻿using Fiddler;
+using FreeHttp.AutoTest.RunTimeStaticData;
+using FreeHttp.FiddlerHelper;
 using FreeHttp.FreeHttpControl;
 using FreeHttp.HttpHelper;
+using FreeHttp.MyHelper;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -41,7 +44,14 @@ namespace FreeHttp
             {
                 return;
             }
-            myFreeHttpWindow.PutInfo(mes);
+            if (myFreeHttpWindow.InvokeRequired)
+            {
+                myFreeHttpWindow.BeginInvoke(new Action<string>(myFreeHttpWindow.PutInfo), mes);
+            }
+            else
+            {
+                myFreeHttpWindow.PutInfo(mes);
+            }
         }
 
         private void ShowError(string mes)
@@ -51,7 +61,14 @@ namespace FreeHttp
                 return;
             }
             FiddlerObject.log(mes);
-            myFreeHttpWindow.PutError(mes);
+            if (myFreeHttpWindow.InvokeRequired)
+            {
+                myFreeHttpWindow.BeginInvoke(new Action<string>(myFreeHttpWindow.PutError), mes);
+            }
+            else
+            {
+                myFreeHttpWindow.PutError(mes);
+            }
         }
 
         private void AddFiddlerObjectLog(string mes)
@@ -74,6 +91,7 @@ namespace FreeHttp
         {
             SerializableHelper.SerializeRuleList(myFreeHttpWindow.RequestRuleListView, myFreeHttpWindow.ResponseRuleListView);
             SerializableHelper.SerializeData<FiddlerModificSettingInfo>(myFreeHttpWindow.ModificSettingInfo, "FreeHttpSetting.xml");
+            SerializableHelper.SerializeContractData<ActuatorStaticDataCollection>(myFreeHttpWindow.StaticDataCollection, "FreeHttpStaticDataCollection.xml");
         }
 
         public void OnLoad()
@@ -90,7 +108,21 @@ namespace FreeHttp
                     FiddlerApplication.UI.tabsViews.ImageList.Images.Add(myIco);
                     tabPage.ImageIndex = FiddlerApplication.UI.tabsViews.ImageList.Images.Count - 1;
                 }
-                myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList(), SerializableHelper.DeserializeData<FiddlerModificSettingInfo>("FreeHttpSetting.xml"));
+                try
+                {
+                    myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList(), SerializableHelper.DeserializeData<FiddlerModificSettingInfo>("FreeHttpSetting.xml"), SerializableHelper.DeserializeContractData<FreeHttp.AutoTest.RunTimeStaticData.ActuatorStaticDataCollection>("FreeHttpStaticDataCollection.xml"));
+                }
+                catch(Exception ex)
+                {
+                    AddFiddlerObjectLog(string.Format("【FiddlerFreeHttp】load configuration fial : {0}", ex.Message));
+                }
+                finally
+                {
+                    if(myFreeHttpWindow==null)
+                    {
+                        myFreeHttpWindow=new FreeHttpWindow(null,null,null);
+                    }
+                }
                 myFreeHttpWindow.OnGetSession += myFreeHttpWindow_OnGetSession;
                 myFreeHttpWindow.OnGetSessionRawData += myFreeHttpWindow_OnGetSessionRawData;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
@@ -125,7 +157,8 @@ namespace FreeHttp
             else
             {
                 Fiddler.FiddlerObject.UI.ShowAlert(new frmAlert("STOP", "please select a session", "OK"));
-                ((FreeHttpWindow)sender).MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
+                //((FreeHttpWindow)sender).MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
+                FreeHttpWindow.MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
             }
         }
 
@@ -141,7 +174,7 @@ namespace FreeHttp
             {
                 Fiddler.FiddlerObject.UI.ShowAlert(new frmAlert("STOP", "please select a session", "OK"));
                 //((FreeHttpWindow)sender).MarkWarnControl(Fiddler.FiddlerApplication.UI.Controls[0]);
-                ((FreeHttpWindow)sender).MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
+                FreeHttpWindow.MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
             }
         }
 
@@ -176,7 +209,7 @@ namespace FreeHttp
                     foreach (var matchItem in matchItems)
                     {
                         FiddlerRequsetChange nowFiddlerRequsetChange = ((FiddlerRequsetChange)matchItem.Tag);
-                        myFreeHttpWindow.MarkMatchRule(matchItem);
+                        FreeHttpWindow.MarkMatchRule(matchItem);
                         MarkSession(oSession);
                         ShowMes(string.Format("macth the [requst rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
                         FiddlerSessionTamper.ModificSessionRequest(oSession, nowFiddlerRequsetChange,ShowError);
@@ -202,10 +235,10 @@ namespace FreeHttp
                         FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
                         if (nowFiddlerResponseChange.IsIsDirectRespons)
                         {
-                            myFreeHttpWindow.MarkMatchRule(matchItem);
+                            FreeHttpWindow.MarkMatchRule(matchItem);
                             MarkSession(oSession);
                             ShowMes(string.Format("macth the [reponse rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
-                            FiddlerSessionTamper.ReplaceSessionResponse(oSession, nowFiddlerResponseChange,ShowError);
+                            FiddlerSessionTamper.ReplaceSessionResponse(oSession, nowFiddlerResponseChange,ShowError,ShowMes);
                             //oSession.state = SessionStates.Done;
                             if (myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
                             {
@@ -237,10 +270,10 @@ namespace FreeHttp
                         FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
                         if (!(nowFiddlerResponseChange.IsRawReplace && nowFiddlerResponseChange.IsIsDirectRespons))
                         {
-                            myFreeHttpWindow.MarkMatchRule(matchItem);
+                            FreeHttpWindow.MarkMatchRule(matchItem);
                             MarkSession(oSession);
                             ShowMes(string.Format("macth the [reponse rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));
-                            FiddlerSessionTamper.ModificSessionResponse(oSession, nowFiddlerResponseChange,ShowError);
+                            FiddlerSessionTamper.ModificSessionResponse(oSession, nowFiddlerResponseChange,ShowError,ShowMes);
                         }
                         if (nowFiddlerResponseChange.LesponseLatency > 0)
                         {

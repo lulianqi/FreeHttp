@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FreeHttp.HttpHelper;
+using FreeHttp.AutoTest.RunTimeStaticData;
 
 namespace FreeHttp.FreeHttpControl
 {
@@ -98,6 +99,11 @@ namespace FreeHttp.FreeHttpControl
         {
             antoContentLengthToolStripMenuItem.Checked = !antoContentLengthToolStripMenuItem.Checked;
         }
+
+        private void useParameterDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            useParameterDataToolStripMenuItem.Checked = !useParameterDataToolStripMenuItem.Checked;
+        }
         public void SetText(string mes)
         {
             rtb_rawResponse.Clear();
@@ -117,15 +123,17 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
-        public HttpResponse GetHttpResponse()
+        public ParameterHttpResponse GetHttpResponse(ActuatorStaticDataCollection yourActuatorStaticDataCollection)
         {
-            HttpResponse nowHttpResponse = HttpResponse.GetHttpResponse(rtb_rawResponse.Text.Replace("\n", "\r\n"));
+            ParameterHttpResponse nowHttpResponse = ParameterHttpResponse.GetHttpResponse(rtb_rawResponse.Text.Replace("\n", "\r\n"), useParameterDataToolStripMenuItem.Checked, yourActuatorStaticDataCollection);
             if (antoContentLengthToolStripMenuItem.Checked)
             {
                 nowHttpResponse.SetAutoContentLength();
             }
             return nowHttpResponse;
         }
+
+       
 
 
         

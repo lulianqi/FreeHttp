@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace FreeHttp.FreeHttpControl
 {
-    public class MarkControlService
+    public class MarkControlService:IDisposable
     {
         /// <summary>
         /// the information for the mark Control
@@ -138,6 +138,11 @@ namespace FreeHttp.FreeHttpControl
                 }
                 yourItem.BackColor = yourColor;
             }
+        }
+
+        public void Dispose()
+        {
+            myTimer.Dispose();
         }
     }
 }

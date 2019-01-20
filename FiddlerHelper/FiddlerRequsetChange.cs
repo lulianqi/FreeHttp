@@ -1,9 +1,10 @@
-﻿using System;
+﻿using FreeHttp.HttpHelper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FreeHttp.HttpHelper
+namespace FreeHttp.FiddlerHelper
 {
     [Serializable]
     public class FiddlerRequsetChange : IFiddlerHttpTamper
@@ -11,7 +12,7 @@ namespace FreeHttp.HttpHelper
         public bool IsEnable { get; set; }
         //public FiddlerUriMatch UriMatch { get; set; }
         public FiddlerHttpFilter HttpFilter{ get; set; }
-        
+
         public HttpRequest HttpRawRequest { get; set; }
 
         public ContentModific UriModific { get; set; }

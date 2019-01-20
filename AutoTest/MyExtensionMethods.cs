@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -105,6 +106,50 @@ namespace FreeHttp.AutoTest
         }
 
         /// <summary>
+        /// 【NameValueCollection】添加键值，检查NameValueCollection是否为null
+        /// </summary>
+        /// <param name="nvc">NameValueCollection</param>
+        /// <param name="yourKey">Key</param>
+        /// <param name="yourValue">Value</param>
+        public static void MyAdd(this NameValueCollection nvc, string yourName, string yourValue)
+        {
+            if (nvc != null)
+            {
+                nvc.Add(yourName, yourValue);
+            }
+        }
+
+        /// <summary>
+        ///  转换为{[key:value][key:value].......}
+        /// </summary>
+        /// <param name="nvc">NameValueCollection</param>
+        /// <returns>{[key:value][key:value].......}</returns>
+        public static string MyToFormatString(this NameValueCollection nvc)
+        {
+            if (nvc != null)
+            {
+                if (nvc.Count > 0)
+                {
+                    if (nvc.Count < 2)
+                    {
+                        return string.Format("{{ [{0}:{1}] }}", nvc.Keys[0], nvc[nvc.Keys[0]]);
+                    }
+                    else
+                    {
+                        StringBuilder tempStrBld = new StringBuilder("{ ", nvc.Count * 32);
+                        foreach (string tempKey in nvc.Keys)
+                        {
+                            tempStrBld.AppendFormat("[{0}:{1}] ", tempKey, nvc[tempKey]);
+                        }
+                        tempStrBld.Append("}");
+                        return tempStrBld.ToString();
+                    }
+                }
+            }
+            return "";
+        }
+
+        /// <summary>
         /// 返回对象的深度克隆(泛型数据，要求T必须为值类型，或类似string的特殊引用类型[因为虽然使用string的克隆会有相同的引用，但对string进行修改的时都会创建新的对象])
         /// </summary>
         /// <typeparam name="TKey">TKey</typeparam>
@@ -137,5 +182,20 @@ namespace FreeHttp.AutoTest
             }
             return cloneDc;
         }
+
+        public static Dictionary<string, TTargetValue> ToChangeType<TValue,TTargetValue>(this Dictionary<string, TValue> dc) where TValue : TTargetValue
+        {
+            if(dc!=null)
+            {
+                Dictionary<string, TTargetValue> newDc = new Dictionary<string, TTargetValue>();
+                foreach(var item in dc)
+                {
+                    newDc.Add(item.Key, item.Value);
+                }
+                return newDc;
+            }
+            return null;
+        }
+    
     }
 }

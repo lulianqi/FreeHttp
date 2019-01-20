@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,8 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoTest\CsvFileHelper.cs" />
+    <Compile Include="AutoTest\MyBytesHelper.cs" />
     <Compile Include="AutoTest\MyCommonTool.cs" />
     <Compile Include="AutoTest\MyExtensionMethods.cs" />
+    <Compile Include="AutoTest\ParameterizationContent\CaseParameterizationContent.cs" />
+    <Compile Include="AutoTest\ParameterizationContent\ParameterizationContentEncodingType.cs" />
+    <Compile Include="AutoTest\ParameterizationContent\ParameterizationContentHelper.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\ActuatorStaticDataCollection.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\CaseRunTimeDataTypeEngine.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\CaseStaticDataType.cs" />
@@ -62,6 +67,7 @@
     <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataRandomStr.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataSourceCsv.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataStrIndex.cs" />
+    <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataValue.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\RunTimeStaticDataHelper.cs" />
     <Compile Include="FiddlerFreeHttp.cs" />
     <Compile Include="FiddlerSessionTamper.cs" />
@@ -77,10 +83,10 @@
     <Compile Include="FreeHttpControl\EditCookieForm.Designer.cs">
       <DependentUpon>EditCookieForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FreeHttpControl\EditListView.cs">
+    <Compile Include="FreeHttpControl\MyControl\EditListView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\EditListView.Designer.cs">
+    <Compile Include="FreeHttpControl\MyControl\EditListView.Designer.cs">
       <DependentUpon>EditListView.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\FreeHttpWindowFunction.cs">
@@ -103,31 +109,31 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FreeHttpControl\MyControlHelper.cs" />
-    <Compile Include="FreeHttpControl\MyListView.cs">
+    <Compile Include="FreeHttpControl\MyControl\MyListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\MyPanel.cs">
+    <Compile Include="FreeHttpControl\MyControl\MyPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\MyEnableSwitch.cs">
+    <Compile Include="FreeHttpControl\MyControl\MyEnableSwitch.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\MyEnableSwitch.Designer.cs">
+    <Compile Include="FreeHttpControl\MyControl\MyEnableSwitch.Designer.cs">
       <DependentUpon>MyEnableSwitch.cs</DependentUpon>
     </Compile>
-    <Compile Include="FreeHttpControl\MyPictureButton.cs">
+    <Compile Include="FreeHttpControl\MyControl\MyPictureButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\RawRequestEdit.cs">
+    <Compile Include="FreeHttpControl\MyControl\RawRequestEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\RawRequestEdit.Designer.cs">
+    <Compile Include="FreeHttpControl\MyControl\RawRequestEdit.Designer.cs">
       <DependentUpon>RawRequestEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="FreeHttpControl\RawResponseEdit.cs">
+    <Compile Include="FreeHttpControl\MyControl\RawResponseEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\RawResponseEdit.designer.cs">
+    <Compile Include="FreeHttpControl\MyControl\RawResponseEdit.designer.cs">
       <DependentUpon>RawResponseEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\RemoveHead.cs">
@@ -154,11 +160,11 @@
     <Compile Include="FreeHttpControl\ShowTextForm.Designer.cs">
       <DependentUpon>ShowTextForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FreeHttpControl\StaticDataCollectionWindow.cs">
+    <Compile Include="FreeHttpControl\StaticDataAddWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\StaticDataCollectionWindow.Designer.cs">
-      <DependentUpon>StaticDataCollectionWindow.cs</DependentUpon>
+    <Compile Include="FreeHttpControl\StaticDataAddWindow.Designer.cs">
+      <DependentUpon>StaticDataAddWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\StaticDataManageWindow.cs">
       <SubType>Form</SubType>
@@ -166,28 +172,30 @@
     <Compile Include="FreeHttpControl\StaticDataManageWindow.Designer.cs">
       <DependentUpon>StaticDataManageWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="FreeHttpControl\TextBoxEditer.cs">
+    <Compile Include="FreeHttpControl\MyControl\TextBoxEditer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\TextBoxEditer.Designer.cs">
+    <Compile Include="FreeHttpControl\MyControl\TextBoxEditer.Designer.cs">
       <DependentUpon>TextBoxEditer.cs</DependentUpon>
     </Compile>
-    <Compile Include="FreeHttpControl\WatermakTextBox.cs">
+    <Compile Include="FreeHttpControl\MyControl\WatermakTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="HttpHelper\ContentModific.cs" />
-    <Compile Include="HttpHelper\FiddlerModificHttpRuleCollection.cs" />
-    <Compile Include="HttpHelper\FiddlerModificSettingInfo.cs" />
-    <Compile Include="HttpHelper\FiddlerRequsetChange.cs" />
-    <Compile Include="HttpHelper\FiddlerResponseChange.cs" />
-    <Compile Include="HttpHelper\FiddlerSessionHelper.cs" />
-    <Compile Include="HttpHelper\FiddlerHttpFilter.cs" />
+    <Compile Include="FiddlerHelper\FiddlerModificHttpRuleCollection.cs" />
+    <Compile Include="FiddlerHelper\FiddlerModificSettingInfo.cs" />
+    <Compile Include="FiddlerHelper\FiddlerRequsetChange.cs" />
+    <Compile Include="FiddlerHelper\FiddlerResponseChange.cs" />
+    <Compile Include="FiddlerHelper\FiddlerSessionHelper.cs" />
+    <Compile Include="FiddlerHelper\FiddlerHttpFilter.cs" />
     <Compile Include="HttpHelper\HttpRequest.cs" />
     <Compile Include="HttpHelper\HttpResponse.cs" />
-    <Compile Include="HttpHelper\IFiddlerHttpTamper.cs" />
-    <Compile Include="HttpHelper\MyExtensionMethods.cs" />
-    <Compile Include="HttpHelper\MyKeyValuePair.cs" />
-    <Compile Include="HttpHelper\SerializableHelper.cs" />
+    <Compile Include="FiddlerHelper\IFiddlerHttpTamper.cs" />
+    <Compile Include="HttpHelper\ParameterHttpRequest.cs" />
+    <Compile Include="HttpHelper\ParameterHttpResponse.cs" />
+    <Compile Include="MyHelper\MyExtensionMethods.cs" />
+    <Compile Include="MyHelper\MyKeyValuePair.cs" />
+    <Compile Include="MyHelper\SerializableHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -207,7 +215,7 @@
     <EmbeddedResource Include="FreeHttpControl\EditCookieForm.resx">
       <DependentUpon>EditCookieForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FreeHttpControl\EditListView.resx">
+    <EmbeddedResource Include="FreeHttpControl\MyControl\EditListView.resx">
       <DependentUpon>EditListView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\FreeHttpWindow.resx">
@@ -219,16 +227,16 @@
     <EmbeddedResource Include="FreeHttpControl\MyBaseInfoWindow.resx">
       <DependentUpon>MyBaseInfoWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FreeHttpControl\MyListView.resx">
+    <EmbeddedResource Include="FreeHttpControl\MyControl\MyListView.resx">
       <DependentUpon>MyListView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FreeHttpControl\MyEnableSwitch.resx">
+    <EmbeddedResource Include="FreeHttpControl\MyControl\MyEnableSwitch.resx">
       <DependentUpon>MyEnableSwitch.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FreeHttpControl\RawRequestEdit.resx">
+    <EmbeddedResource Include="FreeHttpControl\MyControl\RawRequestEdit.resx">
       <DependentUpon>RawRequestEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FreeHttpControl\RawResponseEdit.resx">
+    <EmbeddedResource Include="FreeHttpControl\MyControl\RawResponseEdit.resx">
       <DependentUpon>RawResponseEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RemoveHead.resx">
@@ -243,14 +251,15 @@
     <EmbeddedResource Include="FreeHttpControl\ShowTextForm.resx">
       <DependentUpon>ShowTextForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FreeHttpControl\StaticDataCollectionWindow.resx">
-      <DependentUpon>StaticDataCollectionWindow.cs</DependentUpon>
+    <EmbeddedResource Include="FreeHttpControl\StaticDataAddWindow.resx">
+      <DependentUpon>StaticDataAddWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\StaticDataManageWindow.resx">
       <DependentUpon>StaticDataManageWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FreeHttpControl\TextBoxEditer.resx">
+    <EmbeddedResource Include="FreeHttpControl\MyControl\TextBoxEditer.resx">
       <DependentUpon>TextBoxEditer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -306,6 +315,7 @@
   <ItemGroup>
     <None Include="Resources\minimize.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>

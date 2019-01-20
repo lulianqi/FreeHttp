@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,15 +10,22 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     ///  为StaticData提供当基于List的列表数据支持据【IRunTimeStaticData】
     /// </summary>
+     [DataContract]
     public class MyStaticDataList : IRunTimeStaticData
     {
+         [DataMember]
         private bool isNew;
+         [DataMember]
         private string souseData;
+         [DataMember]
         private List<string> souseListData;
+         [DataMember]
         private int nowIndex;
+         [DataMember]
         private bool isRandom;
         private Random ran;
 
+         [DataMember]
         public string OriginalConnectString { get;private set; }
         public string RunTimeStaticDataTypeAlias
         {

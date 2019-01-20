@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using FreeHttp.HttpHelper;
+using FreeHttp.AutoTest.RunTimeStaticData;
+using FreeHttp.FiddlerHelper;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -64,10 +66,22 @@ namespace FreeHttp.FreeHttpControl
         /// FreeHttpWindow
         /// </summary>
         /// <param name="yourRuleCollection">the history rule</param>
-        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection , FiddlerModificSettingInfo yourModifcSettingInfo):this()
+        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection, FiddlerModificSettingInfo yourModifcSettingInfo, ActuatorStaticDataCollection yourStaticDataCollection)
+            : this()
         {
             fiddlerModificHttpRuleCollection = yourRuleCollection;
             ModificSettingInfo = yourModifcSettingInfo;
+            StaticDataCollection = yourStaticDataCollection;
+            if(fiddlerModificHttpRuleCollection!=null&&StaticDataCollection!=null)
+            {
+                foreach(var fg in fiddlerModificHttpRuleCollection.ResponseRuleList)
+                {
+                    if(fg.IsRawReplace)
+                    {
+                        fg.HttpRawResponse.SetActuatorStaticDataCollection(StaticDataCollection);
+                    }
+                }
+            }
         }
         
 
@@ -76,7 +90,7 @@ namespace FreeHttp.FreeHttpControl
         /// </summary>
         public event EventHandler OnGetSession;
         /// <summary>
-        /// On get the raw http data link click
+        /// On get the raw http data link click   (EventHandler<GetSessionRawDataEventArgs>)
         /// </summary>
         public event GetSessionRawDataEventHandler OnGetSessionRawData;
 
@@ -84,6 +98,11 @@ namespace FreeHttp.FreeHttpControl
         /// get or set ModificSettingInfo
         /// </summary>
         public FiddlerModificSettingInfo ModificSettingInfo { get;  set; }
+
+        /// <summary>
+        /// get or set ModificSettingInfo
+        /// </summary>
+        public ActuatorStaticDataCollection StaticDataCollection { get; set; }
 
         /// <summary>
         /// get or set IsSetResponseLatencyEable
@@ -125,7 +144,7 @@ namespace FreeHttp.FreeHttpControl
         public RuleEditMode NowEditMode { get; private set; }
 
 
-        MarkControlService markControlService;
+        private static MarkControlService markControlService;
         FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
         bool isSetResponseLatencyEable;
 
@@ -139,7 +158,14 @@ namespace FreeHttp.FreeHttpControl
             catch(Exception ex)
             {
                 MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException==null? "":ex.InnerException.Message), "load user rule fail");
-                File.Copy("RuleData.xml", "RuleData.lastErrorFile", true);
+                if (File.Exists("RuleData.xml"))
+                {
+                    File.Copy("RuleData.xml", "RuleData.lastErrorFile", true);
+                }
+            }
+            if (StaticDataCollection == null)
+            {
+                StaticDataCollection = new ActuatorStaticDataCollection(true);
             }
             if(ModificSettingInfo==null)
             {
@@ -150,6 +176,7 @@ namespace FreeHttp.FreeHttpControl
                 pb_requestRuleSwitch_Click(null, null);
                 pb_responseRuleSwitch_Click(null, null);
             }
+            
             tbe_RequestBodyModific.Visible = false;
             tbe_ResponseBodyModific.Visible = false;
             tbe_urlFilter.Visible = false;
@@ -370,6 +397,7 @@ namespace FreeHttp.FreeHttpControl
         #endregion
 
         #region Modific ContorLine
+
         private void pb_ruleComfrim_Click(object sender, EventArgs e)
         {
             FiddlerRequsetChange nowRequestChange = null;
@@ -634,7 +662,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void parameterDataManageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StaticDataManageWindow f = new StaticDataManageWindow(null);
+            StaticDataManageWindow f = new StaticDataManageWindow(StaticDataCollection);
             f.ShowDialog();
         }
 

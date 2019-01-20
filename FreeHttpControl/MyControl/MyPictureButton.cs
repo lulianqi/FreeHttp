@@ -42,31 +42,22 @@ namespace FreeHttp.FreeHttpControl
                 base.Enabled = value;
                 if(base.Enabled )
                 {
-                    this.Cursor = Cursors.Hand;
                     if(EnabledImage!=null)
                     {
                         this.Image = EnabledImage;
                     }
+                    this.Cursor = Cursors.Hand;
                 }
                 else
                 {
-                    this.Cursor = Cursors.No;
                     if (DisEnabledImage != null)
                     {
                         this.Image = DisEnabledImage;
                     }
+                    this.Cursor = Cursors.No;
                 }
             }
         }
-
-        //{
-        //    get { return base.Image; }
-        //    set
-        //    {
-        //        base.Image = value;
-        //        EnabledImage = base.Image;
-        //    }
-        //}
 
         protected override void OnMouseMove(MouseEventArgs e)
         {

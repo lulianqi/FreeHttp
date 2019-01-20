@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,15 +10,23 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     /// 为StaticData提定长字符串型数字索引支持【IRunTimeStaticData】
     /// </summary>
+     [DataContract]
     public class MyStaticDataStrIndex : IRunTimeStaticData
     {
+         [DataMember]
         private bool isNew;
+         [DataMember]
         private long dataIndex;
+         [DataMember]
         private long defaultStart;
+         [DataMember]
         private long defaultEnd;
+         [DataMember]
         private long defaultStep;
+         [DataMember]
         private int strLen;
 
+         [DataMember]
         public string OriginalConnectString { get; private set; }
         public string RunTimeStaticDataTypeAlias
         {

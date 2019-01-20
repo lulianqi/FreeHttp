@@ -1,10 +1,12 @@
 ﻿using Fiddler;
+using FreeHttp.HttpHelper;
+using FreeHttp.MyHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FreeHttp.HttpHelper
+namespace FreeHttp.FiddlerHelper
 {
     public enum FiddlerUriMatchMode
     {

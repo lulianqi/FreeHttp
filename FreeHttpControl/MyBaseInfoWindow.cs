@@ -83,6 +83,7 @@ namespace FreeHttp.FreeHttpControl
             this.Controls.Add(this.pictureBox_close);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MyBaseInfoWindow";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MyBaseInfoWindow_FormClosing);
             this.Load += new System.EventHandler(this.myCaseParameter_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MyBaseInfoWindow_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MyBaseInfoWindow_MouseMove);
@@ -229,6 +230,11 @@ namespace FreeHttp.FreeHttpControl
                 //this.Location = nowMousePos;//相对于父窗体，（如果没有父窗体则可以这样用）
                 this.Location = new Point(nowMousePos.X - tempCrtPos.X, nowMousePos.Y - tempCrtPos.Y);
             }
+        }
+
+        private void MyBaseInfoWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+             myUpdataTime.Tick -= new EventHandler(myUpdataTime_Tick);
         }
 
        

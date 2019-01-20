@@ -9,53 +9,20 @@
           <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
         </UriMatch>
       </HttpFilter>
-      <HttpRawRequest>
-        <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>
-        <RequestMethod>GET</RequestMethod>
-        <RequestUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</RequestUri>
-        <RequestVersions>HTTP/1.1</RequestVersions>
-        <RequestHeads>
-          <MyKeyValuePairOfStringString>
-            <Key>User-Agent</Key>
-            <Value>Fiddler/5.0.20182.28034 (.NET 4.5.2; WinNT 6.1.7601 SP1; zh-CN; 4xAMD64; Auto Update; Full Instance; Extensions: APITesting, AutoSaveExt, EventLog, FiddlerFreeHttp, FiddlerOrchestraAddon, FiddlerWatcherExtension, HostsFile, RulesTab2, SAZClipboardFactory, SimpleFilter, Timeline)</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Pragma</Key>
-            <Value>no-cache</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept-Language</Key>
-            <Value>zh-CN</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Referer</Key>
-            <Value>http://fiddler2.com/client/5.0.20182.28034</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Accept-Encoding</Key>
-            <Value>gzip, deflate</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Connection</Key>
-            <Value>close</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>AddOrigin</Key>
-            <Value>from lijie PC</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Host2</Key>
-            <Value>lijie</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Host2</Key>
-            <Value>aaa</Value>
-          </MyKeyValuePairOfStringString>
-        </RequestHeads>
-        <RequestEntity />
-      </HttpRawRequest>
-      <HeadAddList />
-      <HeadDelList />
+      <UriModific>
+        <ModificMode>KeyVauleReplace</ModificMode>
+        <TargetKey>isBeta=False</TargetKey>
+        <ReplaceContent>isBeta=true</ReplaceContent>
+      </UriModific>
+      <HeadAddList>
+        <string>Connection: test state</string>
+      </HeadAddList>
+      <HeadDelList>
+        <string>Connection</string>
+      </HeadDelList>
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
@@ -308,6 +275,8 @@ dsdsdsfdsf</MatchUri>
         </RequestHeads>
         <RequestEntity />
       </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
       <IsEnable>false</IsEnable>
@@ -746,24 +715,6 @@ Content-Length: 0
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList />
       <HeadDelList />
-    </FiddlerResponseChange>
-    <FiddlerResponseChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://wxsytest.huala.com/lijie/test.css</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <IsIsDirectRespons>false</IsIsDirectRespons>
-      <LesponseLatency>0</LesponseLatency>
-      <HeadAddList>
-        <string>Cache-Control: max-age=60</string>
-      </HeadAddList>
-      <HeadDelList />
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
@@ -1468,22 +1419,6 @@ Content-Length: 51
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
       <HttpFilter>
-        <UriMatch>
-          <MatchMode>Regex</MatchMode>
-          <MatchUri>^https://wxsytest.huala.com/hlman-pic/\.png</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <IsIsDirectRespons>false</IsIsDirectRespons>
-      <LesponseLatency>1000</LesponseLatency>
-      <HeadAddList />
-      <HeadDelList />
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
-    </FiddlerResponseChange>
-    <FiddlerResponseChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
         <Name>test rule 008</Name>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -1605,48 +1540,6 @@ Content-Length: 1964
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList />
       <HeadDelList />
-    </FiddlerResponseChange>
-    <FiddlerResponseChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://test.huala.com/webapp/main.css</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <IsIsDirectRespons>false</IsIsDirectRespons>
-      <LesponseLatency>0</LesponseLatency>
-      <HeadAddList>
-        <string>cache-control: public</string>
-      </HeadAddList>
-      <HeadDelList>
-        <string>cache-control</string>
-      </HeadDelList>
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
-    </FiddlerResponseChange>
-    <FiddlerResponseChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://wxsytest.huala.com/webapp/main.css</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <IsIsDirectRespons>false</IsIsDirectRespons>
-      <LesponseLatency>0</LesponseLatency>
-      <HeadAddList>
-        <string>Cache-Control: public, max-age=120</string>
-      </HeadAddList>
-      <HeadDelList>
-        <string>cache-control</string>
-        <string>last-modified+</string>
-        <string>etag+</string>
-      </HeadDelList>
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>false</IsEnable>
@@ -2109,6 +2002,82 @@ a:{if(!qe)break a;B.setInterval(re,864E5);}jd=(new Date).getTime()}};Bi.Gf();
       <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
+          <MatchMode>Regex</MatchMode>
+          <MatchUri>^https://wxsytest.huala.com/hlman-pic/\.png</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <IsIsDirectRespons>false</IsIsDirectRespons>
+      <LesponseLatency>1000</LesponseLatency>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://test.huala.com/webapp/main.css</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <IsIsDirectRespons>false</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
+      <HeadAddList>
+        <string>cache-control: public</string>
+      </HeadAddList>
+      <HeadDelList>
+        <string>cache-control</string>
+      </HeadDelList>
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://wxsytest.huala.com/lijie/test.css</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <IsIsDirectRespons>false</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
+      <HeadAddList>
+        <string>Cache-Control: max-age=60</string>
+      </HeadAddList>
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://wxsytest.huala.com/webapp/main.css</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <IsIsDirectRespons>false</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
+      <HeadAddList>
+        <string>Cache-Control: public, max-age=120</string>
+      </HeadAddList>
+      <HeadDelList>
+        <string>cache-control</string>
+        <string>last-modified+</string>
+        <string>etag+</string>
+      </HeadDelList>
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
           <MatchMode>Is</MatchMode>
           <MatchUri>https://wxsytest.huala.com/home</MatchUri>
         </UriMatch>
@@ -2201,58 +2170,6 @@ Timestamp: 14:36:39.969
 [Fiddler] ReadResponse() failed: The server did not return a complete response for this request. Server returned 0 bytes.                                                                                                                                                                                                                                                                                                                                                                                                       </OriginSting>
       </HttpRawResponse>
       <IsIsDirectRespons>false</IsIsDirectRespons>
-      <LesponseLatency>0</LesponseLatency>
-      <HeadAddList />
-      <HeadDelList />
-    </FiddlerResponseChange>
-    <FiddlerResponseChange>
-      <IsEnable>true</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <HttpRawResponse>
-        <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
-        <ResponseVersion>HTTP/1.1</ResponseVersion>
-        <ResponseCode>200</ResponseCode>
-        <ResponseStatusDescription>OK</ResponseStatusDescription>
-        <ResponseHeads>
-          <MyKeyValuePairOfStringString>
-            <Key>FiddlerTemplate</Key>
-            <Value>True</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Date</Key>
-            <Value>Fri, 25 Jan 2013 16:49:29 GMT</Value>
-          </MyKeyValuePairOfStringString>
-          <MyKeyValuePairOfStringString>
-            <Key>Content-Length</Key>
-            <Value>51</Value>
-          </MyKeyValuePairOfStringString>
-        </ResponseHeads>
-        <ResponseEntity>VGhpcyBpcyBhIHNpbXBsZSBGaWRkbGVyLXJldHVybmVkIDxCPkhUTUw8L0I+IHBhZ2UuDQoqI3JhbigrKSoj</ResponseEntity>
-        <OriginSting>HTTP/1.1 200 OK
-FiddlerTemplate: True
-Date: Fri, 25 Jan 2013 16:49:29 GMT
-Content-Length: 51
-
-This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.
-*#ran(+)*#</OriginSting>
-        <ParameterizationContent>
-          <contentData>HTTP/1.1 200 OK
-FiddlerTemplate: True
-Date: Fri, 25 Jan 2013 16:49:29 GMT
-Content-Length: 51
-
-This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.
-*#ran(+)*#</contentData>
-          <hasParameter>true</hasParameter>
-          <encodetype>encode_default</encodetype>
-        </ParameterizationContent>
-      </HttpRawResponse>
-      <IsIsDirectRespons>true</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList />
       <HeadDelList />

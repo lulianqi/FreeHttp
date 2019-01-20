@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,14 +10,21 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     /// 为StaticData提供类似索引递增的动态数据【IRunTimeStaticData】
     /// </summary>
+    [DataContract]
     public class MyStaticDataIndex : IRunTimeStaticData
     {
+        [DataMember]
         private bool isNew;
+        [DataMember]
         private int dataIndex;
+        [DataMember]
         private int defaultStart;
+        [DataMember]
         private int defaultEnd;
+        [DataMember]
         private int defaultStep;
 
+        [DataMember]
         public string OriginalConnectString { get; private set; }
         public string RunTimeStaticDataTypeAlias
         {

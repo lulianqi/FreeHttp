@@ -1,7 +1,9 @@
-﻿using System;
+﻿using FreeHttp.AutoTest.RunTimeStaticData.MyStaticData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +12,8 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
     /// <summary>
     /// ActuatorStaticData 集合
     /// </summary>
+    [DataContract]
+    [KnownType(typeof(MyStaticDataValue)), KnownType(typeof(MyStaticDataIndex)), KnownType(typeof(MyStaticDataList)), KnownType(typeof(MyStaticDataLong)), KnownType(typeof(MyStaticDataNowTime)), KnownType(typeof(MyStaticDataRandomStr)), KnownType(typeof(MyStaticDataSourceCsv)), KnownType(typeof(MyStaticDataStrIndex))]
     public class ActuatorStaticDataCollection : IDisposable, ICloneable
     {
         public class ChangeDataEventArgs : EventArgs
@@ -21,35 +25,49 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             }
         }
 
+        [DataMember]
+        public bool IsAllCollectionKeyUnique { get; private set; }
+
         /// <summary>
         /// RunTimeParameter List
         /// </summary>
-        private Dictionary<string, string> runActuatorStaticDataKeyList;
+        [DataMember]
+        private Dictionary<string, IRunTimeStaticData> runActuatorStaticDataKeyList;
 
         /// <summary>
         /// RunTimeStaticData List
         /// </summary>
+        [DataMember]
         private Dictionary<string, IRunTimeStaticData> runActuatorStaticDataParameterList;
 
         /// <summary>
         /// RunTimeDataSouce List
         /// </summary>
+        [DataMember]
         private Dictionary<string, IRunTimeDataSource> runActuatorStaticDataSouceList;
+
 
         private readonly object padlock = new object();
 
         public ActuatorStaticDataCollection()
         {
-            runActuatorStaticDataKeyList = new Dictionary<string, string>();
+            runActuatorStaticDataKeyList = new Dictionary<string, IRunTimeStaticData>();
             runActuatorStaticDataParameterList = new Dictionary<string, IRunTimeStaticData>();
             runActuatorStaticDataSouceList = new Dictionary<string, IRunTimeDataSource>();
+            IsAllCollectionKeyUnique = false;
         }
 
-        public ActuatorStaticDataCollection(Dictionary<string, string> yourActuatorParameterList, Dictionary<string, IRunTimeStaticData> yourActuatorStaticDataList, Dictionary<string, IRunTimeDataSource> yourActuatorStaticDataSouceList)
+        public ActuatorStaticDataCollection(bool isAllCollectionKeyUnique):this()
+        {
+            IsAllCollectionKeyUnique = isAllCollectionKeyUnique;
+        }
+
+        public ActuatorStaticDataCollection(Dictionary<string, IRunTimeStaticData> yourActuatorParameterList, Dictionary<string, IRunTimeStaticData> yourActuatorStaticDataList, Dictionary<string, IRunTimeDataSource> yourActuatorStaticDataSouceList)
         {
             runActuatorStaticDataKeyList = yourActuatorParameterList;
             runActuatorStaticDataParameterList = yourActuatorStaticDataList;
             runActuatorStaticDataSouceList = yourActuatorStaticDataSouceList;
+            IsAllCollectionKeyUnique = false;
         }
 
         //public event EventHandler OnChangeCollection;
@@ -81,7 +99,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             }
         }
 
-        public Dictionary<string, string> RunActuatorStaticDataKeyList
+        public Dictionary<string, IRunTimeStaticData> RunActuatorStaticDataKeyList
         {
             get { return runActuatorStaticDataKeyList; }
         }
@@ -113,9 +131,9 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
         /// <param name="vaule">vaule</param>
         /// <returns>is success</returns>
         [MethodImplAttribute(MethodImplOptions.Synchronized)]
-        public bool AddStaticDataKey(string key, string vaule)
+        public bool AddStaticDataKey(string key, IRunTimeStaticData vaule)
         {
-            if (IsHasSameKey(key, 1) != null)
+            if (IsHasSameKey(key, IsAllCollectionKeyUnique?0:1) != null)
             {
                 if (!RemoveStaticData(key, false))
                 {
@@ -136,7 +154,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
         [MethodImplAttribute(MethodImplOptions.Synchronized)]
         public bool AddStaticDataParameter(string key, IRunTimeStaticData vaule)
         {
-            if (IsHasSameKey(key, 2) != null)
+            if (IsHasSameKey(key, IsAllCollectionKeyUnique ? 0 : 2) != null)
             {
                 if (!RemoveStaticData(key, false))
                 {
@@ -157,7 +175,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
         [MethodImplAttribute(MethodImplOptions.Synchronized)]
         public bool AddStaticDataSouce(string key, IRunTimeDataSource vaule)
         {
-            if (IsHasSameKey(key, 3) != null)
+            if (IsHasSameKey(key, IsAllCollectionKeyUnique ? 0 : 3) != null)
             {
                 if (!RemoveStaticData(key, false))
                 {
@@ -295,7 +313,8 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             }
             else if (tempDataList == runActuatorStaticDataKeyList)
             {
-                runActuatorStaticDataKeyList[key] = configVaule;
+                if (!runActuatorStaticDataKeyList[key].DataSet(configVaule))
+                    return false;
             }
             else if (tempDataList == runActuatorStaticDataParameterList)
             {
@@ -316,9 +335,19 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             return true;
         }
 
+        public IRunTimeStaticData GetStaticData(string key)
+        {
+            object tempStaticData = IsHasSameKey(key, 0);
+            if(tempStaticData==null)
+            {
+                return null;
+            }
+            return tempStaticData as IRunTimeStaticData;
+        }
+
         public object Clone()
         {
-            return new ActuatorStaticDataCollection(runActuatorStaticDataKeyList.MyClone<string, string>(), runActuatorStaticDataParameterList.MyDeepClone(), runActuatorStaticDataSouceList.MyDeepClone());
+            return new ActuatorStaticDataCollection(runActuatorStaticDataKeyList.MyDeepClone(), runActuatorStaticDataParameterList.MyDeepClone(), runActuatorStaticDataSouceList.MyDeepClone());
         }
 
         public void Dispose()

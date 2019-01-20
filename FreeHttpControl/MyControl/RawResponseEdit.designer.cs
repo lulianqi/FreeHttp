@@ -35,6 +35,7 @@
             this.contextMenuStrip_forRtbResponse = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.antoContentLengthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.useParameterDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog_responseFile = new System.Windows.Forms.OpenFileDialog();
             this.ck_directResponse = new System.Windows.Forms.CheckBox();
             this.toolTip_RawResponseEdit = new System.Windows.Forms.ToolTip(this.components);
@@ -67,9 +68,10 @@
             // 
             this.contextMenuStrip_forRtbResponse.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addFileToolStripMenuItem,
-            this.antoContentLengthToolStripMenuItem});
+            this.antoContentLengthToolStripMenuItem,
+            this.useParameterDataToolStripMenuItem});
             this.contextMenuStrip_forRtbResponse.Name = "contextMenuStrip_forRtbResponse";
-            this.contextMenuStrip_forRtbResponse.Size = new System.Drawing.Size(196, 48);
+            this.contextMenuStrip_forRtbResponse.Size = new System.Drawing.Size(196, 92);
             // 
             // addFileToolStripMenuItem
             // 
@@ -85,6 +87,13 @@
             this.antoContentLengthToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.antoContentLengthToolStripMenuItem.Text = "anto Content-Length";
             this.antoContentLengthToolStripMenuItem.Click += new System.EventHandler(this.antoContentLengthToolStripMenuItem_Click);
+            // 
+            // useParameterDataToolStripMenuItem
+            // 
+            this.useParameterDataToolStripMenuItem.Name = "useParameterDataToolStripMenuItem";
+            this.useParameterDataToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.useParameterDataToolStripMenuItem.Text = "use Parameter Data";
+            this.useParameterDataToolStripMenuItem.Click += new System.EventHandler(this.useParameterDataToolStripMenuItem_Click);
             // 
             // openFileDialog_responseFile
             // 
@@ -127,5 +136,6 @@
         private System.Windows.Forms.CheckBox ck_directResponse;
         private System.Windows.Forms.ToolTip toolTip_RawResponseEdit;
         private System.Windows.Forms.ToolStripMenuItem antoContentLengthToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem useParameterDataToolStripMenuItem;
     }
 }

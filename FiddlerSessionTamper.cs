@@ -1,7 +1,10 @@
 ﻿using Fiddler;
+using FreeHttp.FiddlerHelper;
 using FreeHttp.HttpHelper;
+using FreeHttp.AutoTest;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -86,8 +89,13 @@ namespace FreeHttp
             ((Fiddler.HTTPHeaders)(oSession.RequestHeaders)).HTTPVersion = nowFiddlerRequsetChange.HttpRawRequest.RequestVersions;
             if (nowFiddlerRequsetChange.HttpRawRequest.RequestHeads != null)
             {
+                
                 foreach (var tempHead in nowFiddlerRequsetChange.HttpRawRequest.RequestHeads)
                 {
+                    if (tempHead.Key == "Host")
+                    {
+                        oSession.oRequest.headers.Remove("Host");
+                    }
                     oSession.oRequest.headers.Add(tempHead.Key, tempHead.Value);
                 }
             }
@@ -99,14 +107,14 @@ namespace FreeHttp
         /// </summary>
         /// <param name="oSession">oSession</param>
         /// <param name="nowFiddlerResponseChange">FiddlerResponseChange</param>
-        public static void ModificSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange, Action<string> ShowError)
+        public static void ModificSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange, Action<string> ShowError, Action<string> ShowMes)
         {
             if (nowFiddlerResponseChange.IsRawReplace)
             {
                 //if IsIsDirectRespons do nothing
                 if (!nowFiddlerResponseChange.IsIsDirectRespons)
                 {
-                    ReplaceSessionResponse(oSession, nowFiddlerResponseChange, ShowError);
+                    ReplaceSessionResponse(oSession, nowFiddlerResponseChange, ShowError, ShowMes);
                 }
             }
             else
@@ -164,9 +172,29 @@ namespace FreeHttp
         /// </summary>
         /// <param name="oSession">oSession</param>
         /// <param name="nowFiddlerResponseChange">FiddlerResponseChange</param>
-        public static void ReplaceSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange, Action<string> ShowError)
+        public static void ReplaceSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange, Action<string> ShowError, Action<string> ShowMes)
         {
-            using (MemoryStream ms = new MemoryStream(nowFiddlerResponseChange.HttpRawResponse.GetRawHttpResponse()))
+            byte[] tempResponseBytes;
+            string errMes;
+            NameValueCollection nameValueCollection;
+            try
+            {
+                tempResponseBytes = nowFiddlerResponseChange.HttpRawResponse.GetRawHttpResponse(out errMes, out nameValueCollection);
+            }
+            catch(Exception ex)
+            {
+                ShowError(string.Format("Fail to ReplaceSessionResponse :{0}", ex.Message));
+                return;
+            }
+            if (errMes!=null)
+            {
+                ShowError(errMes);
+            }
+            if (nameValueCollection != null && nameValueCollection.Count>0)
+            {
+                ShowMes(string.Format("[ParameterizationContent]:{0}", nameValueCollection.MyToFormatString()));
+            }
+            using (MemoryStream ms = new MemoryStream(tempResponseBytes))
             {
                 if (!oSession.LoadResponseFromStream(ms, null))
                 {

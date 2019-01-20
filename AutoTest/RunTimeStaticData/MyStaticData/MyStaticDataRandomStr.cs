@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,12 +10,17 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     /// 为StaticData提供随机字符串动态数据【IRunTimeStaticData】
     /// </summary>
+     [DataContract]
     public class MyStaticDataRandomStr : IRunTimeStaticData
     {
+         [DataMember]
         string myNowStr;
+         [DataMember]
         int myStrNum;
+         [DataMember]
         int myStrType;
 
+         [DataMember]
         public string OriginalConnectString { get; private set; }
         public string RunTimeStaticDataTypeAlias
         {

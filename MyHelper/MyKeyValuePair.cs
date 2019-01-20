@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FreeHttp.HttpHelper
+namespace FreeHttp.MyHelper
 {
     [Serializable]
     public class MyKeyValuePair<TKey, TValue> :ICloneable

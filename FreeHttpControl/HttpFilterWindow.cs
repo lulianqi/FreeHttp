@@ -1,4 +1,6 @@
-﻿using FreeHttp.HttpHelper;
+﻿using FreeHttp.FiddlerHelper;
+using FreeHttp.HttpHelper;
+using FreeHttp.MyHelper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

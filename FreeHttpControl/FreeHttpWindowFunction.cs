@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using FreeHttp.HttpHelper;
+using FreeHttp.FiddlerHelper;
+using FreeHttp.MyHelper;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -156,27 +158,28 @@ namespace FreeHttp.FreeHttpControl
             NowEditMode = editMode;
         }
 
-        private void MarkControl(Control yourControl, Color yourColor, int yourShowTick)
+        #region MarkControl
+        private static void MarkControl(Control yourControl, Color yourColor, int yourShowTick)
         {
             markControlService.MarkControl(yourControl, yourColor, yourShowTick);
         }
 
-        private void MarkRuleItem(ListViewItem yourItem, Color yourColor, int yourShowTick)
+        private static void MarkRuleItem(ListViewItem yourItem, Color yourColor, int yourShowTick)
         {
             markControlService.MarkControl(yourItem, yourColor, yourShowTick);
         }
 
-        private void MarkRuleItem(ListViewItem yourItem)
+        public static void MarkRuleItem(ListViewItem yourItem)
         {
             MarkRuleItem(yourItem, Color.PowderBlue, 5);
         }
 
-        public void MarkMatchRule(ListViewItem yourItem)
+        public static void MarkMatchRule(ListViewItem yourItem)
         {
             MarkRuleItem(yourItem, Color.Khaki, 3);
         }
 
-        public void MarkWarnControl(Control yourControl)
+        public static void MarkWarnControl(Control yourControl)
         {
             MarkControl(yourControl, Color.Plum, 2);
         }
@@ -185,13 +188,14 @@ namespace FreeHttp.FreeHttpControl
         private void MarkRuleInEdit(ListViewItem yourItem)
         {
             markControlService.SetColor(yourItem, Color.Pink);
-            markControlService.MarkControl(lb_editRuleMode, Color.Pink,2);
+            markControlService.MarkControl(lb_editRuleMode, Color.Pink, 2);
         }
 
         private void MarkRuleOutEdit(ListViewItem yourItem)
         {
             markControlService.SetColor(yourItem, Color.Transparent);
-        }
+        } 
+        #endregion
 
         private FiddlerUriMatch GetUriMatch()
         {
@@ -439,7 +443,7 @@ namespace FreeHttp.FreeHttpControl
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
             responseChange.HttpFilter = GetHttpFilter();
             responseChange.LesponseLatency = GetResponseLatency();
-            responseChange.HttpRawResponse = rawResponseEdit.GetHttpResponse();
+            responseChange.HttpRawResponse = rawResponseEdit.GetHttpResponse(StaticDataCollection);
             responseChange.IsIsDirectRespons = rawResponseEdit.IsDirectRespons;
             return responseChange;
         }

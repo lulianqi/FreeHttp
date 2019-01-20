@@ -28,7 +28,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 case CaseStaticDataClass.caseStaticDataKey:
                     if (dataType == CaseStaticDataType.caseStaticData_vaule)
                     {
-                        if (!actuatorStaticDataCollection.AddStaticDataKey(staticDataKey, staticDataVaule))
+                        if (!actuatorStaticDataCollection.AddStaticDataKey(staticDataKey, new FreeHttp.AutoTest.RunTimeStaticData.MyStaticData.MyStaticDataValue(staticDataVaule)))
                         {
                             errorMes = (string.Format("can not add {0} into ActuatorStaticDataCollection", staticDataKey));
                             return false;

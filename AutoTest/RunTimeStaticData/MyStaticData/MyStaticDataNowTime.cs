@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,11 +10,15 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
     /// <summary>
     /// 为StaticData提供当前时间的动态数据【IRunTimeStaticData】
     /// </summary>
+     [DataContract]
     public class MyStaticDataNowTime : IRunTimeStaticData
     {
+         [DataMember]
         string myNowStr;
+         [DataMember]
         string myDataFormatInfo;
 
+         [DataMember]
         public string OriginalConnectString { get; private set; }
         public string RunTimeStaticDataTypeAlias
         {

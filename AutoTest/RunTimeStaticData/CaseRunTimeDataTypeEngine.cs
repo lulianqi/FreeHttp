@@ -30,11 +30,24 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
         /// <summary>
         /// 参数化数据类型映射表
         /// </summary>
-        public static Dictionary<CaseStaticDataType, CaseStaticDataClass> dictionaryStaticDataTypeClass = new Dictionary<CaseStaticDataType, CaseStaticDataClass>() { { CaseStaticDataType.caseStaticData_vaule, CaseStaticDataClass.caseStaticDataKey },
-        { CaseStaticDataType.caseStaticData_index, CaseStaticDataClass.caseStaticDataParameter }, { CaseStaticDataType.caseStaticData_long, CaseStaticDataClass.caseStaticDataParameter},{ CaseStaticDataType.caseStaticData_list, CaseStaticDataClass.caseStaticDataParameter},
-        { CaseStaticDataType.caseStaticData_time, CaseStaticDataClass.caseStaticDataParameter},{ CaseStaticDataType.caseStaticData_random, CaseStaticDataClass.caseStaticDataParameter},
-        { CaseStaticDataType.caseStaticData_csv, CaseStaticDataClass.caseStaticDataSource},{ CaseStaticDataType.caseStaticData_mysql, CaseStaticDataClass.caseStaticDataSource},{ CaseStaticDataType.caseStaticData_redis, CaseStaticDataClass.caseStaticDataSource},
+        public static Dictionary<CaseStaticDataType, CaseStaticDataClass> dictionaryStaticDataTypeClass = new Dictionary<CaseStaticDataType, CaseStaticDataClass>() { 
+        { CaseStaticDataType.caseStaticData_vaule, CaseStaticDataClass.caseStaticDataKey },
+        { CaseStaticDataType.caseStaticData_index, CaseStaticDataClass.caseStaticDataParameter },
+        { CaseStaticDataType.caseStaticData_long, CaseStaticDataClass.caseStaticDataParameter},
+        { CaseStaticDataType.caseStaticData_list, CaseStaticDataClass.caseStaticDataParameter},
+        { CaseStaticDataType.caseStaticData_time, CaseStaticDataClass.caseStaticDataParameter},
+        { CaseStaticDataType.caseStaticData_random, CaseStaticDataClass.caseStaticDataParameter},
+        { CaseStaticDataType.caseStaticData_csv, CaseStaticDataClass.caseStaticDataSource},
+        { CaseStaticDataType.caseStaticData_mysql, CaseStaticDataClass.caseStaticDataSource},
+        { CaseStaticDataType.caseStaticData_redis, CaseStaticDataClass.caseStaticDataSource},
         {CaseStaticDataType.caseStaticData_strIndex, CaseStaticDataClass.caseStaticDataParameter}};
+
+        public static Dictionary<CaseStaticDataClass, List<CaseStaticDataType>> dictionaryStaticDataTypeSource = new Dictionary<CaseStaticDataClass, List<CaseStaticDataType>>()
+        {
+            {CaseStaticDataClass.caseStaticDataKey,new List<CaseStaticDataType>(){CaseStaticDataType.caseStaticData_vaule}},
+            {CaseStaticDataClass.caseStaticDataParameter,new List<CaseStaticDataType>(){CaseStaticDataType.caseStaticData_index,CaseStaticDataType.caseStaticData_list,CaseStaticDataType.caseStaticData_long,CaseStaticDataType.caseStaticData_random,CaseStaticDataType.caseStaticData_strIndex,CaseStaticDataType.caseStaticData_time}},
+            {CaseStaticDataClass.caseStaticDataSource,new List<CaseStaticDataType>(){CaseStaticDataType.caseStaticData_csv}}
+        };
 
         //参数化数据处理函数委托
         public delegate bool GetStaticDataAction<T>(out T yourStaticData, out string errorMes, string yourFormatData) where T : IRunTimeStaticData;
@@ -70,25 +83,25 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 tempStartEnd = yourFormatData.Split('-');
                 if (tempStartEnd.Length == 2)
                 {
-                    yourStaticData = new MyStaticDataIndex(int.Parse(tempStartEnd[0]), int.Parse(tempStartEnd[1]), 1);
+                    yourStaticData = new MyStaticDataIndex(int.Parse(tempStartEnd[0]), int.Parse(tempStartEnd[1]), 1, yourFormatData);
                     errorMes = null;
                     return true;
                 }
                 if (tempStartEnd.Length == 3)
                 {
-                    yourStaticData = new MyStaticDataIndex(int.Parse(tempStartEnd[0]), int.Parse(tempStartEnd[1]), int.Parse(tempStartEnd[2]));
+                    yourStaticData = new MyStaticDataIndex(int.Parse(tempStartEnd[0]), int.Parse(tempStartEnd[1]), int.Parse(tempStartEnd[2]), yourFormatData);
                     errorMes = null;
                     return true;
                 }
                 else
                 {
-                    yourStaticData = new MyStaticDataIndex(0, 2147483647, 1);
+                    yourStaticData = new MyStaticDataIndex(0, 2147483647, 1, yourFormatData);
                     errorMes = "find error data[myStaticDataIndex] in RunTimeStaticData - ScriptRunTime :(find error number of parameters)";
                 }
             }
             catch (Exception)
             {
-                yourStaticData = new MyStaticDataIndex(0, 2147483647, 1);
+                yourStaticData = new MyStaticDataIndex(0, 2147483647, 1, yourFormatData);
                 errorMes = "find error data[myStaticDataIndex] in RunTimeStaticData - ScriptRunTime ";
             }
             return false;
@@ -104,13 +117,13 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 {
                     if (tempStartEnd[0].Length == tempStartEnd[0].Length)
                     {
-                        yourStaticData = new MyStaticDataStrIndex(long.Parse(tempStartEnd[0]), long.Parse(tempStartEnd[1]), 1, tempStartEnd[0].Length);
+                        yourStaticData = new MyStaticDataStrIndex(long.Parse(tempStartEnd[0]), long.Parse(tempStartEnd[1]), 1, tempStartEnd[0].Length, yourFormatData);
                         errorMes = null;
                         return true;
                     }
                     else
                     {
-                        yourStaticData = new MyStaticDataStrIndex(0, 9223372036854775807, 1, 19);
+                        yourStaticData = new MyStaticDataStrIndex(0, 9223372036854775807, 1, 19, yourFormatData);
                         errorMes = "find error data[myStaticDataStrIndex] with error len in RunTimeStaticData - ScriptRunTime ";
                     }
 
@@ -119,25 +132,25 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 {
                     if (tempStartEnd[0].Length == tempStartEnd[0].Length)
                     {
-                        yourStaticData = new MyStaticDataStrIndex(long.Parse(tempStartEnd[0]), long.Parse(tempStartEnd[1]), long.Parse(tempStartEnd[2]), tempStartEnd[0].Length);
+                        yourStaticData = new MyStaticDataStrIndex(long.Parse(tempStartEnd[0]), long.Parse(tempStartEnd[1]), long.Parse(tempStartEnd[2]), tempStartEnd[0].Length, yourFormatData);
                         errorMes = null;
                         return true;
                     }
                     else
                     {
-                        yourStaticData = new MyStaticDataStrIndex(0, 9223372036854775807, 1, 19);
+                        yourStaticData = new MyStaticDataStrIndex(0, 9223372036854775807, 1, 19, yourFormatData);
                         errorMes = "find error data[myStaticDataStrIndex] with error len in RunTimeStaticData - ScriptRunTime ";
                     }
                 }
                 else
                 {
-                    yourStaticData = new MyStaticDataStrIndex(0, 9223372036854775807, 1, 19);
+                    yourStaticData = new MyStaticDataStrIndex(0, 9223372036854775807, 1, 19, yourFormatData);
                     errorMes = "find error data[myStaticDataLong] in RunTimeStaticData - ScriptRunTime  :(find error number of parameters)";
                 }
             }
             catch (Exception)
             {
-                yourStaticData = new MyStaticDataStrIndex(0, 9223372036854775807, 1, 19);
+                yourStaticData = new MyStaticDataStrIndex(0, 9223372036854775807, 1, 19, yourFormatData);
                 errorMes = "find error data[myStaticDataLong] in RunTimeStaticData - ScriptRunTime ";
             }
             return false;
@@ -150,25 +163,25 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 tempStartEnd = yourFormatData.Split('-');
                 if (tempStartEnd.Length == 2)
                 {
-                    yourStaticData = new MyStaticDataLong(long.Parse(tempStartEnd[0]), long.Parse(tempStartEnd[1]), 1);
+                    yourStaticData = new MyStaticDataLong(long.Parse(tempStartEnd[0]), long.Parse(tempStartEnd[1]), 1, yourFormatData);
                     errorMes = null;
                     return true;
                 }
                 else if (tempStartEnd.Length == 3)
                 {
-                    yourStaticData = new MyStaticDataLong(long.Parse(tempStartEnd[0]), long.Parse(tempStartEnd[1]), long.Parse(tempStartEnd[2]));
+                    yourStaticData = new MyStaticDataLong(long.Parse(tempStartEnd[0]), long.Parse(tempStartEnd[1]), long.Parse(tempStartEnd[2]), yourFormatData);
                     errorMes = null;
                     return true;
                 }
                 else
                 {
-                    yourStaticData = new MyStaticDataLong(0, 9223372036854775807, 1);
+                    yourStaticData = new MyStaticDataLong(0, 9223372036854775807, 1, yourFormatData);
                     errorMes = "find error data[myStaticDataLong] in RunTimeStaticData - ScriptRunTime  :(find error number of parameters)";
                 }
             }
             catch (Exception)
             {
-                yourStaticData = new MyStaticDataLong(0, 9223372036854775807, 1);
+                yourStaticData = new MyStaticDataLong(0, 9223372036854775807, 1, yourFormatData);
                 errorMes = "find error data[myStaticDataLong] in RunTimeStaticData - ScriptRunTime ";
             }
             return false;
@@ -184,10 +197,10 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             catch
             {
                 errorMes = "find error data[myStaticDataNowTime] in RunTimeStaticData - ScriptRunTime ";
-                yourStaticData = new MyStaticDataNowTime("");
+                yourStaticData = new MyStaticDataNowTime("", yourFormatData);
                 return false;
             }
-            yourStaticData = new MyStaticDataNowTime(yourFormatData);
+            yourStaticData = new MyStaticDataNowTime(yourFormatData, yourFormatData);
             return true;
         }
 
@@ -199,19 +212,19 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 tempStartEnd = yourFormatData.Split('-');
                 if (tempStartEnd.Length < 2)
                 {
-                    yourStaticData = new MyStaticDataRandomStr(10, 0);
+                    yourStaticData = new MyStaticDataRandomStr(10, 0, yourFormatData);
                     errorMes = "find error data[myStaticDataRandomNumber] in RunTimeStaticData - ScriptRunTime ";
                 }
                 else
                 {
-                    yourStaticData = new MyStaticDataRandomStr(int.Parse(tempStartEnd[0]), int.Parse(tempStartEnd[1]));
+                    yourStaticData = new MyStaticDataRandomStr(int.Parse(tempStartEnd[0]), int.Parse(tempStartEnd[1]), yourFormatData);
                     errorMes = null;
                     return true;
                 }
             }
             catch (Exception)
             {
-                yourStaticData = new MyStaticDataRandomStr(10, 0);
+                yourStaticData = new MyStaticDataRandomStr(10, 0, yourFormatData);
                 errorMes = "find error data[myStaticDataRandomNumber] in RunTimeStaticData - ScriptRunTime ";
             }
             return false;
@@ -224,23 +237,23 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 if (yourFormatData.EndsWith("-1"))
                 {
                     yourFormatData = yourFormatData.Remove(yourFormatData.Length - 2);
-                    yourStaticData = new MyStaticDataList(yourFormatData, false);
+                    yourStaticData = new MyStaticDataList(yourFormatData, false, yourFormatData);
                 }
                 else if (yourFormatData.EndsWith("-2"))
                 {
                     yourFormatData = yourFormatData.Remove(yourFormatData.Length - 2);
-                    yourStaticData = new MyStaticDataList(yourFormatData, true);
+                    yourStaticData = new MyStaticDataList(yourFormatData, true, yourFormatData);
                 }
                 else
                 {
-                    yourStaticData = new MyStaticDataList(yourFormatData, false);
+                    yourStaticData = new MyStaticDataList(yourFormatData, false, yourFormatData);
                 }
                 errorMes = null;
                 return true;
             }
             catch (Exception)
             {
-                yourStaticData = new MyStaticDataList("", false);
+                yourStaticData = new MyStaticDataList("", false, yourFormatData);
                 errorMes = "find error data[myStaticDataList] in RunTimeStaticData - ScriptRunTime ";
             }
             return false;
@@ -287,7 +300,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             MyCommonHelper.FileHelper.CsvFileHelper myCsv = new MyCommonHelper.FileHelper.CsvFileHelper(csvPath, csvEncoding);
             try
             {
-                yourStaticData = new MyStaticDataSourceCsv(myCsv.GetListCsvData());
+                yourStaticData = new MyStaticDataSourceCsv(myCsv.GetListCsvData(), yourFormatData);
             }
             catch (Exception ex)
             {

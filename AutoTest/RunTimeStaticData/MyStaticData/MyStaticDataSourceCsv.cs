@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
 {
+    [DataContract]
     public class MyStaticDataSourceCsv : IRunTimeDataSource
     {
+        [DataMember]
         private bool isNew;
+        [DataMember]
         private int nowRowIndex;
+        [DataMember]
         private int nowColumnIndex;
+        [DataMember]
         private List<List<string>> csvData;
 
+        [DataMember]
         public string OriginalConnectString { get; private set; }
         public string RunTimeStaticDataTypeAlias
         {

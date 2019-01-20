@@ -20,16 +20,16 @@
             this.lb_info_dataSouce = new System.Windows.Forms.Label();
             this.lb_info_parameter = new System.Windows.Forms.Label();
             this.lb_info_keyValue = new System.Windows.Forms.Label();
-            this.pb_addRequestRule = new System.Windows.Forms.PictureBox();
-            this.pb_removeRequestRule = new System.Windows.Forms.PictureBox();
+            this.pb_addStaticData = new System.Windows.Forms.PictureBox();
+            this.pb_delStaticData = new System.Windows.Forms.PictureBox();
             this.tb_valueAdd = new System.Windows.Forms.TextBox();
             this.tb_keyAdd = new System.Windows.Forms.TextBox();
             this.label_info = new System.Windows.Forms.Label();
             this.pb_edit = new FreeHttp.FreeHttpControl.MyPictureButton();
             this.pb_next = new FreeHttp.FreeHttpControl.MyPictureButton();
             this.pb_reset = new FreeHttp.FreeHttpControl.MyPictureButton();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_addRequestRule)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_removeRequestRule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_addStaticData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_delStaticData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_edit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_next)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_reset)).BeginInit();
@@ -41,6 +41,7 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
+            this.listView_CaseParameter.FullRowSelect = true;
             this.listView_CaseParameter.Location = new System.Drawing.Point(4, 35);
             this.listView_CaseParameter.Name = "listView_CaseParameter";
             this.listView_CaseParameter.Size = new System.Drawing.Size(564, 328);
@@ -110,35 +111,37 @@
             this.lb_info_keyValue.MouseLeave += new System.EventHandler(this.lb_info_MouseLeave);
             this.lb_info_keyValue.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_info_MouseMove);
             // 
-            // pb_addRequestRule
+            // pb_addStaticData
             // 
-            this.pb_addRequestRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_addRequestRule.BackColor = System.Drawing.Color.White;
-            this.pb_addRequestRule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_addRequestRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_addRequestRule.Image")));
-            this.pb_addRequestRule.Location = new System.Drawing.Point(522, 36);
-            this.pb_addRequestRule.Name = "pb_addRequestRule";
-            this.pb_addRequestRule.Size = new System.Drawing.Size(22, 22);
-            this.pb_addRequestRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_addRequestRule.TabIndex = 55;
-            this.pb_addRequestRule.TabStop = false;
-            this.pb_addRequestRule.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
-            this.pb_addRequestRule.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            this.pb_addStaticData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_addStaticData.BackColor = System.Drawing.Color.White;
+            this.pb_addStaticData.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_addStaticData.Image = ((System.Drawing.Image)(resources.GetObject("pb_addStaticData.Image")));
+            this.pb_addStaticData.Location = new System.Drawing.Point(521, 36);
+            this.pb_addStaticData.Name = "pb_addStaticData";
+            this.pb_addStaticData.Size = new System.Drawing.Size(23, 23);
+            this.pb_addStaticData.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_addStaticData.TabIndex = 55;
+            this.pb_addStaticData.TabStop = false;
+            this.pb_addStaticData.Click += new System.EventHandler(this.pb_addStaticData_Click);
+            this.pb_addStaticData.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pb_addStaticData.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             // 
-            // pb_removeRequestRule
+            // pb_delStaticData
             // 
-            this.pb_removeRequestRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_removeRequestRule.BackColor = System.Drawing.Color.White;
-            this.pb_removeRequestRule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_removeRequestRule.Image = ((System.Drawing.Image)(resources.GetObject("pb_removeRequestRule.Image")));
-            this.pb_removeRequestRule.Location = new System.Drawing.Point(544, 36);
-            this.pb_removeRequestRule.Name = "pb_removeRequestRule";
-            this.pb_removeRequestRule.Size = new System.Drawing.Size(22, 22);
-            this.pb_removeRequestRule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_removeRequestRule.TabIndex = 54;
-            this.pb_removeRequestRule.TabStop = false;
-            this.pb_removeRequestRule.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
-            this.pb_removeRequestRule.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            this.pb_delStaticData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_delStaticData.BackColor = System.Drawing.Color.White;
+            this.pb_delStaticData.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pb_delStaticData.Image = ((System.Drawing.Image)(resources.GetObject("pb_delStaticData.Image")));
+            this.pb_delStaticData.Location = new System.Drawing.Point(544, 36);
+            this.pb_delStaticData.Name = "pb_delStaticData";
+            this.pb_delStaticData.Size = new System.Drawing.Size(23, 23);
+            this.pb_delStaticData.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_delStaticData.TabIndex = 54;
+            this.pb_delStaticData.TabStop = false;
+            this.pb_delStaticData.Click += new System.EventHandler(this.pb_delStaticData_Click);
+            this.pb_delStaticData.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
+            this.pb_delStaticData.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             // 
             // tb_valueAdd
             // 
@@ -176,6 +179,7 @@
             this.pb_edit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_edit.TabIndex = 62;
             this.pb_edit.TabStop = false;
+            this.pb_edit.Click += new System.EventHandler(this.pictureBox_controlData_Click);
             // 
             // pb_next
             // 
@@ -189,6 +193,7 @@
             this.pb_next.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_next.TabIndex = 63;
             this.pb_next.TabStop = false;
+            this.pb_next.Click += new System.EventHandler(this.pictureBox_controlData_Click);
             // 
             // pb_reset
             // 
@@ -202,6 +207,7 @@
             this.pb_reset.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pb_reset.TabIndex = 64;
             this.pb_reset.TabStop = false;
+            this.pb_reset.Click += new System.EventHandler(this.pictureBox_controlData_Click);
             // 
             // StaticDataManageWindow
             // 
@@ -212,8 +218,8 @@
             this.Controls.Add(this.label_info);
             this.Controls.Add(this.tb_valueAdd);
             this.Controls.Add(this.tb_keyAdd);
-            this.Controls.Add(this.pb_addRequestRule);
-            this.Controls.Add(this.pb_removeRequestRule);
+            this.Controls.Add(this.pb_addStaticData);
+            this.Controls.Add(this.pb_delStaticData);
             this.Controls.Add(this.lb_info_dataSouce);
             this.Controls.Add(this.lb_info_parameter);
             this.Controls.Add(this.lb_info_keyValue);
@@ -231,16 +237,16 @@
             this.Controls.SetChildIndex(this.lb_info_keyValue, 0);
             this.Controls.SetChildIndex(this.lb_info_parameter, 0);
             this.Controls.SetChildIndex(this.lb_info_dataSouce, 0);
-            this.Controls.SetChildIndex(this.pb_removeRequestRule, 0);
-            this.Controls.SetChildIndex(this.pb_addRequestRule, 0);
+            this.Controls.SetChildIndex(this.pb_delStaticData, 0);
+            this.Controls.SetChildIndex(this.pb_addStaticData, 0);
             this.Controls.SetChildIndex(this.tb_keyAdd, 0);
             this.Controls.SetChildIndex(this.tb_valueAdd, 0);
             this.Controls.SetChildIndex(this.label_info, 0);
             this.Controls.SetChildIndex(this.pb_edit, 0);
             this.Controls.SetChildIndex(this.pb_next, 0);
             this.Controls.SetChildIndex(this.pb_reset, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_addRequestRule)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_removeRequestRule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_addStaticData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_delStaticData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_edit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_next)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_reset)).EndInit();
@@ -249,8 +255,8 @@
 
         }
 
-        private System.Windows.Forms.PictureBox pb_addRequestRule;
-        private System.Windows.Forms.PictureBox pb_removeRequestRule;
+        private System.Windows.Forms.PictureBox pb_addStaticData;
+        private System.Windows.Forms.PictureBox pb_delStaticData;
         private System.Windows.Forms.TextBox tb_valueAdd;
         private System.Windows.Forms.TextBox tb_keyAdd;
         private System.Windows.Forms.Label label_info;

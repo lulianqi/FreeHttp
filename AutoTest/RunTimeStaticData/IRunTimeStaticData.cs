@@ -12,6 +12,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
     /// MoveNext 属性将枚举数移到集合中的下一成员
     /// Reset 属性将枚举数移回集合的开始处
     /// </summary>
+    //[ServiceKnownType(typeof(System.DBNull))]
     public interface IRunTimeStaticData : ICloneable
     {
         /// <summary>
