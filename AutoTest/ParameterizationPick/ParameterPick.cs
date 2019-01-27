@@ -33,7 +33,9 @@ namespace FreeHttp.AutoTest.ParameterizationPick
     public class ParameterPickTypeEngine
     {
         public static Dictionary<ParameterPickType, ParameterPickInfo> dictionaryParameterPickFunc = new Dictionary<ParameterPickType, ParameterPickInfo>() { 
-            {ParameterPickType.Str , new ParameterPickInfo(ParameterPickType.Str,new List<KeyValuePair<string,string>>(){new KeyValuePair<string,string>("",""),new KeyValuePair<string,string>("",""),new KeyValuePair<string,string>("","")},false,null)}
+            {ParameterPickType.Str , new ParameterPickInfo(ParameterPickType.Str,new List<KeyValuePair<string,string>>(){new KeyValuePair<string,string>("str-str","StartString-EndString"),new KeyValuePair<string,string>("str-len","StartString-StringLength"),new KeyValuePair<string,string>("index-len","StartIndex-StringLength")},false,null)},
+            {ParameterPickType.Regex , new ParameterPickInfo(ParameterPickType.Regex,new List<KeyValuePair<string,string>>(){new KeyValuePair<string,string>("1","RegexExpression"),new KeyValuePair<string,string>("0","RegexExpression")},true,null)},
+            {ParameterPickType.Xml , new ParameterPickInfo(ParameterPickType.Xml,new List<KeyValuePair<string,string>>(){new KeyValuePair<string,string>("1","XpathExpression"),new KeyValuePair<string,string>("0","XpathExpression")},true,null)}
         };
     }
 

@@ -101,5 +101,76 @@ namespace FreeHttp.AutoTest.ParameterizationPick
             return null;
         }
 
+
+        public static string CheckParameterPickExpression(ParameterPick yourParameterPick)
+        {
+            if (string.IsNullOrEmpty(yourParameterPick.PickTypeExpression))
+            {
+                return "your Expression is empty"; 
+            }
+            switch(yourParameterPick.PickType)
+            {
+                    
+                case ParameterPickType.Regex:
+                    int tempAdditionalIndex;
+                    if (int.TryParse(yourParameterPick.PickTypeAdditional, out tempAdditionalIndex))
+                    {
+                        if(tempAdditionalIndex<0)
+                        {
+                            return "this PickTypeAdditional should greater than 0";
+                        }
+                    }
+                    else 
+                    {
+                        return "this PickTypeAdditional should be a number";
+                    }
+                    try
+                    {
+                        
+                        System.Text.RegularExpressions.Regex.Matches("", yourParameterPick.PickTypeExpression);
+                    }
+                    catch(Exception ex)
+                    {
+                        return string.Format("this Regex Expressions error :{0}", ex.Message);
+                    }
+                    break;
+                case ParameterPickType.Xml:
+                    if (int.TryParse(yourParameterPick.PickTypeAdditional, out tempAdditionalIndex))
+                    {
+                        if(tempAdditionalIndex<0)
+                        {
+                            return "this PickTypeAdditional should greater than 0";
+                        }
+                    }
+                    else 
+                    {
+                        return "this PickTypeAdditional should be a number";
+                    }
+                    try
+                    {
+                        XmlDocument xml = new XmlDocument();
+                        xml.LoadXml("<example/>");
+                        xml.SelectSingleNode(yourParameterPick.PickTypeExpression);
+                    }
+                    catch(Exception ex)
+                    {
+                        return string.Format("this Xpath Expressions error :{0}", ex.Message);
+                    }
+                    break;
+                case ParameterPickType.Str:
+                    if (yourParameterPick.PickTypeAdditional == "str-str")
+                    {
+
+                    }
+                    else if (yourParameterPick.PickTypeAdditional == "str-len")
+                    {
+
+                    }
+                    break;
+                default:
+                    return "unknow ParameterPickType";
+            }
+            return null;
+        }
     }
 }
