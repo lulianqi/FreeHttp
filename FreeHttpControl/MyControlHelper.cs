@@ -29,6 +29,39 @@ namespace FreeHttp.FreeHttpControl
             UnsafeNativeMethods.SendMessage(yourCtr.Handle, WM_SETREDRAW, 1, IntPtr.Zero);
             yourCtr.Refresh();
         }
+
+        public static void SetRichTextBoxDropString(System.Windows.Forms.RichTextBox yourRtb)
+        {
+            if(yourRtb==null)
+            {
+                return;
+            }
+            yourRtb.AllowDrop = true;
+            yourRtb.DragDrop += Rtb_DragDrop;
+            yourRtb.DragEnter += Rtb_DragEnter;
+        }
+
+        private static void Rtb_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            if (e.Data.GetData(typeof(string)) == null)
+            {
+                e.Effect = System.Windows.Forms.DragDropEffects.None;
+            }
+        }
+
+        private static void Rtb_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+        {
+            System.Windows.Forms.RichTextBox tempRichTextBox = sender as System.Windows.Forms.RichTextBox;
+            string tempText = (string)e.Data.GetData(typeof(string));
+            if (tempText == null || tempRichTextBox==null)
+            {
+                return;
+            }
+            int selectionStart = tempRichTextBox.SelectionStart;
+            tempRichTextBox.Text = tempRichTextBox.Text.Insert(selectionStart, tempText);
+            tempRichTextBox.Select(selectionStart, tempText.Length);
+        }
+
     }
 
     [System.Security.SuppressUnmanagedCodeSecurity]

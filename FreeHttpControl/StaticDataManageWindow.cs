@@ -82,7 +82,16 @@ namespace FreeHttp.FreeHttpControl
                 EditItemChange(listView_CaseParameter.SelectedItems[0]);
             }
         }
-      
+
+        private void listView_CaseParameter_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (listView_CaseParameter.SelectedItems != null && listView_CaseParameter.SelectedItems.Count > 0)
+            {
+                //this.DoDragDrop(listView_CaseParameter.SelectedItems, DragDropEffects.Move);
+                this.DoDragDrop(string.Format("*#{0}(+)*#", listView_CaseParameter.SelectedItems[0].SubItems[0].Text), DragDropEffects.Move);
+            }
+        }
+
         private void pictureBox_controlData_Click(object sender, EventArgs e)
         {
             if (nowEditItem==null)

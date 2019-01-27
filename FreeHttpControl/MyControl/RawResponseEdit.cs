@@ -17,10 +17,14 @@ namespace FreeHttp.FreeHttpControl
         public RawResponseEdit()
         {
             InitializeComponent();
+            ParameterDataToolStripMenuItem = useParameterDataToolStripMenuItem;
+            ContentLengthToolStripMenuItem = antoContentLengthToolStripMenuItem;
         }
 
 
         Dictionary<string, string> responseLineDc;
+        private ToolStripMenuItem ParameterDataToolStripMenuItem ;
+        private ToolStripMenuItem ContentLengthToolStripMenuItem;
         HttpResponse httpResponse;
 
         public event EventHandler OnRawResponseEditClose;
@@ -34,8 +38,10 @@ namespace FreeHttp.FreeHttpControl
 
         public bool IsUseParameterData
         {
-            get { return useParameterDataToolStripMenuItem.Checked; }
-            set { useParameterDataToolStripMenuItem.Checked = value; }
+            //get { return useParameterDataToolStripMenuItem.Checked; }
+            //set { useParameterDataToolStripMenuItem.Checked = value; }
+            get { return ParameterDataToolStripMenuItem.Checked; }
+            set { ParameterDataToolStripMenuItem.Checked = value; }
         }
 
         public HttpResponse RawResponse
@@ -50,6 +56,30 @@ namespace FreeHttp.FreeHttpControl
                 cb_responseLine.Items.Add(tempKey.Key);
             }
             cb_responseLine.SelectedIndex = 0;
+            MyControlHelper.SetRichTextBoxDropString(rtb_rawResponse);
+            //rtb_rawResponse.AllowDrop = true;
+            //rtb_rawResponse.DragEnter += rtb_rawResponse_DragEnter;
+            //rtb_rawResponse.DragDrop += rtb_rawResponse_DragDrop;
+        }
+
+        void rtb_rawResponse_DragDrop(object sender, DragEventArgs e)
+        {
+            string tempText = (string)e.Data.GetData(typeof(string));
+            if(tempText==null)
+            {
+                return;
+            }
+            int selectionStart = rtb_rawResponse.SelectionStart;
+            rtb_rawResponse.Text = rtb_rawResponse.Text.Insert(selectionStart, tempText);
+            rtb_rawResponse.Select(selectionStart, tempText.Length);
+        }
+
+        void rtb_rawResponse_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetData(typeof(string)) == null)
+            {
+                e.Effect = DragDropEffects.None;
+            }
         }
 
         private void initializeResponseLineDc(out Dictionary<string, string> rdc)
@@ -80,7 +110,10 @@ namespace FreeHttp.FreeHttpControl
             rtb_rawResponse.Text = responseLineDc[cb_responseLine.Text];
         }
 
-
+        private void contextMenuStrip_forRtbResponse_Opening(object sender, CancelEventArgs e)
+        {
+            ((ContextMenuStrip)sender).Tag = ((ContextMenuStrip)sender).SourceControl;
+        }
         private void addFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog_responseFile.ShowDialog() == DialogResult.OK)
@@ -130,18 +163,32 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        public bool SetContextMenuStrip(ContextMenuStrip yourContextMenuStrip)
+        {
+            if (yourContextMenuStrip != null && yourContextMenuStrip.Items.Count>3)
+            {
+                ToolStripMenuItem tempParameterDataMenuItem = yourContextMenuStrip.Items[4] as ToolStripMenuItem;
+                ToolStripMenuItem tempAutoContentLengthMenuItem = yourContextMenuStrip.Items[3] as ToolStripMenuItem;
+                if (tempParameterDataMenuItem != null && tempAutoContentLengthMenuItem!=null)
+                {
+                    rtb_rawResponse.ContextMenuStrip = yourContextMenuStrip;
+                    ParameterDataToolStripMenuItem = tempParameterDataMenuItem;
+                    ContentLengthToolStripMenuItem = tempAutoContentLengthMenuItem;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public ParameterHttpResponse GetHttpResponse(ActuatorStaticDataCollection yourActuatorStaticDataCollection)
         {
-            ParameterHttpResponse nowHttpResponse = ParameterHttpResponse.GetHttpResponse(rtb_rawResponse.Text.Replace("\n", "\r\n"), useParameterDataToolStripMenuItem.Checked, yourActuatorStaticDataCollection);
-            if (antoContentLengthToolStripMenuItem.Checked)
+            ParameterHttpResponse nowHttpResponse = ParameterHttpResponse.GetHttpResponse(rtb_rawResponse.Text.Replace("\n", "\r\n"), IsUseParameterData, yourActuatorStaticDataCollection);
+            if (ContentLengthToolStripMenuItem.Checked)
             {
                 nowHttpResponse.SetAutoContentLength();
             }
             return nowHttpResponse;
         }
-
-       
-
 
         
     }

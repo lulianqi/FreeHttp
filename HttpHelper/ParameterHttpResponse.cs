@@ -61,7 +61,7 @@ namespace FreeHttp.HttpHelper
             return base.GetRawHttpResponse();
         }
 
-        public void UpdateHttpResponse(out string errorMes, out NameValueCollection nameValueCollection)
+        public HttpResponse UpdateHttpResponse(out string errorMes, out NameValueCollection nameValueCollection)
         {
             nameValueCollection = null;
             errorMes = null;
@@ -70,10 +70,9 @@ namespace FreeHttp.HttpHelper
                 nameValueCollection = new NameValueCollection();
                 string newOriginSting = ParameterizationContent.GetTargetContentData(actuatorStaticDataCollection, nameValueCollection, out errorMes);
                 HttpResponse tempHttpResponse = HttpResponse.GetHttpResponse(newOriginSting);
-                ResponseLine = tempHttpResponse.ResponseLine;
-                ResponseHeads = tempHttpResponse.ResponseHeads;
-                ResponseEntity = tempHttpResponse.ResponseEntity;
+                return tempHttpResponse;
             }
+            return this;
         }
 
         public static ParameterHttpResponse GetHttpResponse(string yourResponse, bool isParameter)

@@ -37,6 +37,7 @@
             // 
             // listView_CaseParameter
             // 
+            this.listView_CaseParameter.AllowDrop = true;
             this.listView_CaseParameter.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
@@ -48,6 +49,7 @@
             this.listView_CaseParameter.TabIndex = 14;
             this.listView_CaseParameter.UseCompatibleStateImageBehavior = false;
             this.listView_CaseParameter.View = System.Windows.Forms.View.Details;
+            this.listView_CaseParameter.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView_CaseParameter_ItemDrag);
             this.listView_CaseParameter.SelectedIndexChanged += new System.EventHandler(this.listView_CaseParameter_SelectedIndexChanged);
             // 
             // columnHeader1

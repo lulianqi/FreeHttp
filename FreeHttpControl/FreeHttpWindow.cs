@@ -74,14 +74,34 @@ namespace FreeHttp.FreeHttpControl
             StaticDataCollection = yourStaticDataCollection;
             if(fiddlerModificHttpRuleCollection!=null&&StaticDataCollection!=null)
             {
-                foreach(var fg in fiddlerModificHttpRuleCollection.ResponseRuleList)
+                foreach(var fr in fiddlerModificHttpRuleCollection.ResponseRuleList)
                 {
-                    if(fg.IsRawReplace)
+                    if(fr.IsRawReplace)
                     {
-                        fg.HttpRawResponse.SetActuatorStaticDataCollection(StaticDataCollection);
+                        if(fr.HttpRawResponse.ParameterizationContent==null)
+                        {
+                            fr.HttpRawResponse.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(fr.HttpRawResponse.OriginSting);
+                        }
+                        fr.HttpRawResponse.SetActuatorStaticDataCollection(StaticDataCollection);
+                    }
+                }
+                foreach (var fr in fiddlerModificHttpRuleCollection.RequestRuleList)
+                {
+                    if (fr.IsRawReplace)
+                    {
+                        if (fr.HttpRawRequest.ParameterizationContent== null)
+                        {
+                            fr.HttpRawRequest.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(fr.HttpRawRequest.OriginSting);
+                        }
+                        fr.HttpRawRequest.SetActuatorStaticDataCollection(StaticDataCollection);
                     }
                 }
             }
+            if(!rawResponseEdit.SetContextMenuStrip(contextMenuStrip_AddFile))
+            {
+                MessageBox.Show("RawResponseEdit SetContextMenuStrip fail");
+            }
+            
         }
         
 
@@ -200,6 +220,9 @@ namespace FreeHttp.FreeHttpControl
             panel_modific_Contorl.AllowDrop = true;
             panel_modific_Contorl.DragEnter += rtb_MesInfo_DragEnter;
             panel_modific_Contorl.DragDrop += rtb_MesInfo_DragDrop;
+
+            MyControlHelper.SetRichTextBoxDropString(rtb_requsetReplace_body);
+            MyControlHelper.SetRichTextBoxDropString(rtb_requestRaw);
         }
 
         #region Public Event
@@ -248,7 +271,13 @@ namespace FreeHttp.FreeHttpControl
             }
             else
             {
-                throw new Exception("not adapt this event");
+                tempRtb = sourceControl as RichTextBox;
+                if (tempRtb == null)
+                {
+                    //throw new Exception("not adapt this event");
+                    MessageBox.Show("get file fail , please add manually");
+                    return;
+                }
             }
 
             if (openFileDialog_addFIle.ShowDialog() == DialogResult.OK)
@@ -269,6 +298,58 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        private void contextMenuStrip_addParameter_Opening(object sender, CancelEventArgs e)
+        {
+            ((System.Windows.Forms.ToolStripDropDown)(sender)).Tag = ((ToolStripDropDown)(sender)).OwnerItem;
+        }
+
+        private void contextMenuStrip_AddFile_Opening(object sender, CancelEventArgs e)
+        {
+            ((ContextMenuStrip)sender).Tag = ((ContextMenuStrip)sender).SourceControl;
+        }
+
+        private void addParameterDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string additionStr = null;
+            string addParameterStr = null;
+            if(sender ==currentValueToolStripMenuItem)
+            {
+                additionStr = "(=)";
+            }
+            else if (sender == nextValueToolStripMenuItem)
+            {
+                additionStr = "(+)";
+            }
+            else if (sender == previousValueToolStripMenuItem)
+            {
+                additionStr = "(-)";
+            }
+            else
+            {
+                return;
+            }
+            if(((System.Windows.Forms.ToolStripItem)(sender)).Owner.Tag==null)
+            {
+                MessageBox.Show("add parameter fail ,please add manually");
+                return;
+            }
+            object tempTag = ((System.Windows.Forms.ToolStripItem)(sender)).Owner.Tag;
+            addParameterStr = string.Format("*#{0}{1}*#", ((ToolStripItem)tempTag).Text, additionStr);
+            //there is a bug in dot net 4.5 when call SourceControl (https://github.com/Microsoft/dotnet/issues/434 )
+            //RichTextBox tempRichTextBox = ((ContextMenuStrip)((((ToolStripItem)(tempTag)).OwnerItem).OwnerItem.Owner)).SourceControl as RichTextBox;
+            RichTextBox tempRichTextBox = ((ContextMenuStrip)((((ToolStripItem)(tempTag)).OwnerItem).OwnerItem.Owner)).Tag as RichTextBox;
+            if(tempRichTextBox==null)
+            {
+                MessageBox.Show("add parameter fail ,please add manually");
+                return ;
+            }
+            int selectionStart = tempRichTextBox.SelectionStart;
+            tempRichTextBox.Text = tempRichTextBox.Text.Insert(selectionStart, addParameterStr);
+            tempRichTextBox.Select(selectionStart, addParameterStr.Length);
+            useParameterDataToolStripMenuItem.Checked = true;
+        }
+
+
         private void addParameterDataToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             keyValueToolStripMenuItem.DropDownItems.Clear();
@@ -282,22 +363,47 @@ namespace FreeHttp.FreeHttpControl
             {
                 foreach(var tempItem in StaticDataCollection.RunActuatorStaticDataKeyList)
                 {
-                    keyValueToolStripMenuItem.DropDownItems.Add(tempItem.Key);
+                    //keyValueToolStripMenuItem.DropDownItems.Add(tempItem.Key);
+                    ToolStripMenuItem tempTmi = new ToolStripMenuItem(tempItem.Key);
+                    tempTmi.DropDown = contextMenuStrip_addParameter;
+                    keyValueToolStripMenuItem.DropDownItems.Add(tempTmi);
+                    
                 }
+                keyValueToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                keyValueToolStripMenuItem.Enabled = false;
             }
             if (StaticDataCollection.RunActuatorStaticDataParameterList != null && StaticDataCollection.RunActuatorStaticDataParameterList.Count > 0)
             {
                 foreach (var tempItem in StaticDataCollection.RunActuatorStaticDataParameterList)
                 {
-                    parameterToolStripMenuItem.DropDownItems.Add(tempItem.Key);
+                    //parameterToolStripMenuItem.DropDownItems.Add(tempItem.Key);
+                    ToolStripMenuItem tempTmi = new ToolStripMenuItem(tempItem.Key);
+                    tempTmi.DropDown = contextMenuStrip_addParameter;
+                    parameterToolStripMenuItem.DropDownItems.Add(tempTmi);
                 }
+                parameterToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                parameterToolStripMenuItem.Enabled = false;
             }
             if (StaticDataCollection.RunActuatorStaticDataSouceList != null && StaticDataCollection.RunActuatorStaticDataSouceList.Count > 0)
             {
                 foreach (var tempItem in StaticDataCollection.RunActuatorStaticDataSouceList)
                 {
-                    dataSouceToolStripMenuItem.DropDownItems.Add(tempItem.Key);
+                    //dataSouceToolStripMenuItem.DropDownItems.Add(tempItem.Key);
+                    ToolStripMenuItem tempTmi = new ToolStripMenuItem(tempItem.Key);
+                    tempTmi.DropDown = contextMenuStrip_addParameter;
+                    dataSouceToolStripMenuItem.DropDownItems.Add(tempTmi);
                 }
+                dataSouceToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                dataSouceToolStripMenuItem.Enabled = false;
             }
         }
 
@@ -569,7 +675,6 @@ namespace FreeHttp.FreeHttpControl
             ClearModificInfo();
             PutWarn("Clear the Modific Info");
             ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
-            ChangeSetResponseLatencyMode((tabControl_Modific.SelectedIndex == 0 || tabControl_Modific.SelectedIndex == 1) ? -1 : 0);
         }
 
         private void pb_responseLatency_Click(object sender, EventArgs e)
@@ -697,8 +802,20 @@ namespace FreeHttp.FreeHttpControl
 
         private void parameterDataManageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StaticDataManageWindow f = new StaticDataManageWindow(StaticDataCollection);
-            f.ShowDialog();
+            foreach (Form tempFrom in (Fiddler.FiddlerApplication.UI).OwnedForms)
+            {
+                if (tempFrom is StaticDataManageWindow)
+                {
+                    tempFrom.Location = new Point((System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - tempFrom.Width) / 2, (System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height-tempFrom.Height) / 2);
+                    return;
+                }
+            }
+            StaticDataManageWindow staticDataManageWindow;
+            staticDataManageWindow = new StaticDataManageWindow(StaticDataCollection);
+            staticDataManageWindow.Owner = Fiddler.FiddlerApplication.UI;
+            staticDataManageWindow.StartPosition = FormStartPosition.CenterParent;
+            //f.ShowDialog();
+            staticDataManageWindow.Show();
         }
 
         private void issuesAndSuggestToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1010,7 +1127,6 @@ namespace FreeHttp.FreeHttpControl
 
 
         #endregion
-
 
         #region ResponseModific
 

@@ -83,36 +83,35 @@ namespace FreeHttp
         /// <param name="nowFiddlerRequsetChange">FiddlerRequsetChange</param>
         public static void ReplaceSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange, Action<string> ShowError, Action<string> ShowMes)
         {
-            if (nowFiddlerRequsetChange.HttpRawRequest.ParameterizationContent.hasParameter)
+            string errMes;
+            NameValueCollection nameValueCollection;
+            HttpRequest tempRequestHttpRequest;
+            try
             {
-                string errMes;
-                NameValueCollection nameValueCollection;
-                try
-                {
-                    nowFiddlerRequsetChange.HttpRawRequest.UpdateHttpRequest(out errMes, out nameValueCollection);
-                }
-                catch (Exception ex)
-                {
-                    ShowError(string.Format("Fail to ReplaceSessionResponse :{0}", ex.Message));
-                    return;
-                }
-                if (errMes != null)
-                {
-                    ShowError(errMes);
-                }
-                if (nameValueCollection != null && nameValueCollection.Count > 0)
-                {
-                    ShowMes(string.Format("[ParameterizationContent]:{0}", nameValueCollection.MyToFormatString()));
-                }
+                tempRequestHttpRequest = nowFiddlerRequsetChange.HttpRawRequest.UpdateHttpRequest(out errMes, out nameValueCollection);
             }
-            oSession.oRequest.headers = new HTTPRequestHeaders();
-            oSession.RequestMethod = nowFiddlerRequsetChange.HttpRawRequest.RequestMethod;
-            oSession.fullUrl = nowFiddlerRequsetChange.HttpRawRequest.RequestUri;
-            ((Fiddler.HTTPHeaders)(oSession.RequestHeaders)).HTTPVersion = nowFiddlerRequsetChange.HttpRawRequest.RequestVersions;
-            if (nowFiddlerRequsetChange.HttpRawRequest.RequestHeads != null)
+            catch (Exception ex)
             {
-                
-                foreach (var tempHead in nowFiddlerRequsetChange.HttpRawRequest.RequestHeads)
+                ShowError(string.Format("Fail to ReplaceSessionResponse :{0}", ex.Message));
+                return;
+            }
+            if (errMes != null)
+            {
+                ShowError(errMes);
+            }
+            if (nameValueCollection != null && nameValueCollection.Count > 0)
+            {
+                ShowMes(string.Format("[ParameterizationContent]:{0}", nameValueCollection.MyToFormatString()));
+            }
+
+            oSession.oRequest.headers = new HTTPRequestHeaders();
+            oSession.RequestMethod = tempRequestHttpRequest.RequestMethod;
+            oSession.fullUrl = tempRequestHttpRequest.RequestUri;
+            ((Fiddler.HTTPHeaders)(oSession.RequestHeaders)).HTTPVersion = tempRequestHttpRequest.RequestVersions;
+            if (tempRequestHttpRequest.RequestHeads != null)
+            {
+
+                foreach (var tempHead in tempRequestHttpRequest.RequestHeads)
                 {
                     if (tempHead.Key == "Host")
                     {
@@ -121,7 +120,7 @@ namespace FreeHttp
                     oSession.oRequest.headers.Add(tempHead.Key, tempHead.Value);
                 }
             }
-            oSession.requestBodyBytes = nowFiddlerRequsetChange.HttpRawRequest.RequestEntity;
+            oSession.requestBodyBytes = tempRequestHttpRequest.RequestEntity;
         }
 
         /// <summary>
@@ -199,9 +198,11 @@ namespace FreeHttp
             byte[] tempResponseBytes;
             string errMes;
             NameValueCollection nameValueCollection;
+            HttpResponse tempHttpResponse;
             try
             {
-                tempResponseBytes = nowFiddlerResponseChange.HttpRawResponse.GetRawHttpResponse(out errMes, out nameValueCollection);
+                tempHttpResponse = nowFiddlerResponseChange.HttpRawResponse.UpdateHttpResponse(out errMes, out nameValueCollection);
+                tempResponseBytes = tempHttpResponse.GetRawHttpResponse();
             }
             catch(Exception ex)
             {
@@ -218,23 +219,26 @@ namespace FreeHttp
             }
             using (MemoryStream ms = new MemoryStream(tempResponseBytes))
             {
+                oSession.PoisonClientPipe();  //Ensures that, after the response is complete, the client socket is closed and not reused. Does NOT (and must not) close the pipe.
+                oSession.PoisonServerPipe();
                 if (!oSession.LoadResponseFromStream(ms, null))
                 {
                     ShowError("error to oSession.LoadResponseFromStream");
                     ShowError("try to modific the response");
+                    
                     //modific the response
                     oSession.oResponse.headers = new HTTPResponseHeaders();
-                    oSession.oResponse.headers.HTTPResponseCode = nowFiddlerResponseChange.HttpRawResponse.ResponseCode;
-                    oSession.ResponseHeaders.StatusDescription = nowFiddlerResponseChange.HttpRawResponse.ResponseStatusDescription;
-                    ((Fiddler.HTTPHeaders)(oSession.ResponseHeaders)).HTTPVersion = nowFiddlerResponseChange.HttpRawResponse.ResponseVersion;
-                    if (nowFiddlerResponseChange.HttpRawResponse.ResponseHeads != null && nowFiddlerResponseChange.HttpRawResponse.ResponseHeads.Count > 0)
+                    oSession.oResponse.headers.HTTPResponseCode = tempHttpResponse.ResponseCode;
+                    oSession.ResponseHeaders.StatusDescription = tempHttpResponse.ResponseStatusDescription;
+                    ((Fiddler.HTTPHeaders)(oSession.ResponseHeaders)).HTTPVersion = tempHttpResponse.ResponseVersion;
+                    if (tempHttpResponse.ResponseHeads != null && tempHttpResponse.ResponseHeads.Count > 0)
                     {
-                        foreach (var tempHead in nowFiddlerResponseChange.HttpRawResponse.ResponseHeads)
+                        foreach (var tempHead in tempHttpResponse.ResponseHeads)
                         {
                             oSession.oResponse.headers.Add(tempHead.Key, tempHead.Value);
                         }
                     }
-                    oSession.responseBodyBytes = nowFiddlerResponseChange.HttpRawResponse.ResponseEntity;
+                    oSession.responseBodyBytes = tempHttpResponse.ResponseEntity;
                 }
             }
         }

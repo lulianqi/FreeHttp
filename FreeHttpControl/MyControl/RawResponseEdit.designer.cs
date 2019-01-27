@@ -71,7 +71,8 @@
             this.antoContentLengthToolStripMenuItem,
             this.useParameterDataToolStripMenuItem});
             this.contextMenuStrip_forRtbResponse.Name = "contextMenuStrip_forRtbResponse";
-            this.contextMenuStrip_forRtbResponse.Size = new System.Drawing.Size(196, 92);
+            this.contextMenuStrip_forRtbResponse.Size = new System.Drawing.Size(196, 70);
+            this.contextMenuStrip_forRtbResponse.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_forRtbResponse_Opening);
             // 
             // addFileToolStripMenuItem
             // 

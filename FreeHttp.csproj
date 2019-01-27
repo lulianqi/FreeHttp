@@ -55,6 +55,9 @@
     <Compile Include="AutoTest\ParameterizationContent\CaseParameterizationContent.cs" />
     <Compile Include="AutoTest\ParameterizationContent\ParameterizationContentEncodingType.cs" />
     <Compile Include="AutoTest\ParameterizationContent\ParameterizationContentHelper.cs" />
+    <Compile Include="AutoTest\ParameterizationPick\ParameterPickHelper.cs" />
+    <Compile Include="AutoTest\ParameterizationPick\ParameterPickType.cs" />
+    <Compile Include="AutoTest\ParameterizationPick\ParameterPick.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\ActuatorStaticDataCollection.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\CaseRunTimeDataTypeEngine.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\CaseStaticDataType.cs" />
@@ -82,6 +85,12 @@
     </Compile>
     <Compile Include="FreeHttpControl\EditCookieForm.Designer.cs">
       <DependentUpon>EditCookieForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\MyControl\AddParameterPickBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\MyControl\AddParameterPickBox.Designer.cs">
+      <DependentUpon>AddParameterPickBox.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\MyControl\EditListView.cs">
       <SubType>UserControl</SubType>
@@ -215,6 +224,9 @@
     <EmbeddedResource Include="FreeHttpControl\EditCookieForm.resx">
       <DependentUpon>EditCookieForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\MyControl\AddParameterPickBox.resx">
+      <DependentUpon>AddParameterPickBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\MyControl\EditListView.resx">
       <DependentUpon>EditListView.cs</DependentUpon>
     </EmbeddedResource>
@@ -318,7 +330,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\cllq\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

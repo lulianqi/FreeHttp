@@ -357,7 +357,7 @@ namespace FreeHttp.FreeHttpControl
                 requsetReplace.HttpRawRequest.RequestVersions = cb_editRequestEdition.Text;
                 requsetReplace.HttpRawRequest.RequestLine = string.Format("{0} {1} {2}", cb_editRequestMethod.Text, tb_requestReplace_uri.Text, cb_editRequestEdition.Text);
                 StringBuilder requestSb = new StringBuilder(requsetReplace.HttpRawRequest.RequestLine);
-                requestSb.Append("\r\n\r\n");
+                requestSb.Append("\r\n");
                 requsetReplace.HttpRawRequest.RequestHeads = new List<MyKeyValuePair<string, string>>();
                 if (elv_requsetReplace.ListDataView.Items.Count > 0)
                 {
@@ -380,7 +380,7 @@ namespace FreeHttp.FreeHttpControl
                 }
 
                 string tempRequstBody = rtb_requsetReplace_body.Text;
-                requestSb.AppendLine(tempRequstBody);
+                requestSb.Append(tempRequstBody); //HttpEntity not need end with new line
                 if (tempRequstBody.StartsWith("\n<<replace file path>>"))
                 {
                     string tempPath = tempRequstBody.Remove(0, 22);
@@ -408,6 +408,8 @@ namespace FreeHttp.FreeHttpControl
                     requsetReplace.HttpRawRequest.RequestEntity = Encoding.UTF8.GetBytes(tempRequstBody);
                 }
                 requsetReplace.HttpRawRequest.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(requestSb.ToString(), useParameterDataToolStripMenuItem.Checked);
+                requsetReplace.HttpRawRequest.OriginSting = requsetReplace.HttpRawRequest.ParameterizationContent.GetTargetContentData();
+                requsetReplace.HttpRawRequest.SetActuatorStaticDataCollection(StaticDataCollection);
             }
 
             if (antoContentLengthToolStripMenuItem.Checked)
@@ -477,6 +479,7 @@ namespace FreeHttp.FreeHttpControl
             antoContentLengthToolStripMenuItem.Checked = false;
             useParameterDataToolStripMenuItem.Checked = false;
             tabControl_Modific_Selecting(this.tabControl_Modific, null);
+            ChangeSetResponseLatencyMode((tabControl_Modific.SelectedIndex == 0 || tabControl_Modific.SelectedIndex == 1) ? -1 : 0);
         }
 
         private void SetRequestModificInfo(FiddlerRequsetChange fiddlerRequsetChange)
@@ -527,17 +530,28 @@ namespace FreeHttp.FreeHttpControl
                         elv_requsetReplace.ListDataView.Items.Add(string.Format("{0}: {1}", tempHead.Key, tempHead.Value));
                     }
                 }
-                if (fiddlerRequsetChange.HttpRawRequest.RequestEntity != null)
+                if (fiddlerRequsetChange.HttpRawRequest.RequestEntity != null && fiddlerRequsetChange.HttpRawRequest.RequestEntity.Length > 0)
                 {
+                    //if (fiddlerRequsetChange.HttpRawRequest.ParameterizationContent.hasParameter && fiddlerRequsetChange.HttpRawRequest.OriginSting != null)
+                    //{
+                    //    HttpRequest tempRequest = HttpRequest.GetHttpRequest(fiddlerRequsetChange.HttpRawRequest.OriginSting);
+                    //    if(tempRequest.RequestEntity!=null)
+                    //    {
+                    //        rtb_requsetReplace_body.AppendText(Encoding.UTF8.GetString(tempRequest.RequestEntity));
+                    //    }
+                    //}
                     rtb_requsetReplace_body.AppendText(Encoding.UTF8.GetString(fiddlerRequsetChange.HttpRawRequest.RequestEntity));
+
                 }
                 if (fiddlerRequsetChange.HttpRawRequest.OriginSting != null)
                 {
                     rtb_requestRaw.AppendText(fiddlerRequsetChange.HttpRawRequest.OriginSting);
                 }
-
+                if (fiddlerRequsetChange.HttpRawRequest.ParameterizationContent.hasParameter)
+                {
+                    useParameterDataToolStripMenuItem.Checked = true;
+                }
             }
-            ChangeSetResponseLatencyMode(-1);
         }
 
         private void SetResponseModificInfo(FiddlerResponseChange fiddlerResponseChange)

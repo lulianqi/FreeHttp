@@ -35,7 +35,13 @@ namespace FreeHttp.FreeHttpControl
             this.imageList_forTab = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip_AddFile = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addParameterDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.keyValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.parameterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataSouceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator_addAndCheck = new System.Windows.Forms.ToolStripSeparator();
             this.antoContentLengthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.useParameterDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog_addFIle = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer_main = new System.Windows.Forms.SplitContainer();
             this.splitContainer_httpEditInfo = new System.Windows.Forms.SplitContainer();
@@ -62,12 +68,11 @@ namespace FreeHttp.FreeHttpControl
             this.pb_removeResponseRule = new System.Windows.Forms.PictureBox();
             this.pb_responseRuleSwitch = new System.Windows.Forms.PictureBox();
             this.toolTip_forMainWindow = new System.Windows.Forms.ToolTip(this.components);
-            this.useParameterDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addParameterDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.keyValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.parameterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataSouceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator_addAndCheck = new System.Windows.Forms.ToolStripSeparator();
+            this.contextMenuStrip_addParameter = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.currentValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nextValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.previousValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_modific = new FreeHttp.FreeHttpControl.MyPanel();
             this.tabControl_Modific = new System.Windows.Forms.TabControl();
             this.tabPage_requestModific = new System.Windows.Forms.TabPage();
@@ -159,6 +164,7 @@ namespace FreeHttp.FreeHttpControl
             ((System.ComponentModel.ISupportInitialize)(this.pb_addResponseRule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_removeResponseRule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_responseRuleSwitch)).BeginInit();
+            this.contextMenuStrip_addParameter.SuspendLayout();
             this.panel_modific.SuspendLayout();
             this.tabControl_Modific.SuspendLayout();
             this.tabPage_requestModific.SuspendLayout();
@@ -212,8 +218,9 @@ namespace FreeHttp.FreeHttpControl
             this.toolStripSeparator_addAndCheck,
             this.antoContentLengthToolStripMenuItem,
             this.useParameterDataToolStripMenuItem});
-            this.contextMenuStrip_AddFile.Name = "contextMenuStrip_forRtbResponse";
-            this.contextMenuStrip_AddFile.Size = new System.Drawing.Size(196, 120);
+            this.contextMenuStrip_AddFile.Name = "contextMenuStrip_AddFile";
+            this.contextMenuStrip_AddFile.Size = new System.Drawing.Size(196, 98);
+            this.contextMenuStrip_AddFile.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_AddFile_Opening);
             // 
             // addFileToolStripMenuItem
             // 
@@ -223,12 +230,55 @@ namespace FreeHttp.FreeHttpControl
             this.addFileToolStripMenuItem.Text = "add file";
             this.addFileToolStripMenuItem.Click += new System.EventHandler(this.addFileToolStripMenuItem_Click);
             // 
+            // addParameterDataToolStripMenuItem
+            // 
+            this.addParameterDataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.keyValueToolStripMenuItem,
+            this.parameterToolStripMenuItem,
+            this.dataSouceToolStripMenuItem,
+            this.editDataToolStripMenuItem});
+            this.addParameterDataToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addParameterDataToolStripMenuItem.Image")));
+            this.addParameterDataToolStripMenuItem.Name = "addParameterDataToolStripMenuItem";
+            this.addParameterDataToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.addParameterDataToolStripMenuItem.Text = "add Parameter Data";
+            this.addParameterDataToolStripMenuItem.DropDownOpening += new System.EventHandler(this.addParameterDataToolStripMenuItem_DropDownOpening);
+            // 
+            // keyValueToolStripMenuItem
+            // 
+            this.keyValueToolStripMenuItem.Name = "keyValueToolStripMenuItem";
+            this.keyValueToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.keyValueToolStripMenuItem.Text = "KeyValue";
+            // 
+            // parameterToolStripMenuItem
+            // 
+            this.parameterToolStripMenuItem.Name = "parameterToolStripMenuItem";
+            this.parameterToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.parameterToolStripMenuItem.Text = "Parameter";
+            // 
+            // dataSouceToolStripMenuItem
+            // 
+            this.dataSouceToolStripMenuItem.Name = "dataSouceToolStripMenuItem";
+            this.dataSouceToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.dataSouceToolStripMenuItem.Text = "DataSouce";
+            // 
+            // toolStripSeparator_addAndCheck
+            // 
+            this.toolStripSeparator_addAndCheck.Name = "toolStripSeparator_addAndCheck";
+            this.toolStripSeparator_addAndCheck.Size = new System.Drawing.Size(192, 6);
+            // 
             // antoContentLengthToolStripMenuItem
             // 
             this.antoContentLengthToolStripMenuItem.Name = "antoContentLengthToolStripMenuItem";
             this.antoContentLengthToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.antoContentLengthToolStripMenuItem.Text = "anto Content-Length";
             this.antoContentLengthToolStripMenuItem.Click += new System.EventHandler(this.antoContentLengthToolStripMenuItem_Click);
+            // 
+            // useParameterDataToolStripMenuItem
+            // 
+            this.useParameterDataToolStripMenuItem.Name = "useParameterDataToolStripMenuItem";
+            this.useParameterDataToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.useParameterDataToolStripMenuItem.Text = "use Parameter Data";
+            this.useParameterDataToolStripMenuItem.Click += new System.EventHandler(this.useParameterDataToolStripMenuItem_Click);
             // 
             // openFileDialog_addFIle
             // 
@@ -565,46 +615,46 @@ namespace FreeHttp.FreeHttpControl
             this.toolTip_forMainWindow.SetToolTip(this.pb_responseRuleSwitch, "enable the response rule");
             this.pb_responseRuleSwitch.Click += new System.EventHandler(this.pb_responseRuleSwitch_Click);
             // 
-            // useParameterDataToolStripMenuItem
+            // contextMenuStrip_addParameter
             // 
-            this.useParameterDataToolStripMenuItem.Name = "useParameterDataToolStripMenuItem";
-            this.useParameterDataToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.useParameterDataToolStripMenuItem.Text = "use Parameter Data";
-            this.useParameterDataToolStripMenuItem.Click += new System.EventHandler(this.useParameterDataToolStripMenuItem_Click);
+            this.contextMenuStrip_addParameter.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.currentValueToolStripMenuItem,
+            this.nextValueToolStripMenuItem,
+            this.previousValueToolStripMenuItem});
+            this.contextMenuStrip_addParameter.Name = "contextMenuStrip_addParameter";
+            this.contextMenuStrip_addParameter.Size = new System.Drawing.Size(161, 70);
+            this.contextMenuStrip_addParameter.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_addParameter_Opening);
             // 
-            // addParameterDataToolStripMenuItem
+            // currentValueToolStripMenuItem
             // 
-            this.addParameterDataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.keyValueToolStripMenuItem,
-            this.parameterToolStripMenuItem,
-            this.dataSouceToolStripMenuItem});
-            this.addParameterDataToolStripMenuItem.Name = "addParameterDataToolStripMenuItem";
-            this.addParameterDataToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.addParameterDataToolStripMenuItem.Text = "add Parameter Data";
-            this.addParameterDataToolStripMenuItem.DropDownOpening += new System.EventHandler(this.addParameterDataToolStripMenuItem_DropDownOpening);
+            this.currentValueToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("currentValueToolStripMenuItem.Image")));
+            this.currentValueToolStripMenuItem.Name = "currentValueToolStripMenuItem";
+            this.currentValueToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.currentValueToolStripMenuItem.Text = "current value";
+            this.currentValueToolStripMenuItem.Click += new System.EventHandler(this.addParameterDataToolStripMenuItem_Click);
             // 
-            // keyValueToolStripMenuItem
+            // nextValueToolStripMenuItem
             // 
-            this.keyValueToolStripMenuItem.Name = "keyValueToolStripMenuItem";
-            this.keyValueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.keyValueToolStripMenuItem.Text = "KeyValue";
+            this.nextValueToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("nextValueToolStripMenuItem.Image")));
+            this.nextValueToolStripMenuItem.Name = "nextValueToolStripMenuItem";
+            this.nextValueToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.nextValueToolStripMenuItem.Text = "next value";
+            this.nextValueToolStripMenuItem.Click += new System.EventHandler(this.addParameterDataToolStripMenuItem_Click);
             // 
-            // parameterToolStripMenuItem
+            // previousValueToolStripMenuItem
             // 
-            this.parameterToolStripMenuItem.Name = "parameterToolStripMenuItem";
-            this.parameterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.parameterToolStripMenuItem.Text = "Parameter";
+            this.previousValueToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("previousValueToolStripMenuItem.Image")));
+            this.previousValueToolStripMenuItem.Name = "previousValueToolStripMenuItem";
+            this.previousValueToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.previousValueToolStripMenuItem.Text = "previous value";
+            this.previousValueToolStripMenuItem.Click += new System.EventHandler(this.addParameterDataToolStripMenuItem_Click);
             // 
-            // dataSouceToolStripMenuItem
+            // editDataToolStripMenuItem
             // 
-            this.dataSouceToolStripMenuItem.Name = "dataSouceToolStripMenuItem";
-            this.dataSouceToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.dataSouceToolStripMenuItem.Text = "DataSouce";
-            // 
-            // toolStripSeparator_addAndCheck
-            // 
-            this.toolStripSeparator_addAndCheck.Name = "toolStripSeparator_addAndCheck";
-            this.toolStripSeparator_addAndCheck.Size = new System.Drawing.Size(192, 6);
+            this.editDataToolStripMenuItem.Name = "editDataToolStripMenuItem";
+            this.editDataToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.editDataToolStripMenuItem.Text = "Edit Data";
+            this.editDataToolStripMenuItem.Click += new System.EventHandler(this.parameterDataManageToolStripMenuItem_Click);
             // 
             // panel_modific
             // 
@@ -762,7 +812,7 @@ namespace FreeHttp.FreeHttpControl
             this.tb_requestModific_body.Name = "tb_requestModific_body";
             this.tb_requestModific_body.Size = new System.Drawing.Size(519, 21);
             this.tb_requestModific_body.TabIndex = 47;
-            this.tb_requestModific_body.WatermarkText = "empty mean replace all body";
+            this.tb_requestModific_body.WatermarkText = "empty mean replace all body , start with \"<regex>\" mean regex replace";
             this.tb_requestModific_body.Enter += new System.EventHandler(this.tb_Modific_body_Enter);
             this.tb_requestModific_body.Leave += new System.EventHandler(this.tb_Modific_body_Leave);
             // 
@@ -861,6 +911,7 @@ namespace FreeHttp.FreeHttpControl
             // rtb_requestRaw
             // 
             this.rtb_requestRaw.ContextMenuStrip = this.contextMenuStrip_AddFile;
+            this.rtb_requestRaw.DetectUrls = false;
             this.rtb_requestRaw.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb_requestRaw.Location = new System.Drawing.Point(3, 36);
             this.rtb_requestRaw.Name = "rtb_requestRaw";
@@ -1071,7 +1122,7 @@ namespace FreeHttp.FreeHttpControl
             this.tb_responseModific_body.Name = "tb_responseModific_body";
             this.tb_responseModific_body.Size = new System.Drawing.Size(519, 21);
             this.tb_responseModific_body.TabIndex = 47;
-            this.tb_responseModific_body.WatermarkText = "empty mean replace all body";
+            this.tb_responseModific_body.WatermarkText = "empty mean replace all body , start with \"<regex>\" mean regex replace";
             this.tb_responseModific_body.Enter += new System.EventHandler(this.tb_Modific_body_Enter);
             this.tb_responseModific_body.Leave += new System.EventHandler(this.tb_Modific_body_Leave);
             // 
@@ -1407,6 +1458,7 @@ namespace FreeHttp.FreeHttpControl
             ((System.ComponentModel.ISupportInitialize)(this.pb_addResponseRule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_removeResponseRule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_responseRuleSwitch)).EndInit();
+            this.contextMenuStrip_addParameter.ResumeLayout(false);
             this.panel_modific.ResumeLayout(false);
             this.tabControl_Modific.ResumeLayout(false);
             this.tabPage_requestModific.ResumeLayout(false);
@@ -1551,11 +1603,16 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.ToolStripMenuItem parameterDataManageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem useParameterDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem antoContentLengthToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addParameterDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem keyValueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem parameterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dataSouceToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator_addAndCheck;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_addParameter;
+        private System.Windows.Forms.ToolStripMenuItem currentValueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nextValueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem previousValueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addParameterDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editDataToolStripMenuItem;
 
     }
 }

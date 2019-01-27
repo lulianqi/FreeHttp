@@ -9,7 +9,8 @@ namespace FreeHttp.HttpHelper
     {
         NoChange,
         KeyVauleReplace,
-        EntireReplace
+        EntireReplace,
+        RegexReplace
     }
 
      [Serializable]
@@ -34,8 +35,16 @@ namespace FreeHttp.HttpHelper
             }
             else
             {
-                ModificMode = ContentModificMode.KeyVauleReplace;
-                TargetKey = targetKey;
+                if (targetKey.StartsWith("<regex>"))
+                {
+                    ModificMode = ContentModificMode.RegexReplace;
+                    TargetKey = targetKey;
+                }
+                else
+                {
+                    ModificMode = ContentModificMode.KeyVauleReplace;
+                    TargetKey = targetKey;
+                }
             }
 
             if (ModificMode == ContentModificMode.EntireReplace && string.IsNullOrEmpty(replaceContent))
@@ -63,6 +72,16 @@ namespace FreeHttp.HttpHelper
                     break;
                 case ContentModificMode.KeyVauleReplace:
                     finalContent = sourceContent.Replace(TargetKey, ReplaceContent);
+                    break;
+                case ContentModificMode.RegexReplace:
+                    try
+                    {
+                        finalContent = System.Text.RegularExpressions.Regex.Replace(sourceContent, TargetKey.Remove(0, 7), ReplaceContent);
+                    }
+                    catch(Exception ex)
+                    {
+                        finalContent = string.Format("RegexReplace [{0}] GetFinalContent fail :{1}", TargetKey.Remove(0, 7), ex.Message);
+                    }
                     break;
                 default:
                     throw new Exception("not support ContentModificMode");

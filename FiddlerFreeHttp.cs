@@ -60,7 +60,7 @@ namespace FreeHttp
             {
                 return;
             }
-            FiddlerObject.log(mes);
+            AddFiddlerObjectLog(mes);
             if (myFreeHttpWindow.InvokeRequired)
             {
                 myFreeHttpWindow.BeginInvoke(new Action<string>(myFreeHttpWindow.PutError), mes);
@@ -73,7 +73,7 @@ namespace FreeHttp
 
         private void AddFiddlerObjectLog(string mes)
         {
-            FiddlerObject.log(mes);
+            FiddlerObject.log(string.Format("【FiddlerFreeHttp】:{0}", mes));
         }
         private void SetStatusText(string mes)
         {
@@ -96,7 +96,7 @@ namespace FreeHttp
 
         public void OnLoad()
         {
-            FiddlerObject.log(string.Format("【FiddlerFreeHttp】:{0}", "OnLoad"));
+            AddFiddlerObjectLog("OnLoad");
             if (!isOnLoad)
             {
 
@@ -114,7 +114,7 @@ namespace FreeHttp
                 }
                 catch(Exception ex)
                 {
-                    AddFiddlerObjectLog(string.Format("【FiddlerFreeHttp】load configuration fial : {0}", ex.Message));
+                    AddFiddlerObjectLog(string.Format("load configuration fial ,{0}", ex.Message));
                 }
                 finally
                 {
