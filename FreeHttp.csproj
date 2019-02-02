@@ -36,10 +36,13 @@
     <Reference Include="Fiddler">
       <HintPath>..\..\..\..\..\AppData\Local\Programs\Fiddler\Fiddler.exe</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -73,6 +76,7 @@
     <Compile Include="AutoTest\RunTimeStaticData\MyStaticData\MyStaticDataValue.cs" />
     <Compile Include="AutoTest\RunTimeStaticData\RunTimeStaticDataHelper.cs" />
     <Compile Include="FiddlerFreeHttp.cs" />
+    <Compile Include="FiddlerHelper\FiddlerActuatorStaticDataCollectionController.cs" />
     <Compile Include="FiddlerSessionTamper.cs" />
     <Compile Include="FreeHttpControl\EditKeyVaule.cs">
       <SubType>Form</SubType>
@@ -85,6 +89,18 @@
     </Compile>
     <Compile Include="FreeHttpControl\EditCookieForm.Designer.cs">
       <DependentUpon>EditCookieForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\EditParameterPickWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\EditParameterPickWindow.Designer.cs">
+      <DependentUpon>EditParameterPickWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\EditSheetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\EditSheetForm.Designer.cs">
+      <DependentUpon>EditSheetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\MyControl\AddParameterPickBox.cs">
       <SubType>UserControl</SubType>
@@ -163,6 +179,12 @@
     <Compile Include="FreeHttpControl\SetVaule.Designer.cs">
       <DependentUpon>SetVaule.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\ShowSheetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\ShowSheetForm.Designer.cs">
+      <DependentUpon>ShowSheetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\ShowTextForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -224,6 +246,12 @@
     <EmbeddedResource Include="FreeHttpControl\EditCookieForm.resx">
       <DependentUpon>EditCookieForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\EditParameterPickWindow.resx">
+      <DependentUpon>EditParameterPickWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\EditSheetForm.resx">
+      <DependentUpon>EditSheetForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\MyControl\AddParameterPickBox.resx">
       <DependentUpon>AddParameterPickBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -259,6 +287,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\SetVaule.resx">
       <DependentUpon>SetVaule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\ShowSheetForm.resx">
+      <DependentUpon>ShowSheetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\ShowTextForm.resx">
       <DependentUpon>ShowTextForm.cs</DependentUpon>
@@ -327,7 +358,12 @@
   <ItemGroup>
     <None Include="Resources\minimize.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\pick_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pick_on.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>

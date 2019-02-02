@@ -1,4 +1,7 @@
-﻿using FreeHttp.HttpHelper;
+﻿using FreeHttp.AutoTest.ParameterizationPick;
+using FreeHttp.AutoTest.RunTimeStaticData;
+using FreeHttp.AutoTest.RunTimeStaticData.MyStaticData;
+using FreeHttp.HttpHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +15,8 @@ namespace FreeHttp.FiddlerHelper
         public bool IsEnable { get; set; }
         //public FiddlerUriMatch UriMatch { get; set; }
         public FiddlerHttpFilter HttpFilter{ get; set; }
+
+        public List<ParameterPick> ParameterPickList { get; set; }
 
         public ParameterHttpRequest HttpRawRequest { get; set; }
 
@@ -27,10 +32,14 @@ namespace FreeHttp.FiddlerHelper
         //[NonSerialized]
         [System.Xml.Serialization.XmlIgnore]
         public object Tag { get; set; }
+
+        [System.Xml.Serialization.XmlIgnore]
+        public FiddlerActuatorStaticDataCollectionController ActuatorStaticDataController { get; set; }
         public bool IsRawReplace
         {
             get { return HttpRawRequest != null; }
         }
+
        
     }
 }

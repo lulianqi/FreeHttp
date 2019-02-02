@@ -545,12 +545,20 @@ namespace FreeHttp.AutoTest.MyCommonHelper.FileHelper
         {
             foreach(List<string> tempField in yourListCsvData)
             {
+                if (tempField == null || tempField.Count==0)
+                {
+                    continue;
+                }
                 WriteCsvLine(tempField, writer);
             }
         }
 
         private static void WriteCsvLine(List<string> fields, TextWriter writer)
         {
+            if (fields == null || fields.Count == 0)
+            {
+                return;
+            }
             StringBuilder myStrBld = new StringBuilder();
             //对于CSV数据来说不可能出现一行的数据元素的数量是0的情况，所以不用考虑fields.Count为0的情况(如果为0则为错误数据直接忽略)
             //foreach(string tempField in fields)  //使用foreach会产生许多不必要的string拷贝

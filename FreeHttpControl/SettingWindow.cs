@@ -37,6 +37,7 @@ namespace FreeHttp.FreeHttpControl
                 myEnableSwitch_IsDefaultEnableRule.OnChangeEnable += myEnableSwitch_IsDefaultEnableRule_OnChangeEable;
                 myEnableSwitch_IsSkipTlsHandshake.OnChangeEnable += myEnableSwitch_IsSkipTlsHandshake_OnChangeEable;
             }
+            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
         }

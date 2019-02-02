@@ -39,6 +39,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void SetVaule_Load(object sender, EventArgs e)
         {
+            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
         }

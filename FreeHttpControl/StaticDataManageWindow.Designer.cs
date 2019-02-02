@@ -51,6 +51,7 @@
             this.listView_CaseParameter.View = System.Windows.Forms.View.Details;
             this.listView_CaseParameter.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.listView_CaseParameter_ItemDrag);
             this.listView_CaseParameter.SelectedIndexChanged += new System.EventHandler(this.listView_CaseParameter_SelectedIndexChanged);
+            this.listView_CaseParameter.DoubleClick += new System.EventHandler(this.listView_CaseParameter_DoubleClick);
             // 
             // columnHeader1
             // 

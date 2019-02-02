@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -24,17 +25,48 @@ namespace FreeHttp.AutoTest.ParameterizationPick
                 xml.LoadXml(yourSouce);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
-            XmlNodeList tempNodeList = xml.SelectNodes("//" + yourTarget);
+            XmlNodeList tempNodeList;
+            try
+            {
+                tempNodeList = xml.SelectNodes("//" + yourTarget);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
             if (tempNodeList.Count > 0)
             {
                 string[] backStrs = new string[tempNodeList.Count];
                 for (int i = 0; i < tempNodeList.Count; i++)
                 {
                     backStrs[i] = tempNodeList[i].InnerXml;
+                }
+                return backStrs;
+            }
+            return null;
+        }
+
+        public static string[] PickRegexParameter(string yourTarget, string yourSouce)
+        {
+            MatchCollection mc;
+            try
+            {
+                mc = Regex.Matches(yourSouce, yourTarget);
+            }
+            catch (Exception )
+            {
+                return null;
+            }
+            if (mc.Count > 0)
+            {
+                string[] backStrs = new string[mc.Count];
+                for (int i = 0; i < mc.Count; i++)
+                {
+                    backStrs[i] = mc[i].Value;
                 }
                 return backStrs;
             }
@@ -54,13 +86,6 @@ namespace FreeHttp.AutoTest.ParameterizationPick
             return null;
         }
 
-        /// <summary>
-        /// 查找指定字符串并截取指定长度
-        /// </summary>
-        /// <param name="yourTarget">匹配字符串</param>
-        /// <param name="yourStrLen">指定长度，如果为0则表示长度为取后面所有</param>
-        /// <param name="yourSouce">源数据</param>
-        /// <returns>结果，如果没有匹配到返回null</returns>
         public static string PickStrParameter(string yourTarget, int yourStrLen, string yourSouce)
         {
             if (yourStrLen < 0)
@@ -100,7 +125,25 @@ namespace FreeHttp.AutoTest.ParameterizationPick
             }
             return null;
         }
+  
 
+
+        public static bool GetStrPickData(string yourSouce, out string yourFrontTarget, out string yourBackStr)
+        {
+            yourFrontTarget = null;
+            yourBackStr = null;
+            if (yourSouce.Contains("-"))
+            {
+                yourFrontTarget = yourSouce.Remove(yourSouce.LastIndexOf("-"));
+                yourBackStr = yourSouce.Remove(0, yourSouce.LastIndexOf("-") + 1);
+                return true;
+            }
+            else
+            {
+                yourFrontTarget = yourSouce;
+            }
+            return false;
+        }
 
         public static string CheckParameterPickExpression(ParameterPick yourParameterPick)
         {
@@ -158,19 +201,157 @@ namespace FreeHttp.AutoTest.ParameterizationPick
                     }
                     break;
                 case ParameterPickType.Str:
+                    string frontStr;
+                    string backStr;
+                    if (!GetStrPickData(yourParameterPick.PickTypeExpression, out frontStr, out backStr))
+                    {
+                        return string.Format("this Expressions error :{0}", "it should contain '-'");
+                    }
+                    if (string.IsNullOrEmpty(frontStr) || string.IsNullOrEmpty(backStr))
+                    {
+                        return string.Format("this Expressions error :{0}", "the '-' position is illegal");
+                    }
                     if (yourParameterPick.PickTypeAdditional == "str-str")
                     {
-
+                        
                     }
                     else if (yourParameterPick.PickTypeAdditional == "str-len")
                     {
-
+                        if(!int.TryParse(backStr,out tempAdditionalIndex))
+                        {
+                            return string.Format("this Expressions error :{0}", "the len should be a int value");
+                        }
+                    }
+                    else if (yourParameterPick.PickTypeAdditional == "index-len")
+                    {
+                        if (!int.TryParse(frontStr, out tempAdditionalIndex))
+                        {
+                            return string.Format("this Expressions error :{0}", "the index should be a int value");
+                        }
+                        if (!int.TryParse(backStr, out tempAdditionalIndex))
+                        {
+                            return string.Format("this Expressions error :{0}", "the len should be a int value");
+                        }
                     }
                     break;
                 default:
                     return "unknow ParameterPickType";
             }
             return null;
+        }
+
+
+        public static string ParameterPickStr(string sourceStr,string pickExpression,string pickExpressionAdditional)
+        {
+            if (string.IsNullOrEmpty(sourceStr) || string.IsNullOrEmpty(pickExpression) || string.IsNullOrEmpty(pickExpressionAdditional))
+            {
+                throw new Exception("your ParameterPick data is null or empty");
+            }
+            string frontStr;
+            string backStr;
+            int frontIndex;
+            int strLen;
+            if (!GetStrPickData(pickExpression, out frontStr, out backStr))
+            {
+                throw new Exception( string.Format("this Expressions error :{0}", "it should contain '-'"));
+            }
+            if (string.IsNullOrEmpty(frontStr) || string.IsNullOrEmpty(backStr))
+            {
+                throw new Exception( string.Format("this Expressions error :{0}", "the '-' position is illegal"));
+            }
+            switch(pickExpressionAdditional)
+            {
+                case "str-str":
+                    return PickStrParameter(frontStr, backStr, sourceStr);
+                case "str-len":
+                    if(!int.TryParse(backStr,out strLen))
+                    {
+                        throw new Exception(string.Format("this Expressions error :{0}", "the len should be a int value"));
+                    }
+                    return PickStrParameter(frontStr, strLen, sourceStr);
+                case "index-len":
+                    if (!int.TryParse(backStr, out strLen) )
+                    {
+                        throw new Exception(string.Format("this Expressions error :{0}", "the len should be a int value"));
+                    }
+                    if(!int.TryParse(frontStr, out frontIndex))
+                    {
+                        throw new Exception(string.Format("this Expressions error :{0}", "the index should be a int value"));
+                    }
+                    return PickStrParameter(frontIndex, strLen, sourceStr);
+                default:
+                    throw new Exception("your ParameterPick data is null or empty");
+            }
+        }
+
+        public static string ParameterPickXml(string sourceStr, string pickExpression, string pickExpressionAdditional)
+        {
+            if (string.IsNullOrEmpty(sourceStr) || string.IsNullOrEmpty(pickExpression) || string.IsNullOrEmpty(pickExpressionAdditional))
+            {
+                throw new Exception("your ParameterPick data is null or empty");
+            }
+            int returnIndex;
+            if (!int.TryParse(pickExpressionAdditional, out returnIndex))
+            {
+                throw new Exception("this PickTypeAdditional should be a number");
+            }
+            if (returnIndex<0)
+            {
+                throw new Exception("this PickTypeAdditional should greater than 0");
+            }
+            string[] returnArray = PickXmlParameter(pickExpressionAdditional, sourceStr);
+            if (returnArray==null)
+            {
+                return null; 
+            }
+            if (returnIndex==0)
+            {
+                return string.Join(",", returnArray);
+            }
+            else if (returnIndex > returnArray.Length)
+            {
+                return null;
+            }
+            else
+            {
+                return returnArray[returnIndex - 1];
+            }
+        }
+
+        public static string ParameterPickRegex(string sourceStr, string pickExpression, string pickExpressionAdditional)
+        {
+            {
+                if (string.IsNullOrEmpty(sourceStr) || string.IsNullOrEmpty(pickExpression) || string.IsNullOrEmpty(pickExpressionAdditional))
+                {
+                    throw new Exception("your ParameterPick data is null or empty");
+                }
+                int returnIndex;
+                if (!int.TryParse(pickExpressionAdditional, out returnIndex))
+                {
+                    throw new Exception("this PickTypeAdditional should be a number");
+                }
+                if (returnIndex < 0)
+                {
+                    throw new Exception("this PickTypeAdditional should greater than 0");
+                }
+                string[] returnArray = PickRegexParameter(pickExpression, sourceStr);
+                if (returnArray == null)
+                {
+                    return null;
+                }
+                if (returnIndex == 0)
+                {
+                    return string.Join(",", returnArray);
+                }
+                else if (returnIndex > returnArray.Length)
+                {
+                    return null;
+                }
+                else
+                {
+                    return returnArray[returnIndex - 1];
+                }
+            }
         }
     }
 }

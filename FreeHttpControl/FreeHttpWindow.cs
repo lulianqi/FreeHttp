@@ -10,6 +10,7 @@ using System.IO;
 using FreeHttp.HttpHelper;
 using FreeHttp.AutoTest.RunTimeStaticData;
 using FreeHttp.FiddlerHelper;
+using FreeHttp.AutoTest.ParameterizationPick;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -76,6 +77,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 foreach(var fr in fiddlerModificHttpRuleCollection.ResponseRuleList)
                 {
+                    fr.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
                     if(fr.IsRawReplace)
                     {
                         if(fr.HttpRawResponse.ParameterizationContent==null)
@@ -87,6 +89,7 @@ namespace FreeHttp.FreeHttpControl
                 }
                 foreach (var fr in fiddlerModificHttpRuleCollection.RequestRuleList)
                 {
+                    fr.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
                     if (fr.IsRawReplace)
                     {
                         if (fr.HttpRawRequest.ParameterizationContent== null)
@@ -691,6 +694,21 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        private void pb_pickRule_Click(object sender, EventArgs e)
+        {
+            EditParameterPickWindow f;
+            if(pb_pickRule.Tag is List<ParameterPick>)
+            {
+                f = new EditParameterPickWindow((List<ParameterPick>)pb_pickRule.Tag, SetHttpParameterPick);
+            }
+            else
+            {
+                f = new EditParameterPickWindow(null,SetHttpParameterPick);
+            }
+            f.StartPosition = FormStartPosition.CenterParent;
+            f.ShowDialog();
+        }
+
         void f_OnSetValue(object sender, SetVaule.SetVauleEventArgs e)
         {
             if (e.SetValue == null || e.SetValue == "0" || e.SetValue == "")
@@ -813,7 +831,7 @@ namespace FreeHttp.FreeHttpControl
             StaticDataManageWindow staticDataManageWindow;
             staticDataManageWindow = new StaticDataManageWindow(StaticDataCollection);
             staticDataManageWindow.Owner = Fiddler.FiddlerApplication.UI;
-            staticDataManageWindow.StartPosition = FormStartPosition.CenterParent;
+            staticDataManageWindow.StartPosition = FormStartPosition.CenterScreen;
             //f.ShowDialog();
             staticDataManageWindow.Show();
         }

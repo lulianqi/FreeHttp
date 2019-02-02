@@ -9,8 +9,9 @@ namespace FreeHttp.FiddlerHelper
     public interface IFiddlerHttpTamper
     {
         bool IsEnable { get; set; }
-        //FiddlerUriMatch UriMatch { get; set; }
         FiddlerHttpFilter HttpFilter { get; set; }
+        List<FreeHttp.AutoTest.ParameterizationPick.ParameterPick> ParameterPickList { get; set; }
+        FiddlerActuatorStaticDataCollectionController ActuatorStaticDataController { get; set; }
         bool IsRawReplace { get; }
     }
 }

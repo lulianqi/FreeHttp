@@ -33,8 +33,10 @@ namespace FreeHttp.FreeHttpControl
             {
                 tb_key.Text = editListView.SelectedItems[0].Text;
             }
+            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
+            
         }
 
         private void bt_ok_Click(object sender, EventArgs e)

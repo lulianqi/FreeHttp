@@ -10,6 +10,7 @@ using System.IO;
 using FreeHttp.HttpHelper;
 using FreeHttp.FiddlerHelper;
 using FreeHttp.MyHelper;
+using FreeHttp.AutoTest.ParameterizationPick;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -121,6 +122,8 @@ namespace FreeHttp.FreeHttpControl
                     EditListViewItem = null;
                     pictureBox_editHttpFilter.Tag = null;
                     pictureBox_editHttpFilter.Image = Resources.MyResource.filter_off;
+                    pb_pickRule.Tag = null;
+                    pb_pickRule.Image = Resources.MyResource.pick_off;
                     break;
                 case RuleEditMode.EditRequsetRule:  //edit request
                     lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
@@ -234,6 +237,15 @@ namespace FreeHttp.FreeHttpControl
             return lbl_ResponseLatency.GetLatency();
         }
 
+        private List<ParameterPick> GetParameterPick()
+        {
+            if(pb_pickRule.Tag!=null && pb_pickRule.Tag is List<ParameterPick>)
+            {
+                return ((List<ParameterPick>)pb_pickRule.Tag).Count > 0 ? (List<ParameterPick>)pb_pickRule.Tag : null;
+            }
+            return null;
+        }
+
         private string GetFiddlerHttpFilterName(FiddlerHttpFilter fiddlerHttpFilter)
         {
             if (fiddlerHttpFilter != null)
@@ -273,6 +285,19 @@ namespace FreeHttp.FreeHttpControl
                 {
                     pictureBox_editHttpFilter.Image = Resources.MyResource.filter_off;
                 }
+            }
+        }
+
+        private void SetHttpParameterPick(List<ParameterPick> yourParameterPickList)
+        {
+            pb_pickRule.Tag = yourParameterPickList;
+            if (yourParameterPickList != null && yourParameterPickList.Count > 0)
+            {
+                pb_pickRule.Image = Resources.MyResource.pick_on;
+            }
+            else
+            {
+                pb_pickRule.Image = Resources.MyResource.pick_off;
             }
         }
 
@@ -319,7 +344,9 @@ namespace FreeHttp.FreeHttpControl
         {
             FiddlerRequsetChange requsetChange = new FiddlerRequsetChange();
             requsetChange.HttpRawRequest = null;
+            requsetChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             requsetChange.HttpFilter = GetHttpFilter();
+            requsetChange.ParameterPickList = GetParameterPick();
             requsetChange.UriModific = new ContentModific(tb_requestModific_uriModificKey.Text, tb_requestModific_uriModificValue.Text);
             if (requestRemoveHeads.ListDataView.Items.Count > 0)
             {
@@ -344,7 +371,9 @@ namespace FreeHttp.FreeHttpControl
         private FiddlerRequsetChange GetRequestReplaceInfo()
         {
             FiddlerRequsetChange requsetReplace = new FiddlerRequsetChange();
+            requsetReplace.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             requsetReplace.HttpFilter = GetHttpFilter();
+            requsetReplace.ParameterPickList = GetParameterPick();
             if (IsRequestReplaceRawMode)
             {
                 requsetReplace.HttpRawRequest = ParameterHttpRequest.GetHttpRequest(rtb_requestRaw.Text.Replace("\n", "\r\n"), useParameterDataToolStripMenuItem.Checked, StaticDataCollection);
@@ -423,7 +452,9 @@ namespace FreeHttp.FreeHttpControl
         {
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
             responseChange.HttpRawResponse = null;
+            responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             responseChange.HttpFilter = GetHttpFilter();
+            responseChange.ParameterPickList = GetParameterPick();
             responseChange.LesponseLatency = GetResponseLatency();
             if (responseRemoveHeads.ListDataView.Items.Count > 0)
             {
@@ -448,7 +479,9 @@ namespace FreeHttp.FreeHttpControl
         private FiddlerResponseChange GetResponseReplaceInfo()
         {
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
+            responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             responseChange.HttpFilter = GetHttpFilter();
+            responseChange.ParameterPickList = GetParameterPick();
             responseChange.LesponseLatency = GetResponseLatency();
             responseChange.HttpRawResponse = rawResponseEdit.GetHttpResponse(StaticDataCollection);
             responseChange.IsIsDirectRespons = rawResponseEdit.IsDirectRespons;
@@ -485,6 +518,7 @@ namespace FreeHttp.FreeHttpControl
         private void SetRequestModificInfo(FiddlerRequsetChange fiddlerRequsetChange)
         {
             SetHttpMatch(fiddlerRequsetChange.HttpFilter);
+            SetHttpParameterPick(fiddlerRequsetChange.ParameterPickList);
             if (fiddlerRequsetChange.HttpRawRequest == null)
             {
                 tabControl_Modific.SelectedIndex = 0;
@@ -558,6 +592,7 @@ namespace FreeHttp.FreeHttpControl
         {
             SetHttpMatch(fiddlerResponseChange.HttpFilter);
             SetResponseLatency(fiddlerResponseChange.LesponseLatency);
+            SetHttpParameterPick(fiddlerResponseChange.ParameterPickList);
             if (fiddlerResponseChange.HttpRawResponse == null)
             {
                 tabControl_Modific.SelectedIndex = 2;

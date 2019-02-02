@@ -196,6 +196,20 @@ namespace FreeHttp.AutoTest
             }
             return null;
         }
-    
+
+        public static void Add(this List<List<string>> myList, object[] yourValue)
+        {
+            if(yourValue!=null)
+            {
+                List<string> tempAddList = new List<string>(yourValue.Length);
+                for(int i =0 ; i<yourValue.Length;i++)
+                {
+                    //tempAddList.Add((yourValue[i] is System.DBNull)?"":(string)yourValue[i]);
+                    tempAddList.Add((yourValue[i] is string) ? (string)yourValue[i]:"");
+                }
+                myList.Add(tempAddList);
+            }
+        }
+
     }
 }

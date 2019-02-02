@@ -74,23 +74,6 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
         public delegate void ChangeCollectionEventHandler(object sender, ChangeDataEventArgs e);
         public event ChangeCollectionEventHandler OnChangeCollection;
 
-        private object IsHasSameKey(string key, int ignoreListIndex)
-        {
-            if (runActuatorStaticDataKeyList.ContainsKey(key) && ignoreListIndex != 1)
-            {
-                return runActuatorStaticDataKeyList;
-            }
-            if (runActuatorStaticDataParameterList.ContainsKey(key) && ignoreListIndex != 2)
-            {
-                return runActuatorStaticDataParameterList;
-            }
-            if (runActuatorStaticDataSouceList.ContainsKey(key) && ignoreListIndex != 3)
-            {
-                return runActuatorStaticDataSouceList;
-            }
-            return null;
-        }
-
         private void OnListChanged(bool isAddOrDel)
         {
             if(OnChangeCollection!=null)
@@ -114,6 +97,24 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             get { return runActuatorStaticDataSouceList; }
         }
 
+
+        private object IsHasSameKey(string key, int ignoreListIndex)
+        {
+            if (runActuatorStaticDataKeyList.ContainsKey(key) && ignoreListIndex != 1)
+            {
+                return runActuatorStaticDataKeyList;
+            }
+            if (runActuatorStaticDataParameterList.ContainsKey(key) && ignoreListIndex != 2)
+            {
+                return runActuatorStaticDataParameterList;
+            }
+            if (runActuatorStaticDataSouceList.ContainsKey(key) && ignoreListIndex != 3)
+            {
+                return runActuatorStaticDataSouceList;
+            }
+            return null;
+        }
+
         /// <summary>
         /// Is the StaticDataCollection has th same key name 
         /// </summary>
@@ -133,6 +134,10 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
         [MethodImplAttribute(MethodImplOptions.Synchronized)]
         public bool AddStaticDataKey(string key, IRunTimeStaticData vaule)
         {
+            //if (!(vaule is MyStaticDataValue))
+            //{
+            //    return false;
+            //}
             if (IsHasSameKey(key, IsAllCollectionKeyUnique?0:1) != null)
             {
                 if (!RemoveStaticData(key, false))
@@ -304,45 +309,83 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
         /// <param name="configVaule">config Vaule</param>
         /// <returns>is success</returns>
         [MethodImplAttribute(MethodImplOptions.Synchronized)]
-        public bool SetStaticData(string key, string configVaule)
+        public bool SetStaticDataValue(string key, string configVaule)
         {
-            var tempDataList = IsHasSameKey(key, 0);
+            var tempDataList = GetStaticData(key, 0);
             if (tempDataList == null)
             {
                 return false;
             }
-            else if (tempDataList == runActuatorStaticDataKeyList)
+            if (tempDataList.DataSet(configVaule))
             {
-                if (!runActuatorStaticDataKeyList[key].DataSet(configVaule))
-                    return false;
+                OnListChanged(false);
+                return true;
             }
-            else if (tempDataList == runActuatorStaticDataParameterList)
-            {
-                if (!runActuatorStaticDataParameterList[key].DataSet(configVaule))
-                    return false;
-            }
-            else if (tempDataList == runActuatorStaticDataSouceList)
-            {
-                if (!runActuatorStaticDataSouceList[key].DataSet(configVaule))
-                    return false;
-            }
-            else
-            {
-                //ErrorLog.PutInLog(string.Format("error to [RemoveStaticData] in ActuatorStaticDataCollection  the key is {0} ", key));
-                return false;
-            }
-            OnListChanged(false);
-            return true;
+            return false;
         }
 
-        public IRunTimeStaticData GetStaticData(string key)
+        public IRunTimeStaticData GetStaticData(string key ,int GetListIndex)
         {
-            object tempStaticData = IsHasSameKey(key, 0);
-            if(tempStaticData==null)
+            if (runActuatorStaticDataKeyList.ContainsKey(key) && (GetListIndex == 1 || GetListIndex == 0))
             {
-                return null;
+                return runActuatorStaticDataKeyList[key];
             }
-            return tempStaticData as IRunTimeStaticData;
+            if (runActuatorStaticDataParameterList.ContainsKey(key) && (GetListIndex == 1 || GetListIndex == 0))
+            {
+                return runActuatorStaticDataParameterList[key];
+            }
+            if (runActuatorStaticDataSouceList.ContainsKey(key) && (GetListIndex == 1 || GetListIndex == 0))
+            {
+                return runActuatorStaticDataSouceList[key];
+            }
+            return null;
+        }
+
+        public IRunTimeStaticData this[string key]
+        {
+            get
+            {
+                return GetStaticData(key, 0);
+            }
+            set
+            {
+                var tempDataList = IsHasSameKey(key, 0);
+                if (tempDataList == null)
+                {
+                    throw new Exception("ActuatorStaticDataCollection do not have this key");
+                }
+                else if (tempDataList == runActuatorStaticDataKeyList )
+                {
+                    if (value is MyStaticDataValue)
+                    {
+                        runActuatorStaticDataKeyList[key] = value;
+                    }
+                    else
+                    {
+                        throw new Exception("this StaticData must be a MyStaticDataValue");
+                    }
+                }
+                else if (tempDataList == runActuatorStaticDataParameterList)
+                {
+                    runActuatorStaticDataParameterList[key] = value;
+                }
+                else if (tempDataList == runActuatorStaticDataSouceList )
+                {
+                    if (value is IRunTimeDataSource)
+                    {
+                        runActuatorStaticDataSouceList[key] = (IRunTimeDataSource)value;
+                    }
+                    else
+                    {
+                        throw new Exception("this StaticData must be a IRunTimeDataSource");
+                    }
+                }
+                else
+                {
+                    throw new Exception("nuknow DataSource");
+                }
+                OnListChanged(false);
+            }
         }
 
         public object Clone()

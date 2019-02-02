@@ -48,6 +48,7 @@ namespace FreeHttp.FreeHttpControl
                     rtb_value.Text = headStr.Substring(headStr.IndexOf(splitStr) + splitStr.Length);
                 }
             }
+            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
         }

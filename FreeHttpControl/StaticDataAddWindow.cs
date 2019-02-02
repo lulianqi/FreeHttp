@@ -13,13 +13,15 @@ namespace FreeHttp.FreeHttpControl
 {
     public partial class StaticDataAddWindow : MyBaseInfoWindow
     {
-        public StaticDataAddWindow(ActuatorStaticDataCollection yourActuatorStaticDataCollection, int yourIndex)
+        internal StaticDataAddWindow(ActuatorStaticDataCollection yourActuatorStaticDataCollection, int yourIndex, Action<FreeHttp.FreeHttpControl.StaticDataManageWindow.ShowRunTimeParameterType> yourShowInfoChange)
         {
             InitializeComponent();
             actuatorStaticDataCollection = yourActuatorStaticDataCollection;
             startIndex = yourIndex;
+            ShowInfoChange = yourShowInfoChange;
         }
 
+        Action<FreeHttp.FreeHttpControl.StaticDataManageWindow.ShowRunTimeParameterType> ShowInfoChange;
         ActuatorStaticDataCollection actuatorStaticDataCollection = null;
         BindingSource bs_DataClass = new BindingSource();
         int startIndex;
@@ -81,6 +83,10 @@ namespace FreeHttp.FreeHttpControl
                 MessageBox.Show(string.Format("add static data fail \r\n{0}",string.IsNullOrEmpty(errMes)?"unknow error":errMes), "stop", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 FreeHttpWindow.MarkWarnControl(tb_value);
                 return;
+            }
+            if (ShowInfoChange!=null)
+            {
+                ShowInfoChange((FreeHttp.FreeHttpControl.StaticDataManageWindow.ShowRunTimeParameterType)(comboBox_CaseStaticDataClass.SelectedIndex));
             }
             this.Close();
         }

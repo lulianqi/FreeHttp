@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FreeHttp.AutoTest.ParameterizationPick;
 
 namespace FreeHttp
 {
@@ -21,6 +22,10 @@ namespace FreeHttp
         /// <param name="nowFiddlerRequsetChange">FiddlerRequsetChange</param>
         public static void ModificSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange, Action<string> ShowError, Action<string> ShowMes)
         {
+            if (nowFiddlerRequsetChange.ParameterPickList!=null)
+            {
+                PickSessionParameter(oSession, nowFiddlerRequsetChange, ShowError, ShowMes,true);
+            }
             if (nowFiddlerRequsetChange.IsRawReplace)
             {
                 ReplaceSessionRequest(oSession, nowFiddlerRequsetChange, ShowError, ShowMes);
@@ -130,6 +135,10 @@ namespace FreeHttp
         /// <param name="nowFiddlerResponseChange">FiddlerResponseChange</param>
         public static void ModificSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange, Action<string> ShowError, Action<string> ShowMes)
         {
+            if (nowFiddlerResponseChange.ParameterPickList != null)
+            {
+                PickSessionParameter(oSession, nowFiddlerResponseChange, ShowError, ShowMes, false);
+            }
             if (nowFiddlerResponseChange.IsRawReplace)
             {
                 //if IsIsDirectRespons do nothing
@@ -242,7 +251,97 @@ namespace FreeHttp
                 }
             }
         }
-        
+
+
+        public static void PickSessionParameter(Session oSession, IFiddlerHttpTamper nowFiddlerHttpTamper, Action<string> ShowError, Action<string> ShowMes, bool isRequest)
+        {
+            Func<string, ParameterPick ,string> PickFunc = (sourceStr, parameterPick) =>
+            {
+                try { return ParameterPickTypeEngine.dictionaryParameterPickFunc[parameterPick.PickType].ParameterPickFunc(sourceStr, parameterPick.PickTypeExpression, parameterPick.PickTypeAdditional); }
+                catch (Exception) { return null; }
+            };
+
+            if (nowFiddlerHttpTamper.ParameterPickList != null)
+            {
+                foreach (ParameterPick parameterPick in nowFiddlerHttpTamper.ParameterPickList)
+                {
+                    string pickResult = null;
+                    string pickSource = null;
+                    switch (parameterPick.PickRange)
+                    {
+                        case ParameterPickRange.Line:
+                            if(isRequest)
+                            {
+                                pickSource = oSession.fullUrl;
+                                if(string.IsNullOrEmpty(pickSource))
+                                {
+                                    pickResult = null;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                if(oSession.oResponse.headers==null)
+                                {
+                                    pickResult = null;
+                                    break;
+                                }
+                                else
+                                {
+                                    //pickSource = string.Format("{0} {1} {}", oSession.oResponse.headers.HTTPVersion, oSession.oResponse.headers.HTTPResponseCode,oSession.oResponse.headers.StatusDescription);
+                                    pickSource = string.Format("{0} {1}", oSession.oResponse.headers.HTTPVersion, oSession.oResponse.headers.HTTPResponseStatus);
+                                }
+                            }
+                            pickResult = PickFunc(pickSource, parameterPick);
+                            break;
+                        case ParameterPickRange.Heads:
+                            IEnumerable<HTTPHeaderItem> headerItems = isRequest ? (IEnumerable<HTTPHeaderItem>)oSession.RequestHeaders : (IEnumerable<HTTPHeaderItem>)oSession.ResponseHeaders;
+                            foreach (HTTPHeaderItem tempHead in headerItems)
+                            {
+                                pickResult = PickFunc(tempHead.ToString(), parameterPick);
+                                if(pickResult!=null)
+                                {
+                                    break;
+                                }
+                            }
+                            break;
+                        case ParameterPickRange.Entity:
+                            if (((oSession.requestBodyBytes == null || oSession.requestBodyBytes.Length == 0) && isRequest) && ((oSession.ResponseBody == null || oSession.ResponseBody.Length == 0) && isRequest))
+                            {
+                                pickResult = null;
+                                break;
+                            }
+                            pickSource = isRequest ? oSession.GetRequestBodyAsString() : oSession.GetResponseBodyAsString();
+                            pickResult = PickFunc(pickSource, parameterPick);
+                            break;
+                        default:
+                            ShowError("[ParameterizationPick] unkonw pick range");
+                            break;
+                    }
+                    if(pickResult==null)
+                    {
+                        ShowMes(string.Format("[ParameterizationPick] can not find the parameter with [{0}]", parameterPick.ParameterName));
+                    }
+                    else
+                    {
+                        ShowMes(string.Format("[ParameterizationPick] pick the parameter [{0} = {1}]", parameterPick.ParameterName, pickResult));
+                        if(nowFiddlerHttpTamper.ActuatorStaticDataController.SetActuatorStaticData(parameterPick.ParameterName,pickResult))
+                        {
+                            ShowMes(string.Format("[ParameterizationPick] add the parameter [{0}] to ActuatorStaticDataCollection", parameterPick.ParameterName));
+                        }
+                        else
+                        {
+                            ShowError(string.Format("[ParameterizationPick] fail to add the parameter [{0}] to ActuatorStaticDataCollection", parameterPick.ParameterName));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ShowError("[ParameterizationPick] not find ParameterPick to pick");
+            }
+        }
+
         public static string GetSessionRawData(Session oSession,bool isHaveResponse)
         {
             if(oSession==null)

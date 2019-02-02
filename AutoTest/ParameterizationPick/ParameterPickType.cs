@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace FreeHttp.AutoTest.ParameterizationPick
 {
+    
+    [Serializable]
     public enum ParameterPickType
     {
         Str,
@@ -13,4 +15,12 @@ namespace FreeHttp.AutoTest.ParameterizationPick
         Regex
     }
 
+
+     [Serializable]
+    public enum ParameterPickRange
+    {
+        Line,
+        Heads,
+        Entity
+    }
 }

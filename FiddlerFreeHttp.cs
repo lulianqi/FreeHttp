@@ -90,16 +90,16 @@ namespace FreeHttp
         public void OnBeforeUnload()
         {
             SerializableHelper.SerializeRuleList(myFreeHttpWindow.RequestRuleListView, myFreeHttpWindow.ResponseRuleListView);
-            SerializableHelper.SerializeData<FiddlerModificSettingInfo>(myFreeHttpWindow.ModificSettingInfo, "FreeHttpSetting.xml");
-            SerializableHelper.SerializeContractData<ActuatorStaticDataCollection>(myFreeHttpWindow.StaticDataCollection, "FreeHttpStaticDataCollection.xml");
+            SerializableHelper.SerializeData<FiddlerModificSettingInfo>(myFreeHttpWindow.ModificSettingInfo, "FreeHttp\\FreeHttpSetting.xml");
+            SerializableHelper.SerializeContractData<ActuatorStaticDataCollection>(myFreeHttpWindow.StaticDataCollection, "FreeHttp\\FreeHttpStaticDataCollection.xml");
         }
 
         public void OnLoad()
         {
             AddFiddlerObjectLog("OnLoad");
+            string workPath = string.Format("{0}\\FreeHttp", System.Windows.Forms.Application.StartupPath);
             if (!isOnLoad)
             {
-
                 tabPage = new TabPage();
                 tabPage.Text = "Free Http";
                 if (FiddlerApplication.UI.tabsViews.ImageList != null)
@@ -110,7 +110,13 @@ namespace FreeHttp
                 }
                 try
                 {
-                    myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList(), SerializableHelper.DeserializeData<FiddlerModificSettingInfo>("FreeHttpSetting.xml"), SerializableHelper.DeserializeContractData<FreeHttp.AutoTest.RunTimeStaticData.ActuatorStaticDataCollection>("FreeHttpStaticDataCollection.xml"));
+                    if (!Directory.Exists(workPath))
+                    {
+                        AddFiddlerObjectLog(string.Format("Create working directory {0}",workPath));
+                        Directory.CreateDirectory(workPath);
+                    }
+                    AddFiddlerObjectLog(string.Format("load configuration"));
+                    myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList(), SerializableHelper.DeserializeData<FiddlerModificSettingInfo>("FreeHttp\\FreeHttpSetting.xml"), SerializableHelper.DeserializeContractData<FreeHttp.AutoTest.RunTimeStaticData.ActuatorStaticDataCollection>("FreeHttp\\FreeHttpStaticDataCollection.xml"));
                 }
                 catch(Exception ex)
                 {

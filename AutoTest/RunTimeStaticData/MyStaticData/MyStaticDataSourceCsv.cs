@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -34,7 +35,10 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             isNew = true;
             nowRowIndex = 0;
             nowColumnIndex = 0;
-            csvData = yourCsvData;
+            if(!SetDataSource(yourCsvData))
+            {
+                csvData = new List<List<string>>() { new List<string>() { "NullData" } };
+            }
         }
 
         public MyStaticDataSourceCsv(List<List<string>> yourCsvData, string originalConnectString)
@@ -61,6 +65,32 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             return true;
         }
 
+        public List<List<string>> GetDataSource()
+        {
+            return csvData;
+        }
+
+        public bool SetDataSource(List<List<string>> yourDataSource)
+        {
+            if (yourDataSource.Count == 0 || yourDataSource[0] == null || yourDataSource[0].Count==0)
+            {
+                return false;
+            }
+            for (int i = yourDataSource.Count -1 ; i >= 0; i--)
+            {
+                if (yourDataSource[i] == null || yourDataSource[i].Count==0)
+                {
+                    yourDataSource.RemoveAt(i);
+                }
+            }
+            csvData = yourDataSource;
+            if(nowRowIndex>=yourDataSource.Count || nowColumnIndex>=yourDataSource[nowRowIndex].Count)
+            {
+                DataReset();
+            }
+            return true;
+        }
+
         public string GetDataVaule(string vauleAddress)
         {
             if (vauleAddress != null)
@@ -83,7 +113,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             {
                 if (yourColumnIndex < csvData[yourRowIndex].Count)
                 {
-                    return csvData[yourRowIndex][yourColumnIndex];
+                    return csvData[yourRowIndex][yourColumnIndex] ?? "";
                 }
             }
             return null;
@@ -92,7 +122,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
         public string DataCurrent()
         {
             //不需要检查 Index ，索引在内部操作，不可能越界
-            return csvData[nowRowIndex][nowColumnIndex];
+            return csvData[nowRowIndex][nowColumnIndex] ?? "";
         }
 
         public string DataMoveNext()
@@ -141,7 +171,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
                 int splitIndex = expectData.IndexOf('|');
                 if (splitIndex > 0)
                 {
-                    return DataSet(expectData.Substring(0, splitIndex), expectData.Remove(0, splitIndex) + 1);
+                    return DataSet(expectData.Substring(0, splitIndex), expectData.Remove(0, splitIndex + 1));
                 }
                 else
                 {
@@ -154,22 +184,46 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
 
         public bool DataSet(int yourRowIndex, int yourColumnIndex, string expectData)
         {
-            if (yourRowIndex > csvData.Count - 1)
+            if (yourRowIndex < 0 || yourColumnIndex<0)
             {
-                for (int i = 0; i < yourRowIndex - csvData.Count + 1; i++)
+                return false;
+            }
+            if (yourColumnIndex > csvData.Count - 1)
+            {
+                for (int i = 0;  yourColumnIndex > csvData.Count - 1; i++)
                 {
-                    csvData.Add(new List<string> { "" });
+                    csvData.Add(new List<string> { "" }); 
                 }
             }
-            if (yourColumnIndex > csvData[yourRowIndex].Count - 1)
+            if (yourRowIndex > csvData[yourColumnIndex].Count - 1)
             {
-                for (int i = 0; i < yourColumnIndex - csvData[yourRowIndex].Count + 1; i++)
+                for (int i = 0;  yourRowIndex > csvData[yourRowIndex].Count-1; i++)
                 {
                     csvData[yourRowIndex].Add("");
                 }
             }
             csvData[yourRowIndex][yourColumnIndex] = expectData;
-            return false;
+            return true;
+        }
+
+        public bool SetDataLocation(int yourRowIndex, int yourColumnIndex)
+        {
+            if (yourRowIndex < 0 || yourColumnIndex < 0)
+            {
+                return false;
+            }
+            if (yourRowIndex > csvData.Count - 1 || yourColumnIndex > csvData[yourRowIndex].Count - 1)
+            {
+                return false;
+            }
+            nowRowIndex = yourRowIndex;
+            nowColumnIndex = yourColumnIndex; 
+            return true;
+        }
+
+        public Point GetDataLocation()
+        {
+            return new Point(nowColumnIndex, nowRowIndex);
         }
 
         public bool DataSet(string vauleAddress, string expectData)
@@ -181,7 +235,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
                 {
                     if (csvPosition.Length == 2)
                     {
-                        DataSet(csvPosition[0], csvPosition[1], expectData);
+                        DataSet(csvPosition[1], csvPosition[0], expectData);
                         return true;
                     }
                 }

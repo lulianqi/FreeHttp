@@ -28,6 +28,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void HttpFilterWindow_Load(object sender, EventArgs e)
         {
+            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
             tbe_urlFilter.Visible = tb_urlFilter.Focused;

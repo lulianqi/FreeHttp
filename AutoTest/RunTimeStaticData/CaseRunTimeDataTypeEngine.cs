@@ -1,4 +1,6 @@
-﻿using FreeHttp.AutoTest.RunTimeStaticData.MyStaticData;
+﻿#define ALLOW_CSV_EMPTY
+
+using FreeHttp.AutoTest.RunTimeStaticData.MyStaticData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +26,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             {CaseStaticDataType.caseStaticData_time,new List<string>(){"Time","DateTimeFormatInfo","yyyy-MM-ddTHH:mm:ss","DateTimeFormatInfo: the format for data time (find DateTimeFormatInfo in dotnet doc)","provide a data time string with your format"}},
             {CaseStaticDataType.caseStaticData_random,new List<string>(){"Random","len-type","10-1","len: the lengh of the random string\ntype: the type of random mode  (0 is all the visible asc2 ; 1 is only number ; 2 is letter in upper ; 3 is letter in lower ; 4 is the special character ; 5 is all the letters ; 6 is all the letters or numbers)(default is 1)","provide a random strng with your mode"}},
             {CaseStaticDataType.caseStaticData_list,new List<string>(){"List","v1,v2,v3,v4-mode","ab,c,de-1","v1,v2,v3: the value of the list (the value list segmentation by ,) \nmode: the mode read 1 is read by order ; 2 is read by random (default is 1)","provide a list value ,you can get it by order or random"}},
-            {CaseStaticDataType.caseStaticData_csv,new List<string>(){"CSV","path-encode","csvdatasouce.csv-65001","path: the file path (start with @ means absolute path) \nencode: the encode of the file (default is 65001)","provide a data souce form csv file ,you can get it by order or location"}}
+            {CaseStaticDataType.caseStaticData_csv,new List<string>(){"CSV","path-encode","csvdatasouce.csv-65001","path: the file path (start with @ means absolute path) \nencode: the encode of the file (default is 65001) \n[another expression] start with'*' and followed by ColumnCount-RowCount (like *10-10 mean creat a 10*10 empty csv data source)","provide a data souce form csv file ,you can get it by order or location"}}
         };
 
         /// <summary>
@@ -270,6 +272,34 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             string csvPath = null;
             int CodePage = 65001;
             Encoding csvEncoding = null;
+#if ALLOW_CSV_EMPTY
+            if (yourFormatData.StartsWith("*"))
+            {
+                int[] tempConuts;
+                if (!yourFormatData.Remove(0, 1).MySplitToIntArray('-', out tempConuts) || tempConuts.Length!=2)
+                {
+                    errorMes = string.Format("[GetCsvStaticDataSource]error in [MySplitToIntArray] with :[{0}]", yourFormatData);
+                    return false;
+                }
+                if(tempConuts[0]<1||tempConuts[1]<1)
+                {
+                    errorMes = string.Format("[GetCsvStaticDataSource]error in [MySplitToIntArray] with :[{0}] \nYour row conut and columu conut should greater than 0 ", yourFormatData);
+                    return false;
+                }
+                List<string> tempRow = new List<string>(tempConuts[0]);
+                for (int i = 0; i < tempConuts[0]; i++)
+                {
+                    tempRow.Add(null);
+                }
+                List<List<string>> tempCsvDataSource = new List<List<string>>(tempConuts[1]);
+                for (int i = 0; i < tempConuts[1];i++ )
+                {
+                    tempCsvDataSource.Add(tempRow.ToList());
+                }
+                yourStaticData = new MyStaticDataSourceCsv(tempCsvDataSource, yourFormatData);
+                return true;
+            }
+#endif
             if (yourFormatData.Contains('-'))
             {
                 if (!yourFormatData.MySplitIntEnd('-', out csvPath, out CodePage))
@@ -291,7 +321,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
                 errorMes = string.Format("[GetCsvStaticDataSource]error in 【CodePage】 [{0}]", yourFormatData);
                 return false;
             }
-            csvPath = csvPath.StartsWith("@") ? csvPath.Remove(0, 1) : string.Format("{0}\\casefile\\{1}", MyCommonTool.rootPath, csvPath);
+            csvPath = csvPath.StartsWith("@") ? csvPath.Remove(0, 1) : string.Format("{0}\\FreeHttp\\{1}", MyCommonTool.rootPath, csvPath);
             if (!System.IO.File.Exists(csvPath))
             {
                 errorMes = string.Format("[GetCsvStaticDataSource]error in csv path [path not exixts] [{0}]", yourFormatData);

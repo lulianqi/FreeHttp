@@ -108,7 +108,6 @@ namespace FreeHttp.AutoTest.ParameterizationContent
                         {
                             errorMessage = DealErrorAdditionData();
                         }
-
                         yourSourceData = yourSourceData.Replace(splitStr + tempKeyVaule + splitStr, tempVaule);
                         yourDataResultCollection.MyAdd(tempKeyVaule, tempVaule);
                     }

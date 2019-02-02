@@ -125,7 +125,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABa
-        CQAAAk1TRnQBSQFMAgEBBAEAAUgBDQFIAQ0BEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CQAAAk1TRnQBSQFMAgEBBAEAAcgBDgHIAQ4BEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -369,6 +369,50 @@
 Request Replace : creat a request replace rule , it will replace all the http request
 Response Modific: creat a response change rule
 Response Replace : creat a response replace rule , it will replace all the http response </value>
+  </data>
+  <data name="pb_pickRule.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
   </data>
   <data name="pb_responseLatency.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

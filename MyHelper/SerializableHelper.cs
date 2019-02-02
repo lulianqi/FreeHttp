@@ -30,7 +30,7 @@ namespace FreeHttp.MyHelper
                     responseList.Add((FiddlerResponseChange)tempItem.Tag);
                 }
                 //Stream stream = File.Open("data.xml", FileMode.Create);
-                TextWriter writer = new StreamWriter("RuleData.xml", false);
+                TextWriter writer = new StreamWriter("FreeHttp\\RuleData.xml", false);
                 XmlSerializer serializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
                 //serializer = new XmlSerializer(typeof(List<IFiddlerHttpTamper>));
                 serializer.Serialize(writer, new FiddlerModificHttpRuleCollection(requestList, responseList));
@@ -41,10 +41,10 @@ namespace FreeHttp.MyHelper
         public static FiddlerModificHttpRuleCollection DeserializeRuleList()
         {
             FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection = null;
-            if (File.Exists("RuleData.xml"))
+            if (File.Exists("FreeHttp\\RuleData.xml"))
             {
                 XmlSerializer mySerializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
-                FileStream myFileStream = new FileStream("RuleData.xml", FileMode.Open);
+                FileStream myFileStream = new FileStream("FreeHttp\\RuleData.xml", FileMode.Open);
                 try
                 {
                     //fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)mySerializer.Deserialize(myFileStream);
@@ -57,7 +57,7 @@ namespace FreeHttp.MyHelper
                 catch(Exception ex)
                 {
                     MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message), "load user rule fail");
-                    File.Copy("RuleData.xml", "RuleData.lastErrorFile",true);
+                    File.Copy("FreeHttp\\RuleData.xml", "FreeHttp\\RuleData.lastErrorFile", true);
                 }
                 finally
                 {

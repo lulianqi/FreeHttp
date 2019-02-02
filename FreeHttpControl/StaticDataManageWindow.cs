@@ -1,4 +1,5 @@
 ﻿using FreeHttp.AutoTest.RunTimeStaticData;
+using FreeHttp.AutoTest.RunTimeStaticData.MyStaticData;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -26,15 +27,14 @@ namespace FreeHttp.FreeHttpControl
             if (yourActuatorStaticDataCollection != null)
             {
                 actuatorStaticDataCollection.OnChangeCollection += actuatorStaticDataCollection_OnChangeCollection;
-                //actuatorStaticDataCollection.
             }
         }
 
-        
 
-        ShowRunTimeParameterType nowShowType = ShowRunTimeParameterType.KeyValue;
-        ListViewItem nowEditItem = null;
-        ActuatorStaticDataCollection actuatorStaticDataCollection = null;
+
+        private ShowRunTimeParameterType nowShowType = ShowRunTimeParameterType.KeyValue;
+        private ListViewItem nowEditItem = null;
+        private ActuatorStaticDataCollection actuatorStaticDataCollection = null;
 
         public override void VirtualUpdataTime_Tick()
         {
@@ -83,6 +83,47 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        private void listView_CaseParameter_DoubleClick(object sender, EventArgs e)
+        {
+            
+            if(listView_CaseParameter.SelectedItems!=null&& listView_CaseParameter.SelectedItems.Count>0)
+            {
+                if (listView_CaseParameter.SelectedItems[0].Tag is MyStaticDataSourceCsv)
+                {
+                    MyStaticDataSourceCsv nowDataSourceCsv = (MyStaticDataSourceCsv)listView_CaseParameter.SelectedItems[0].Tag;
+                    //ShowSheetForm f = new ShowSheetForm("", nowDataSourceCsv.GetDataSource());
+                    EditSheetForm f = new EditSheetForm(listView_CaseParameter.SelectedItems[0].SubItems[0].Text, nowDataSourceCsv.GetDataSource(), nowDataSourceCsv.GetDataLocation());
+                    f.StartPosition = FormStartPosition.CenterScreen;
+                    f.SaveSheetData += editSheetForm_SaveSheetData;
+                    f.ShowDialog();
+                }
+            }
+        }
+
+        void editSheetForm_SaveSheetData(object sender, EditSheetForm.SaveSheetDataEventArgs e)
+        {
+            if (e.SheetData != null && listView_CaseParameter.SelectedItems != null && listView_CaseParameter.SelectedItems.Count > 0)
+            {
+                if (listView_CaseParameter.SelectedItems[0].Tag is MyStaticDataSourceCsv)
+                {
+                    MyStaticDataSourceCsv nowDataSourceCsv = (MyStaticDataSourceCsv)listView_CaseParameter.SelectedItems[0].Tag;
+                    if(nowDataSourceCsv.SetDataSource(e.SheetData))
+                    {
+                        if (e.SelectCell != null)
+                        {
+                            nowDataSourceCsv.SetDataLocation(e.SelectCell.Value.Y, e.SelectCell.Value.X);
+                        }
+                        UpdatalistView_CaseParameter(false);
+                    }
+                    else
+                    {
+                        MessageBox.Show("you data is empty \nplease check it ", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return;
+                    }
+                }
+            }
+        }
+
         private void listView_CaseParameter_ItemDrag(object sender, ItemDragEventArgs e)
         {
             if (listView_CaseParameter.SelectedItems != null && listView_CaseParameter.SelectedItems.Count > 0)
@@ -125,7 +166,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void pb_addStaticData_Click(object sender, EventArgs e)
         {
-            StaticDataAddWindow f = new StaticDataAddWindow(actuatorStaticDataCollection, (int)nowShowType);
+            StaticDataAddWindow f = new StaticDataAddWindow(actuatorStaticDataCollection, (int)nowShowType, ShowInfoChange);
             f.ShowDialog();
         }
 
@@ -312,7 +353,6 @@ namespace FreeHttp.FreeHttpControl
         }
 
         #endregion
-
    
     }
 }
