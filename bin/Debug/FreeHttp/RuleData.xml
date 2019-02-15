@@ -31,6 +31,27 @@
           <PickTypeAdditional>1</PickTypeAdditional>
           <PickTypeExpression>\(.*?\)</PickTypeExpression>
         </ParameterPick>
+        <ParameterPick>
+          <ParameterName>fiddller_line</ParameterName>
+          <PickType>Str</PickType>
+          <PickRange>Line</PickRange>
+          <PickTypeAdditional>index-len</PickTypeAdditional>
+          <PickTypeExpression>0-0</PickTypeExpression>
+        </ParameterPick>
+        <ParameterPick>
+          <ParameterName>fiddller_head</ParameterName>
+          <PickType>Str</PickType>
+          <PickRange>Heads</PickRange>
+          <PickTypeAdditional>index-len</PickTypeAdditional>
+          <PickTypeExpression>1-10</PickTypeExpression>
+        </ParameterPick>
+        <ParameterPick>
+          <ParameterName>fiddller_body</ParameterName>
+          <PickType>Str</PickType>
+          <PickRange>Entity</PickRange>
+          <PickTypeAdditional>index-len</PickTypeAdditional>
+          <PickTypeExpression>0-0</PickTypeExpression>
+        </ParameterPick>
       </ParameterPickList>
       <HttpRawRequest>
         <RequestLine>GET https://www.fiddler2.com/UpdateCheck.aspx?isBeta=False HTTP/1.1</RequestLine>

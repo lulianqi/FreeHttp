@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditSheetForm));
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.pb_saveSheet = new System.Windows.Forms.PictureBox();
             this.pb_export = new System.Windows.Forms.PictureBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_saveSheet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_export)).BeginInit();
@@ -55,32 +57,32 @@
             // 
             // pb_saveSheet
             // 
-            this.pb_saveSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_saveSheet.BackColor = System.Drawing.Color.Transparent;
             this.pb_saveSheet.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pb_saveSheet.Image = ((System.Drawing.Image)(resources.GetObject("pb_saveSheet.Image")));
-            this.pb_saveSheet.Location = new System.Drawing.Point(823, 1);
+            this.pb_saveSheet.Location = new System.Drawing.Point(1, 0);
             this.pb_saveSheet.Name = "pb_saveSheet";
-            this.pb_saveSheet.Size = new System.Drawing.Size(23, 23);
+            this.pb_saveSheet.Size = new System.Drawing.Size(20, 20);
             this.pb_saveSheet.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_saveSheet.TabIndex = 43;
             this.pb_saveSheet.TabStop = false;
+            this.toolTip.SetToolTip(this.pb_saveSheet, "save data");
             this.pb_saveSheet.Click += new System.EventHandler(this.pb_saveSheet_Click);
             this.pb_saveSheet.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             this.pb_saveSheet.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             // 
             // pb_export
             // 
-            this.pb_export.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_export.BackColor = System.Drawing.Color.Transparent;
             this.pb_export.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pb_export.Image = ((System.Drawing.Image)(resources.GetObject("pb_export.Image")));
-            this.pb_export.Location = new System.Drawing.Point(847, 1);
+            this.pb_export.Location = new System.Drawing.Point(22, 0);
             this.pb_export.Name = "pb_export";
-            this.pb_export.Size = new System.Drawing.Size(23, 23);
+            this.pb_export.Size = new System.Drawing.Size(20, 20);
             this.pb_export.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_export.TabIndex = 44;
             this.pb_export.TabStop = false;
+            this.toolTip.SetToolTip(this.pb_export, "export data");
             this.pb_export.Click += new System.EventHandler(this.pb_export_Click);
             this.pb_export.MouseLeave += new System.EventHandler(this.pictureBox_MouseLeave);
             this.pb_export.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
@@ -115,5 +117,6 @@
         private System.Windows.Forms.PictureBox pb_saveSheet;
         private System.Windows.Forms.PictureBox pb_export;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
