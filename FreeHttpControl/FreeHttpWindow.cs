@@ -228,6 +228,7 @@ namespace FreeHttp.FreeHttpControl
             MyControlHelper.SetRichTextBoxDropString(rtb_requestRaw);
         }
 
+
         #region Public Event
         private void tabControl_Modific_Selecting(object sender, TabControlCancelEventArgs e)
         {
@@ -920,12 +921,14 @@ namespace FreeHttp.FreeHttpControl
             {
                 ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
                 tabControl_Modific.SelectedIndex = 1;
+                MarkTipControl(tabPage_requestReplace);
                 MarkControl(pb_getSession, Color.LightYellow, 1);
             }
             else if (sender == pb_addResponseRule)
             {
                 ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
                 tabControl_Modific.SelectedIndex = 2;
+                MarkTipControl(tabPage_responseModific);
                 MarkControl(pb_getSession, Color.LightYellow, 1);
             }
             else

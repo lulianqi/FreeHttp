@@ -182,6 +182,11 @@ namespace FreeHttp.FreeHttpControl
             MarkRuleItem(yourItem, Color.Khaki, 3);
         }
 
+        public static void MarkTipControl(Control yourControl)
+        {
+            MarkControl(yourControl, Color.Azure, 2);
+        }
+
         public static void MarkWarnControl(Control yourControl)
         {
             MarkControl(yourControl, Color.Plum, 2);

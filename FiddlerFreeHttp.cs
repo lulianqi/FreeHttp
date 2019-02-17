@@ -4,6 +4,7 @@ using FreeHttp.FiddlerHelper;
 using FreeHttp.FreeHttpControl;
 using FreeHttp.HttpHelper;
 using FreeHttp.MyHelper;
+using FreeHttp.WebService;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -35,8 +36,10 @@ namespace FreeHttp
     public class FiddlerFreeHttp : IAutoTamper ,IDisposable
     {
         private bool isOnLoad = false;
+        private bool isCheckedUpdata = false;
         private TabPage tabPage; 
-        private FreeHttpWindow myFreeHttpWindow; 
+        private FreeHttpWindow myFreeHttpWindow;
+        private UpgradeService upgradeService;
 
         private void ShowMes(string mes)
         {
@@ -132,10 +135,57 @@ namespace FreeHttp
                 myFreeHttpWindow.OnGetSession += myFreeHttpWindow_OnGetSession;
                 myFreeHttpWindow.OnGetSessionRawData += myFreeHttpWindow_OnGetSessionRawData;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
+                myFreeHttpWindow.Enter += myFreeHttpWindow_Enter;
                 tabPage.Controls.Add(myFreeHttpWindow);
                 FiddlerApplication.UI.tabsViews.TabPages.Add(tabPage);
                 Fiddler.FiddlerApplication.UI.Deactivate += UI_Deactivate;
+                FiddlerApplication.UI.tabsViews.SelectedIndexChanged += tabsViews_SelectedIndexChanged;
+
+                upgradeService = new UpgradeService();
+                upgradeService.GetUpgradeMes += upgradeService_GetUpgradeMes;
                 isOnLoad = true;
+            }
+        }
+
+        void tabsViews_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (FiddlerApplication.UI.tabsViews.SelectedTab == tabPage && isCheckedUpdata==false)
+            {
+                upgradeService.StartCheckUpgrade();
+                isCheckedUpdata = true;
+            }
+        }
+
+        void myFreeHttpWindow_Enter(object sender, EventArgs e)
+        {
+            //when myFreeHttpWindow is enter do somethings
+        }
+
+        void upgradeService_GetUpgradeMes(object sender, UpgradeService.UpgradeServiceEventArgs e)
+        {
+            if(e.IsSuccess)
+            {
+                if(MessageBox.Show("Find new version for [ FreeHttp Plug-in ] \r\nDo you want goto upgrade page to udpade your FreeHttp","find updata",MessageBoxButtons.OKCancel,MessageBoxIcon.Information) == DialogResult.OK)
+                {
+                    if (string.IsNullOrEmpty(e.UpgradeMes))
+                    {
+                        MessageBox.Show("UpgradeMes is error");
+                        return;
+                    }
+                    try
+                    {
+                        System.Diagnostics.Process.Start(e.UpgradeMes);
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(string.Format("UpgradeMes is error \r\n{0}",ex.Message));
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                isCheckedUpdata = false;
             }
         }
 
