@@ -41,7 +41,7 @@ namespace FreeHttp.WebService
 
         private void CheckUpgrade()
         {
-            string tempResponse = myHttp.SendData(string.Format(@"http://api.lulianqi.com/UpdateCheck/v0?user={0}", UserComputerInfo.GetComputerMac()));
+            string tempResponse = myHttp.SendData(string.Format(@"http://api.lulianqi.com/UpdateCheck/v1?user={0}", UserComputerInfo.GetComputerMac()));
             string isNeedUpdata = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter( "\"isNeedUpdata\":", ",",tempResponse);
             string url = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"url\":", ",", tempResponse);
             string message = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"message\":", ",", tempResponse);

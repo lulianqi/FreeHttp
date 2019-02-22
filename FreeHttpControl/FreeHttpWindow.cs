@@ -279,7 +279,7 @@ namespace FreeHttp.FreeHttpControl
                 if (tempRtb == null)
                 {
                     //throw new Exception("not adapt this event");
-                    MessageBox.Show("get file fail , please add manually");
+                    MessageBox.Show("get file fail , please try again or add manually");
                     return;
                 }
             }
@@ -293,9 +293,16 @@ namespace FreeHttp.FreeHttpControl
                     tempRtb.Text = tempRtb.Text.Remove(tempIndex);
                 }
 
-                if (!tempRtb.Text.EndsWith("\n") && tempRtb == rtb_requestRaw)
+                if (!tempRtb.Text.EndsWith("\n\n") && tempRtb != rtb_requsetReplace_body)
                 {
-                    tempRtb.AppendText("\n");
+                    if (tempRtb.Text.EndsWith("\n"))
+                    {
+                        tempRtb.AppendText("\n");
+                    }
+                    else
+                    {
+                        tempRtb.AppendText("\n\n");
+                    }
                 }
 
                 tempRtb.AppendText(string.Format("<<replace file path>>{0}", tempPath));
@@ -619,17 +626,17 @@ namespace FreeHttp.FreeHttpControl
                     //add mode
                     if (EditListViewItem == null)
                     {
-                        tempDs = MessageBox.Show(string.Format("find same uri filter with [Rule:{0}], do you want update the rule \r\n    [Yes]       update the rule \r\n    [No]       new a same uri filter rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        tempDs = MessageBox.Show(string.Format("find same url filter with [Rule:{0}], do you want create the same uri rule \r\n    [Yes]       new a same url filter rule \r\n    [No]       update the rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                         if (tempDs == DialogResult.Yes)
+                        {
+                            continue; 
+                        }
+                        else if (tempDs == DialogResult.No)
                         {
                             nowRuleItem = tempItem;
                             SyncEnableSateToIFiddlerHttpTamper(nowRuleItem, fiddlerHttpTamper);
                             UpdataRuleToListView(nowRuleItem, fiddlerHttpTamper, true);
                             break;
-                        }
-                        else if (tempDs == DialogResult.No)
-                        {
-                            continue;
                         }
                         else
                         {
@@ -639,14 +646,14 @@ namespace FreeHttp.FreeHttpControl
                     //edit mode
                     else
                     {
-                        tempDs = MessageBox.Show(string.Format("find same uri filter with [Rule:{0}], do you want remove the rule \r\n    [Yes]       remove the rule \r\n    [No]       skip the same uri filter rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        tempDs = MessageBox.Show(string.Format("find same uri filter with [Rule:{0}], do you want save the rule \r\n    [Yes]       skip the same uri filter rule \r\n    [No]       remove the rule \r\n    [Cancel]  give up save", tempItem.SubItems[0].Text), "find same rule ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                         if (tempDs == DialogResult.Yes)
                         {
-                            tamperRuleListView.Items.Remove(tempItem);
                             continue;
                         }
                         else if (tempDs == DialogResult.No)
                         {
+                            tamperRuleListView.Items.Remove(tempItem);
                             continue;
                         }
                         else
@@ -920,16 +927,16 @@ namespace FreeHttp.FreeHttpControl
             if (sender == pb_addRequestRule)
             {
                 ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
-                tabControl_Modific.SelectedIndex = 1;
-                MarkTipControl(tabPage_requestReplace);
-                MarkControl(pb_getSession, Color.LightYellow, 1);
+                tabControl_Modific.SelectedIndex = 0;
+                MarkTipControl(tabPage_requestModific);
+                //MarkControl(pb_getSession, Color.MediumSpringGreen, 1);
             }
             else if (sender == pb_addResponseRule)
             {
                 ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
                 tabControl_Modific.SelectedIndex = 2;
                 MarkTipControl(tabPage_responseModific);
-                MarkControl(pb_getSession, Color.LightYellow, 1);
+                //MarkControl(pb_getSession, Color.MediumSpringGreen, 1);
             }
             else
             {
@@ -1148,6 +1155,7 @@ namespace FreeHttp.FreeHttpControl
 
 
         #endregion
+
 
         #region ResponseModific
 

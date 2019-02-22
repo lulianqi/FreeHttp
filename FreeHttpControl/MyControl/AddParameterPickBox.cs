@@ -87,7 +87,7 @@ namespace FreeHttp.FreeHttpControl.MyControl
             //    // Set the ErrorProvider error with the text to display. 
             //    this.errorProvider1.SetError(textBox1, errorMsg);
             //}
-            this.errorProvider_addParameter.Clear();
+            //this.errorProvider_addParameter.Clear();
             try
             {
                this.Tag = GetParameterPickInfo();
@@ -139,6 +139,7 @@ namespace FreeHttp.FreeHttpControl.MyControl
                 throw new Exception(errorMes);
             };
 
+            this.errorProvider_addParameter.Clear();
             ParameterPick returnParameterPick=new ParameterPick();
             ParameterPickType tempParameterPickType;
             if (string.IsNullOrEmpty(tb_ParameterName.Text))

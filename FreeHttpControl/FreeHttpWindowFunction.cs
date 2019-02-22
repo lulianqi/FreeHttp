@@ -184,7 +184,7 @@ namespace FreeHttp.FreeHttpControl
 
         public static void MarkTipControl(Control yourControl)
         {
-            MarkControl(yourControl, Color.Azure, 2);
+            MarkControl(yourControl, Color.Aquamarine, 2);
         }
 
         public static void MarkWarnControl(Control yourControl)
@@ -386,9 +386,10 @@ namespace FreeHttp.FreeHttpControl
             else
             {
                 requsetReplace.HttpRawRequest = new ParameterHttpRequest();
-                requsetReplace.HttpRawRequest.RequestMethod = cb_editRequestMethod.Text;
-                requsetReplace.HttpRawRequest.RequestUri = tb_requestReplace_uri.Text;
-                requsetReplace.HttpRawRequest.RequestVersions = cb_editRequestEdition.Text;
+                //requsetReplace.HttpRawRequest.RequestMethod = cb_editRequestMethod.Text;
+                //requsetReplace.HttpRawRequest.RequestUri = tb_requestReplace_uri.Text;
+                //requsetReplace.HttpRawRequest.RequestVersions = cb_editRequestEdition.Text;
+                //Set RequestLine will updata RequestMethod/RequestUri/RequestVersions
                 requsetReplace.HttpRawRequest.RequestLine = string.Format("{0} {1} {2}", cb_editRequestMethod.Text, tb_requestReplace_uri.Text, cb_editRequestEdition.Text);
                 StringBuilder requestSb = new StringBuilder(requsetReplace.HttpRawRequest.RequestLine);
                 requestSb.Append("\r\n");
@@ -415,9 +416,9 @@ namespace FreeHttp.FreeHttpControl
 
                 string tempRequstBody = rtb_requsetReplace_body.Text;
                 requestSb.Append(tempRequstBody); //HttpEntity not need end with new line
-                if (tempRequstBody.StartsWith("\n<<replace file path>>"))
+                if (tempRequstBody.StartsWith("<<replace file path>>"))
                 {
-                    string tempPath = tempRequstBody.Remove(0, 22);
+                    string tempPath = tempRequstBody.Remove(0, 21);
                     if (File.Exists(tempPath))
                     {
                         using (FileStream fileStream = new FileStream(tempPath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -579,8 +580,34 @@ namespace FreeHttp.FreeHttpControl
                     //        rtb_requsetReplace_body.AppendText(Encoding.UTF8.GetString(tempRequest.RequestEntity));
                     //    }
                     //}
-                    rtb_requsetReplace_body.AppendText(Encoding.UTF8.GetString(fiddlerRequsetChange.HttpRawRequest.RequestEntity));
 
+                    //rtb_requsetReplace_body.AppendText(Encoding.UTF8.GetString(fiddlerRequsetChange.HttpRawRequest.RequestEntity));//文件实体无法还原原始值
+                    string tempStr = null;
+                    try
+                    {
+                        tempStr = tempEncoding.GetString(fiddlerRequsetChange.HttpRawRequest.RequestEntity);
+                    }
+                    catch(ArgumentException )
+                    {
+                        String tempOriginSting = fiddlerRequsetChange.HttpRawRequest.OriginSting;
+                        if (!string.IsNullOrEmpty(tempOriginSting))
+                        {
+                            int startIndex = tempOriginSting.IndexOf("\r\n\r\n");
+                            if (startIndex > 0) //can not is 0 (must have request line)
+                            {
+                                tempStr = tempOriginSting.Remove(0, startIndex+4);
+                            }
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        PutError(string.Format("analysis request replace rule error {0}", ex.Message));
+                    }
+                    finally
+                    {
+                        tempStr = tempStr ?? "analysis request replace rule error in request body , pleace reedit";
+                    }
+                    rtb_requsetReplace_body.AppendText(tempStr);
                 }
                 if (fiddlerRequsetChange.HttpRawRequest.OriginSting != null)
                 {

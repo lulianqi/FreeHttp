@@ -100,7 +100,8 @@ namespace FreeHttp
         public void OnLoad()
         {
             AddFiddlerObjectLog("OnLoad");
-            string workPath = string.Format("{0}\\FreeHttp", System.Windows.Forms.Application.StartupPath);
+            //string workPath = string.Format("{0}\\FreeHttp", System.Windows.Forms.Application.StartupPath);
+            string workPath = string.Format("{0}\\FreeHttp", Directory.GetCurrentDirectory());
             if (!isOnLoad)
             {
                 tabPage = new TabPage();
