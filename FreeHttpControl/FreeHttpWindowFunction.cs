@@ -581,7 +581,9 @@ namespace FreeHttp.FreeHttpControl
                     //    }
                     //}
 
+
                     //rtb_requsetReplace_body.AppendText(Encoding.UTF8.GetString(fiddlerRequsetChange.HttpRawRequest.RequestEntity));//文件实体无法还原原始值
+                    Encoding tempEncoding = Encoding.GetEncoding("utf-8", new EncoderExceptionFallback(), new DecoderExceptionFallback());
                     string tempStr = null;
                     try
                     {
