@@ -427,7 +427,7 @@ namespace FreeHttp.FreeHttpControl
             this.pb_getSession.BackColor = System.Drawing.Color.Transparent;
             this.pb_getSession.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pb_getSession.Image = ((System.Drawing.Image)(resources.GetObject("pb_getSession.Image")));
-            this.pb_getSession.Location = new System.Drawing.Point(5, 17);
+            this.pb_getSession.Location = new System.Drawing.Point(5, 16);
             this.pb_getSession.Name = "pb_getSession";
             this.pb_getSession.Size = new System.Drawing.Size(24, 24);
             this.pb_getSession.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -448,7 +448,7 @@ namespace FreeHttp.FreeHttpControl
             "Is",
             "Regex",
             "AllPass"});
-            this.cb_macthMode.Location = new System.Drawing.Point(31, 19);
+            this.cb_macthMode.Location = new System.Drawing.Point(31, 18);
             this.cb_macthMode.Name = "cb_macthMode";
             this.cb_macthMode.Size = new System.Drawing.Size(89, 20);
             this.cb_macthMode.TabIndex = 2;
