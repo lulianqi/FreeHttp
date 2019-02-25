@@ -8,13 +8,16 @@
 
 ### 基本结构
 ![](https://github.com/lulianqi/MyFile/blob/master/2019-02-25_195525.png)
->>1：AutoTest命名空间主要提供参数化数据的拾取及管理
->>2：FiddlerHelper命名空间 提供与Fiddler篡改直接相关的功能
->>3：FreeHttpControl命名空间提供UI界面及窗体操作逻辑
->>4：HttpHelper命名空间提供对HTTP协议报文处理的功能
->>5：MyHelper 命名空间提供公共的辅助工具
->>6：WebService命名空间提供使网络服务的功能
->>7：FiddlerFreeHttp继承至IAutoTamper，他是与FIddler数据交换的入口  ， FiddlerSessionTamper是FiddlerFreeHttp的工具类
+>>1：AutoTest命名空间主要提供参数化数据的拾取及管理<br>
+>>2：FiddlerHelper命名空间 提供与Fiddler篡改直接相关的功能<br>
+>>3：FreeHttpControl命名空间提供UI界面及窗体操作逻辑<br>
+>>4：HttpHelper命名空间提供对HTTP协议报文处理的功能<br>
+>>5：MyHelper 命名空间提供公共的辅助工具<br>
+>>6：WebService命名空间提供使网络服务的功能<br>
+>>7：FiddlerFreeHttp继承至IAutoTamper，他是与FIddler数据交换的入口  ， FiddlerSessionTamper是FiddlerFreeHttp的工具类<br>
 
-您可以根据自己的需要直接修改FreeHttp各部分的代码以改动或扩展FreeHttp的功能，使他更符合您的个性化需求。
-如果您发现了任何问题或是意见请请在https://github.com/lulianqi/FreeHttp/issues 直接提出 （您也可能通过邮箱联系mycllq@hotmail.com提出您的问题或建议）
+
+### FreeHttp使用说明
+* 操作说明见https://www.cnblogs.com/lulianqi/p/10428551.html <br>
+* 您可以根据自己的需要直接修改FreeHttp各部分的代码以改动或扩展FreeHttp的功能，使他更符合您的个性化需求。<br>
+* 如果您发现了任何问题或是意见请请在https://github.com/lulianqi/FreeHttp/issues 直接提出 （您也可能通过邮箱联系mycllq@hotmail.com提出您的问题或建议）<br>
