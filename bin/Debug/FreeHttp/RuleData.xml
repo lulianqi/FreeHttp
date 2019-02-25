@@ -522,6 +522,7 @@ Content-Length: 0
           <MatchUri>https://www.baidu.com/img/bd_logo1.png</MatchUri>
         </UriMatch>
       </HttpFilter>
+      <ParameterPickList />
       <HttpRawResponse>
         <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
         <ResponseVersion>HTTP/1.1</ResponseVersion>
@@ -597,6 +598,8 @@ Server: Apache
       </HttpRawResponse>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
+      <HeadAddList />
+      <HeadDelList />
     </FiddlerResponseChange>
     <FiddlerResponseChange>
       <IsEnable>true</IsEnable>
