@@ -1,9 +1,7 @@
-﻿```
-这是一个一级标题
-============================
-
-这是一个二级标题
---------------------------------------------------
-
-### 这是一个三级标题
+```seq
+Title: Here is a title
+A->B: Normal line
+B-->C: Dashed line
+C->>D: Open arrow
+D-->>A: Dashed open arrow
 ```
