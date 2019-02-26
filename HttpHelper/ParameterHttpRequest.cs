@@ -70,6 +70,7 @@ namespace FreeHttp.HttpHelper
                 nameValueCollection = new NameValueCollection();
                 string newOriginSting = ParameterizationContent.GetTargetContentData(actuatorStaticDataCollection, nameValueCollection, out errorMes);
                 HttpRequest tempHttpRequest = HttpRequest.GetHttpRequest(newOriginSting);  // it may throw exception
+                tempHttpRequest.SetAutoContentLength(); // if hasParameter SetAutoContentLength
                 return tempHttpRequest;
             }
             return this;

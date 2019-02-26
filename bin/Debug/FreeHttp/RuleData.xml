@@ -312,7 +312,7 @@ AddOrigin: from lijie PC
       </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>false</IsEnable>
+      <IsEnable>true</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -323,6 +323,50 @@ AddOrigin: from lijie PC
       <UriModific>
         <ModificMode>EntireReplace</ModificMode>
         <ReplaceContent>https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/220px-Google_2015_logo.svg.png</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>true</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Contain</MatchMode>
+          <MatchUri>https://note.youdao.com/yws/public/resource/</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>true</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Contain</MatchMode>
+          <MatchUri>www.test.com/api?name=</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList>
+        <ParameterPick>
+          <ParameterName>myName</ParameterName>
+          <PickType>Str</PickType>
+          <PickRange>Line</PickRange>
+          <PickTypeAdditional>str-len</PickTypeAdditional>
+          <PickTypeExpression>name=-0</PickTypeExpression>
+        </ParameterPick>
+      </ParameterPickList>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
       </UriModific>
       <HeadAddList />
       <HeadDelList />
@@ -619,6 +663,56 @@ Server: Apache
         <TargetKey>src="//www.baidu.com/img/bd_logo1.png</TargetKey>
         <ReplaceContent>src="//upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/220px-Google_2015_logo.svg.png</ReplaceContent>
       </BodyModific>
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>true</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Contain</MatchMode>
+          <MatchUri>www.test.com/api?name=</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <HttpRawResponse>
+        <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
+        <ResponseVersion>HTTP/1.1</ResponseVersion>
+        <ResponseCode>200</ResponseCode>
+        <ResponseStatusDescription>OK</ResponseStatusDescription>
+        <ResponseHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>FiddlerTemplate</Key>
+            <Value>True</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Date</Key>
+            <Value>Fri, 25 Jan 2013 16:49:29 GMT</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Length</Key>
+            <Value>51</Value>
+          </MyKeyValuePairOfStringString>
+        </ResponseHeads>
+        <ResponseEntity>aGVsbGUgKiNteU5hbWUoPSkqIw0KKiNyYW4yKCspKiM=</ResponseEntity>
+        <OriginSting>HTTP/1.1 200 OK
+FiddlerTemplate: True
+Date: Fri, 25 Jan 2013 16:49:29 GMT
+Content-Length: 51
+
+helle *#myName(=)*#
+*#ran2(+)*#</OriginSting>
+        <ParameterizationContent>
+          <contentData>HTTP/1.1 200 OK
+FiddlerTemplate: True
+Date: Fri, 25 Jan 2013 16:49:29 GMT
+Content-Length: 51
+
+helle *#myName(=)*#
+*#ran2(+)*#</contentData>
+          <hasParameter>true</hasParameter>
+          <encodetype>encode_default</encodetype>
+        </ParameterizationContent>
+      </HttpRawResponse>
+      <IsIsDirectRespons>true</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
     </FiddlerResponseChange>
   </ResponseRuleList>
 </FiddlerModificHttpRuleCollection>

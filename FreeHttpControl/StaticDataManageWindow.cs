@@ -335,7 +335,10 @@ namespace FreeHttp.FreeHttpControl
                         IRunTimeStaticData tempStaticData = tempItem.Tag as IRunTimeStaticData;
                         if (tempStaticData != null)
                         {
-                            tempItem.SubItems[2].Text = tempStaticData.DataCurrent();
+                            if(tempItem.SubItems[2].Text != tempStaticData.DataCurrent())
+                            {
+                                tempItem.SubItems[2].Text = tempStaticData.DataCurrent();
+                            }
                         }
                         else
                         {

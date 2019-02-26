@@ -37,6 +37,7 @@ namespace FreeHttp
     {
         private bool isOnLoad = false;
         private bool isCheckedUpdata = false;
+        private bool isSkipUiHide = false;
         private TabPage tabPage; 
         private FreeHttpWindow myFreeHttpWindow;
         private UpgradeService upgradeService;
@@ -256,6 +257,10 @@ namespace FreeHttp
             if (myFreeHttpWindow.IsRequestRuleEnable)
             {
                 //IsRequestRuleEnable is more efficient then string comparison (so if not IsRequestRuleEnable the string comparison will not execute)
+                if (isSkipUiHide && oSession["ui-hide"] == "true")
+                {
+                    return;
+                }
                 if (myFreeHttpWindow.ModificSettingInfo.IsSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
                 {
                     return;
@@ -315,6 +320,10 @@ namespace FreeHttp
             }
             if (myFreeHttpWindow.IsResponseRuleEnable)
             {
+                if (isSkipUiHide && oSession["ui-hide"] == "true")
+                {
+                    return;
+                }
                 if (myFreeHttpWindow.ModificSettingInfo.IsSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
                 {
                     return;

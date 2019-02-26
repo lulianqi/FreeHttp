@@ -12,7 +12,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
     /// <summary>
     /// ActuatorStaticData 集合
     /// </summary>
-    [DataContract]
+    [DataContract]  //[Serializable] 默认序列化公开字段及属性，且要求其有公开的Set,用[DataContract]指没有这个限制，使用 [DataMember(Name = "ID")] / [DataMember]  标记成员
     [KnownType(typeof(MyStaticDataValue)), KnownType(typeof(MyStaticDataIndex)), KnownType(typeof(MyStaticDataList)), KnownType(typeof(MyStaticDataLong)), KnownType(typeof(MyStaticDataNowTime)), KnownType(typeof(MyStaticDataRandomStr)), KnownType(typeof(MyStaticDataSourceCsv)), KnownType(typeof(MyStaticDataStrIndex))]
     public class ActuatorStaticDataCollection : IDisposable, ICloneable
     {

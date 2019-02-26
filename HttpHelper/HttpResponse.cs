@@ -104,6 +104,7 @@ namespace FreeHttp.HttpHelper
             }
             else
             {
+                /*
                 List<MyKeyValuePair<string, string>> mvKvpList = new List<MyKeyValuePair<string, string>>();
                 foreach (MyKeyValuePair<string, string> kvp in ResponseHeads)
                 {
@@ -119,6 +120,19 @@ namespace FreeHttp.HttpHelper
                         ResponseHeads.Remove(kvp);
                     }
                 }
+                 * **/
+                int responseHeadsCount = ResponseHeads.Count;
+                for (int i = responseHeadsCount - 1; i >= 0; i--)
+                {
+                    if(ResponseHeads[i].Key.ToLower() == "content-length")
+                    {
+                        ResponseHeads.RemoveAt(i);
+                    }
+                }
+            }
+            if (ResponseEntity == null || ResponseEntity.Length == 0)
+            {
+                return;
             }
             ResponseHeads.Add(new MyKeyValuePair<string, string>("Content-Length", ResponseEntity == null ? "0" : ResponseEntity.Length.ToString()));
         }
