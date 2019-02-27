@@ -42,14 +42,19 @@ namespace FreeHttp.FreeHttpControl
             EditResponseRule
         }
 
+        public enum GetSessionAction
+        {
+            ShowShowResponse,
+            SetCookies,
+            DeleteCookies
+        }
+
         public class GetSessionRawDataEventArgs : EventArgs
         {
-            public bool IsGetCookies { get; set; }
-            public bool IsShowResponse { get; set; }
-            public GetSessionRawDataEventArgs(bool isShowResponse, bool isGetCookies)
+            public GetSessionAction SessionAction { get; set; }
+            public GetSessionRawDataEventArgs(GetSessionAction sessionAction)
             {
-                IsShowResponse = isShowResponse;
-                IsGetCookies = isGetCookies;
+                SessionAction = sessionAction;
             }
         }
 
@@ -782,8 +787,7 @@ namespace FreeHttp.FreeHttpControl
                 return;
             }
             tabControl_Modific.SelectedIndex = 2;
-            EditCookieForm f = new EditCookieForm(responseAddHeads.ListDataView, null, null, "Max-Age=1;Domain=www.yourhost.com;Path=/");
-            f.ShowDialog();
+            ShowDelCookieWindow();
         }
 
         private void setClientCookieToolStripMenuItem_Click(object sender, EventArgs e)
@@ -808,15 +812,29 @@ namespace FreeHttp.FreeHttpControl
             tabControl_Modific.SelectedIndex = 2;
             if (OnGetSessionRawData != null)
             {
-                this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(false, true));
+                this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(GetSessionAction.SetCookies));
             }
              
+        }
+
+        private void removeSessionCookiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (NowEditMode == RuleEditMode.EditRequsetRule)
+            {
+                MessageBox.Show("your are in Requset Edit Mode ", "Stop");
+                return;
+            }
+            tabControl_Modific.SelectedIndex = 2;
+            if (OnGetSessionRawData != null)
+            {
+                this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(GetSessionAction.DeleteCookies));
+            }
         }
         private void showSelectedSessionStreamToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(OnGetSessionRawData!=null)
             {
-                this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(true,false));
+                this.OnGetSessionRawData(this, new GetSessionRawDataEventArgs(GetSessionAction.ShowShowResponse));
             }
         }
 
@@ -1155,7 +1173,6 @@ namespace FreeHttp.FreeHttpControl
 
 
         #endregion
-
 
         #region ResponseModific
 

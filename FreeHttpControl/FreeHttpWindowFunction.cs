@@ -752,16 +752,14 @@ namespace FreeHttp.FreeHttpControl
                 rawResponseEdit.SetText("read ResponseStream fail");
             }
             tempReponseStream.Close();
-
-
         }
 
-        public void SetClientCookies(string yourCookieString)
+        private void SetClientCookies(string yourCookieString, Func<KeyValuePair<string, string>, bool> operateCookies)
         {
             if (string.IsNullOrEmpty(yourCookieString))
             {
                 MessageBox.Show("can not find any cookies in you selected session \r\nselect session again", "select session again");
-                if(Fiddler.FiddlerApplication.UI.lvSessions.SelectedItems!=null&&Fiddler.FiddlerApplication.UI.lvSessions.SelectedItems.Count>0)
+                if (Fiddler.FiddlerApplication.UI.lvSessions.SelectedItems != null && Fiddler.FiddlerApplication.UI.lvSessions.SelectedItems.Count > 0)
                 {
                     MarkRuleItem(Fiddler.FiddlerApplication.UI.lvSessions.SelectedItems[0], Color.Plum, 2);
                 }
@@ -769,8 +767,8 @@ namespace FreeHttp.FreeHttpControl
                 {
                     MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
                 }
+                return;
             }
-           
             string[] tempCS = yourCookieString.Split(';');
             if (tempCS.Length > 0)
             {
@@ -793,13 +791,48 @@ namespace FreeHttp.FreeHttpControl
 
                 foreach(var formatedCooke in tempCL)
                 {
-                    responseAddHeads.ListDataView.Items.Add(string.Format("Set-Cookie: {0}={1};{2}", formatedCooke.Key, formatedCooke.Value,"Path=/" ));
+                    //responseAddHeads.ListDataView.Items.Add(string.Format("Set-Cookie: {0}={1};{2}", formatedCooke.Key, formatedCooke.Value,"Path=/" ));
+                    if(!operateCookies(formatedCooke))
+                    {
+                        PutError(String.Format("SetClientCookies fail with {0}:{1}", formatedCooke.Key, formatedCooke.Value));
+                    }
                 }
             }
             else
             {
                 MessageBox.Show("the cookies in selected session is illegal\r\nplease check again");
             }
+        }
+
+        public void SetClientAddCookies(string yourCookieString)
+        {
+            SetClientCookies(yourCookieString, new Func<KeyValuePair<string, string>, bool>((kvCookie) =>
+            {
+                responseAddHeads.ListDataView.Items.Add(string.Format("Set-Cookie: {0}={1};{2}", kvCookie.Key, kvCookie.Value, "Path=/"));
+                return true;
+            }));
+        }
+
+        public void SetClientDelCookies(string yourCookieString)
+        {
+            string tempAttibute="Max-Age=1;Path=/";
+            if (!string.IsNullOrEmpty(yourCookieString))
+            {
+                SetVaule f = new SetVaule("Set Attibute", "you can add attibute for the set-cookie head ,like Domain=www.yourhost.com", tempAttibute, new Func<string, bool>((string checkValue) => { return checkValue.Contains("Max-Age"); }));
+                f.OnSetValue += new EventHandler<SetVaule.SetVauleEventArgs>((obj, tag) => { tempAttibute = tag.SetValue; });
+                f.ShowDialog();
+            }
+            SetClientCookies(yourCookieString, new Func<KeyValuePair<string, string>, bool>((kvCookie) =>
+            {
+                responseAddHeads.ListDataView.Items.Add(string.Format("Set-Cookie: {0}=delete by FreeHttp; {1}", kvCookie.Key, tempAttibute));
+                return true;
+            }));
+        }
+
+        public void ShowDelCookieWindow()
+        {
+            EditCookieForm f = new EditCookieForm(responseAddHeads.ListDataView, null, null, "Max-Age=1;Domain=www.yourhost.com;Path=/");
+            f.ShowDialog();
         }
 
         public void ShowOwnerWindow(string name,string info)

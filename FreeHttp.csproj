@@ -310,6 +310,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\MyResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -334,9 +335,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\确定 %281%29.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\naozhong_off.png" />

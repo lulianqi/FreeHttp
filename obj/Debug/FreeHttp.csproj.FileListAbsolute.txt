@@ -66,7 +66,6 @@ D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.EditShee
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.MyControl.AddParameterPickBox.resources
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.ShowSheetForm.resources
 D:\my\code\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
-C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Xceed.Zip.v5.4.dll
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Xceed.FileSystem.v5.4.dll
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Analytics.dll
@@ -77,3 +76,4 @@ D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.dll
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Fiddler.pdb
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\Analytics.pdb
 D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.pdb
+C:\Users\administer\Documents\Visual Studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache

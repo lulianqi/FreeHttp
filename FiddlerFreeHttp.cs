@@ -199,24 +199,28 @@ namespace FreeHttp
         void myFreeHttpWindow_OnGetSessionRawData(object sender, FreeHttpWindow.GetSessionRawDataEventArgs e)
         {
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
-            if (tempSession != null)
-            {
-                if (e.IsGetCookies)
-                {
-                    myFreeHttpWindow.SetClientCookies(tempSession.RequestHeaders["Cookie"]);
-                }
-                else
-                {
-                    string tempStr = FiddlerSessionTamper.GetSessionRawData(tempSession, e.IsShowResponse);
-                    ShowMes(tempStr == null ? "error session" : string.Format("Get Raw Data\r\n{0}", tempStr));
-                    myFreeHttpWindow.ShowOwnerWindow(tempSession.fullUrl, tempStr);
-                }
-            }
-            else
+            if (tempSession == null)
             {
                 Fiddler.FiddlerObject.UI.ShowAlert(new frmAlert("STOP", "please select a session", "OK"));
-                //((FreeHttpWindow)sender).MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
                 FreeHttpWindow.MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
+                return;
+            }
+            switch(e.SessionAction)
+            {
+                case FreeHttpWindow.GetSessionAction.ShowShowResponse:
+                    string tempStr = FiddlerSessionTamper.GetSessionRawData(tempSession, true);
+                    ShowMes(tempStr == null ? "error session" : string.Format("Get Raw Data\r\n{0}", tempStr));
+                    myFreeHttpWindow.ShowOwnerWindow(tempSession.fullUrl, tempStr);
+                    break;
+                case FreeHttpWindow.GetSessionAction.SetCookies:
+                    myFreeHttpWindow.SetClientAddCookies(tempSession.RequestHeaders["Cookie"]);
+                    break;
+                case FreeHttpWindow.GetSessionAction.DeleteCookies:
+                    myFreeHttpWindow.SetClientDelCookies(tempSession.RequestHeaders["Cookie"]);
+                    break;
+                default:
+                    Fiddler.FiddlerObject.UI.ShowAlert(new frmAlert("STOP", "Not supported this SessionAction", "OK"));
+                    break;
             }
         }
 
@@ -331,6 +335,7 @@ namespace FreeHttp
                 List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView,false);
                 if (matchItems != null && matchItems.Count>0)
                 {
+                    oSession.bBufferResponse = true;
                     foreach (var matchItem in matchItems)
                     {
                         FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);

@@ -781,9 +781,9 @@ namespace FreeHttp.WebService
                 // 边界符
                 var boundary = "---------------" + DateTime.Now.Ticks.ToString("x");
                 // 边界符
-                var beginBoundary = Encoding.ASCII.GetBytes("--" + boundary + "\r\n");
+                var beginBoundary = Encoding.ASCII.GetBytes(string.Format("--{0}\r\n", boundary));
                 // 最后的结束符
-                var endBoundary = Encoding.ASCII.GetBytes("--" + boundary + "--\r\n");
+                var endBoundary = Encoding.ASCII.GetBytes(string.Format("--{0}--\r\n", boundary));
 
                 // 设置属性
                 webRequest.Method = "POST";
@@ -803,20 +803,22 @@ namespace FreeHttp.WebService
                     {
                         //Console.WriteLine(System.DateTime.Now.Ticks);
                         //const string filePartHeader = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\n" + "Content-Type: {2}\r\n\r\n";
-                        string nowPartHeader = "Content-Disposition: form-data";
+                        //string nowPartHeader = "Content-Disposition: form-data";
+                        StringBuilder nowPartHeader = new StringBuilder("Content-Disposition: form-data");
                         if (nowMultipart.Name != null)
                         {
-                            nowPartHeader += string.Format("; name=\"{0}\"", nowMultipart.Name);
+                            //nowPartHeader.Append(string.Format("; name=\"{0}\"", nowMultipart.Name));
+                            nowPartHeader.AppendFormat("; name=\"{0}\"", nowMultipart.Name);
                         }
                         if (nowMultipart.FileName != null)
                         {
-                            nowPartHeader += string.Format("; filename=\"{0}\"", nowMultipart.FileName);
+                            nowPartHeader.AppendFormat("; filename=\"{0}\"", nowMultipart.FileName);
                         }
-                        nowPartHeader += "\r\n";
-                        nowPartHeader += string.Format("Content-Type: {0}", nowMultipart.ContentType == null ? defaultMultipartContentType : nowMultipart.ContentType);
-                        nowPartHeader += "\r\n\r\n";
+                        nowPartHeader.Append("\r\n");
+                        nowPartHeader.AppendFormat("Content-Type: {0}", nowMultipart.ContentType == null ? defaultMultipartContentType : nowMultipart.ContentType);
+                        nowPartHeader.Append("\r\n\r\n");
                         //Console.WriteLine(System.DateTime.Now.Ticks);
-                        byte[] nowHeaderbytes = httpBodyEncoding.GetBytes(nowPartHeader);
+                        byte[] nowHeaderbytes = httpBodyEncoding.GetBytes(nowPartHeader.ToString());
                         memStream.Write(Encoding.ASCII.GetBytes("\r\n"), 0, Encoding.ASCII.GetBytes("\r\n").Length);
                         memStream.Write(beginBoundary, 0, beginBoundary.Length);
                         memStream.Write(nowHeaderbytes, 0, nowHeaderbytes.Length);
@@ -984,6 +986,7 @@ namespace FreeHttp.WebService
                 }
                 return myHttpResponse;
             }
+
 
             /// <summary>
             /// Send Http Request (post multipart data)

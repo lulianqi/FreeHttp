@@ -17,6 +17,8 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
         string myNowStr;
          [DataMember]
         string myDataFormatInfo;
+         [DataMember]
+        int timestampFormatdividend;
 
          [DataMember]
         public string OriginalConnectString { get; private set; }
@@ -31,7 +33,18 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
         public MyStaticDataNowTime(string yourRormatInfo)
         {
             myNowStr = "";
-            myDataFormatInfo = yourRormatInfo;
+            if (int.TryParse(yourRormatInfo, out timestampFormatdividend))
+            {
+                if(timestampFormatdividend<=0)
+                {
+                    timestampFormatdividend = 0;
+                    myDataFormatInfo = "";
+                }
+            }
+            else
+            {
+                myDataFormatInfo = yourRormatInfo;
+            }
         }
 
         public MyStaticDataNowTime(string yourRormatInfo, string originalConnectString)
@@ -52,7 +65,14 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
 
         public string DataMoveNext()
         {
-            myNowStr = System.DateTime.Now.ToString(myDataFormatInfo);
+            if (timestampFormatdividend == 0)
+            {
+                myNowStr = System.DateTime.Now.ToString(myDataFormatInfo);
+            }
+            else
+            {
+                myNowStr = ((DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / timestampFormatdividend).ToString();
+            }
             return myNowStr;
         }
 
