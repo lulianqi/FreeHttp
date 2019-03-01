@@ -191,7 +191,7 @@ AddOrigin: from lijie PC
       <HeadDelList />
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -288,7 +288,7 @@ AddOrigin: from lijie PC
       </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -312,7 +312,7 @@ AddOrigin: from lijie PC
       </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -331,25 +331,7 @@ AddOrigin: from lijie PC
       </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>true</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Contain</MatchMode>
-          <MatchUri>https://note.youdao.com/yws/public/resource/</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <ParameterPickList />
-      <UriModific>
-        <ModificMode>NoChange</ModificMode>
-      </UriModific>
-      <HeadAddList />
-      <HeadDelList />
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
-    </FiddlerRequsetChange>
-    <FiddlerRequsetChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Contain</MatchMode>
@@ -370,6 +352,30 @@ AddOrigin: from lijie PC
       </UriModific>
       <HeadAddList />
       <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>true</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>StartWith</MatchMode>
+          <MatchUri>https://api.weixin.qq.com/sns/oauth2/access_token?code=</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList>
+        <ParameterPick>
+          <ParameterName>openid</ParameterName>
+          <PickType>Str</PickType>
+          <PickRange>Line</PickRange>
+          <PickTypeAdditional>str-str</PickTypeAdditional>
+          <PickTypeExpression>?code=-&amp;</PickTypeExpression>
+        </ParameterPick>
+      </ParameterPickList>
+      <UriModific>
+        <ModificMode>NoChange</ModificMode>
+      </UriModific>
       <BodyModific>
         <ModificMode>NoChange</ModificMode>
       </BodyModific>
@@ -646,7 +652,7 @@ Server: Apache
       <HeadDelList />
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -665,7 +671,7 @@ Server: Apache
       </BodyModific>
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Contain</MatchMode>
@@ -718,139 +724,61 @@ helle *#myName(=)*#
       <HeadDelList />
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://www.baiwandian.cn/xinyunlian-ecom/home.jhtml</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <ParameterPickList />
-      <IsIsDirectRespons>false</IsIsDirectRespons>
-      <LesponseLatency>0</LesponseLatency>
-      <HeadAddList>
-        <string>Set-Cookie: historyProduct=2301857%2C2377167; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: token=1fa2b9af-6a8c-46da-8134-3d6b02950b74; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: LOCAL=dl; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: CHANGEPASSWORDAREA=1; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: XYLWXSESSIONID=4bbfe430775f4240b912e7797acca0f1.WXEcom; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: openId=obOcRt4e_JDhtM3nsLjnVEUfwB_U; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: UM_distinctid=167e84f8757699-043e6a423ff5bc-5d1f3b1c-1fa400-167e84f8759bcc; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: v=; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: XYLPCSESSIONID=3640dccb2a1946968ce4cb6830432bc3.tomcatEcom; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: CANRECEIVE=false; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: username=015151814545; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: feusername=%E6%9D%8E%E6%9D%B0%E9%87%8D%E5%BA%86%E6%B5%8B%E8%AF%95%E5%BA%97%E9%93%BA; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: fullArea=%E9%87%8D%E5%BA%86%E5%B8%82%E5%B8%82%E8%BE%96%E5%8C%BA%E4%B8%87%E5%B7%9E%E5%8C%BA; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: memberrank=1; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: mobile=15151814545; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: CHANGEPASSWORD=1; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: backLink=http%3A%2F%2Fhome.xinshangmeng.com%2Fhome%2Findex.htm; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: hotLine=4008019906; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: CNZZDATA1273025666=1769384378-1539666312-https%253A%252F%252Fwww.baiwandian.cn%252F%7C1551257169; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: isDealer=true; Max-Age=1;Path=/</string>
-      </HeadAddList>
-      <HeadDelList />
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
-    </FiddlerResponseChange>
-    <FiddlerResponseChange>
       <IsEnable>true</IsEnable>
       <HttpFilter>
         <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://home.jd.com/</MatchUri>
+          <MatchMode>StartWith</MatchMode>
+          <MatchUri>https://api.weixin.qq.com/sns/oauth2/access_token?code=</MatchUri>
         </UriMatch>
       </HttpFilter>
       <ParameterPickList />
-      <IsIsDirectRespons>false</IsIsDirectRespons>
-      <LesponseLatency>0</LesponseLatency>
-      <HeadAddList>
-        <string>Set-Cookie: __jdc=122270672; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: __jdu=710109415; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: sid=13c33224cb91b7288f0bef1684c03963; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: shshshfpa=54ecbfe3-a4ea-095b-8c67-690229bb4b30-1533124621; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: shshshfpb=144865d10d96d4432b46ac628869465b5814c92353bb5d1005b61a00f4; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: pinId=yon56SPvqaALmJu4WZwXtg; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: unpl=V2_ZzNtbUtQRBNyAEQDfE1VV2IBRg9LXkAXdFoUBi5MDFJjVEJfclRCFX0UR1dnGVUUZwUZXENcRxBFCEdkeBBVAWMDE1VGZxBFLV0CFSNGF1wjU00zQwBBQHcJFF0uSgwDYgcaDhFTQEJ2XBVQL0oMDDdRFAhyZ0AVRQhHZH0ZXQVmCxddRmdzEkU4dlB%2fGVsMbzMTbUNnAUEpDEVVfhFVSGEDE11DX0YVcThHZHg%3d; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: __jdv=122270672|baidu-pinzhuan|t_288551095_baidupinzhuan|cpc|0f3d30c8dba7459bb52f2eb5eba8ac7d_0_8667693f6e8c43ec88230cccddaf5fa3|1550480454434; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: PCSYCityID=1158; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: shshshfp=1fdf5ab92701cd4c920dccf3d60c538c; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: user-key=35509690-c65a-4234-8713-84f9c58c46d9; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: cn=0; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: pin=zyxsm2018; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: unick=zyxsm2018; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: _tp=O1x8tBsCKzKNhi8T9yn%2BEQ%3D%3D; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: _pst=zyxsm2018; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: __jda=122270672.710109415.1494295656.1550488666.1551257798.61; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: TrackID=1778BJ5BSLJAdki7PDd6SnwN7ljT3_oaTltFaxzM9JM2pOQqrJ295FX7olCrOGCwCwrpMDhc4pbvX087mI705bEpsYWupjn9oz8H1-i208LM; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: ceshi3.com=000; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: 3AB9D23F7A4B3C9B=QCMKSBU264KKFADQDQZWMIEEWYUGKWY3EQHAF7XQMVTLTWZU5MEDEML2TDADX5XRUCIGRRYY22JHH4YXHKK3MCBFZQ; Max-Age=1;Domain=jd.com;Path=/</string>
-        <string>Set-Cookie: thor=01ADE5AC69A006D8750FC58DEBE1DB8A21EF009B85DE64F4ECC4F13AE06FB763F3F76F202D35D2757234999D625E659A2C143AF6E94CBA1674AFE3C96C26CF501F72E6BF65E3B8F04EC01D96D29D15D1B078215EBD9DEF6B9E1750AA97CD2B96EF35E5CAD39D698F2029CC193590318B80DEA81349285259C2E3051B4D5815C4EE4B53C25C70C7A2B59AEFA4115B7277; Max-Age=1;Domain=jd.com;Path=/</string>
-      </HeadAddList>
+      <HttpRawResponse>
+        <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
+        <ResponseVersion>HTTP/1.1</ResponseVersion>
+        <ResponseCode>200</ResponseCode>
+        <ResponseStatusDescription>OK</ResponseStatusDescription>
+        <ResponseHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>keep-alive</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Type</Key>
+            <Value>text/plain</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Date</Key>
+            <Value>Thu, 28 Feb 2019 10:59:55 GMT</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Length</Key>
+            <Value>383</Value>
+          </MyKeyValuePairOfStringString>
+        </ResponseHeads>
+        <ResponseEntity>eyJhY2Nlc3NfdG9rZW4iOiJhY2Nlc3NfdG9rZW5fKiNvcGVuaWQoPSkqIyIsImV4cGlyZXNfaW4iOjcyMDAsInJlZnJlc2hfdG9rZW4iOiJyZWZyZXNoX3Rva2VuXyojb3BlbmlkKD0pKiMiLCJvcGVuaWQiOiIqI29wZW5pZCg9KSojIiwic2NvcGUiOiJzbnNhcGlfdXNlcmluZm8iLCJ1bmlvbmlkIjoidW5pb25pZF8qI29wZW5pZCg9KSojIn0=</ResponseEntity>
+        <OriginSting>HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: text/plain
+Date: Thu, 28 Feb 2019 10:59:55 GMT
+Content-Length: 383
+
+{"access_token":"access_token_*#openid(=)*#","expires_in":7200,"refresh_token":"refresh_token_*#openid(=)*#","openid":"*#openid(=)*#","scope":"snsapi_userinfo","unionid":"unionid_*#openid(=)*#"}</OriginSting>
+        <ParameterizationContent>
+          <contentData>HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: text/plain
+Date: Thu, 28 Feb 2019 10:59:55 GMT
+Content-Length: 383
+
+{"access_token":"access_token_*#openid(=)*#","expires_in":7200,"refresh_token":"refresh_token_*#openid(=)*#","openid":"*#openid(=)*#","scope":"snsapi_userinfo","unionid":"unionid_*#openid(=)*#"}</contentData>
+          <hasParameter>true</hasParameter>
+          <encodetype>encode_default</encodetype>
+        </ParameterizationContent>
+      </HttpRawResponse>
+      <IsIsDirectRespons>true</IsIsDirectRespons>
+      <LesponseLatency>50</LesponseLatency>
+      <HeadAddList />
       <HeadDelList />
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
-    </FiddlerResponseChange>
-    <FiddlerResponseChange>
-      <IsEnable>false</IsEnable>
-      <HttpFilter>
-        <UriMatch>
-          <MatchMode>Is</MatchMode>
-          <MatchUri>https://daojia.jd.com/html/main.html?channel=weixin_gzh_order&amp;h5hash=orderlist&amp;loginFlag=1</MatchUri>
-        </UriMatch>
-      </HttpFilter>
-      <IsIsDirectRespons>false</IsIsDirectRespons>
-      <LesponseLatency>0</LesponseLatency>
-      <HeadAddList>
-        <string>Set-Cookie: PDJ_H5_JDPIN=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: PDJ_H5_MOBILE=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: PDJ_H5_PIN=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: o2o_m_h5_sid=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: openid_pdj_jd=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: unionid_pdj_jd_new=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: deviceid_pdj_jd=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: shshshfp=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: shshshfpb=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: PPRD_P=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: __jda=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: __jdc=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: __jdv=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: __wga=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: cd_eid=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: cid=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: mba_muid=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: retina=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: unpl=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: visitkey=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: wq_addr=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: wxa_level=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: wxapp_type=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: shshshfpa=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: sc_width=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: TrackID=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: buy_uin=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: jdpin=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: nickname_base64=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: open_id=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: openid2=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: picture_url=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: pin=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: pinId=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: pinsign=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: rurl=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: sex=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: webp=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: wq_skey=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: wq_uin=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: wq_unionid=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: wx_nickname=delete by FreeHttp; Max-Age=1;Path=/</string>
-      </HeadAddList>
-      <BodyModific>
-        <ModificMode>NoChange</ModificMode>
-      </BodyModific>
     </FiddlerResponseChange>
   </ResponseRuleList>
 </FiddlerModificHttpRuleCollection>

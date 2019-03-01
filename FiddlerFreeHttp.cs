@@ -348,7 +348,7 @@ namespace FreeHttp
                         }
                         if (nowFiddlerResponseChange.LesponseLatency > 0)
                         {
-                            ShowMes(string.Format("[reponse rule {0}] is modified , now lesponse {1} ms", matchItem.SubItems[0].Text, nowFiddlerResponseChange.LesponseLatency));
+                            ShowMes(string.Format("[reponse rule {0}] is modified , now delay {1} ms", matchItem.SubItems[0].Text, nowFiddlerResponseChange.LesponseLatency));
                             System.Threading.Thread.Sleep(nowFiddlerResponseChange.LesponseLatency);
                         }
                         if (myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
