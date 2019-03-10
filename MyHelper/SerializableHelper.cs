@@ -68,13 +68,15 @@ namespace FreeHttp.MyHelper
         }
 
 
+
         /// <summary>
-        //[Serializable] 标记类 （公共成员默认被序列化）
-        //[NonSerialized] 标记不需要序列化的成员 (只对终端field有效 ， 属性可以使用[System.Xml.Serialization.XmlIgnore])
-        // Serializable 需要空参数的构造函数 
+        ///[Serializable] 标记类 （公共成员默认被序列化）
+        ///[NonSerialized] 标记不需要序列化的成员 (只对终端field有效 ， 属性可以使用[System.Xml.Serialization.XmlIgnore])
+        /// Serializable 需要空参数的构造函数 
         /// </summary>
-
-
+        /// <typeparam name="T"></typeparam>
+        /// <param name="modificSettingInfo"></param>
+        /// <param name="filePath"></param>
         public static void SerializeData<T>(T modificSettingInfo, string filePath)
         {
             if (modificSettingInfo != null)
@@ -117,16 +119,16 @@ namespace FreeHttp.MyHelper
             return modificSettingInfo;
         }
 
-
-
+       
         /// <summary>
         /// 『DataMemberAttribute Class』 
         /// 使用 [DataContract()] 标记class
         /// 使用 [DataMember(Name = "ID")] / [DataMember]  标记成员
         /// 并且不要求成员访问修饰符为public
         /// </summary>
-    
-
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serializeClass"></param>
+        /// <param name="filePath"></param>
         public static void SerializeContractData<T>(T serializeClass, string filePath)
         {
             if (serializeClass != null)

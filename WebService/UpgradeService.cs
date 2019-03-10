@@ -32,6 +32,32 @@ namespace FreeHttp.WebService
 
         public void StartCheckUpgrade()
         {
+            //Task checkUpgradeCheckUpgrade = new Task(CheckUpgrade);
+            //checkUpgradeCheckUpgrade.Start();
+            //checkUpgradeCheckUpgrade.ContinueWith((task) => { StartCheckUpgrade(); });
+
+            Task<UpgradeServiceEventArgs> checkUpgradeTask = new Task<UpgradeServiceEventArgs>(() =>
+            {
+                string tempResponse = myHttp.SendData(string.Format(@"http://api.lulianqi.com/UpdateCheck/v1?user={0}", UserComputerInfo.GetComputerMac()));
+                string isNeedUpdata = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"isNeedUpdata\":", ",", tempResponse);
+                string url = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"url\":", ",", tempResponse);
+                string message = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"message\":", ",", tempResponse);
+                if (string.IsNullOrEmpty(isNeedUpdata))
+                {
+                    return new UpgradeServiceEventArgs(false, null);
+                }
+                if (isNeedUpdata == "true")
+                {
+                    return new UpgradeServiceEventArgs(true, url);
+                }
+                return null;
+            });
+            checkUpgradeTask.Start();
+            checkUpgradeTask.ContinueWith((task) => { if (checkUpgradeTask.Result != null) this.GetUpgradeMes(this, checkUpgradeTask.Result); });
+        }
+
+        public void StartCheckUpgradeThread()
+        {
             Thread checkUpgradeTaskThread = new Thread(new ThreadStart(CheckUpgrade));
             checkUpgradeTaskThread.Name = "CheckUpgradeTaskThread";
             checkUpgradeTaskThread.Priority = ThreadPriority.Normal;

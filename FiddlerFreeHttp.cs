@@ -5,6 +5,7 @@ using FreeHttp.FreeHttpControl;
 using FreeHttp.HttpHelper;
 using FreeHttp.MyHelper;
 using FreeHttp.WebService;
+using FreeHttp.WebService.HttpServer;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -50,6 +51,8 @@ namespace FreeHttp
             }
             if (myFreeHttpWindow.InvokeRequired)
             {
+                //BeginInvoke,Invoke will execute in the contol ui thread, but Invoke will with the end in the ui thread
+                //myFreeHttpWindow.Invoke(new Action(()=>{System.Threading.Thread.Sleep(10000);}) );
                 myFreeHttpWindow.BeginInvoke(new Action<string>(myFreeHttpWindow.PutInfo), mes);
             }
             else
@@ -145,6 +148,11 @@ namespace FreeHttp
 
                 upgradeService = new UpgradeService();
                 upgradeService.GetUpgradeMes += upgradeService_GetUpgradeMes;
+                CertificatesHelper.AddCertificateToX509Store(CertMaker.GetRootCertificate());
+                CertificatesHelper.BindingCertificate(CertMaker.GetRootCertificate(), 9995);
+                //CertificatesHelper.SetupSsl(7774);
+                MyHttpListener myHttpListener = new MyHttpListener();
+                myHttpListener.Start();
                 isOnLoad = true;
             }
         }
@@ -265,7 +273,7 @@ namespace FreeHttp
                 {
                     return;
                 }
-                if (myFreeHttpWindow.ModificSettingInfo.IsSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                if (myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT")
                 {
                     return;
                 }
@@ -289,7 +297,7 @@ namespace FreeHttp
 
             if (myFreeHttpWindow.IsResponseRuleEnable)
             {
-                if (myFreeHttpWindow.ModificSettingInfo.IsSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                if (myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT")
                 {
                     return;
                 }
@@ -328,7 +336,7 @@ namespace FreeHttp
                 {
                     return;
                 }
-                if (myFreeHttpWindow.ModificSettingInfo.IsSkipTlsHandshake && oSession.RequestMethod == "CONNECT")
+                if (myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT")
                 {
                     return;
                 }
@@ -368,7 +376,7 @@ namespace FreeHttp
 
         public void OnBeforeReturningError(Session oSession)
         {
-            //throw new NotImplementedException();
+            this.AutoTamperResponseAfter(oSession);
         }
 
 

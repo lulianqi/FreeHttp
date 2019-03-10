@@ -288,7 +288,7 @@ AddOrigin: from lijie PC
       </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>false</IsEnable>
+      <IsEnable>true</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -376,9 +376,166 @@ AddOrigin: from lijie PC
       <UriModific>
         <ModificMode>NoChange</ModificMode>
       </UriModific>
+      <HeadAddList />
+      <HeadDelList />
       <BodyModific>
         <ModificMode>NoChange</ModificMode>
       </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>true</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://lulianqitest.com:443</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <HttpRawRequest>
+        <RequestLine>CONNECT www.baidu.com:443 HTTP/1.0</RequestLine>
+        <RequestMethod>CONNECT</RequestMethod>
+        <RequestUri>www.baidu.com:443</RequestUri>
+        <RequestVersions>HTTP/1.0</RequestVersions>
+        <RequestHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>User-Agent</Key>
+            <Value>Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>Keep-Alive</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Length</Key>
+            <Value>0</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Host</Key>
+            <Value>www.baidu.com</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Pragma</Key>
+            <Value>no-cache</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>AddOrigin</Key>
+            <Value>from lijie PC</Value>
+          </MyKeyValuePairOfStringString>
+        </RequestHeads>
+        <RequestEntity>QSBTU0x2My1jb21wYXRpYmxlIENsaWVudEhlbGxvIGhhbmRzaGFrZSB3YXMgZm91bmQuIEZpZGRsZXIgZXh0cmFjdGVkIHRoZSBwYXJhbWV0ZXJzIGJlbG93Lg0KDQpWZXJzaW9uOiAzLjMgKFRMUy8xLjIpDQpSYW5kb206IDVDIDdEIEZBIEY3IDY3IDVBIENFIEQ2IEE0IDlBIDI2IEYxIDlBIDA3IEI0IDFDIEVBIDkyIDQ4IDAwIEM4IDMxIDU5IDNFIDJCIDJBIDRBIEY0IDJEIEVCIEVBIDE5DQoiVGltZSI6IDIxMDEvMTEvMiAyMzoyNzoyNA0KU2Vzc2lvbklEOiAzNCAzQyAwMCAwMCA3QiA3QyBDNCA4RSAyNCBFQSA3QSAzNyA3RSAwMiBFNiAwQSBFOSBERSA2OCA5NiA2NiBGMiAzMyBGQSAzNiBERSBFRCBEQyA3NiA3RSAzNiA5Mg0KRXh0ZW5zaW9uczogDQoJcmVuZWdvdGlhdGlvbl9pbmZvCTAwDQoJc2VydmVyX25hbWUJd3d3LmJhaWR1LmNvbQ0KCWVsbGlwdGljX2N1cnZlcwlzZWNwMjU2cjEgWzB4MTddLCBzZWNwMzg0cjEgWzB4MThdLCBzZWNwNTIxcjEgWzB4MTldDQoJZWNfcG9pbnRfZm9ybWF0cwl1bmNvbXByZXNzZWQgWzB4MF0NCglzaWduYXR1cmVfYWxncwlzaGE1MTJfcnNhLCBzaGE1MTJfZWNkc2EsIHNoYTI1Nl9yc2EsIHNoYTM4NF9yc2EsIHNoYTFfcnNhLCBzaGEyNTZfZWNkc2EsIHNoYTM4NF9lY2RzYSwgc2hhMV9lY2RzYSwgc2hhMV9kc2ENCkNpcGhlcnM6IA0KCVtDMDI4XQlUTFNfRUNESEVfUlNBX1dJVEhfQUVTXzI1Nl9DQkNfU0hBMzg0DQoJW0MwMjddCVRMU19FQ0RIRV9SU0FfV0lUSF9BRVNfMTI4X0NCQ19TSEEyNTYNCglbQzAxNF0JVExTMV9DS19FQ0RIRV9SU0FfV0lUSF9BRVNfMjU2X0NCQ19TSEENCglbQzAxM10JVExTMV9DS19FQ0RIRV9SU0FfV0lUSF9BRVNfMTI4X0NCQ19TSEENCglbMDA5Rl0JVExTX0RIRV9SU0FfV0lUSF9BRVNfMjU2X0dDTV9TSEEzODQNCglbMDA5RV0JVExTX0RIRV9SU0FfV0lUSF9BRVNfMTI4X0dDTV9TSEEyNTYNCglbMDA5RF0JVExTX1JTQV9XSVRIX0FFU18yNTZfR0NNX1NIQTM4NA0KCVswMDlDXQlUTFNfUlNBX1dJVEhfQUVTXzEyOF9HQ01fU0hBMjU2DQoJW0MwMkNdCVRMU19FQ0RIRV9FQ0RTQV9XSVRIX0FFU18yNTZfR0NNX1NIQTM4NA0KCVtDMDJCXQlUTFNfRUNESEVfRUNEU0FfV0lUSF9BRVNfMTI4X0dDTV9TSEEyNTYNCglbQzAyNF0JVExTX0VDREhFX0VDRFNBX1dJVEhfQUVTXzI1Nl9DQkNfU0hBMzg0DQoJW0MwMjNdCVRMU19FQ0RIRV9FQ0RTQV9XSVRIX0FFU18xMjhfQ0JDX1NIQTI1Ng0KCVtDMDBBXQlUTFMxX0NLX0VDREhFX0VDRFNBX1dJVEhfQUVTXzI1Nl9DQkNfU0hBDQoJW0MwMDldCVRMUzFfQ0tfRUNESEVfRUNEU0FfV0lUSF9BRVNfMTI4X0NCQ19TSEENCglbMDAzRF0JVExTX1JTQV9XSVRIX0FFU18yNTZfQ0JDX1NIQTI1Ng0KCVswMDNDXQlUTFNfUlNBX1dJVEhfQUVTXzEyOF9DQkNfU0hBMjU2DQoJWzAwMzVdCVRMU19SU0FfQUVTXzI1Nl9TSEENCglbMDAyRl0JVExTX1JTQV9BRVNfMTI4X1NIQQ0KCVswMDZBXQlUTFNfREhFX0RTU19XSVRIX0FFU18yNTZfQ0JDX1NIQTI1Ng0KCVswMDQwXQlUTFNfREhFX0RTU19XSVRIX0FFU18xMjhfQ0JDX1NIQTI1Ng0KCVswMDM4XQlUTFNfREhFX0RTU19XSVRIX0FFU18yNTZfU0hBDQoJWzAwMzJdCVRMU19ESEVfRFNTX1dJVEhfQUVTXzEyOF9TSEENCglbMDAwQV0JU1NMX1JTQV9XSVRIXzNERVNfRURFX1NIQQ0KCVswMDEzXQlTU0xfREhFX0RTU19XSVRIXzNERVNfRURFX1NIQQ0KCVswMDA1XQlTU0xfUlNBX1dJVEhfUkM0XzEyOF9TSEENCglbMDAwNF0JU1NMX1JTQV9XSVRIX1JDNF8xMjhfTUQ1DQoNCkNvbXByZXNzaW9uOiANCglbMDBdCU5PX0NPTVBSRVNTSU9ODQoNCg0K</RequestEntity>
+        <OriginSting>CONNECT www.baidu.com:443 HTTP/1.0
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+Connection: Keep-Alive
+Content-Length: 0
+Host: www.baidu.com
+Pragma: no-cache
+AddOrigin: from lijie PC
+
+A SSLv3-compatible ClientHello handshake was found. Fiddler extracted the parameters below.
+
+Version: 3.3 (TLS/1.2)
+Random: 5C 7D FA F7 67 5A CE D6 A4 9A 26 F1 9A 07 B4 1C EA 92 48 00 C8 31 59 3E 2B 2A 4A F4 2D EB EA 19
+"Time": 2101/11/2 23:27:24
+SessionID: 34 3C 00 00 7B 7C C4 8E 24 EA 7A 37 7E 02 E6 0A E9 DE 68 96 66 F2 33 FA 36 DE ED DC 76 7E 36 92
+Extensions: 
+	renegotiation_info	00
+	server_name	www.baidu.com
+	elliptic_curves	secp256r1 [0x17], secp384r1 [0x18], secp521r1 [0x19]
+	ec_point_formats	uncompressed [0x0]
+	signature_algs	sha512_rsa, sha512_ecdsa, sha256_rsa, sha384_rsa, sha1_rsa, sha256_ecdsa, sha384_ecdsa, sha1_ecdsa, sha1_dsa
+Ciphers: 
+	[C028]	TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	[C027]	TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	[C014]	TLS1_CK_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	[C013]	TLS1_CK_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	[009F]	TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	[009E]	TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	[009D]	TLS_RSA_WITH_AES_256_GCM_SHA384
+	[009C]	TLS_RSA_WITH_AES_128_GCM_SHA256
+	[C02C]	TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+	[C02B]	TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+	[C024]	TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384
+	[C023]	TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256
+	[C00A]	TLS1_CK_ECDHE_ECDSA_WITH_AES_256_CBC_SHA
+	[C009]	TLS1_CK_ECDHE_ECDSA_WITH_AES_128_CBC_SHA
+	[003D]	TLS_RSA_WITH_AES_256_CBC_SHA256
+	[003C]	TLS_RSA_WITH_AES_128_CBC_SHA256
+	[0035]	TLS_RSA_AES_256_SHA
+	[002F]	TLS_RSA_AES_128_SHA
+	[006A]	TLS_DHE_DSS_WITH_AES_256_CBC_SHA256
+	[0040]	TLS_DHE_DSS_WITH_AES_128_CBC_SHA256
+	[0038]	TLS_DHE_DSS_WITH_AES_256_SHA
+	[0032]	TLS_DHE_DSS_WITH_AES_128_SHA
+	[000A]	SSL_RSA_WITH_3DES_EDE_SHA
+	[0013]	SSL_DHE_DSS_WITH_3DES_EDE_SHA
+	[0005]	SSL_RSA_WITH_RC4_128_SHA
+	[0004]	SSL_RSA_WITH_RC4_128_MD5
+
+Compression: 
+	[00]	NO_COMPRESSION
+
+
+</OriginSting>
+        <ParameterizationContent>
+          <contentData>CONNECT www.baidu.com:443 HTTP/1.0
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+Connection: Keep-Alive
+Content-Length: 0
+Host: www.baidu.com
+Pragma: no-cache
+AddOrigin: from lijie PC
+
+A SSLv3-compatible ClientHello handshake was found. Fiddler extracted the parameters below.
+
+Version: 3.3 (TLS/1.2)
+Random: 5C 7D FA F7 67 5A CE D6 A4 9A 26 F1 9A 07 B4 1C EA 92 48 00 C8 31 59 3E 2B 2A 4A F4 2D EB EA 19
+"Time": 2101/11/2 23:27:24
+SessionID: 34 3C 00 00 7B 7C C4 8E 24 EA 7A 37 7E 02 E6 0A E9 DE 68 96 66 F2 33 FA 36 DE ED DC 76 7E 36 92
+Extensions: 
+	renegotiation_info	00
+	server_name	www.baidu.com
+	elliptic_curves	secp256r1 [0x17], secp384r1 [0x18], secp521r1 [0x19]
+	ec_point_formats	uncompressed [0x0]
+	signature_algs	sha512_rsa, sha512_ecdsa, sha256_rsa, sha384_rsa, sha1_rsa, sha256_ecdsa, sha384_ecdsa, sha1_ecdsa, sha1_dsa
+Ciphers: 
+	[C028]	TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+	[C027]	TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	[C014]	TLS1_CK_ECDHE_RSA_WITH_AES_256_CBC_SHA
+	[C013]	TLS1_CK_ECDHE_RSA_WITH_AES_128_CBC_SHA
+	[009F]	TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+	[009E]	TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+	[009D]	TLS_RSA_WITH_AES_256_GCM_SHA384
+	[009C]	TLS_RSA_WITH_AES_128_GCM_SHA256
+	[C02C]	TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+	[C02B]	TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+	[C024]	TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384
+	[C023]	TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256
+	[C00A]	TLS1_CK_ECDHE_ECDSA_WITH_AES_256_CBC_SHA
+	[C009]	TLS1_CK_ECDHE_ECDSA_WITH_AES_128_CBC_SHA
+	[003D]	TLS_RSA_WITH_AES_256_CBC_SHA256
+	[003C]	TLS_RSA_WITH_AES_128_CBC_SHA256
+	[0035]	TLS_RSA_AES_256_SHA
+	[002F]	TLS_RSA_AES_128_SHA
+	[006A]	TLS_DHE_DSS_WITH_AES_256_CBC_SHA256
+	[0040]	TLS_DHE_DSS_WITH_AES_128_CBC_SHA256
+	[0038]	TLS_DHE_DSS_WITH_AES_256_SHA
+	[0032]	TLS_DHE_DSS_WITH_AES_128_SHA
+	[000A]	SSL_RSA_WITH_3DES_EDE_SHA
+	[0013]	SSL_DHE_DSS_WITH_3DES_EDE_SHA
+	[0005]	SSL_RSA_WITH_RC4_128_SHA
+	[0004]	SSL_RSA_WITH_RC4_128_MD5
+
+Compression: 
+	[00]	NO_COMPRESSION
+
+
+</contentData>
+          <hasParameter>false</hasParameter>
+          <encodetype>encode_default</encodetype>
+        </ParameterizationContent>
+      </HttpRawRequest>
+      <HeadAddList />
+      <HeadDelList />
     </FiddlerRequsetChange>
   </RequestRuleList>
   <ResponseRuleList>
@@ -777,6 +934,108 @@ Content-Length: 383
       </HttpRawResponse>
       <IsIsDirectRespons>true</IsIsDirectRespons>
       <LesponseLatency>50</LesponseLatency>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>true</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://lulianqitest.com/huala/v3</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <HttpRawResponse>
+        <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
+        <ResponseVersion>HTTP/1.1</ResponseVersion>
+        <ResponseCode>200</ResponseCode>
+        <ResponseStatusDescription>OK</ResponseStatusDescription>
+        <ResponseHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>FiddlerTemplate</Key>
+            <Value>True</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Date</Key>
+            <Value>Fri, 25 Jan 2013 16:49:29 GMT</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Length</Key>
+            <Value>51</Value>
+          </MyKeyValuePairOfStringString>
+        </ResponseHeads>
+        <ResponseEntity>VGhpcyBpcyBhIHNpbXBsZSBGaWRkbGVyLXJldHVybmVkIDxCPkhUTUw8L0I+IHBhZ2Uu</ResponseEntity>
+        <OriginSting>HTTP/1.1 200 OK
+FiddlerTemplate: True
+Date: Fri, 25 Jan 2013 16:49:29 GMT
+Content-Length: 51
+
+This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.</OriginSting>
+        <ParameterizationContent>
+          <contentData>HTTP/1.1 200 OK
+FiddlerTemplate: True
+Date: Fri, 25 Jan 2013 16:49:29 GMT
+Content-Length: 51
+
+This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.</contentData>
+          <hasParameter>false</hasParameter>
+          <encodetype>encode_default</encodetype>
+        </ParameterizationContent>
+      </HttpRawResponse>
+      <IsIsDirectRespons>true</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>true</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://lulianqitest.com:443</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <HttpRawResponse>
+        <ResponseLine>HTTP/1.1 200 Connection Established</ResponseLine>
+        <ResponseVersion>HTTP/1.1</ResponseVersion>
+        <ResponseCode>200</ResponseCode>
+        <ResponseStatusDescription>Connection Established</ResponseStatusDescription>
+        <ResponseHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>FiddlerGateway</Key>
+            <Value>Direct</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>StartTime</Key>
+            <Value>14:16:07.303</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>close           </Value>
+          </MyKeyValuePairOfStringString>
+        </ResponseHeads>
+        <ResponseEntity>ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==</ResponseEntity>
+        <OriginSting>HTTP/1.1 200 Connection Established
+FiddlerGateway: Direct
+StartTime: 14:16:07.303
+Connection: close           
+
+                                                                                                                                                                                                                                                                                                                                                                                                       </OriginSting>
+        <ParameterizationContent>
+          <contentData>HTTP/1.1 200 Connection Established
+FiddlerGateway: Direct
+StartTime: 14:16:07.303
+Connection: close           
+
+                                                                                                                                                                                                                                                                                                                                                                                                       </contentData>
+          <hasParameter>false</hasParameter>
+          <encodetype>encode_default</encodetype>
+        </ParameterizationContent>
+      </HttpRawResponse>
+      <IsIsDirectRespons>false</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
       <HeadAddList />
       <HeadDelList />
     </FiddlerResponseChange>

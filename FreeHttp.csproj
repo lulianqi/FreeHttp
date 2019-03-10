@@ -239,6 +239,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="WebService\HttpServer\CertificatesHelper.cs" />
+    <Compile Include="WebService\HttpServer\MyHttpListener.cs" />
     <Compile Include="WebService\MyWebTool.cs" />
     <Compile Include="WebService\UpgradeService.cs" />
   </ItemGroup>
@@ -366,6 +368,7 @@
   <ItemGroup>
     <None Include="Resources\pick_on.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "C:\Users\administer\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>

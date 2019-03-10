@@ -111,7 +111,25 @@ namespace FreeHttp
 
             oSession.oRequest.headers = new HTTPRequestHeaders();
             oSession.RequestMethod = tempRequestHttpRequest.RequestMethod;
-            oSession.fullUrl = tempRequestHttpRequest.RequestUri;
+            try
+            {
+                oSession.fullUrl = tempRequestHttpRequest.RequestUri;
+            }
+            catch(ArgumentException ex)
+            {
+                if(ex.Message=="URI scheme must be http, https, or ftp")
+                {
+                    oSession.url = tempRequestHttpRequest.RequestUri;
+                }
+                else
+                {
+                    ShowError(ex.Message);
+                }
+            }
+            catch(Exception ex)
+            {
+                ShowError(ex.Message);
+            }
             ((Fiddler.HTTPHeaders)(oSession.RequestHeaders)).HTTPVersion = tempRequestHttpRequest.RequestVersions;
             if (tempRequestHttpRequest.RequestHeads != null)
             {

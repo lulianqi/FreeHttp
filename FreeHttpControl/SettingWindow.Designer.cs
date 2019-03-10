@@ -34,7 +34,7 @@
             this.lb_info_3 = new System.Windows.Forms.Label();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.myEnableSwitch_IsDefaultEnableRule = new FreeHttp.FreeHttpControl.MyEnableSwitch();
-            this.myEnableSwitch_IsSkipTlsHandshake = new FreeHttp.FreeHttpControl.MyEnableSwitch();
+            this.myEnableSwitch_IsSkipConnectTunnels = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.myEnableSwitch_IsOnlyMatchFistTamperRule = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.SuspendLayout();
             // 
@@ -54,9 +54,9 @@
             this.lb_info_2.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lb_info_2.Location = new System.Drawing.Point(3, 53);
             this.lb_info_2.Name = "lb_info_2";
-            this.lb_info_2.Size = new System.Drawing.Size(161, 14);
+            this.lb_info_2.Size = new System.Drawing.Size(168, 14);
             this.lb_info_2.TabIndex = 2;
-            this.lb_info_2.Text = "is skip tls handshake ";
+            this.lb_info_2.Text = "is skip connect tunnels";
             // 
             // lb_info_3
             // 
@@ -85,14 +85,14 @@
             this.myEnableSwitch_IsDefaultEnableRule.Size = new System.Drawing.Size(54, 27);
             this.myEnableSwitch_IsDefaultEnableRule.TabIndex = 6;
             // 
-            // myEnableSwitch_IsSkipTlsHandshake
+            // myEnableSwitch_IsSkipConnectTunnels
             // 
-            this.myEnableSwitch_IsSkipTlsHandshake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.myEnableSwitch_IsSkipTlsHandshake.IsEnable = false;
-            this.myEnableSwitch_IsSkipTlsHandshake.Location = new System.Drawing.Point(284, 48);
-            this.myEnableSwitch_IsSkipTlsHandshake.Name = "myEnableSwitch_IsSkipTlsHandshake";
-            this.myEnableSwitch_IsSkipTlsHandshake.Size = new System.Drawing.Size(54, 27);
-            this.myEnableSwitch_IsSkipTlsHandshake.TabIndex = 5;
+            this.myEnableSwitch_IsSkipConnectTunnels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.myEnableSwitch_IsSkipConnectTunnels.IsEnable = false;
+            this.myEnableSwitch_IsSkipConnectTunnels.Location = new System.Drawing.Point(284, 48);
+            this.myEnableSwitch_IsSkipConnectTunnels.Name = "myEnableSwitch_IsSkipConnectTunnels";
+            this.myEnableSwitch_IsSkipConnectTunnels.Size = new System.Drawing.Size(54, 27);
+            this.myEnableSwitch_IsSkipConnectTunnels.TabIndex = 5;
             // 
             // myEnableSwitch_IsOnlyMatchFistTamperRule
             // 
@@ -109,7 +109,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(338, 123);
             this.Controls.Add(this.myEnableSwitch_IsDefaultEnableRule);
-            this.Controls.Add(this.myEnableSwitch_IsSkipTlsHandshake);
+            this.Controls.Add(this.myEnableSwitch_IsSkipConnectTunnels);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.lb_info_3);
             this.Controls.Add(this.lb_info_2);
@@ -135,7 +135,7 @@
         private System.Windows.Forms.Label lb_info_2;
         private System.Windows.Forms.Label lb_info_3;
         private System.Windows.Forms.Splitter splitter1;
-        private MyEnableSwitch myEnableSwitch_IsSkipTlsHandshake;
+        private MyEnableSwitch myEnableSwitch_IsSkipConnectTunnels;
         private MyEnableSwitch myEnableSwitch_IsDefaultEnableRule;
     }
 }

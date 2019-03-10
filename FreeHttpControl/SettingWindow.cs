@@ -32,19 +32,19 @@ namespace FreeHttp.FreeHttpControl
             {
                 myEnableSwitch_IsOnlyMatchFistTamperRule.IsEnable = modifcSettingInfo.IsOnlyMatchFistTamperRule;
                 myEnableSwitch_IsDefaultEnableRule.IsEnable = modifcSettingInfo.IsDefaultEnableRule;
-                myEnableSwitch_IsSkipTlsHandshake.IsEnable = modifcSettingInfo.IsSkipTlsHandshake;
+                myEnableSwitch_IsSkipConnectTunnels.IsEnable = modifcSettingInfo.IsSkipConnectTunnels;
                 myEnableSwitch_IsOnlyMatchFistTamperRule.OnChangeEnable += myEnableSwitch_IsOnlyMatchFistTamperRule_OnChangeEable;
                 myEnableSwitch_IsDefaultEnableRule.OnChangeEnable += myEnableSwitch_IsDefaultEnableRule_OnChangeEable;
-                myEnableSwitch_IsSkipTlsHandshake.OnChangeEnable += myEnableSwitch_IsSkipTlsHandshake_OnChangeEable;
+                myEnableSwitch_IsSkipConnectTunnels.OnChangeEnable += myEnableSwitch_IsConnectTunnels_OnChangeEable;
             }
             //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
         }
 
-        void myEnableSwitch_IsSkipTlsHandshake_OnChangeEable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)
+        void myEnableSwitch_IsConnectTunnels_OnChangeEable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)
         {
-            modifcSettingInfo.IsSkipTlsHandshake = e.IsEnable;
+            modifcSettingInfo.IsSkipConnectTunnels = e.IsEnable;
         }
 
         void myEnableSwitch_IsDefaultEnableRule_OnChangeEable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)

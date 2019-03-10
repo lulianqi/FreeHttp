@@ -17,7 +17,7 @@ namespace FreeHttp.FiddlerHelper
         /// <summary>
         /// the rule will skip tls handshake when it is true
         /// </summary>
-        public bool IsSkipTlsHandshake { get; set; }
+        public bool IsSkipConnectTunnels { get; set; }
 
         /// <summary>
         /// if it is true the FiddlerFreeHttp will only match the fist request or response rule 
@@ -31,7 +31,7 @@ namespace FreeHttp.FiddlerHelper
         public FiddlerModificSettingInfo(bool isDefaultEnableRule, bool isSkipTlsHandshake, bool isOnlyMatchFistTamperRule)
         {
             IsDefaultEnableRule = isDefaultEnableRule;
-            IsSkipTlsHandshake = isSkipTlsHandshake;
+            IsSkipConnectTunnels = isSkipTlsHandshake;
             IsOnlyMatchFistTamperRule = isOnlyMatchFistTamperRule;
         }
     }
