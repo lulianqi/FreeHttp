@@ -164,12 +164,12 @@ namespace FreeHttp.FreeHttpControl
         #region MarkControl
         private static void MarkControl(Control yourControl, Color yourColor, int yourShowTick)
         {
-            markControlService.MarkControl(yourControl, yourColor, yourShowTick);
+            MyGlobalHelper.markControlService.MarkControl(yourControl, yourColor, yourShowTick);
         }
 
         private static void MarkRuleItem(ListViewItem yourItem, Color yourColor, int yourShowTick)
         {
-            markControlService.MarkControl(yourItem, yourColor, yourShowTick);
+            MyGlobalHelper.markControlService.MarkControl(yourItem, yourColor, yourShowTick);
         }
 
         public static void MarkRuleItem(ListViewItem yourItem)
@@ -195,13 +195,13 @@ namespace FreeHttp.FreeHttpControl
 
         private void MarkRuleInEdit(ListViewItem yourItem)
         {
-            markControlService.SetColor(yourItem, Color.Pink);
-            markControlService.MarkControl(lb_editRuleMode, Color.Pink, 2);
+            MyGlobalHelper.markControlService.SetColor(yourItem, Color.Pink);
+            MyGlobalHelper.markControlService.MarkControl(lb_editRuleMode, Color.Pink, 2);
         }
 
         private void MarkRuleOutEdit(ListViewItem yourItem)
         {
-            markControlService.SetColor(yourItem, Color.Transparent);
+            MyGlobalHelper.markControlService.SetColor(yourItem, Color.Transparent);
         } 
         #endregion
 

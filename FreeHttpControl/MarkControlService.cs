@@ -48,6 +48,11 @@ namespace FreeHttp.FreeHttpControl
                 tempHighlightList.AddRange(remindItemDc.Keys);
                 foreach (var tempHighlightItem in tempHighlightList)
                 {
+                    if(tempHighlightItem==null)
+                    {
+                        tempRemoveItem.Add(tempHighlightItem);
+                        continue;
+                    }
                     remindItemDc[tempHighlightItem].RemindTime--;
                     if (remindItemDc[tempHighlightItem].RemindTime == 0)
                     {
@@ -55,11 +60,14 @@ namespace FreeHttp.FreeHttpControl
                     }
                 }
                 //MyControlHelper.SetControlUnfreeze(lv_requestRuleList);
+
+                System.Threading.Monitor.Enter(remindItemDc);
                 foreach (var tempItem in tempRemoveItem)
                 {
                     tempItem.BackColor = remindItemDc[tempItem].OriginColor;
                     remindItemDc.Remove(tempItem);
                 }
+                System.Threading.Monitor.Exit(remindItemDc);
             }
 
             if (remindControlDc.Count > 0)
@@ -76,43 +84,63 @@ namespace FreeHttp.FreeHttpControl
                     }
                 }
 
+                System.Threading.Monitor.Enter(remindControlDc);
                 foreach (var tempItem in tempRemoveControl)
                 {
                     tempItem.BackColor = remindControlDc[tempItem].OriginColor;
                     remindControlDc.Remove(tempItem);
                 }
+                System.Threading.Monitor.Exit(remindControlDc);
             }
         }
 
         public void MarkControl(Control yourControl, Color yourColor, int yourShowTick)
         {
-            if (yourControl != null)
+            try
             {
-                if (remindControlDc.ContainsKey(yourControl))
+                if (yourControl != null)
                 {
-                    remindControlDc[yourControl] = new RemindControlInfo(yourShowTick, remindControlDc[yourControl].OriginColor);
+                    System.Threading.Monitor.Enter(remindControlDc);
+                    if (remindControlDc.ContainsKey(yourControl))
+                    {
+                        remindControlDc[yourControl] = new RemindControlInfo(yourShowTick, remindControlDc[yourControl].OriginColor);
+                    }
+                    else
+                    {
+                        remindControlDc.Add(yourControl, new RemindControlInfo(yourShowTick, yourControl.BackColor));
+                    }
+                    System.Threading.Monitor.Exit(remindControlDc);
+                    yourControl.BackColor = yourColor;
                 }
-                else
-                {
-                    remindControlDc.Add(yourControl, new RemindControlInfo(yourShowTick, yourControl.BackColor));
-                }
-                yourControl.BackColor = yourColor;
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 
         public void MarkControl(ListViewItem yourItem, Color yourColor, int yourShowTick)
         {
-            if (yourItem != null)
+            try
             {
-                if (remindItemDc.ContainsKey(yourItem))
+                if (yourItem != null)
                 {
-                    remindItemDc[yourItem] = new RemindControlInfo(yourShowTick, remindItemDc[yourItem].OriginColor);
+                    System.Threading.Monitor.Enter(remindItemDc);
+                    if (remindItemDc.ContainsKey(yourItem))
+                    {
+                        remindItemDc[yourItem] = new RemindControlInfo(yourShowTick, remindItemDc[yourItem].OriginColor);
+                    }
+                    else
+                    {
+                        remindItemDc.Add(yourItem, new RemindControlInfo(yourShowTick, yourItem.BackColor));
+                    }
+                    System.Threading.Monitor.Exit(remindItemDc);
+                    yourItem.BackColor = yourColor;
                 }
-                else
-                {
-                    remindItemDc.Add(yourItem, new RemindControlInfo(yourShowTick, yourItem.BackColor));
-                }
-                yourItem.BackColor = yourColor;
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

@@ -288,7 +288,7 @@ AddOrigin: from lijie PC
       </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -383,7 +383,7 @@ AddOrigin: from lijie PC
       </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -536,6 +536,125 @@ Compression:
       </HttpRawRequest>
       <HeadAddList />
       <HeadDelList />
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://www.google.com:443</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <UriModific>
+        <ModificMode>KeyVauleReplace</ModificMode>
+        <TargetKey>www.google.com:443</TargetKey>
+        <ReplaceContent>localhost:44399</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://api.weixin.qq.com:443</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <UriModific>
+        <ModificMode>KeyVauleReplace</ModificMode>
+        <TargetKey>api.weixin.qq.com:443</TargetKey>
+        <ReplaceContent>localhost:44399</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://api.lulianqi.com/UpdateCheck/v1?user=34:17:EB:CE:0D:7E</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <UriModific>
+        <ModificMode>KeyVauleReplace</ModificMode>
+        <TargetKey>api.lulianqi.com</TargetKey>
+        <ReplaceContent>localhost:9998</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://api.weixin.qq.com:443</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <UriModific>
+        <ModificMode>KeyVauleReplace</ModificMode>
+        <TargetKey>api.weixin.qq.com:443</TargetKey>
+        <ReplaceContent>lulianqi.com:443</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://lijie.com:443</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <UriModific>
+        <ModificMode>KeyVauleReplace</ModificMode>
+        <TargetKey>lijie.com:443</TargetKey>
+        <ReplaceContent>lijie.com:9996</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Regex</MatchMode>
+          <MatchUri>http://.*?:443</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <UriModific>
+        <ModificMode>EntireReplace</ModificMode>
+        <ReplaceContent>http://lulianqi.com:443</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
     </FiddlerRequsetChange>
   </RequestRuleList>
   <ResponseRuleList>
@@ -881,7 +1000,7 @@ helle *#myName(=)*#
       <HeadDelList />
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>StartWith</MatchMode>
@@ -938,7 +1057,7 @@ Content-Length: 383
       <HeadDelList />
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -989,7 +1108,7 @@ This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.</contentData>
       <HeadDelList />
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -1035,6 +1154,57 @@ Connection: close
         </ParameterizationContent>
       </HttpRawResponse>
       <IsIsDirectRespons>false</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>https://lijie.com/hello</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <HttpRawResponse>
+        <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
+        <ResponseVersion>HTTP/1.1</ResponseVersion>
+        <ResponseCode>200</ResponseCode>
+        <ResponseStatusDescription>OK</ResponseStatusDescription>
+        <ResponseHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>FiddlerTemplate</Key>
+            <Value>True</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Date</Key>
+            <Value>Fri, 25 Jan 2013 16:49:29 GMT</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Length</Key>
+            <Value>51</Value>
+          </MyKeyValuePairOfStringString>
+        </ResponseHeads>
+        <ResponseEntity>VGhpcyBpcyBhIHNpbXBsZSBGaWRkbGVyLXJldHVybmVkIDxCPkhUTUw8L0I+IHBhZ2Uu</ResponseEntity>
+        <OriginSting>HTTP/1.1 200 OK
+FiddlerTemplate: True
+Date: Fri, 25 Jan 2013 16:49:29 GMT
+Content-Length: 51
+
+This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.</OriginSting>
+        <ParameterizationContent>
+          <contentData>HTTP/1.1 200 OK
+FiddlerTemplate: True
+Date: Fri, 25 Jan 2013 16:49:29 GMT
+Content-Length: 51
+
+This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.</contentData>
+          <hasParameter>false</hasParameter>
+          <encodetype>encode_default</encodetype>
+        </ParameterizationContent>
+      </HttpRawResponse>
+      <IsIsDirectRespons>true</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList />
       <HeadDelList />

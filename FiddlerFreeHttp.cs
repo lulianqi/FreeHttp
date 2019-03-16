@@ -148,11 +148,7 @@ namespace FreeHttp
 
                 upgradeService = new UpgradeService();
                 upgradeService.GetUpgradeMes += upgradeService_GetUpgradeMes;
-                CertificatesHelper.AddCertificateToX509Store(CertMaker.GetRootCertificate());
-                CertificatesHelper.BindingCertificate(CertMaker.GetRootCertificate(), 9995);
-                //CertificatesHelper.SetupSsl(7774);
-                MyHttpListener myHttpListener = new MyHttpListener();
-                myHttpListener.Start();
+               
                 isOnLoad = true;
             }
         }

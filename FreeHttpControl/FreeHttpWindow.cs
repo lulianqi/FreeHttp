@@ -171,8 +171,6 @@ namespace FreeHttp.FreeHttpControl
         /// </summary>
         public RuleEditMode NowEditMode { get; private set; }
 
-
-        private static MarkControlService markControlService;
         FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
         bool isSetResponseLatencyEable;
 
@@ -204,6 +202,8 @@ namespace FreeHttp.FreeHttpControl
                 pb_requestRuleSwitch_Click(null, null);
                 pb_responseRuleSwitch_Click(null, null);
             }
+
+            FreeHttp.MyHelper.MyGlobalHelper.OnGetGlobalMessage += ((obj, arg) => { PutWarn(arg.Message); });
             
             tbe_RequestBodyModific.Visible = false;
             tbe_ResponseBodyModific.Visible = false;
@@ -212,7 +212,7 @@ namespace FreeHttp.FreeHttpControl
             tbe_ResponseBodyModific.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
             tbe_urlFilter.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
 
-            markControlService = new MarkControlService(1000);
+
             cb_macthMode.SelectedIndex = 0;
             tabControl_Modific.SelectedIndex = 0;
             IsSetResponseLatencyEable = false;
@@ -232,7 +232,6 @@ namespace FreeHttp.FreeHttpControl
             MyControlHelper.SetRichTextBoxDropString(rtb_requsetReplace_body);
             MyControlHelper.SetRichTextBoxDropString(rtb_requestRaw);
         }
-
 
         #region Public Event
         private void tabControl_Modific_Selecting(object sender, TabControlCancelEventArgs e)

@@ -226,6 +226,7 @@
     <Compile Include="HttpHelper\ParameterHttpRequest.cs" />
     <Compile Include="HttpHelper\ParameterHttpResponse.cs" />
     <Compile Include="MyHelper\MyExtensionMethods.cs" />
+    <Compile Include="MyHelper\MyGlobalHelper.cs" />
     <Compile Include="MyHelper\MyKeyValuePair.cs" />
     <Compile Include="MyHelper\SerializableHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -241,6 +242,7 @@
     </Compile>
     <Compile Include="WebService\HttpServer\CertificatesHelper.cs" />
     <Compile Include="WebService\HttpServer\MyHttpListener.cs" />
+    <Compile Include="WebService\HttpServer\MySocketHelper.cs" />
     <Compile Include="WebService\MyWebTool.cs" />
     <Compile Include="WebService\UpgradeService.cs" />
   </ItemGroup>

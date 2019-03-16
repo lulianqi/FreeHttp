@@ -36,7 +36,7 @@ namespace FreeHttp.FreeHttpControl
 
         [DescriptionAttribute("the TextBox that you want to binding")]
         /// <summary>
-        /// get or set the switch status
+        /// get or set the switch status (set thie value will not call OnChangeEnable)
         /// </summary>
         public bool IsEnable
         {
