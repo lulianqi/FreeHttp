@@ -37,7 +37,7 @@ namespace FreeHttp.WebService
             testdata
             -----------------8d46c074125a195--
              * */
-          
+
             /// <summary>
             /// name属性值,为null则不加
             /// </summary>
@@ -71,7 +71,7 @@ namespace FreeHttp.WebService
             /// <param name="yourContentType">Multipart下Content-Type: application/octet-stream,为null则为默认值application/octet-stream</param>
             /// <param name="yourIsFile">是否把fileData当作文件路径处理</param>
             /// <param name="yourFileData">文件内容或文件路径。为null则当作""（作为路径时如果路径不存在将会返回错误）</param>
-            public HttpMultipartDate(string yourName,string yourFileName,string yourContentType,bool yourIsFile,string yourFileData)
+            public HttpMultipartDate(string yourName, string yourFileName, string yourContentType, bool yourIsFile, string yourFileData)
             {
                 Name = yourName;
                 FileName = yourFileName;
@@ -114,7 +114,7 @@ namespace FreeHttp.WebService
                 {
                     return;
                 }
-                if (heads != null && heads.Count>0)
+                if (heads != null && heads.Count > 0)
                 {
                     foreach (var Head in heads)
                     {
@@ -200,17 +200,21 @@ namespace FreeHttp.WebService
             }
         }
 
+        /// <summary>
+        /// 使用前请先查看ErrorMes是否有错误信息
+        /// </summary>
         public class MyHttpResponse
         {
             private int statusCode = -99;
             private string responseLine = null;
             private string responseBody = null;
             private string responseRaw = null;
-            private string errorMes=null;
+            private string errorMes = null;
             public HttpTimeLine TimeLine { get; internal set; }
             public HttpWebResponse HttpResponse { get; internal set; }
-            public string ErrorMes 
-            {   get{return errorMes;}
+            public string ErrorMes
+            {
+                get { return errorMes; }
                 internal set { errorMes = value; responseBody = value; }
             }
 
@@ -243,9 +247,9 @@ namespace FreeHttp.WebService
                     if (responseLine == null && HttpResponse != null)
                     {
                         responseLine = string.Format(@"HTTP/{0} {1} {2}",
-                            HttpResponse.ProtocolVersion==null? "NULL":HttpResponse.ProtocolVersion.ToString(),
-                            StatusCode, 
-                            HttpResponse.StatusCode==null? "NULL" :HttpResponse.StatusCode.ToString());
+                            HttpResponse.ProtocolVersion == null ? "NULL" : HttpResponse.ProtocolVersion.ToString(),
+                            StatusCode,
+                            HttpResponse.StatusCode == null ? "NULL" : HttpResponse.StatusCode.ToString());
                     }
                     return responseLine;
                 }
@@ -263,6 +267,9 @@ namespace FreeHttp.WebService
                 }
             }
 
+            /// <summary>
+            /// 获取Response Body（如果返回null则表示请求未发起，错误原因通过ErrorMes查看）
+            /// </summary>
             public string ResponseBody
             {
                 get
@@ -274,10 +281,18 @@ namespace FreeHttp.WebService
                     return responseBody;
                 }
             }
+
+            /// <summary>
+            /// 获取Response Raw格式的报文（如果返回null则表示请求未发起，错误原因通过ErrorMes查看）
+            /// </summary>
             public string ResponseRaw
             {
                 get
                 {
+                    if (errorMes != null)
+                    {
+                        return null;
+                    }
                     if (responseRaw == null && HttpResponse != null)
                     {
                         responseRaw = string.Format("{0}\r\n{1}{2}", ResponseLine ?? "NULL", ResponseHeads.ToString(), ResponseBody ?? "NULL");
@@ -327,18 +342,18 @@ namespace FreeHttp.WebService
                     */
                     #endregion
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     responseBody = string.Format("file save fail with [ {0} ]  ", ex.Message);
                 }
                 finally
                 {
-                    if(receiveStream!=null)
+                    if (receiveStream != null)
                     {
                         receiveStream.Close();
                     }
                 }
-             }
+            }
 
             internal void SeekResponseStream()
             {
@@ -361,7 +376,7 @@ namespace FreeHttp.WebService
                             responseBody = responseStreamReader.ReadToEnd();
                         }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         responseBody = ex.Message;
                     }
@@ -397,23 +412,25 @@ namespace FreeHttp.WebService
             private List<KeyValuePair<string, string>> requestDefaultHeads;
 
 
-            public Encoding RequestEncoding {get;set;}  //需要发送数据，将使用此编码   [未使用]
-            public Encoding ResponseEncoding {get;set;} //如果要显示返回数据，返回数据将使用此编码  [未使用]
+            public Encoding RequestEncoding { get; set; }  //需要发送数据，将使用此编码   [未使用]
+            public Encoding ResponseEncoding { get; set; } //如果要显示返回数据，返回数据将使用此编码  [未使用]
 
             /// <summary>
             /// get or set HttpTimeOut
             /// </summary>
             public int HttpTimeOut
-            { 
-                get { return httpTimeOut; } set { httpTimeOut = value; }
+            {
+                get { return httpTimeOut; }
+                set { httpTimeOut = value; }
             }
 
             /// <summary>
             /// get or set default ContentType
             /// </summary>
             public string DefaultContentType
-            { 
-                get { return defaultContentType; } set { defaultContentType = value; } 
+            {
+                get { return defaultContentType; }
+                set { defaultContentType = value; }
             }
 
             /// <summary>
@@ -429,7 +446,8 @@ namespace FreeHttp.WebService
             /// </summary>
             public bool IsWithDefaultCookieContainer
             {
-                get { return withDefaultCookieContainer; } set { withDefaultCookieContainer = value; } 
+                get { return withDefaultCookieContainer; }
+                set { withDefaultCookieContainer = value; }
             }
 
             /// <summary>
@@ -437,7 +455,7 @@ namespace FreeHttp.WebService
             /// </summary>
             public CookieContainer InnerCookieContainer
             {
-                get { return cookieContainer ; }
+                get { return cookieContainer; }
             }
 
             /// <summary>
@@ -445,7 +463,7 @@ namespace FreeHttp.WebService
             /// </summary>
             public List<KeyValuePair<string, string>> RequestDefaultHeads
             {
-                get { return requestDefaultHeads ; }
+                get { return requestDefaultHeads; }
             }
 
             static MyHttp()
@@ -453,12 +471,27 @@ namespace FreeHttp.WebService
                 //ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(
                 //    (sender, certificate, chain, sslPolicyErrors) => { return true; });
                 ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
-                //Console.WriteLine(ServicePointManager.DefaultConnectionLimit); //默认最大并发数有限，可以使用System.Net.ServicePointManager.DefaultConnectionLimit重设该值
-                System.Net.ServicePointManager.DefaultConnectionLimit = 2000;
+                System.Net.ServicePointManager.DefaultConnectionLimit = 2000; //默认最大并发数有限，可以使用System.Net.ServicePointManager.DefaultConnectionLimit重设该值
+            }
+
+            private static bool enableServerCertificateValidation = false;
+            public static bool EnableServerCertificateValidation
+            {
+                get { return enableServerCertificateValidation; }
+                set
+                {
+                    enableServerCertificateValidation = value;
+                    if (enableServerCertificateValidation) { ServicePointManager.ServerCertificateValidationCallback = null; }
+                    else { ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback; }
+                }
             }
 
             private static bool MyRemoteCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
             {
+                if (enableServerCertificateValidation && sslPolicyErrors != System.Net.Security.SslPolicyErrors.None)
+                {
+                    return false;
+                }
                 return true;
             }
 
@@ -467,7 +500,7 @@ namespace FreeHttp.WebService
                 //cookieContainer = new CookieContainer(5000, 500, 1000);
                 cookieContainer = new CookieContainer();
                 requestDefaultHeads = new List<KeyValuePair<string, string>>();
-                RequestEncoding = System.Text.Encoding.GetEncoding("UTF-8");  
+                RequestEncoding = System.Text.Encoding.GetEncoding("UTF-8");
                 ResponseEncoding = System.Text.Encoding.GetEncoding("UTF-8");
             }
 
@@ -488,7 +521,7 @@ namespace FreeHttp.WebService
             /// <returns>back data</returns>
             public string SendData(string url, string data, string method)
             {
-                return SendData(url, data, method, null,null);
+                return SendData(url, data, method, null, null);
             }
 
             /// <summary>
@@ -498,7 +531,7 @@ namespace FreeHttp.WebService
             /// <returns>back data</returns>
             public string SendData(string url)
             {
-                return SendData(url, null, "GET", null,null);
+                return SendData(url, null, "GET", null, null);
             }
 
             /// <summary>
@@ -525,7 +558,7 @@ namespace FreeHttp.WebService
             /// <returns>back data</returns>
             public string SendData(string url, string data, string method, List<KeyValuePair<string, string>> heads, string saveFileName)
             {
-                return SendData(url, data, method, heads, saveFileName,null);
+                return SendData(url, data, method, heads, saveFileName, null);
             }
 
             /// <summary>
@@ -540,7 +573,7 @@ namespace FreeHttp.WebService
             /// <returns>back data</returns>
             public string SendData(string url, string data, string method, List<KeyValuePair<string, string>> heads, string saveFileName, System.Threading.ManualResetEvent manualResetEvent)
             {
-                return SendData(url, data, method, heads, withDefaultCookieContainer, saveFileName, null);
+                return SendData(url, data, method, heads, withDefaultCookieContainer, saveFileName, manualResetEvent);
             }
 
             /// <summary>
@@ -554,15 +587,16 @@ namespace FreeHttp.WebService
             /// <param name="saveFileName">save your response as file （if not need set it null）</param>
             /// <param name="manualResetEvent">ManualResetEvent 并发集合点 （if not need set it null）</param>
             /// <returns>back data</returns>
-            public string SendData(string url, string data, string method, List<KeyValuePair<string, string>> heads,bool isAntoCookie ,string saveFileName, System.Threading.ManualResetEvent manualResetEvent)
+            public string SendData(string url, string data, string method, List<KeyValuePair<string, string>> heads, bool isAntoCookie, string saveFileName, System.Threading.ManualResetEvent manualResetEvent)
             {
                 return SendHttpRequest(url, data, method, heads, isAntoCookie, saveFileName, manualResetEvent).ResponseBody;
             }
 
+            // [ <scheme>://<user>:<password>@<host>:<port>/<path>;<params>?<query>#<frag> ]
             /// <summary>
             /// Send Http Request 
             /// </summary>
-            /// <param name="url">url (must start with protocol scheme like [http://,https:// ,ftp:// ,file:// ]) [ <scheme>://<user>:<password>@<host>:<port>/<path>;<params>?<query>#<frag> ]</param>
+            /// <param name="url">url (must start with protocol scheme like [http://,https:// ,ftp:// ,file:// ])</param> 
             /// <param name="queryStr"> queryStr will add to the url (like url+?+data )  if method is not POST or PUT queryStr will add in request entity as body</param>
             /// <param name="method">GET/POST/PUT/HEAD/TRACE/OPTIONS/DELETE</param>
             /// <param name="heads">http Head list （if not need set it null）(header 名是不区分大小写的)</param>
@@ -727,9 +761,9 @@ namespace FreeHttp.WebService
                 }
                 return myHttpResponse;
             }
-          
+
             /// <summary>
-            /// Send Http Request (post multipart data)
+            /// Send Http Request (post multipart data  multipart/form-data)
             /// </summary>
             /// <param name="url">url (must start with protocol scheme like [http://,https:// ,ftp:// ,file:// ]) </param>
             /// <param name="heads">http Head list （if not need set it null）</param>
@@ -987,7 +1021,6 @@ namespace FreeHttp.WebService
                 return myHttpResponse;
             }
 
-
             /// <summary>
             /// Send Http Request (post multipart data)
             /// </summary>
@@ -1001,7 +1034,7 @@ namespace FreeHttp.WebService
             /// <returns>back data</returns>
             public string HttpPostData(string url, List<KeyValuePair<string, string>> heads, bool isAntoCookie, string bodyData, List<HttpMultipartDate> multipartDateList, string bodyMultipartParameter, Encoding yourBodyEncoding)
             {
-                return SendMultipartRequest(url, heads, isAntoCookie, bodyData, multipartDateList, bodyMultipartParameter, yourBodyEncoding,null,null).ResponseBody;
+                return SendMultipartRequest(url, heads, isAntoCookie, bodyData, multipartDateList, bodyMultipartParameter, yourBodyEncoding, null, null).ResponseBody;
             }
 
 
@@ -1027,9 +1060,9 @@ namespace FreeHttp.WebService
             /// <param name="url">url (must start with protocol scheme like [http://,https:// ,ftp:// ,file:// ]) </param>
             /// <param name="HttpMultipartDate">MultipartDate list(if not need it ,just set it null)</param>
             /// <returns>back data</returns>
-            public string HttpPostData(string url,HttpMultipartDate HttpMultipartDate)
+            public string HttpPostData(string url, HttpMultipartDate HttpMultipartDate)
             {
-                return HttpPostData(url, null, null, new List<HttpMultipartDate>() { HttpMultipartDate }, null , null);
+                return HttpPostData(url, null, null, new List<HttpMultipartDate>() { HttpMultipartDate }, null, null);
             }
 
             #region static Func
@@ -1061,7 +1094,7 @@ namespace FreeHttp.WebService
             public static void DownloadFile(string url, string saveFileName)
             {
                 DownloadFile(url, null, saveFileName);
-            } 
+            }
             #endregion
 
         }

@@ -157,6 +157,7 @@ namespace FreeHttp
         {
             if (FiddlerApplication.UI.tabsViews.SelectedTab == tabPage && isCheckedUpdata==false)
             {
+                //upgradeService.StartCheckUpgradeThread();
                 upgradeService.StartCheckUpgrade();
                 isCheckedUpdata = true;
             }
