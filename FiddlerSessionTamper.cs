@@ -222,6 +222,7 @@ namespace FreeHttp
         /// <param name="nowFiddlerResponseChange">FiddlerResponseChange</param>
         public static void ReplaceSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange, Action<string> ShowError, Action<string> ShowMes)
         {
+            bool isClosePipeWhenReplace = false;
             byte[] tempResponseBytes;
             string errMes;
             NameValueCollection nameValueCollection;
@@ -246,8 +247,11 @@ namespace FreeHttp
             }
             using (MemoryStream ms = new MemoryStream(tempResponseBytes))
             {
-                oSession.PoisonClientPipe();  //Ensures that, after the response is complete, the client socket is closed and not reused. Does NOT (and must not) close the pipe.
-                oSession.PoisonServerPipe();
+                if (isClosePipeWhenReplace)
+                {
+                    oSession.PoisonClientPipe();  //关闭客户端与代理的连接(Ensures that, after the response is complete, the client socket is closed and not reused. Does NOT (and must not) close the pipe. )
+                    oSession.PoisonServerPipe();  //关闭代理与服务器的连接
+                }
                 if (!oSession.LoadResponseFromStream(ms, null))
                 {
                     ShowError("error to oSession.LoadResponseFromStream");

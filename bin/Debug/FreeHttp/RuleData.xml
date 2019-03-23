@@ -656,6 +656,25 @@ Compression:
         <ModificMode>NoChange</ModificMode>
       </BodyModific>
     </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Regex</MatchMode>
+          <MatchUri>http://.*?:443</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <UriModific>
+        <ModificMode>EntireReplace</ModificMode>
+        <ReplaceContent>http://47.106.161.196:443</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
   </RequestRuleList>
   <ResponseRuleList>
     <FiddlerResponseChange>
@@ -1000,7 +1019,7 @@ helle *#myName(=)*#
       <HeadDelList />
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>false</IsEnable>
+      <IsEnable>true</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>StartWith</MatchMode>
@@ -1208,6 +1227,32 @@ This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.</contentData>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList />
       <HeadDelList />
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>false</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>Is</MatchMode>
+          <MatchUri>http://ecom-qa.baiwandian.cn/xinyunlian-weixin-ecom/wx/index.jhtml</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <IsIsDirectRespons>false</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
+      <HeadAddList>
+        <string>Set-Cookie: JSESSIONID=delete by FreeHttp; Max-Age=1;Path=/</string>
+        <string>Set-Cookie: v=delete by FreeHttp; Max-Age=1;Path=/</string>
+        <string>Set-Cookie: openId=delete by FreeHttp; Max-Age=1;Path=/</string>
+        <string>Set-Cookie: cachePage=delete by FreeHttp; Max-Age=1;Path=/</string>
+        <string>Set-Cookie: XYLWXSESSIONID=delete by FreeHttp; Max-Age=1;Path=/</string>
+        <string>Set-Cookie: token=delete by FreeHttp; Max-Age=1;Path=/</string>
+        <string>Set-Cookie: CNZZDATA1273025666=delete by FreeHttp; Max-Age=1;Path=/</string>
+        <string>Set-Cookie: UM_distinctid=delete by FreeHttp; Max-Age=1;Path=/</string>
+      </HeadAddList>
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
     </FiddlerResponseChange>
   </ResponseRuleList>
 </FiddlerModificHttpRuleCollection>

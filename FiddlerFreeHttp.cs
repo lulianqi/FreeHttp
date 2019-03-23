@@ -301,6 +301,7 @@ namespace FreeHttp
                 List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView,false);
                 if (matchItems != null && matchItems.Count>0)
                 {
+                    oSession.bBufferResponse = true;//  if any response rule may match the Session, we should set bBufferResponse true (When streaming is enabled for a response, each block of data read from the server is immediately passed to the client application. )
                     foreach (var matchItem in matchItems)
                     {
                         FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
@@ -340,7 +341,6 @@ namespace FreeHttp
                 List<ListViewItem> matchItems = FiddlerSessionHelper.FindMatchTanperRule(oSession, myFreeHttpWindow.ResponseRuleListView,false);
                 if (matchItems != null && matchItems.Count>0)
                 {
-                    oSession.bBufferResponse = true;
                     foreach (var matchItem in matchItems)
                     {
                         FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem.Tag);
