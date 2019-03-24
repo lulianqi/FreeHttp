@@ -1,5 +1,5 @@
  ### 基本逻辑
-![](https://github.com/lulianqi/MyFile/blob/master/2019-02-25_195524.png)
+![](https://img2018.cnblogs.com/blog/209007/201902/209007-20190225195756643-2027300818.png)
 ### 环境搭建
 * Fiddler 扩展插件开发环境配置 请参考官方文档 https://docs.telerik.com/fiddler/Extend-Fiddler/ExtendWithDotNet （该文档已经详细说明了搭建及调试项目的过程）<br>
 * Fiddler 对外开放接口可以参见《Lulu.Debugging with Fiddler》（书中不仅介绍Fiddler的起源，还详细介绍了Fiddler的使用，其中就包括对外提供的扩展接口）<br>
@@ -7,7 +7,7 @@
 <br>
 
 ### 基本结构
-![](https://github.com/lulianqi/MyFile/blob/master/2019-02-25_195525.png)
+![](https://img2018.cnblogs.com/blog/209007/201902/209007-20190226113810174-1578807533.png)
 >>1：AutoTest命名空间主要提供参数化数据的拾取及管理<br>
 >>2：FiddlerHelper命名空间 提供与Fiddler篡改直接相关的功能<br>
 >>3：FreeHttpControl命名空间提供UI界面及窗体操作逻辑<br>
