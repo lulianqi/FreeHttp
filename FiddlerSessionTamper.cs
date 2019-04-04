@@ -195,6 +195,7 @@ namespace FreeHttp
                     try
                     {
                         sourceResponseBody = oSession.GetResponseBodyAsString();
+                        sourceResponseBody = sourceResponseBody.Replace("\r\n", "\n");
                     }
                     catch (Exception ex)
                     {

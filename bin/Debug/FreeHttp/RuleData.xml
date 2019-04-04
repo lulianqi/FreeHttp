@@ -357,7 +357,7 @@ AddOrigin: from lijie PC
       </BodyModific>
     </FiddlerRequsetChange>
     <FiddlerRequsetChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>StartWith</MatchMode>
@@ -668,6 +668,26 @@ Compression:
       <UriModific>
         <ModificMode>EntireReplace</ModificMode>
         <ReplaceContent>http://47.106.161.196:443</ReplaceContent>
+      </UriModific>
+      <HeadAddList />
+      <HeadDelList />
+      <BodyModific>
+        <ModificMode>NoChange</ModificMode>
+      </BodyModific>
+    </FiddlerRequsetChange>
+    <FiddlerRequsetChange>
+      <IsEnable>true</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>StartWith</MatchMode>
+          <MatchUri>https://joggle.wgqx.tongzhenai.com</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <UriModific>
+        <ModificMode>KeyVauleReplace</ModificMode>
+        <TargetKey>joggle.wgqx.tongzhenai.com</TargetKey>
+        <ReplaceContent>apisctest.huala.com</ReplaceContent>
       </UriModific>
       <HeadAddList />
       <HeadDelList />
@@ -1019,7 +1039,7 @@ helle *#myName(=)*#
       <HeadDelList />
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>true</IsEnable>
+      <IsEnable>false</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>StartWith</MatchMode>
@@ -1229,7 +1249,64 @@ This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.</contentData>
       <HeadDelList />
     </FiddlerResponseChange>
     <FiddlerResponseChange>
-      <IsEnable>false</IsEnable>
+      <IsEnable>true</IsEnable>
+      <HttpFilter>
+        <UriMatch>
+          <MatchMode>StartWith</MatchMode>
+          <MatchUri>https://api.weixin.qq.com/sns/oauth2/access_token?code=</MatchUri>
+        </UriMatch>
+      </HttpFilter>
+      <ParameterPickList />
+      <HttpRawResponse>
+        <ResponseLine>HTTP/1.1 200 OK</ResponseLine>
+        <ResponseVersion>HTTP/1.1</ResponseVersion>
+        <ResponseCode>200</ResponseCode>
+        <ResponseStatusDescription>OK</ResponseStatusDescription>
+        <ResponseHeads>
+          <MyKeyValuePairOfStringString>
+            <Key>Connection</Key>
+            <Value>keep-alive</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Type</Key>
+            <Value>text/plain</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Date</Key>
+            <Value>Thu, 28 Feb 2019 10:59:55 GMT</Value>
+          </MyKeyValuePairOfStringString>
+          <MyKeyValuePairOfStringString>
+            <Key>Content-Length</Key>
+            <Value>383</Value>
+          </MyKeyValuePairOfStringString>
+        </ResponseHeads>
+        <ResponseEntity>eyJhY2Nlc3NfdG9rZW4iOiJhY2Nlc3NfdG9rZW5fKiN0ZXN0X29wZW5pZCgrKSojIiwiZXhwaXJlc19pbiI6NzIwMCwicmVmcmVzaF90b2tlbiI6InJlZnJlc2hfdG9rZW5fKiN0ZXN0X29wZW5pZCgrKSojIiwib3BlbmlkIjoiVGVzdE9wZW5JZCojdGVzdF9vcGVuaWQoKykqIyIsInNjb3BlIjoic25zYXBpX3VzZXJpbmZvIiwidW5pb25pZCI6InVuaW9uaWRfKiN0ZXN0X29wZW5pZCgrKSojIn0=</ResponseEntity>
+        <OriginSting>HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: text/plain
+Date: Thu, 28 Feb 2019 10:59:55 GMT
+Content-Length: 383
+
+{"access_token":"access_token_*#test_openid(+)*#","expires_in":7200,"refresh_token":"refresh_token_*#test_openid(+)*#","openid":"TestOpenId*#test_openid(+)*#","scope":"snsapi_userinfo","unionid":"unionid_*#test_openid(+)*#"}</OriginSting>
+        <ParameterizationContent>
+          <contentData>HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: text/plain
+Date: Thu, 28 Feb 2019 10:59:55 GMT
+Content-Length: 383
+
+{"access_token":"access_token_*#test_openid(+)*#","expires_in":7200,"refresh_token":"refresh_token_*#test_openid(+)*#","openid":"TestOpenId*#test_openid(+)*#","scope":"snsapi_userinfo","unionid":"unionid_*#test_openid(+)*#"}</contentData>
+          <hasParameter>true</hasParameter>
+          <encodetype>encode_default</encodetype>
+        </ParameterizationContent>
+      </HttpRawResponse>
+      <IsIsDirectRespons>true</IsIsDirectRespons>
+      <LesponseLatency>0</LesponseLatency>
+      <HeadAddList />
+      <HeadDelList />
+    </FiddlerResponseChange>
+    <FiddlerResponseChange>
+      <IsEnable>true</IsEnable>
       <HttpFilter>
         <UriMatch>
           <MatchMode>Is</MatchMode>
@@ -1240,14 +1317,12 @@ This is a simple Fiddler-returned &lt;B&gt;HTML&lt;/B&gt; page.</contentData>
       <IsIsDirectRespons>false</IsIsDirectRespons>
       <LesponseLatency>0</LesponseLatency>
       <HeadAddList>
+        <string>Set-Cookie: need_code=delete by FreeHttp; Max-Age=1;Path=/</string>
         <string>Set-Cookie: JSESSIONID=delete by FreeHttp; Max-Age=1;Path=/</string>
+        <string>Set-Cookie: username=delete by FreeHttp; Max-Age=1;Path=/</string>
         <string>Set-Cookie: v=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: openId=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: cachePage=delete by FreeHttp; Max-Age=1;Path=/</string>
         <string>Set-Cookie: XYLWXSESSIONID=delete by FreeHttp; Max-Age=1;Path=/</string>
         <string>Set-Cookie: token=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: CNZZDATA1273025666=delete by FreeHttp; Max-Age=1;Path=/</string>
-        <string>Set-Cookie: UM_distinctid=delete by FreeHttp; Max-Age=1;Path=/</string>
       </HeadAddList>
       <HeadDelList />
       <BodyModific>
