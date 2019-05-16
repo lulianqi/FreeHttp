@@ -45,6 +45,10 @@ namespace FreeHttp.FreeHttpControl
                 cb_macthUriMode.Text = httpFilter.UriMatch.MatchMode.ToString();
                 tb_urlFilter.Text = string.IsNullOrEmpty(httpFilter.UriMatch.MatchUri) ? "" : httpFilter.UriMatch.MatchUri;
             }
+            else
+            {
+                cb_macthUriMode.SelectedIndex = 0;
+            }
 
             if(httpFilter.HeadMatch!=null)
             {
