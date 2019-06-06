@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeHttp", "FreeHttp.csproj", "{432A476E-3D49-4994-A75C-346EFDAD1E9A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeHttpWebService", "..\FreeHttpWebService\FreeHttpWebService.csproj", "{1BEB4588-FC73-4221-89F3-59913E39BA01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{432A476E-3D49-4994-A75C-346EFDAD1E9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{432A476E-3D49-4994-A75C-346EFDAD1E9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{432A476E-3D49-4994-A75C-346EFDAD1E9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BEB4588-FC73-4221-89F3-59913E39BA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BEB4588-FC73-4221-89F3-59913E39BA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BEB4588-FC73-4221-89F3-59913E39BA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BEB4588-FC73-4221-89F3-59913E39BA01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
