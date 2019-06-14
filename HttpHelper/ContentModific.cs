@@ -10,7 +10,8 @@ namespace FreeHttp.HttpHelper
         NoChange,
         KeyVauleReplace,
         EntireReplace,
-        RegexReplace
+        RegexReplace,
+        HexReplace
     }
 
      [Serializable]
@@ -38,6 +39,23 @@ namespace FreeHttp.HttpHelper
                 if (targetKey.StartsWith("<regex>"))
                 {
                     ModificMode = ContentModificMode.RegexReplace;
+                    TargetKey = targetKey;
+                }
+                else if (targetKey.StartsWith("<hex>"))
+                {
+                    //check data
+                    try
+                    {
+                        replaceContent = replaceContent.TrimEnd(' ');
+                        targetKey = targetKey.TrimEnd(' ');
+                        AutoTest.MyBytes.HexStringToByte(replaceContent, AutoTest.HexaDecimal.hex16);
+                        AutoTest.MyBytes.HexStringToByte(targetKey.Remove(0,5), AutoTest.HexaDecimal.hex16);
+                    }
+                    catch(Exception ex)
+                    {
+                        throw new Exception(string.Format("your input is illegal that your should use 0x01 0x02 0xff as your format,and the space or - will be ok for byte spit. \r\ninner Exception is [{0}]",ex.Message), ex);
+                    }
+                    ModificMode = ContentModificMode.HexReplace;
                     TargetKey = targetKey;
                 }
                 else
@@ -83,10 +101,35 @@ namespace FreeHttp.HttpHelper
                         finalContent = string.Format("RegexReplace [{0}] GetFinalContent fail :{1}", TargetKey.Remove(0, 7), ex.Message);
                     }
                     break;
+                case ContentModificMode.HexReplace:
+                    throw new Exception("your should implement HexReplace with anther GetFinalContent overload");
                 default:
                     throw new Exception("not support ContentModificMode");
             }
             return finalContent;
+        }
+
+        public byte[] GetFinalContent(byte[] sourceContent)
+        {
+            switch (ModificMode)
+            {
+                case ContentModificMode.NoChange:
+                case ContentModificMode.EntireReplace:
+                case ContentModificMode.KeyVauleReplace:
+                case ContentModificMode.RegexReplace:
+                    throw new Exception("your should implement HexReplace with out GetFinalContent");
+                case ContentModificMode.HexReplace:
+                    byte[] replaceContentBytes = AutoTest.MyBytes.HexStringToByte(ReplaceContent, AutoTest.HexaDecimal.hex16);
+                    string searchKey = TargetKey.Remove(0, 5);
+                    if (string.IsNullOrEmpty(searchKey))
+                    {
+                        return replaceContentBytes;
+                    }
+                    byte[] searchKeyBytes = AutoTest.MyBytes.HexStringToByte(searchKey, AutoTest.HexaDecimal.hex16);
+                    return AutoTest.MyBytes.ReplaceBytes(sourceContent, searchKeyBytes, replaceContentBytes);
+                default:
+                    throw new Exception("not support ContentModificMode");
+            }
         }
     }
 }

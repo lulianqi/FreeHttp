@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeHttp", "FreeHttp.csproj", "{432A476E-3D49-4994-A75C-346EFDAD1E9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeHttpWebService", "..\FreeHttpWebService\FreeHttpWebService.csproj", "{1BEB4588-FC73-4221-89F3-59913E39BA01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeHttpWebService", "..\FreeHttpWebService\FreeHttpWebService.csproj", "{1BEB4588-FC73-4221-89F3-59913E39BA01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeHttpTests", "..\FreeHttpTests\FreeHttpTests.csproj", "{4E9B0249-D28D-4CD1-93D6-5EA4AB8D5CF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{1BEB4588-FC73-4221-89F3-59913E39BA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BEB4588-FC73-4221-89F3-59913E39BA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BEB4588-FC73-4221-89F3-59913E39BA01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E9B0249-D28D-4CD1-93D6-5EA4AB8D5CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E9B0249-D28D-4CD1-93D6-5EA4AB8D5CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E9B0249-D28D-4CD1-93D6-5EA4AB8D5CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E9B0249-D28D-4CD1-93D6-5EA4AB8D5CF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

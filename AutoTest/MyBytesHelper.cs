@@ -11,8 +11,8 @@ namespace FreeHttp.AutoTest
     /// </summary>
     public enum ShowHexMode
     {
-        @null = 0,    //不风格每个字节
-        space = 1,   //以空格分割
+        @null = 0,    //不分格每个字节
+        space = 1,   //以分格分割
         spit0x = 2,   //以0x分割 (用于显示16进制)
         spitSpace0x = 3,   //以 0x分割 (用于显示16进制)
         spit0b = 4,   //以0b分割 (用于显示2进制)
@@ -30,7 +30,7 @@ namespace FreeHttp.AutoTest
     public enum HexaDecimal
     {
         hex2 = 2,
-        hex10 = 10,
+        hex10 = 10,        //001 224 023  表示显示需要补0
         hex16 = 16
     }
 
@@ -39,7 +39,7 @@ namespace FreeHttp.AutoTest
         #region ByteSring
 
         private static Dictionary<HexaDecimal, int> DictionaryHexaDecimal = new Dictionary<HexaDecimal, int>() { { HexaDecimal.hex2, 8 }, { HexaDecimal.hex10, 3 }, { HexaDecimal.hex16, 2 } };
-        private static Dictionary<ShowHexMode, string> DictionaryShowHexMode = new Dictionary<ShowHexMode, string>() { { ShowHexMode.@null, "" }, { ShowHexMode.space, " " }, { ShowHexMode.spit_, "_" }, { ShowHexMode.spitM_, "-" }, { ShowHexMode.spit0b, "0b" }, { ShowHexMode.spitSpace0b, " 0b" }, { ShowHexMode.spit0d, "0d" }, { ShowHexMode.spitSpace0d, " 0d" }, { ShowHexMode.spit0x, "0x" }, { ShowHexMode.spitSpace0x, " 0x" } };
+        private static Dictionary<ShowHexMode, string> DictionaryShowHexMode = new Dictionary<ShowHexMode, string>() { { ShowHexMode.spitSpace0x, " 0x" }, { ShowHexMode.spit0x, "0x" }, { ShowHexMode.spitSpace0d, " 0d" }, { ShowHexMode.spit0d, "0d" }, { ShowHexMode.spitSpace0b, " 0b" }, { ShowHexMode.spit0b, "0b" }, { ShowHexMode.spitM_, "-" }, { ShowHexMode.spit_, "_" }, { ShowHexMode.space, " " }, { ShowHexMode.@null, "" } };
 
 
         /// <summary>
@@ -96,9 +96,13 @@ namespace FreeHttp.AutoTest
         /// <param name="yourStr">需要转换的字符串</param>
         /// <param name="hexDecimal">指定进制</param>
         /// <param name="stringMode">指定格式</param>
-        /// <returns>返回结果</returns>
+        /// <returns>返回结果(如果yourStr为""返回长度为0的byte[])</returns>
         public static byte[] HexStringToByte(string yourStr, HexaDecimal hexDecimal, ShowHexMode stringMode)
         {
+            if (hexDecimal == HexaDecimal.hex16 && (stringMode == ShowHexMode.spit0b || stringMode == ShowHexMode.spit0d || stringMode == ShowHexMode.spitSpace0b || stringMode == ShowHexMode.spitSpace0d))
+            {
+                throw new Exception("your HexaDecimal and ShowHexMode is conflict");
+            }
             string[] hexStrs;
             byte[] resultBytes;
             string modeStr = string.Empty;   //string.Empty 不等于 null
@@ -121,6 +125,8 @@ namespace FreeHttp.AutoTest
             }
             else
             {
+                //使用StringSplitOptions.RemoveEmptyEntries去除空值因为0xFF0xFF可能会有第一个值为空的情况
+                //对于0xFF 0xFF使用 0x分割，第一个值可能会带0x，不过 Convert.ToByte可以兼容这种情况（不过还是可能带来第一个字节允许使用不应用的分割的情况）
                 hexStrs = yourStr.Split(new string[] { modeStr }, StringSplitOptions.RemoveEmptyEntries);
             }
             try
@@ -133,9 +139,27 @@ namespace FreeHttp.AutoTest
             }
             catch (Exception ex)
             {
-                throw new Exception("error data ,can not change it to your hex", ex);
+                throw new Exception(string.Format("error data ,can not change your hex string to your hex,  hexDecimal[{0}] ShowHexMode[{1}]", hexDecimal, stringMode), ex);
             }
             return resultBytes;
+        }
+
+
+        /// <summary>
+        /// 将可读指定进制的数据转换为字节数组（因为用户数据可能会是非法数据，遇到非法数据非法会抛出异常）(使用猜测的方式发现分割字符串)
+        /// </summary>
+        /// <param name="yourStr">需要转换的字符串</param>
+        /// <param name="hexDecimal">指定进制</param>
+        /// <returns>返回结果(如果yourStr为""返回长度为0的byte[])</returns>
+        public static byte[] HexStringToByte(string yourStr, HexaDecimal hexDecimal)
+        {
+            if (yourStr == null) throw new Exception("your source string is null");
+            foreach(var tryStringSpitMode in DictionaryShowHexMode)
+            {
+                if (hexDecimal == HexaDecimal.hex16 && (tryStringSpitMode.Key == ShowHexMode.spit0b || tryStringSpitMode.Key == ShowHexMode.spit0d || tryStringSpitMode.Key == ShowHexMode.spitSpace0b || tryStringSpitMode.Key == ShowHexMode.spitSpace0d)) continue;
+                if (yourStr.Contains(tryStringSpitMode.Value)) return HexStringToByte(yourStr, hexDecimal, tryStringSpitMode.Key);
+            }
+            throw new Exception("unknown exception with HexStringToByte");
         }
 
         public static bool ByteToSring(byte[] yourBytes, Encoding yourEncoding, ref string outStr)
@@ -325,6 +349,11 @@ namespace FreeHttp.AutoTest
             //System.Net.IPAddress.NetworkToHostOrder(网络字节转成本机)
         }
 
+        /// <summary>
+        /// 拼接一组byte[]
+        /// </summary>
+        /// <param name="yourByteList">byte[] List</param>
+        /// <returns>拼接完成的的byte[]</returns>
         public static byte[] GroupByteList(List<byte[]> yourByteList)
         {
             if (yourByteList == null)
@@ -345,6 +374,48 @@ namespace FreeHttp.AutoTest
                 nowCopyIndex += tempBytes.Length;
             }
             return outBytes;
+        }
+
+        /// <summary>
+        /// byte[]替换 (如果 搜索目标或替换目标为null，直接返回源数组)
+        /// </summary>
+        /// <param name="src">替换源数组</param>
+        /// <param name="search">需要被替换目标数组</param>
+        /// <param name="repl">替换进入的数组</param>
+        /// <returns>完成替换的byte[]</returns>
+        public static byte[] ReplaceBytes(byte[] src, byte[] search, byte[] repl)
+        {
+            if (repl == null) return src;
+            int index = FindBytes(src, search);
+            if (index < 0) return src;
+            byte[] dst = new byte[src.Length - search.Length + repl.Length];
+            Buffer.BlockCopy(src, 0, dst, 0, index);
+            Buffer.BlockCopy(repl, 0, dst, index, repl.Length);
+            Buffer.BlockCopy(src, index + search.Length, dst, index + repl.Length,src.Length - (index + search.Length));
+            return dst;
+        }
+
+        /// <summary>
+        /// 在目标数组中查找指定目标第一次出现的索引（没有指定目标返回-1）
+        /// </summary>
+        /// <param name="src">查找源</param>
+        /// <param name="find">需要查找的目标</param>
+        /// <returns>第一次出现的索引（没有指定目标返回-1）</returns>
+        public static int FindBytes(byte[] src, byte[] find)
+        {
+            if(src==null|| find==null|| src.Length==0|| find.Length == 0 || find.Length> src.Length) return -1;
+            for (int i = 0; i < src.Length - find.Length +1 ; i++)
+            {
+                if (src[i] == find[0])
+                {
+                   for(int m=1;m< find.Length;m++)
+                   {
+                        if (src[i + m] != find[m]) break;
+                        if (m == find.Length - 1) return i;
+                   }
+                }
+            }
+            return -1;
         }
     }
 }

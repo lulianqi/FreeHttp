@@ -585,6 +585,7 @@ namespace FreeHttp.FreeHttpControl
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                PutError(string.Format("add rule fail :{0}", ex.Message));
                 MarkControl(tabControl_Modific.SelectedTab, Color.Plum, 2);
                 nowRequestChange = null;
                 nowResponseChange = null;
@@ -861,10 +862,17 @@ namespace FreeHttp.FreeHttpControl
             staticDataManageWindow.Show();
         }
 
-        private void issuesAndSuggestToolStripMenuItem_Click(object sender, EventArgs e)
+        private void FeedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/lulianqi/FreeHttp/issues");
+            UserFeedbackWindow f = new UserFeedbackWindow();
+            f.ShowDialog();
         }
+
+        private void CodeInGithubToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/lulianqi/FreeHttp");
+        }
+
 
         #endregion
 
@@ -1169,6 +1177,7 @@ namespace FreeHttp.FreeHttpControl
                 this.toolTip_forMainWindow.SetToolTip(this.pb_requestReplace_changeMode, "change request replace mode to raw mode");
             }
         }
+
 
 
         #endregion

@@ -79,17 +79,6 @@ D:\my\code\FiddlerExtension\FreeHttp\bin\Debug\GA.Analytics.Monitor.pdb
 C:\Users\administer\documents\visual studio 2013\Projects\FiddlerExtension\FreeHttp\obj\Debug\FreeHttp.csprojResolveAssemblyReference.cache
 G:\GitHub\FreeHttp\bin\Debug\FreeHttp.dll
 G:\GitHub\FreeHttp\bin\Debug\FreeHttp.pdb
-G:\GitHub\FreeHttp\bin\Debug\Xceed.Zip.v5.4.dll
-G:\GitHub\FreeHttp\bin\Debug\Xceed.FileSystem.v5.4.dll
-G:\GitHub\FreeHttp\bin\Debug\Analytics.dll
-G:\GitHub\FreeHttp\bin\Debug\Newtonsoft.Json.dll
-G:\GitHub\FreeHttp\bin\Debug\Xceed.Compression.Formats.v5.4.dll
-G:\GitHub\FreeHttp\bin\Debug\Xceed.Compression.v5.4.dll
-G:\GitHub\FreeHttp\bin\Debug\GA.Analytics.Monitor.dll
-G:\GitHub\FreeHttp\bin\Debug\Fiddler.pdb
-G:\GitHub\FreeHttp\bin\Debug\Analytics.pdb
-G:\GitHub\FreeHttp\bin\Debug\GA.Analytics.Monitor.pdb
-G:\GitHub\FreeHttp\obj\Debug\FreeHttp.csprojAssemblyReference.cache
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.EditKeyVaule.resources
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.EditCookieForm.resources
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.EditParameterPickWindow.resources
@@ -118,3 +107,4 @@ G:\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.CoreCompileInputs.cache
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.CopyComplete
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.dll
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.pdb
+G:\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.UserFeedbackWindow.resources
