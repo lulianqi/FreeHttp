@@ -248,11 +248,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="WebService\FeedbackService.cs" />
     <Compile Include="WebService\HttpServer\CertificatesHelper.cs" />
     <Compile Include="WebService\HttpServer\MyHttpListener.cs" />
     <Compile Include="WebService\HttpServer\MySocketHelper.cs" />
     <Compile Include="WebService\MyWebTool.cs" />
     <Compile Include="WebService\UpgradeService.cs" />
+    <Compile Include="WebService\UserComputerInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FreeHttpControl\EditKeyVaule.resx">

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Management;
 using System.Text;
@@ -39,7 +38,7 @@ namespace FreeHttp.WebService
 
             Task<UpgradeServiceEventArgs> checkUpgradeTask = new Task<UpgradeServiceEventArgs>(() =>
             {
-                string tempResponse = myHttp.SendData(string.Format(@"https://api.lulianqi.com/UpdateCheck/v1.1?user={0}", UserComputerInfo.GetComputerMac()));
+                string tempResponse = myHttp.SendData(string.Format(@"https://api.lulianqi.com/freehttp/UpdateCheck/v1.2?user={0}&dotnetrelease={1}", UserComputerInfo.GetComputerMac(), UserComputerInfo.GetDotNetRelease()));
                 string isNeedUpdata = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"isNeedUpdata\":", ",", tempResponse);
                 string url = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"url\":", ",", tempResponse);
                 string message = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"message\":", ",", tempResponse);
@@ -68,7 +67,7 @@ namespace FreeHttp.WebService
 
         private void CheckUpgrade()
         {
-            string tempResponse = myHttp.SendData(string.Format(@"https://api.lulianqi.com/UpdateCheck/v1.1?user={0}", UserComputerInfo.GetComputerMac()));
+            string tempResponse = myHttp.SendData(string.Format(@"https://api.lulianqi.com/freehttp/UpdateCheck/v1.1?user={0}", UserComputerInfo.GetComputerMac()));
             string isNeedUpdata = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter( "\"isNeedUpdata\":", ",",tempResponse);
             string url = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"url\":", ",", tempResponse);
             string message = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"message\":", ",", tempResponse);
@@ -81,46 +80,5 @@ namespace FreeHttp.WebService
                 this.GetUpgradeMes(this, new UpgradeServiceEventArgs(true,url));
             }
         }
-    }
-
-    internal class UserComputerInfo
-    {
-        internal static string GetComputerMac()
-        {
-            ManagementClass mc = null;
-            ManagementObjectCollection moc = null;
-            try
-            {
-                string mac = "";
-                mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
-                moc = mc.GetInstances();
-                foreach (ManagementObject mo in moc)
-                {
-                    if ((bool)mo["IPEnabled"] == true)
-                    {
-                        mac = mo["MacAddress"].ToString();
-                        break;
-                    }
-                }
-                return mac;
-            }
-            catch(Exception ex)
-            {
-                return ex.Message;
-            }
-            finally
-            {
-                if (moc != null)
-                {
-                    moc.Dispose();
-                }
-                if(mc!=null)
-                {
-                    mc.Dispose();
-                }
-            }
-
-        }
-    
     }
 }

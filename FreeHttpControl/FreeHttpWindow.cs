@@ -864,13 +864,19 @@ namespace FreeHttp.FreeHttpControl
 
         private void FeedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserFeedbackWindow f = new UserFeedbackWindow();
+            UserFeedbackWindow f = new UserFeedbackWindow(this);
+            f.StartPosition = FormStartPosition.CenterParent;
             f.ShowDialog();
         }
 
         private void CodeInGithubToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/lulianqi/FreeHttp");
+        }
+
+        private void DocumentationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://doc.lulianqi.com/FreeHttp/Documentation/recent");
         }
 
 
@@ -1190,5 +1196,6 @@ namespace FreeHttp.FreeHttpControl
 
         #endregion
 
+       
     }
 }

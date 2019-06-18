@@ -52,14 +52,19 @@ namespace FreeHttp.FreeHttpControl.MyControl
                 cb_ParameterTypeAddition.DropDownStyle = ComboBoxStyle.DropDownList;
             }
             cb_ParameterTypeAddition.DataSource = ParameterPickTypeEngine.dictionaryParameterPickFunc[tempParameterPickType].PickTypeAdditionalList;
-            cb_ParameterTypeAddition.DisplayMember = "Key";
+            cb_ParameterTypeAddition.DisplayMember = "Key";  //可以把DisplayMember与ValueMember放到DataSource设置的前面
             cb_ParameterTypeAddition.ValueMember = "Value";
             cb_ParameterTypeAddition.SelectedIndex = 0;
             cb_ParameterTypeAddition_SelectedIndexChanged(null, null);
         }
 
+        //设置 cb_ParameterTypeAddition.DataSource  会触发cb_ParameterTypeAddition_SelectedIndexChanged ，如果没有提前设置ValueMember，SelectedValue可能不是预期类型
         private void cb_ParameterTypeAddition_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if(cb_ParameterTypeAddition.SelectedValue.GetType() == typeof(KeyValuePair<string, string>))   // as  只能用于引用类型比较 
+            {
+                return;
+            }
             tb_ParameterExpression.WatermarkText = (string)cb_ParameterTypeAddition.SelectedValue;
         }
 

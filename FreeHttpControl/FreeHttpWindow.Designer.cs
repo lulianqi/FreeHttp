@@ -110,6 +110,7 @@ namespace FreeHttp.FreeHttpControl
             this.parameterDataManageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.feedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.codeInGithubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rtb_MesInfo = new System.Windows.Forms.RichTextBox();
             this.groupBox_urlFilter = new System.Windows.Forms.GroupBox();
             this.pictureBox_editHttpFilter = new System.Windows.Forms.PictureBox();
@@ -144,7 +145,7 @@ namespace FreeHttp.FreeHttpControl
             this.currentValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.previousValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.codeInGithubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_AddFile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main)).BeginInit();
             this.splitContainer_main.Panel1.SuspendLayout();
@@ -1062,7 +1063,8 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.feedbackToolStripMenuItem,
-            this.codeInGithubToolStripMenuItem});
+            this.codeInGithubToolStripMenuItem,
+            this.documentationToolStripMenuItem});
             this.helpToolStripMenuItem.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(47, 21);
@@ -1072,9 +1074,17 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.feedbackToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("feedbackToolStripMenuItem.Image")));
             this.feedbackToolStripMenuItem.Name = "feedbackToolStripMenuItem";
-            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.feedbackToolStripMenuItem.Text = "feedback";
             this.feedbackToolStripMenuItem.Click += new System.EventHandler(this.FeedbackToolStripMenuItem_Click);
+            // 
+            // codeInGithubToolStripMenuItem
+            // 
+            this.codeInGithubToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("codeInGithubToolStripMenuItem.Image")));
+            this.codeInGithubToolStripMenuItem.Name = "codeInGithubToolStripMenuItem";
+            this.codeInGithubToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.codeInGithubToolStripMenuItem.Text = "code in github";
+            this.codeInGithubToolStripMenuItem.Click += new System.EventHandler(this.CodeInGithubToolStripMenuItem_Click);
             // 
             // rtb_MesInfo
             // 
@@ -1477,13 +1487,13 @@ namespace FreeHttp.FreeHttpControl
             this.previousValueToolStripMenuItem.Text = "previous value";
             this.previousValueToolStripMenuItem.Click += new System.EventHandler(this.addParameterDataToolStripMenuItem_Click);
             // 
-            // codeInGithubToolStripMenuItem
+            // documentationToolStripMenuItem
             // 
-            this.codeInGithubToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("codeInGithubToolStripMenuItem.Image")));
-            this.codeInGithubToolStripMenuItem.Name = "codeInGithubToolStripMenuItem";
-            this.codeInGithubToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.codeInGithubToolStripMenuItem.Text = "code in github";
-            this.codeInGithubToolStripMenuItem.Click += new System.EventHandler(this.CodeInGithubToolStripMenuItem_Click);
+            this.documentationToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("documentationToolStripMenuItem.Image")));
+            this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.documentationToolStripMenuItem.Text = "documentation";
+            this.documentationToolStripMenuItem.Click += new System.EventHandler(this.DocumentationToolStripMenuItem_Click);
             // 
             // FreeHttpWindow
             // 
@@ -1679,5 +1689,6 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem feedbackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem codeInGithubToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem documentationToolStripMenuItem;
     }
 }
