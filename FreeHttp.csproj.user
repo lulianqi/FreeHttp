@@ -2,6 +2,6 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Program</StartAction>
-    <StartProgram>C:\Users\lijie\AppData\Local\Programs\Fiddler\Fiddler.exe</StartProgram>
+    <StartProgram>C:\Users\lijie\AppData\Local\Programs\Fiddler\Fiddler4.0.exe</StartProgram>
   </PropertyGroup>
 </Project>

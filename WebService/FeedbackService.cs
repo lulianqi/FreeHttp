@@ -1,5 +1,4 @@
-﻿#define NET4_5UP
-
+﻿//#define NET4_5UP
 using System;
 using System.Collections.Generic;
 using System.Linq;

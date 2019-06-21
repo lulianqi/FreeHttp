@@ -1,4 +1,5 @@
-﻿using System;
+﻿//#define NET4_5UP
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -78,14 +79,18 @@ namespace FreeHttp.WebService.HttpServer
             {
                 throw ex;
             }
+#if NET4_5UP
             ListenerAsync();
             return true;
+#endif
 
+#if NET4
             System.Threading.Thread ListenerThread = new System.Threading.Thread(new System.Threading.ThreadStart(ListenerWorker));
             ListenerThread.Name = "ListenerThread";
             ListenerThread.Priority = System.Threading.ThreadPriority.Normal;
             ListenerThread.IsBackground = true;
             ListenerThread.Start();
+#endif
         }
 
         public void Close()
@@ -104,7 +109,7 @@ namespace FreeHttp.WebService.HttpServer
                 listener.Stop();
             }
         }
-
+#if NET4_5UP
         private async void ListenerAsync()
         {
             HttpListenerContext context;
@@ -139,7 +144,7 @@ namespace FreeHttp.WebService.HttpServer
                 
             }
         }
-
+#endif
         private void ListenerWorker()
         {
             while(listener.IsListening)

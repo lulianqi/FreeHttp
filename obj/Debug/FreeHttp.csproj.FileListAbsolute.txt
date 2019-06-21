@@ -108,4 +108,5 @@ G:\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.CopyComplete
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.dll
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.pdb
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.UserFeedbackWindow.resources
+G:\GitHub\FreeHttp\bin\Debug\Fiddler.exe
 G:\GitHub\FreeHttp\obj\Debug\FreeHttp.csprojAssemblyReference.cache

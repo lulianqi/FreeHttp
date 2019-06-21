@@ -53,7 +53,7 @@ namespace FreeHttp.HttpHelper
                     }
                     catch(Exception ex)
                     {
-                        throw new Exception(string.Format("your input is illegal that your should use 0x01 0x02 0xff as your format,and the space or - will be ok for byte spit. \r\ninner Exception is [{0}]",ex.Message), ex);
+                        throw new Exception(string.Format("your input is illegal that your should use prescribed hex16 format like 0x00 0x01 0xff and the space or - will be ok for byte spit. \r\ninner Exception is [{0}]", ex.Message), ex);
                     }
                     ModificMode = ContentModificMode.HexReplace;
                     TargetKey = targetKey;

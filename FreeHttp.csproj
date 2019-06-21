@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET4_5UP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -35,11 +35,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fiddler">
-      <HintPath>..\..\..\..\..\AppData\Local\Programs\Fiddler\Fiddler.exe</HintPath>
+    <Reference Include="Fiddler, Version=5.0.20182.28034, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Fiddler4.5\Fiddler.exe</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
-    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />

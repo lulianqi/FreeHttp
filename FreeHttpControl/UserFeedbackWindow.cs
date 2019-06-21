@@ -1,4 +1,4 @@
-﻿#define NET4_5UP
+﻿//#define NET4_5UP
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,7 +39,7 @@ namespace FreeHttp.FreeHttpControl
 #endif
 
 #if NET4
-            WebService.FeedbackService.SubmitFeedbackTask(WebService.UserComputerInfo.GetComputerMac(), watermakTextBox_contactInfo.Text, rtb_feedbackContent.Text,new Action<int>((code) => { if (mainWindow == null) return; if (!(task.Result == 200 || task.Result ==201)) { mainWindow.PutError(string.Format("submit feedback fial with {0}", code)); } else { mainWindow.PutInfo("submit feedback succeed"); } }));
+            WebService.FeedbackService.SubmitFeedbackTask(WebService.UserComputerInfo.GetComputerMac(), watermakTextBox_contactInfo.Text, rtb_feedbackContent.Text,new Action<int>((code) => { if (mainWindow == null) return; if (!(code == 200 || code ==201)) { mainWindow.PutError(string.Format("submit feedback fial with {0}", code)); } else { mainWindow.PutInfo("submit feedback succeed"); } }));
 #endif
             this.Close();
         }
