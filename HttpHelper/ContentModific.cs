@@ -11,7 +11,8 @@ namespace FreeHttp.HttpHelper
         KeyVauleReplace,
         EntireReplace,
         RegexReplace,
-        HexReplace
+        HexReplace,
+        Recode
     }
 
      [Serializable]
@@ -103,6 +104,8 @@ namespace FreeHttp.HttpHelper
                     break;
                 case ContentModificMode.HexReplace:
                     throw new Exception("your should implement HexReplace with anther GetFinalContent overload");
+                case ContentModificMode.Recode:
+                    throw new Exception("your should implement Recode with GetRecodeContent");
                 default:
                     throw new Exception("not support ContentModificMode");
             }
@@ -117,16 +120,37 @@ namespace FreeHttp.HttpHelper
                 case ContentModificMode.EntireReplace:
                 case ContentModificMode.KeyVauleReplace:
                 case ContentModificMode.RegexReplace:
+                case ContentModificMode.Recode:
                     throw new Exception("your should implement HexReplace with out GetFinalContent");
                 case ContentModificMode.HexReplace:
                     byte[] replaceContentBytes = AutoTest.MyBytes.HexStringToByte(ReplaceContent, AutoTest.HexaDecimal.hex16);
-                    string searchKey = TargetKey.Remove(0, 5);
+                    string searchKey = TargetKey.Remove(0, 5);//<hex>
                     if (string.IsNullOrEmpty(searchKey))
                     {
                         return replaceContentBytes;
                     }
                     byte[] searchKeyBytes = AutoTest.MyBytes.HexStringToByte(searchKey, AutoTest.HexaDecimal.hex16);
                     return AutoTest.MyBytes.ReplaceBytes(sourceContent, searchKeyBytes, replaceContentBytes);
+                default:
+                    throw new Exception("not support ContentModificMode");
+            }
+        }
+
+        public byte[] GetRecodeContent(string sourceContent)
+        {
+            switch (ModificMode)
+            {
+                case ContentModificMode.NoChange:
+                case ContentModificMode.EntireReplace:
+                case ContentModificMode.KeyVauleReplace:
+                case ContentModificMode.RegexReplace:
+                case ContentModificMode.HexReplace:
+                    throw new Exception("your should implement Recode with out GetRecodeContent");
+                case ContentModificMode.Recode:
+                    string searchKey = TargetKey.Remove(0, 7);//<recode>
+                    Encoding nowEncoding = Encoding.GetEncoding(searchKey); //shoud check the searchKey when we creat ContentModific
+                    return nowEncoding.GetBytes(sourceContent);
+                    return null;
                 default:
                     throw new Exception("not support ContentModificMode");
             }
