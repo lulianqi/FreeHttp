@@ -550,7 +550,10 @@ namespace FreeHttp.FreeHttpControl
                 if (fiddlerRequsetChange.BodyModific != null && fiddlerRequsetChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
                     tb_requestModific_body.Text = fiddlerRequsetChange.BodyModific.TargetKey;
-                    rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ReplaceContent);
+                    if (!string.IsNullOrEmpty(fiddlerRequsetChange.BodyModific.ReplaceContent))
+                    {
+                        rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ReplaceContent);
+                    }
                 }
             }
             else
@@ -647,7 +650,10 @@ namespace FreeHttp.FreeHttpControl
                 if (fiddlerResponseChange.BodyModific != null && fiddlerResponseChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
                     tb_responseModific_body.Text = fiddlerResponseChange.BodyModific.TargetKey;
-                    rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent);
+                    if (!string.IsNullOrEmpty(fiddlerResponseChange.BodyModific.ReplaceContent))
+                    {
+                        rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent);
+                    }
                 }
             }
             else

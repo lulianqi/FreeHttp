@@ -12,7 +12,7 @@ namespace FreeHttp.HttpHelper
         EntireReplace,
         RegexReplace,
         HexReplace,
-        Recode
+        ReCode
     }
 
      [Serializable]
@@ -50,13 +50,27 @@ namespace FreeHttp.HttpHelper
                         replaceContent = replaceContent.TrimEnd(' ');
                         targetKey = targetKey.TrimEnd(' ');
                         AutoTest.MyBytes.HexStringToByte(replaceContent, AutoTest.HexaDecimal.hex16);
-                        AutoTest.MyBytes.HexStringToByte(targetKey.Remove(0,5), AutoTest.HexaDecimal.hex16);
+                        AutoTest.MyBytes.HexStringToByte(targetKey.Remove(0, 5), AutoTest.HexaDecimal.hex16);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         throw new Exception(string.Format("your input is illegal that your should use prescribed hex16 format like 0x00 0x01 0xff and the space or - will be ok for byte spit. \r\ninner Exception is [{0}]", ex.Message), ex);
                     }
                     ModificMode = ContentModificMode.HexReplace;
+                    TargetKey = targetKey;
+                }
+                else if ((targetKey.StartsWith("<recode>")))
+                {
+                    try
+                    {
+                        targetKey = targetKey.TrimEnd(' ');
+                        Encoding.GetEncoding(targetKey.Remove(0, 8).Trim(' '));  //https://docs.microsoft.com/zh-cn/dotnet/api/system.text.encoding?view=netcore-2.2
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(string.Format("your input is illegal that your should use legal EncodingInfo.Name like utf-8;hz-gb-2312 ......\r\ninner Exception is [{0}]", ex.Message), ex);
+                    }
+                    ModificMode = ContentModificMode.ReCode;
                     TargetKey = targetKey;
                 }
                 else
@@ -66,9 +80,14 @@ namespace FreeHttp.HttpHelper
                 }
             }
 
+            //set the ReplaceContent
             if (ModificMode == ContentModificMode.EntireReplace && string.IsNullOrEmpty(replaceContent))
             {
                 ModificMode = ContentModificMode.NoChange;
+                ReplaceContent = null;
+            }
+            else if(ModificMode == ContentModificMode.ReCode)
+            {
                 ReplaceContent = null;
             }
             else
@@ -95,7 +114,7 @@ namespace FreeHttp.HttpHelper
                 case ContentModificMode.RegexReplace:
                     try
                     {
-                        finalContent = System.Text.RegularExpressions.Regex.Replace(sourceContent, TargetKey.Remove(0, 7), ReplaceContent);
+                        finalContent = System.Text.RegularExpressions.Regex.Replace(sourceContent, TargetKey.Remove(0, 8), ReplaceContent);
                     }
                     catch(Exception ex)
                     {
@@ -104,7 +123,7 @@ namespace FreeHttp.HttpHelper
                     break;
                 case ContentModificMode.HexReplace:
                     throw new Exception("your should implement HexReplace with anther GetFinalContent overload");
-                case ContentModificMode.Recode:
+                case ContentModificMode.ReCode:
                     throw new Exception("your should implement Recode with GetRecodeContent");
                 default:
                     throw new Exception("not support ContentModificMode");
@@ -120,8 +139,8 @@ namespace FreeHttp.HttpHelper
                 case ContentModificMode.EntireReplace:
                 case ContentModificMode.KeyVauleReplace:
                 case ContentModificMode.RegexReplace:
-                case ContentModificMode.Recode:
-                    throw new Exception("your should implement HexReplace with out GetFinalContent");
+                case ContentModificMode.ReCode:
+                    throw new Exception("this implement of GetFinalContent is only for HexReplace");
                 case ContentModificMode.HexReplace:
                     byte[] replaceContentBytes = AutoTest.MyBytes.HexStringToByte(ReplaceContent, AutoTest.HexaDecimal.hex16);
                     string searchKey = TargetKey.Remove(0, 5);//<hex>
@@ -145,12 +164,11 @@ namespace FreeHttp.HttpHelper
                 case ContentModificMode.KeyVauleReplace:
                 case ContentModificMode.RegexReplace:
                 case ContentModificMode.HexReplace:
-                    throw new Exception("your should implement Recode with out GetRecodeContent");
-                case ContentModificMode.Recode:
-                    string searchKey = TargetKey.Remove(0, 7);//<recode>
+                    throw new Exception("this implement of GetRecodeContent is only for ReCode ");
+                case ContentModificMode.ReCode:
+                    string searchKey = TargetKey.Remove(0, 8).Trim(' ');
                     Encoding nowEncoding = Encoding.GetEncoding(searchKey); //shoud check the searchKey when we creat ContentModific
                     return nowEncoding.GetBytes(sourceContent);
-                    return null;
                 default:
                     throw new Exception("not support ContentModificMode");
             }

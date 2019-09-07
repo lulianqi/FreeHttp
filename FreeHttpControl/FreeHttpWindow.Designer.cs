@@ -104,6 +104,7 @@ namespace FreeHttp.FreeHttpControl
             this.copySessionCookiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeSessionCookiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addUserAgentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeSessionEncodingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modificToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showSelectedSessionStreamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.httpTamperSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -111,6 +112,7 @@ namespace FreeHttp.FreeHttpControl
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.feedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.codeInGithubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rtb_MesInfo = new System.Windows.Forms.RichTextBox();
             this.groupBox_urlFilter = new System.Windows.Forms.GroupBox();
             this.pictureBox_editHttpFilter = new System.Windows.Forms.PictureBox();
@@ -145,7 +147,6 @@ namespace FreeHttp.FreeHttpControl
             this.currentValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.previousValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_AddFile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main)).BeginInit();
             this.splitContainer_main.Panel1.SuspendLayout();
@@ -961,7 +962,8 @@ namespace FreeHttp.FreeHttpControl
             this.setClientCookieToolStripMenuItem,
             this.copySessionCookiesToolStripMenuItem,
             this.removeSessionCookiesToolStripMenuItem,
-            this.addUserAgentToolStripMenuItem});
+            this.addUserAgentToolStripMenuItem,
+            this.changeSessionEncodingToolStripMenuItem});
             this.quickRuleToolStripMenuItem.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.quickRuleToolStripMenuItem.Name = "quickRuleToolStripMenuItem";
             this.quickRuleToolStripMenuItem.Padding = new System.Windows.Forms.Padding(2, 0, 4, 0);
@@ -972,7 +974,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.disableCacheToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("disableCacheToolStripMenuItem.Image")));
             this.disableCacheToolStripMenuItem.Name = "disableCacheToolStripMenuItem";
-            this.disableCacheToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.disableCacheToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.disableCacheToolStripMenuItem.Text = "disable cache";
             this.disableCacheToolStripMenuItem.Click += new System.EventHandler(this.disableCacheToolStripMenuItem_Click);
             // 
@@ -980,7 +982,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.addCookieToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addCookieToolStripMenuItem.Image")));
             this.addCookieToolStripMenuItem.Name = "addCookieToolStripMenuItem";
-            this.addCookieToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.addCookieToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.addCookieToolStripMenuItem.Text = "add cookie";
             this.addCookieToolStripMenuItem.Click += new System.EventHandler(this.addCookieToolStripMenuItem_Click);
             // 
@@ -988,7 +990,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.deleteCookieToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("deleteCookieToolStripMenuItem.Image")));
             this.deleteCookieToolStripMenuItem.Name = "deleteCookieToolStripMenuItem";
-            this.deleteCookieToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.deleteCookieToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.deleteCookieToolStripMenuItem.Text = "delete cookie";
             this.deleteCookieToolStripMenuItem.Click += new System.EventHandler(this.deleteCookieToolStripMenuItem_Click);
             // 
@@ -996,7 +998,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.setClientCookieToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("setClientCookieToolStripMenuItem.Image")));
             this.setClientCookieToolStripMenuItem.Name = "setClientCookieToolStripMenuItem";
-            this.setClientCookieToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.setClientCookieToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.setClientCookieToolStripMenuItem.Text = "set client cookie";
             this.setClientCookieToolStripMenuItem.Click += new System.EventHandler(this.setClientCookieToolStripMenuItem_Click);
             // 
@@ -1004,7 +1006,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.copySessionCookiesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copySessionCookiesToolStripMenuItem.Image")));
             this.copySessionCookiesToolStripMenuItem.Name = "copySessionCookiesToolStripMenuItem";
-            this.copySessionCookiesToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.copySessionCookiesToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.copySessionCookiesToolStripMenuItem.Text = "copy session cookies";
             this.copySessionCookiesToolStripMenuItem.Click += new System.EventHandler(this.copySessionCookiesToolStripMenuItem_Click);
             // 
@@ -1012,7 +1014,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.removeSessionCookiesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("removeSessionCookiesToolStripMenuItem.Image")));
             this.removeSessionCookiesToolStripMenuItem.Name = "removeSessionCookiesToolStripMenuItem";
-            this.removeSessionCookiesToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.removeSessionCookiesToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.removeSessionCookiesToolStripMenuItem.Text = "remove session cookies";
             this.removeSessionCookiesToolStripMenuItem.Click += new System.EventHandler(this.removeSessionCookiesToolStripMenuItem_Click);
             // 
@@ -1020,9 +1022,16 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.addUserAgentToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("addUserAgentToolStripMenuItem.Image")));
             this.addUserAgentToolStripMenuItem.Name = "addUserAgentToolStripMenuItem";
-            this.addUserAgentToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.addUserAgentToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
             this.addUserAgentToolStripMenuItem.Text = "add UserAgent";
             this.addUserAgentToolStripMenuItem.Click += new System.EventHandler(this.addUserAgentToolStripMenuItem_Click);
+            // 
+            // changeSessionEncodingToolStripMenuItem
+            // 
+            this.changeSessionEncodingToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("changeSessionEncodingToolStripMenuItem.Image")));
+            this.changeSessionEncodingToolStripMenuItem.Name = "changeSessionEncodingToolStripMenuItem";
+            this.changeSessionEncodingToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.changeSessionEncodingToolStripMenuItem.Text = "change session encoding";
             // 
             // modificToolToolStripMenuItem
             // 
@@ -1074,7 +1083,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.feedbackToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("feedbackToolStripMenuItem.Image")));
             this.feedbackToolStripMenuItem.Name = "feedbackToolStripMenuItem";
-            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.feedbackToolStripMenuItem.Text = "feedback";
             this.feedbackToolStripMenuItem.Click += new System.EventHandler(this.FeedbackToolStripMenuItem_Click);
             // 
@@ -1082,9 +1091,17 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.codeInGithubToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("codeInGithubToolStripMenuItem.Image")));
             this.codeInGithubToolStripMenuItem.Name = "codeInGithubToolStripMenuItem";
-            this.codeInGithubToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.codeInGithubToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.codeInGithubToolStripMenuItem.Text = "code in github";
             this.codeInGithubToolStripMenuItem.Click += new System.EventHandler(this.CodeInGithubToolStripMenuItem_Click);
+            // 
+            // documentationToolStripMenuItem
+            // 
+            this.documentationToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("documentationToolStripMenuItem.Image")));
+            this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.documentationToolStripMenuItem.Text = "documentation";
+            this.documentationToolStripMenuItem.Click += new System.EventHandler(this.DocumentationToolStripMenuItem_Click);
             // 
             // rtb_MesInfo
             // 
@@ -1296,6 +1313,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_requestRuleList.ContextMenuStrip = this.contextMenu_ruleList;
             this.lv_requestRuleList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_requestRuleList.FullRowSelect = true;
+            this.lv_requestRuleList.HideSelection = false;
             this.lv_requestRuleList.Location = new System.Drawing.Point(0, 0);
             this.lv_requestRuleList.Name = "lv_requestRuleList";
             this.lv_requestRuleList.ShowItemToolTips = true;
@@ -1432,6 +1450,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_responseRuleList.ContextMenuStrip = this.contextMenu_ruleList;
             this.lv_responseRuleList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lv_responseRuleList.FullRowSelect = true;
+            this.lv_responseRuleList.HideSelection = false;
             this.lv_responseRuleList.Location = new System.Drawing.Point(0, 0);
             this.lv_responseRuleList.Name = "lv_responseRuleList";
             this.lv_responseRuleList.ShowItemToolTips = true;
@@ -1486,14 +1505,6 @@ namespace FreeHttp.FreeHttpControl
             this.previousValueToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.previousValueToolStripMenuItem.Text = "previous value";
             this.previousValueToolStripMenuItem.Click += new System.EventHandler(this.addParameterDataToolStripMenuItem_Click);
-            // 
-            // documentationToolStripMenuItem
-            // 
-            this.documentationToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("documentationToolStripMenuItem.Image")));
-            this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.documentationToolStripMenuItem.Text = "documentation";
-            this.documentationToolStripMenuItem.Click += new System.EventHandler(this.DocumentationToolStripMenuItem_Click);
             // 
             // FreeHttpWindow
             // 
@@ -1690,5 +1701,6 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.ToolStripMenuItem feedbackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem codeInGithubToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem documentationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeSessionEncodingToolStripMenuItem;
     }
 }

@@ -86,10 +86,24 @@ namespace FreeHttp
                         }
                         finally
                         {
-                            //oSession.requestBodyBytes = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody)); // requestBodyBytes直接修改内部成员
-                            //oSession.ResponseBody = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody)); //ResponseBody修改内部成员 更新Content-Length ，同时删除编码头，适用于hex数据
-                            //Session.RequestBody : Gets or Sets the HTTP Request body bytes. Setter adjusts Content-Length header, and removes Transfer-Encoding and Content-Encoding headers. Setter DOES NOT CLONE the passed array. Setter will throw if the Request object does not exist for some reason. Use utilSetRequestBody(sStr) to ensure proper character encoding if you need to use a string. 
-                            oSession.utilSetRequestBody(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody));  //utilSetRequestBody 虽然会自动更新Content-Length 但是会强制使用utf8 ，适用于字符串
+                            if (nowFiddlerRequsetChange.BodyModific.ModificMode == ContentModificMode.ReCode)
+                            {
+                                try
+                                {
+                                    oSession.RequestBody = nowFiddlerRequsetChange.BodyModific.GetRecodeContent(sourceRequestBody);
+                                }
+                                catch (Exception ex)
+                                {
+                                    ShowError(string.Format("error in GetRecodeContent in ReCode with [{0}]", ex.Message));
+                                }
+                            }
+                            else
+                            {
+                                //oSession.requestBodyBytes = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody)); // requestBodyBytes直接修改内部成员
+                                //oSession.ResponseBody = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody)); //ResponseBody修改内部成员 更新Content-Length ，同时删除编码头，适用于hex数据
+                                //Session.RequestBody : Gets or Sets the HTTP Request body bytes. Setter adjusts Content-Length header, and removes Transfer-Encoding and Content-Encoding headers. Setter DOES NOT CLONE the passed array. Setter will throw if the Request object does not exist for some reason. Use utilSetRequestBody(sStr) to ensure proper character encoding if you need to use a string. 
+                                oSession.utilSetRequestBody(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody));  //utilSetRequestBody 虽然会自动更新Content-Length 但是会强制使用utf8 ，适用于字符串
+                            }
                         }
                     }
                 }
@@ -233,7 +247,21 @@ namespace FreeHttp
                         }
                         finally
                         {
-                            oSession.utilSetResponseBody(nowFiddlerResponseChange.BodyModific.GetFinalContent(sourceResponseBody));
+                            if (nowFiddlerResponseChange.BodyModific.ModificMode == ContentModificMode.ReCode)
+                            {
+                                try
+                                {
+                                    oSession.ResponseBody = nowFiddlerResponseChange.BodyModific.GetRecodeContent(sourceResponseBody);
+                                }
+                                catch (Exception ex)
+                                {
+                                    ShowError(string.Format("error in GetRecodeContent in ReCode with [{0}]", ex.Message));
+                                }
+                            }
+                            else
+                            {
+                                oSession.utilSetResponseBody(nowFiddlerResponseChange.BodyModific.GetFinalContent(sourceResponseBody));
+                            }
                         }
 
                         //you can use below code to modific the body
