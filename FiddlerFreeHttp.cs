@@ -139,6 +139,7 @@ namespace FreeHttp
                 }
                 myFreeHttpWindow.OnGetSession += myFreeHttpWindow_OnGetSession;
                 myFreeHttpWindow.OnGetSessionRawData += myFreeHttpWindow_OnGetSessionRawData;
+                myFreeHttpWindow.OnGetSessionSeekHead += MyFreeHttpWindow_OnGetSessionSeekHead;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
                 myFreeHttpWindow.Enter += myFreeHttpWindow_Enter;
                 tabPage.Controls.Add(myFreeHttpWindow);
@@ -229,6 +230,38 @@ namespace FreeHttp
             }
         }
 
+        private void MyFreeHttpWindow_OnGetSessionSeekHead(object sender, FreeHttpWindow.GetSessionSeekHeadEventArgs e)
+        {
+            Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
+            if (tempSession == null)
+            {
+                FreeHttpWindow.MarkWarnControl(Fiddler.FiddlerApplication.UI.lvSessions);
+            }
+            else
+            {
+                if(e!=null&&e.ResquestHead.Key!=null)
+                {
+                    //HTTPHeaderItem nowHTTPHeaderItem = tempSession.RequestHeaders.First(hTTPHeaderItem => hTTPHeaderItem.Name == e.ResquestHead.Key);
+                    HTTPHeaderItem nowHTTPHeaderItem = tempSession.RequestHeaders.FirstOrDefault(hTTPHeaderItem => hTTPHeaderItem.Name == e.ResquestHead.Key);
+
+                    if (nowHTTPHeaderItem!=null)
+                    {
+                        e.ResquestHead = new KeyValuePair<string, string>(nowHTTPHeaderItem.Name, nowHTTPHeaderItem.Value);
+                        e.SeekUri = tempSession.fullUrl;
+                    }
+                }
+
+                if (e != null && e.ResponseHead.Key != null)
+                {
+                    HTTPHeaderItem nowHTTPHeaderItem = tempSession.ResponseHeaders.FirstOrDefault(hTTPHeaderItem => hTTPHeaderItem.Name == e.ResponseHead.Key);
+                    if (nowHTTPHeaderItem != null)
+                    {
+                        e.ResponseHead = new KeyValuePair<string, string>(nowHTTPHeaderItem.Name, nowHTTPHeaderItem.Value);
+                        e.SeekUri = tempSession.fullUrl;
+                    }
+                }
+            }
+        }
         void myFreeHttpWindow_OnGetSession(object sender, EventArgs e)
         {
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
@@ -279,7 +312,7 @@ namespace FreeHttp
                 {
                     foreach (var matchItem in matchItems)
                     {
-                        FiddlerRequsetChange nowFiddlerRequsetChange = ((FiddlerRequsetChange)matchItem.Tag);
+                        FiddlerRequestChange nowFiddlerRequsetChange = ((FiddlerRequestChange)matchItem.Tag);
                         FreeHttpWindow.MarkMatchRule(matchItem);
                         MarkSession(oSession);
                         ShowMes(string.Format("macth the [requst rule {0}] with {1}", matchItem.SubItems[0].Text, oSession.fullUrl));

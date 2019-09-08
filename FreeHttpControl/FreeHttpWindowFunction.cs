@@ -345,9 +345,9 @@ namespace FreeHttp.FreeHttpControl
         {
             ChangeSetResponseLatencyMode(yourLatency);
         }
-        private FiddlerRequsetChange GetRequestModificInfo()
+        private FiddlerRequestChange GetRequestModificInfo()
         {
-            FiddlerRequsetChange requsetChange = new FiddlerRequsetChange();
+            FiddlerRequestChange requsetChange = new FiddlerRequestChange();
             requsetChange.HttpRawRequest = null;
             requsetChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             requsetChange.HttpFilter = GetHttpFilter();
@@ -373,9 +373,9 @@ namespace FreeHttp.FreeHttpControl
             return requsetChange;
         }
 
-        private FiddlerRequsetChange GetRequestReplaceInfo()
+        private FiddlerRequestChange GetRequestReplaceInfo()
         {
-            FiddlerRequsetChange requsetReplace = new FiddlerRequsetChange();
+            FiddlerRequestChange requsetReplace = new FiddlerRequestChange();
             requsetReplace.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             requsetReplace.HttpFilter = GetHttpFilter();
             requsetReplace.ParameterPickList = GetParameterPick();
@@ -521,7 +521,7 @@ namespace FreeHttp.FreeHttpControl
             ChangeSetResponseLatencyMode((tabControl_Modific.SelectedIndex == 0 || tabControl_Modific.SelectedIndex == 1) ? -1 : 0);
         }
 
-        private void SetRequestModificInfo(FiddlerRequsetChange fiddlerRequsetChange)
+        private void SetRequestModificInfo(FiddlerRequestChange fiddlerRequsetChange)
         {
             SetHttpMatch(fiddlerRequsetChange.HttpFilter);
             SetHttpParameterPick(fiddlerRequsetChange.ParameterPickList);

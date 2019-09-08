@@ -58,7 +58,21 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        public class GetSessionSeekHeadEventArgs : EventArgs
+        {
+            public string SeekUri { get; set; }
+            public KeyValuePair<string,string> ResquestHead { get; set; }
+            public KeyValuePair<string, string> ResponseHead { get; set; }
+
+            public GetSessionSeekHeadEventArgs(KeyValuePair<string, string> resquestHead , KeyValuePair<string, string> responseHead)
+            {
+                ResquestHead = resquestHead;
+                ResponseHead = responseHead;
+            }
+        }
+
         public delegate void GetSessionRawDataEventHandler(object sender, GetSessionRawDataEventArgs e);
+
 
         public FreeHttpWindow()
         {
@@ -121,6 +135,13 @@ namespace FreeHttp.FreeHttpControl
         /// On get the raw http data link click   (EventHandler<GetSessionRawDataEventArgs>)
         /// </summary>
         public event GetSessionRawDataEventHandler OnGetSessionRawData;
+
+        /// <summary>
+        /// find your seek head vaule in session (only use in synchronization)
+        /// </summary>
+        public event EventHandler<GetSessionSeekHeadEventArgs> OnGetSessionSeekHead;
+
+        //public 
 
         /// <summary>
         /// get or set ModificSettingInfo
@@ -556,7 +577,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void pb_ruleComfrim_Click(object sender, EventArgs e)
         {
-            FiddlerRequsetChange nowRequestChange = null;
+            FiddlerRequestChange nowRequestChange = null;
             FiddlerResponseChange nowResponseChange = null;
             IFiddlerHttpTamper fiddlerHttpTamper = null;
             ListView tamperRuleListView = null;
@@ -779,6 +800,47 @@ namespace FreeHttp.FreeHttpControl
             f.ShowDialog();
         }
 
+        private void ChangeSessionEncodingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetSessionSeekHeadEventArgs seekHeadArgs = new GetSessionSeekHeadEventArgs(new KeyValuePair<string, string>("Content-Type", null), new KeyValuePair<string, string>("Content-Type", null));
+            if(OnGetSessionSeekHead!=null)
+            {
+                this.OnGetSessionSeekHead(this,seekHeadArgs);
+            }
+            ChangeEncodeForm.ChangeEncodeInfo changeEncodeInfo = new ChangeEncodeForm.ChangeEncodeInfo { ContentType_Request= seekHeadArgs.ResquestHead.Value, ContentType_Response= seekHeadArgs.ResponseHead.Value, NowEncode=null };
+            ChangeEncodeForm f = new ChangeEncodeForm(changeEncodeInfo);
+            DialogResult dialogResult =  f.ShowDialog();
+
+            
+            if(string.IsNullOrEmpty(changeEncodeInfo.NowEncode))
+            {
+                return;
+            }
+            if (changeEncodeInfo.ContentType_Request == null)
+            {
+                FiddlerResponseChange responseChange = new FiddlerResponseChange();
+                if (seekHeadArgs.SeekUri != null)
+                {
+                    responseChange.HttpFilter = new FiddlerHttpFilter(new FiddlerUriMatch(FiddlerUriMatchMode.Is, seekHeadArgs.SeekUri));
+                }
+                responseChange.HeadDelList = new List<string> { "Content-Type" };
+                responseChange.HeadAddList = new List<string>{string.Format("Content-Type: {0}", changeEncodeInfo.ContentType_Response)};
+                responseChange.BodyModific = new ContentModific(string.Format("<recode>{0}", changeEncodeInfo.NowEncode), "");
+                SetResponseModificInfo(responseChange);
+            }
+            else
+            {
+                FiddlerRequestChange requestChange = new FiddlerRequestChange();
+                if (seekHeadArgs.SeekUri != null)
+                {
+                    requestChange.HttpFilter = new FiddlerHttpFilter(new FiddlerUriMatch(FiddlerUriMatchMode.Is, seekHeadArgs.SeekUri));
+                }
+                requestChange.HeadDelList = new List<string> { "Content-Type" };
+                requestChange.HeadAddList = new List<string> { string.Format("Content-Type: {0}", changeEncodeInfo.ContentType_Request) };
+                requestChange.BodyModific = new ContentModific(string.Format("<recode>{0}", changeEncodeInfo.NowEncode), "");
+                SetRequestModificInfo(requestChange);
+            }
+        }
         private void deleteCookieToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (NowEditMode == RuleEditMode.EditRequsetRule)
@@ -929,7 +991,7 @@ namespace FreeHttp.FreeHttpControl
                 if (sender == lv_requestRuleList)
                 {
                     ChangeEditRuleMode(RuleEditMode.EditRequsetRule, string.Format("Edit Requst {0}", nowListViewItem.SubItems[0].Text), nowListViewItem);
-                    SetRequestModificInfo((FiddlerRequsetChange)nowListViewItem.Tag);
+                    SetRequestModificInfo((FiddlerRequestChange)nowListViewItem.Tag);
 
                 }
                 else if (sender == lv_responseRuleList)
@@ -1186,6 +1248,7 @@ namespace FreeHttp.FreeHttpControl
 
 
 
+
         #endregion
 
         #region ResponseModific
@@ -1196,6 +1259,5 @@ namespace FreeHttp.FreeHttpControl
 
         #endregion
 
-       
     }
 }

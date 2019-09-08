@@ -19,11 +19,11 @@ namespace FreeHttp.MyHelper
             if (requestRuleListView != null && reponseRuleListView!=null)
             {
                 //dynamic
-                List<FiddlerRequsetChange> requestList = new List<FiddlerRequsetChange>();
+                List<FiddlerRequestChange> requestList = new List<FiddlerRequestChange>();
                 List<FiddlerResponseChange> responseList = new List<FiddlerResponseChange>();
                 foreach (ListViewItem tempItem in requestRuleListView.Items)
                 {
-                    requestList.Add((FiddlerRequsetChange)tempItem.Tag);
+                    requestList.Add((FiddlerRequestChange)tempItem.Tag);
                 }
                 foreach (ListViewItem tempItem in reponseRuleListView.Items)
                 {

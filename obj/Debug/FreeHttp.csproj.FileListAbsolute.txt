@@ -142,3 +142,4 @@ D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.CoreCompileInputs.cache
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.CopyComplete
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.dll
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.pdb
+D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.ChangeEncodeForm.resources

@@ -10,7 +10,7 @@ using System.Text;
 namespace FreeHttp.FiddlerHelper
 {
     [Serializable]
-    public class FiddlerRequsetChange : IFiddlerHttpTamper
+    public class FiddlerRequestChange : IFiddlerHttpTamper
     {
         public bool IsEnable { get; set; }
         //public FiddlerUriMatch UriMatch { get; set; }

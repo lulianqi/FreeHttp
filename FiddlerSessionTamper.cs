@@ -20,7 +20,7 @@ namespace FreeHttp
         /// </summary>
         /// <param name="oSession">oSession</param>
         /// <param name="nowFiddlerRequsetChange">FiddlerRequsetChange</param>
-        public static void ModificSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange, Action<string> ShowError, Action<string> ShowMes)
+        public static void ModificSessionRequest(Session oSession, FiddlerRequestChange nowFiddlerRequsetChange, Action<string> ShowError, Action<string> ShowMes)
         {
             if (nowFiddlerRequsetChange.ParameterPickList!=null)
             {
@@ -115,7 +115,7 @@ namespace FreeHttp
         /// </summary>
         /// <param name="oSession">oSession</param>
         /// <param name="nowFiddlerRequsetChange">FiddlerRequsetChange</param>
-        public static void ReplaceSessionRequest(Session oSession, FiddlerRequsetChange nowFiddlerRequsetChange, Action<string> ShowError, Action<string> ShowMes)
+        public static void ReplaceSessionRequest(Session oSession, FiddlerRequestChange nowFiddlerRequsetChange, Action<string> ShowError, Action<string> ShowMes)
         {
             string errMes;
             NameValueCollection nameValueCollection;

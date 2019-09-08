@@ -80,6 +80,12 @@
     <Compile Include="FiddlerFreeHttp.cs" />
     <Compile Include="FiddlerHelper\FiddlerActuatorStaticDataCollectionController.cs" />
     <Compile Include="FiddlerSessionTamper.cs" />
+    <Compile Include="FreeHttpControl\ChangeEncodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\ChangeEncodeForm.Designer.cs">
+      <DependentUpon>ChangeEncodeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\EditKeyVaule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,6 +262,9 @@
     <Compile Include="WebService\UserComputerInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FreeHttpControl\ChangeEncodeForm.resx">
+      <DependentUpon>ChangeEncodeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\EditKeyVaule.resx">
       <DependentUpon>EditKeyVaule.cs</DependentUpon>
     </EmbeddedResource>
