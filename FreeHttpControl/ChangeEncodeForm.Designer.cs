@@ -110,7 +110,13 @@
             "big5",
             "IBM037",
             "IBM437",
-            "IBM500"});
+            "IBM500",
+            "windows-1250",
+            "Windows-1252",
+            "windows-1253",
+            "Johab",
+            "x-mac-chinesetrad",
+            "utf-32BE"});
             this.tb_recode.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.tb_recode.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.tb_recode.Location = new System.Drawing.Point(99, 36);

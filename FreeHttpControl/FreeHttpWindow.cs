@@ -58,6 +58,21 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        public class GetSessionEventArgs
+        {
+            public String Uri { get; set; }
+            public List<KeyValuePair<string,string>> RequestHeads { get; set; }
+            public String RequestEntity { get; set; }
+            public List<KeyValuePair<string, string>> ResponseHeads { get; set; }
+            public String ResponseEntity { get; set; }
+            public bool IsGetEntity { get; private set; } = false;
+
+            public GetSessionEventArgs(bool isGetEntity)
+            {
+                IsGetEntity = isGetEntity;
+            }
+
+        }
         public class GetSessionSeekHeadEventArgs : EventArgs
         {
             public string SeekUri { get; set; }
@@ -130,7 +145,7 @@ namespace FreeHttp.FreeHttpControl
         /// <summary>
         /// On get the http session button click
         /// </summary>
-        public event EventHandler OnGetSession;
+        public event EventHandler OnUpdataFromSession;
         /// <summary>
         /// On get the raw http data link click   (EventHandler<GetSessionRawDataEventArgs>)
         /// </summary>
@@ -1169,9 +1184,9 @@ namespace FreeHttp.FreeHttpControl
 
         private void pb_getSession_Click(object sender, EventArgs e)
         {
-            if (OnGetSession != null)
+            if (OnUpdataFromSession != null)
             {
-                this.OnGetSession(this, null);
+                this.OnUpdataFromSession(this, null);
             }
         }
         private void cb_macthMode_SelectedIndexChanged(object sender, EventArgs e)

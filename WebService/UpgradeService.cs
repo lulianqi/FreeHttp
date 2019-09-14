@@ -38,7 +38,7 @@ namespace FreeHttp.WebService
 
             Task<UpgradeServiceEventArgs> checkUpgradeTask = new Task<UpgradeServiceEventArgs>(() =>
             {
-                string tempResponse = myHttp.SendData(string.Format(@"https://api.lulianqi.com/freehttp/UpdateCheck/v1.2?user={0}&dotnetrelease={1}", UserComputerInfo.GetComputerMac(), UserComputerInfo.GetDotNetRelease()));
+                string tempResponse = myHttp.SendData(string.Format(@"https://api.lulianqi.com/freehttp/UpdateCheck/v{0}?user={1}&dotnetrelease={2}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(), UserComputerInfo.GetComputerMac(), UserComputerInfo.GetDotNetRelease()));
                 string isNeedUpdata = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"isNeedUpdata\":", ",", tempResponse);
                 string url = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"url\":", ",", tempResponse);
                 string message = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"message\":", ",", tempResponse);

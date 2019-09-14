@@ -137,9 +137,9 @@ namespace FreeHttp
                         myFreeHttpWindow=new FreeHttpWindow(null,null,null);
                     }
                 }
-                myFreeHttpWindow.OnGetSession += myFreeHttpWindow_OnGetSession;
+                myFreeHttpWindow.OnUpdataFromSession += myFreeHttpWindow_OnUpdataFromSession;
                 myFreeHttpWindow.OnGetSessionRawData += myFreeHttpWindow_OnGetSessionRawData;
-                myFreeHttpWindow.OnGetSessionSeekHead += MyFreeHttpWindow_OnGetSessionSeekHead;
+                myFreeHttpWindow.OnGetSessionSeekHead += myFreeHttpWindow_OnGetSessionSeekHead;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
                 myFreeHttpWindow.Enter += myFreeHttpWindow_Enter;
                 tabPage.Controls.Add(myFreeHttpWindow);
@@ -202,7 +202,7 @@ namespace FreeHttp
             myFreeHttpWindow.CloseEditRtb();
         }
 
-        void myFreeHttpWindow_OnGetSessionRawData(object sender, FreeHttpWindow.GetSessionRawDataEventArgs e)
+        private void myFreeHttpWindow_OnGetSessionRawData(object sender, FreeHttpWindow.GetSessionRawDataEventArgs e)
         {
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
             if (tempSession == null)
@@ -229,8 +229,7 @@ namespace FreeHttp
                     break;
             }
         }
-
-        private void MyFreeHttpWindow_OnGetSessionSeekHead(object sender, FreeHttpWindow.GetSessionSeekHeadEventArgs e)
+        private void myFreeHttpWindow_OnGetSessionSeekHead(object sender, FreeHttpWindow.GetSessionSeekHeadEventArgs e)
         {
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
             if (tempSession == null)
@@ -262,7 +261,7 @@ namespace FreeHttp
                 }
             }
         }
-        void myFreeHttpWindow_OnGetSession(object sender, EventArgs e)
+        private void myFreeHttpWindow_OnUpdataFromSession(object sender, EventArgs e)
         {
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
             if (tempSession != null)

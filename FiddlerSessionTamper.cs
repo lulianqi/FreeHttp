@@ -22,9 +22,9 @@ namespace FreeHttp
         /// <param name="nowFiddlerRequsetChange">FiddlerRequsetChange</param>
         public static void ModificSessionRequest(Session oSession, FiddlerRequestChange nowFiddlerRequsetChange, Action<string> ShowError, Action<string> ShowMes)
         {
-            if (nowFiddlerRequsetChange.ParameterPickList!=null)
+            if (nowFiddlerRequsetChange.ParameterPickList != null)
             {
-                PickSessionParameter(oSession, nowFiddlerRequsetChange, ShowError, ShowMes,true);
+                PickSessionParameter(oSession, nowFiddlerRequsetChange, ShowError, ShowMes, true);
             }
             if (nowFiddlerRequsetChange.IsRawReplace)
             {
@@ -32,40 +32,21 @@ namespace FreeHttp
             }
             else
             {
+                //Modific uri
                 if (nowFiddlerRequsetChange.UriModific != null && nowFiddlerRequsetChange.UriModific.ModificMode != ContentModificMode.NoChange)
                 {
                     oSession.fullUrl = nowFiddlerRequsetChange.UriModific.GetFinalContent(oSession.fullUrl);
                 }
-                if (nowFiddlerRequsetChange.HeadDelList != null && nowFiddlerRequsetChange.HeadDelList.Count > 0)
-                {
-                    foreach (var tempDelHead in nowFiddlerRequsetChange.HeadDelList)
-                    {
-                        oSession.RequestHeaders.Remove(tempDelHead);
-                    }
-                }
-                if (nowFiddlerRequsetChange.HeadAddList != null && nowFiddlerRequsetChange.HeadAddList.Count > 0)
-                {
-                    foreach (var tempAddHead in nowFiddlerRequsetChange.HeadAddList)
-                    {
-                        if (tempAddHead.Contains(": "))
-                        {
-                            oSession.RequestHeaders.Add(tempAddHead.Remove(tempAddHead.IndexOf(": ")), tempAddHead.Substring(tempAddHead.IndexOf(": ") + 2));
-                        }
-                        else
-                        {
-                            ShowError(string.Format("error to deal add head string with [{0}]", tempAddHead));
-                        }
-                    }
-                }
+                //Modific body
                 if (nowFiddlerRequsetChange.BodyModific != null && nowFiddlerRequsetChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
                     if (nowFiddlerRequsetChange.BodyModific.ModificMode == ContentModificMode.HexReplace)
                     {
                         try
                         {
-                            oSession.RequestBody= nowFiddlerRequsetChange.BodyModific.GetFinalContent(oSession.requestBodyBytes);
+                            oSession.RequestBody = nowFiddlerRequsetChange.BodyModific.GetFinalContent(oSession.requestBodyBytes);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             ShowError(string.Format("error in GetFinalContent in HexReplace with [{0}]", ex.Message));
                         }
@@ -107,6 +88,29 @@ namespace FreeHttp
                         }
                     }
                 }
+                //Modific heads
+                if (nowFiddlerRequsetChange.HeadDelList != null && nowFiddlerRequsetChange.HeadDelList.Count > 0)
+                {
+                    foreach (var tempDelHead in nowFiddlerRequsetChange.HeadDelList)
+                    {
+                        oSession.RequestHeaders.Remove(tempDelHead);
+                    }
+                }
+                if (nowFiddlerRequsetChange.HeadAddList != null && nowFiddlerRequsetChange.HeadAddList.Count > 0)
+                {
+                    foreach (var tempAddHead in nowFiddlerRequsetChange.HeadAddList)
+                    {
+                        if (tempAddHead.Contains(": "))
+                        {
+                            oSession.RequestHeaders.Add(tempAddHead.Remove(tempAddHead.IndexOf(": ")), tempAddHead.Substring(tempAddHead.IndexOf(": ") + 2));
+                        }
+                        else
+                        {
+                            ShowError(string.Format("error to deal add head string with [{0}]", tempAddHead));
+                        }
+                    }
+                }
+
             }
         }
 
@@ -144,9 +148,9 @@ namespace FreeHttp
             {
                 oSession.fullUrl = tempRequestHttpRequest.RequestUri;
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
-                if(ex.Message=="URI scheme must be http, https, or ftp")
+                if (ex.Message == "URI scheme must be http, https, or ftp")
                 {
                     oSession.url = tempRequestHttpRequest.RequestUri;
                 }
@@ -155,7 +159,7 @@ namespace FreeHttp
                     ShowError(ex.Message);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ShowError(ex.Message);
             }
@@ -196,27 +200,7 @@ namespace FreeHttp
             }
             else
             {
-                if (nowFiddlerResponseChange.HeadDelList != null && nowFiddlerResponseChange.HeadDelList.Count > 0)
-                {
-                    foreach (var tempDelHead in nowFiddlerResponseChange.HeadDelList)
-                    {
-                        oSession.ResponseHeaders.Remove(tempDelHead);
-                    }
-                }
-                if (nowFiddlerResponseChange.HeadAddList != null && nowFiddlerResponseChange.HeadAddList.Count > 0)
-                {
-                    foreach (var tempAddHead in nowFiddlerResponseChange.HeadAddList)
-                    {
-                        if (tempAddHead.Contains(": "))
-                        {
-                            oSession.ResponseHeaders.Add(tempAddHead.Remove(tempAddHead.IndexOf(": ")), tempAddHead.Substring(tempAddHead.IndexOf(": ") + 2));
-                        }
-                        else
-                        {
-                            ShowError(string.Format("error to deal add head string with [{0}]", tempAddHead));
-                        }
-                    }
-                }
+                //modific body
                 if (nowFiddlerResponseChange.BodyModific != null && nowFiddlerResponseChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
                     if (nowFiddlerResponseChange.BodyModific.ModificMode == ContentModificMode.HexReplace)
@@ -236,7 +220,7 @@ namespace FreeHttp
                         string sourceResponseBody = null;
                         try
                         {
-                            sourceResponseBody = oSession.GetResponseBodyAsString();
+                            sourceResponseBody = oSession.GetResponseBodyAsString(); //if the head encode is change ,GetResponseBodyAsString maybe fail 
                             sourceResponseBody = sourceResponseBody.Replace("\r\n", "\n");
                         }
                         catch (Exception ex)
@@ -270,6 +254,28 @@ namespace FreeHttp
                         //oSession.utilDeflateResponse();
                     }
                 }
+                //modific heads
+                if (nowFiddlerResponseChange.HeadDelList != null && nowFiddlerResponseChange.HeadDelList.Count > 0)
+                {
+                    foreach (var tempDelHead in nowFiddlerResponseChange.HeadDelList)
+                    {
+                        oSession.ResponseHeaders.Remove(tempDelHead);
+                    }
+                }
+                if (nowFiddlerResponseChange.HeadAddList != null && nowFiddlerResponseChange.HeadAddList.Count > 0)
+                {
+                    foreach (var tempAddHead in nowFiddlerResponseChange.HeadAddList)
+                    {
+                        if (tempAddHead.Contains(": "))
+                        {
+                            oSession.ResponseHeaders.Add(tempAddHead.Remove(tempAddHead.IndexOf(": ")), tempAddHead.Substring(tempAddHead.IndexOf(": ") + 2));
+                        }
+                        else
+                        {
+                            ShowError(string.Format("error to deal add head string with [{0}]", tempAddHead));
+                        }
+                    }
+                }
             }
         }
 
@@ -290,16 +296,16 @@ namespace FreeHttp
                 tempHttpResponse = nowFiddlerResponseChange.HttpRawResponse.UpdateHttpResponse(out errMes, out nameValueCollection);
                 tempResponseBytes = tempHttpResponse.GetRawHttpResponse();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ShowError(string.Format("Fail to ReplaceSessionResponse :{0}", ex.Message));
                 return;
             }
-            if (errMes!=null)
+            if (errMes != null)
             {
                 ShowError(errMes);
             }
-            if (nameValueCollection != null && nameValueCollection.Count>0)
+            if (nameValueCollection != null && nameValueCollection.Count > 0)
             {
                 ShowMes(string.Format("[ParameterizationContent]:{0}", nameValueCollection.MyToFormatString()));
             }
@@ -314,7 +320,7 @@ namespace FreeHttp
                 {
                     ShowError("error to oSession.LoadResponseFromStream");
                     ShowError("try to modific the response");
-                    
+
                     //modific the response
                     oSession.oResponse.headers = new HTTPResponseHeaders();
                     oSession.oResponse.headers.HTTPResponseCode = tempHttpResponse.ResponseCode;
@@ -335,7 +341,7 @@ namespace FreeHttp
 
         public static void PickSessionParameter(Session oSession, IFiddlerHttpTamper nowFiddlerHttpTamper, Action<string> ShowError, Action<string> ShowMes, bool isRequest)
         {
-            Func<string, ParameterPick ,string> PickFunc = (sourceStr, parameterPick) =>
+            Func<string, ParameterPick, string> PickFunc = (sourceStr, parameterPick) =>
             {
                 try { return ParameterPickTypeEngine.dictionaryParameterPickFunc[parameterPick.PickType].ParameterPickFunc(sourceStr, parameterPick.PickTypeExpression, parameterPick.PickTypeAdditional); }
                 catch (Exception) { return null; }
@@ -350,10 +356,10 @@ namespace FreeHttp
                     switch (parameterPick.PickRange)
                     {
                         case ParameterPickRange.Line:
-                            if(isRequest)
+                            if (isRequest)
                             {
                                 pickSource = oSession.fullUrl;
-                                if(string.IsNullOrEmpty(pickSource))
+                                if (string.IsNullOrEmpty(pickSource))
                                 {
                                     pickResult = null;
                                     break;
@@ -361,7 +367,7 @@ namespace FreeHttp
                             }
                             else
                             {
-                                if(oSession.oResponse.headers==null)
+                                if (oSession.oResponse.headers == null)
                                 {
                                     pickResult = null;
                                     break;
@@ -379,7 +385,7 @@ namespace FreeHttp
                             foreach (HTTPHeaderItem tempHead in headerItems)
                             {
                                 pickResult = PickFunc(tempHead.ToString(), parameterPick);
-                                if(pickResult!=null)
+                                if (pickResult != null)
                                 {
                                     break;
                                 }
@@ -398,14 +404,14 @@ namespace FreeHttp
                             ShowError("[ParameterizationPick] unkonw pick range");
                             break;
                     }
-                    if(pickResult==null)
+                    if (pickResult == null)
                     {
                         ShowMes(string.Format("[ParameterizationPick] can not find the parameter with [{0}]", parameterPick.ParameterName));
                     }
                     else
                     {
                         ShowMes(string.Format("[ParameterizationPick] pick the parameter [{0} = {1}]", parameterPick.ParameterName, pickResult));
-                        if(nowFiddlerHttpTamper.ActuatorStaticDataController.SetActuatorStaticData(parameterPick.ParameterName,pickResult))
+                        if (nowFiddlerHttpTamper.ActuatorStaticDataController.SetActuatorStaticData(parameterPick.ParameterName, pickResult))
                         {
                             ShowMes(string.Format("[ParameterizationPick] add the parameter [{0}] to ActuatorStaticDataCollection", parameterPick.ParameterName));
                         }
@@ -422,9 +428,9 @@ namespace FreeHttp
             }
         }
 
-        public static string GetSessionRawData(Session oSession,bool isHaveResponse)
+        public static string GetSessionRawData(Session oSession, bool isHaveResponse)
         {
-            if(oSession==null)
+            if (oSession == null)
             {
                 return null;
             }
@@ -452,6 +458,40 @@ namespace FreeHttp
                 }
             }
             return sbRawData.ToString();
+        }
+
+        public static bool GetSessionData(Session oSession, FreeHttpControl.FreeHttpWindow.GetSessionEventArgs sessionEventArgs)
+        {
+            if (sessionEventArgs == null || oSession==null)
+            {
+                return false;
+            }
+            sessionEventArgs.Uri = oSession.fullUrl;
+            if (oSession.oRequest!=null)
+            {
+                sessionEventArgs.RequestHeads = new List<KeyValuePair<string, string>>(oSession.oRequest.headers.Count());
+                foreach (var head in oSession.oRequest.headers)
+                {
+                    sessionEventArgs.RequestHeads.Add(new KeyValuePair<string, string>(head.Name, head.Value));
+                }
+                if(sessionEventArgs.IsGetEntity)
+                {
+                    sessionEventArgs.RequestEntity = oSession.GetRequestBodyAsString();
+                }
+            }
+            if (oSession.bHasResponse && oSession.oResponse != null)
+            {
+                sessionEventArgs.ResponseHeads = new List<KeyValuePair<string, string>>(oSession.oResponse.headers.Count());
+                foreach (var head in oSession.oResponse.headers)
+                {
+                    sessionEventArgs.ResponseHeads.Add(new KeyValuePair<string, string>(head.Name, head.Value));
+                }
+                if (sessionEventArgs.IsGetEntity)
+                {
+                    sessionEventArgs.ResponseEntity = oSession.GetResponseBodyAsString();
+                }
+            }
+            return true;
         }
     }
 }
