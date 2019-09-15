@@ -17,6 +17,8 @@ namespace FreeHttp.FreeHttpControl
             public String ContentType_Request { get; set; }
             public String ContentType_Response { get; set; }
             public String NowEncode { get; set; }
+
+            public FreeHttpWindow.RuleEditMode EditMode { get; set; } = FreeHttpWindow.RuleEditMode.NewRuleMode;
         }
 
         ChangeEncodeInfo changeEncodeInfo;
@@ -37,7 +39,11 @@ namespace FreeHttp.FreeHttpControl
 
         private void ChangeEncodeForm_Load(object sender, EventArgs e)
         {
-            cb_body.SelectedIndex = 1;
+            if (changeEncodeInfo.EditMode != FreeHttpWindow.RuleEditMode.NewRuleMode)
+            {
+                cb_body.Enabled = false;
+            }
+            cb_body.SelectedIndex = changeEncodeInfo.EditMode ==FreeHttpWindow.RuleEditMode.EditResponseRule ? 0:1 ;
             UpdataContentType();
         }
 

@@ -60,13 +60,13 @@ namespace FreeHttp.FreeHttpControl
 
         public class GetSessionEventArgs
         {
+            public bool IsGetSuccess { get; set; } = false;
             public String Uri { get; set; }
             public List<KeyValuePair<string,string>> RequestHeads { get; set; }
             public String RequestEntity { get; set; }
             public List<KeyValuePair<string, string>> ResponseHeads { get; set; }
             public String ResponseEntity { get; set; }
             public bool IsGetEntity { get; private set; } = false;
-
             public GetSessionEventArgs(bool isGetEntity)
             {
                 IsGetEntity = isGetEntity;
@@ -155,6 +155,11 @@ namespace FreeHttp.FreeHttpControl
         /// find your seek head vaule in session (only use in synchronization)
         /// </summary>
         public event EventHandler<GetSessionSeekHeadEventArgs> OnGetSessionSeekHead;
+
+        /// <summary>
+        /// get select session info
+        /// </summary>
+        public event EventHandler<GetSessionEventArgs> OnGetSessionEventArgs;
 
         //public 
 
@@ -276,7 +281,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 if (((TabControl)sender).SelectedIndex == 2 || ((TabControl)sender).SelectedIndex == 3)
                 {
-                    MessageBox.Show("the select requst rule is in editing \r\n    you can not edit response", "STOP");
+                    MessageBox.Show("the select requst rule is in editing (that pink rule in rule list) \r\nyou should save or cancel this editing before edit response", "STOP");
                     e.Cancel = true;
                 }
             }
@@ -284,7 +289,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 if (((TabControl)sender).SelectedIndex == 0 || ((TabControl)sender).SelectedIndex == 1)
                 {
-                    MessageBox.Show("the select response rule is in editing \r\n    you can not edit requst", "STOP");
+                    MessageBox.Show("the select response rule is in editing (that pink rule in rule list)\r\nyou should save or cancel this editing before edit requst", "STOP");
                     e.Cancel = true;
                 }
             } 
@@ -775,8 +780,15 @@ namespace FreeHttp.FreeHttpControl
         {
             if(NowEditMode== RuleEditMode.EditResponseRule)
             {
-                MessageBox.Show("your are in Response Edit Mode ","Stop");
-                return;
+                //DialogResult dialogResult ;
+                if (MessageBox.Show("your are in Response Edit Mode.\r\ndo you want give up the editing and new a rule to continue this quick rule?", "Continue or not", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    pb_ruleCancel_Click(this, e);
+                }
+                else
+                {
+                    return;
+                }
             }
             tabControl_Modific.SelectedIndex = 0;
             requestRemoveHeads.ListDataView.Items.Add("Pragma");
@@ -788,14 +800,29 @@ namespace FreeHttp.FreeHttpControl
             requestRemoveHeads.ListDataView.Items.Add("If-Modified-Since");
             requestAddHeads.ListDataView.Items.Add("Pragma: no-cache");
             requestAddHeads.ListDataView.Items.Add("Cache-Control: no-cache");
+
+            if (tb_urlFilter.Text == "")
+            {
+                GetSessionEventArgs sessionArgs = GetNowHttpSession();
+                if(sessionArgs.IsGetSuccess&& sessionArgs.Uri!=null)
+                {
+                    SetUriMatch(new FiddlerUriMatch(FiddlerUriMatchMode.Is, sessionArgs.Uri));
+                }
+            }
         }
 
         private void addCookieToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (NowEditMode == RuleEditMode.EditResponseRule)
             {
-                MessageBox.Show("your are in Response Edit Mode ", "Stop");
-                return;
+                if (MessageBox.Show("your are in Response Edit Mode.\r\ndo you want give up the editing and new a rule to continue this quick rule?", "Continue or not", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    pb_ruleCancel_Click(this, e);
+                }
+                else
+                {
+                    return;
+                }
             }
             tabControl_Modific.SelectedIndex = 0;
             EditKeyVaule f = new EditKeyVaule(requestAddHeads.ListDataView, "Cookie", ": ");
@@ -806,15 +833,20 @@ namespace FreeHttp.FreeHttpControl
         {
             if (NowEditMode == RuleEditMode.EditResponseRule)
             {
-                MessageBox.Show("your are in Response Edit Mode ", "Stop");
-                return;
+                if (MessageBox.Show("your are in Response Edit Mode.\r\ndo you want give up the editing and new a rule to continue this quick rule?", "Continue or not", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    pb_ruleCancel_Click(this, e);
+                }
+                else
+                {
+                    return;
+                }
             }
             tabControl_Modific.SelectedIndex = 0;
             requestRemoveHeads.ListDataView.Items.Add("User-Agent");
             EditKeyVaule f = new EditKeyVaule(requestAddHeads.ListDataView, "User-Agent", ": ");
             f.ShowDialog();
         }
-
         private void ChangeSessionEncodingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GetSessionSeekHeadEventArgs seekHeadArgs = new GetSessionSeekHeadEventArgs(new KeyValuePair<string, string>("Content-Type", null), new KeyValuePair<string, string>("Content-Type", null));
@@ -822,11 +854,10 @@ namespace FreeHttp.FreeHttpControl
             {
                 this.OnGetSessionSeekHead(this,seekHeadArgs);
             }
-            ChangeEncodeForm.ChangeEncodeInfo changeEncodeInfo = new ChangeEncodeForm.ChangeEncodeInfo { ContentType_Request= seekHeadArgs.ResquestHead.Value, ContentType_Response= seekHeadArgs.ResponseHead.Value, NowEncode=null };
+            ChangeEncodeForm.ChangeEncodeInfo changeEncodeInfo = new ChangeEncodeForm.ChangeEncodeInfo { ContentType_Request= seekHeadArgs.ResquestHead.Value, ContentType_Response= seekHeadArgs.ResponseHead.Value, NowEncode=null, EditMode = NowEditMode };
             ChangeEncodeForm f = new ChangeEncodeForm(changeEncodeInfo);
             DialogResult dialogResult =  f.ShowDialog();
 
-            
             if(string.IsNullOrEmpty(changeEncodeInfo.NowEncode))
             {
                 return;
@@ -860,19 +891,54 @@ namespace FreeHttp.FreeHttpControl
         {
             if (NowEditMode == RuleEditMode.EditRequsetRule)
             {
-                MessageBox.Show("your are in Requset Edit Mode ", "Stop");
-                return;
+                if (MessageBox.Show("your are in Request Edit Mode.\r\ndo you want give up the editing and new a rule to continue this quick rule?", "Continue or not", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    pb_ruleCancel_Click(this, e);
+                }
+                else
+                {
+                    return;
+                }
             }
             tabControl_Modific.SelectedIndex = 2;
-            ShowDelCookieWindow();
+
+            string tempDomain = String.Empty;
+            GetSessionEventArgs sessionArgs = GetNowHttpSession();
+            if (sessionArgs.IsGetSuccess && sessionArgs.RequestHeads!=null)
+            {
+                try
+                {
+                    tempDomain = sessionArgs.RequestHeads.First(headerItem => headerItem.Key.Trim().ToLower() == "host").Value.Trim();
+                }
+                catch
+                {
+                    tempDomain = "www.yourhost.com";
+                }
+            }
+
+            EditCookieForm f = new EditCookieForm(responseAddHeads.ListDataView, null, null, string.Format("Max-Age=1;Domain={0};Path=/", tempDomain));
+            f.ShowDialog();
+            if (tb_urlFilter.Text == "")
+            {
+                if (sessionArgs.IsGetSuccess && sessionArgs.Uri != null)
+                {
+                    SetUriMatch(new FiddlerUriMatch(FiddlerUriMatchMode.Is, sessionArgs.Uri));
+                }
+            }
         }
 
         private void setClientCookieToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (NowEditMode == RuleEditMode.EditRequsetRule)
             {
-                MessageBox.Show("your are in Requset Edit Mode ", "Stop");
-                return;
+                if (MessageBox.Show("your are in Request Edit Mode.\r\ndo you want give up the editing and new a rule to continue this quick rule?", "Continue or not", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    pb_ruleCancel_Click(this, e);
+                }
+                else
+                {
+                    return;
+                }
             }
             tabControl_Modific.SelectedIndex =2;
             EditCookieForm f = new EditCookieForm(responseAddHeads.ListDataView);
@@ -883,8 +949,14 @@ namespace FreeHttp.FreeHttpControl
         {
             if (NowEditMode == RuleEditMode.EditRequsetRule)
             {
-                MessageBox.Show("your are in Requset Edit Mode ", "Stop");
-                return;
+                if (MessageBox.Show("your are in Request Edit Mode.\r\ndo you want give up the editing and new a rule to continue this quick rule?", "Continue or not", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    pb_ruleCancel_Click(this, e);
+                }
+                else
+                {
+                    return;
+                }
             }
             tabControl_Modific.SelectedIndex = 2;
             if (OnGetSessionRawData != null)
@@ -898,8 +970,14 @@ namespace FreeHttp.FreeHttpControl
         {
             if (NowEditMode == RuleEditMode.EditRequsetRule)
             {
-                MessageBox.Show("your are in Requset Edit Mode ", "Stop");
-                return;
+                if (MessageBox.Show("your are in Request Edit Mode.\r\ndo you want give up the editing and new a rule to continue this quick rule?", "Continue or not", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    pb_ruleCancel_Click(this, e);
+                }
+                else
+                {
+                    return;
+                }
             }
             tabControl_Modific.SelectedIndex = 2;
             if (OnGetSessionRawData != null)

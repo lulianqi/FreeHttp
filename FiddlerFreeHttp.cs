@@ -139,6 +139,7 @@ namespace FreeHttp
                 }
                 myFreeHttpWindow.OnUpdataFromSession += myFreeHttpWindow_OnUpdataFromSession;
                 myFreeHttpWindow.OnGetSessionRawData += myFreeHttpWindow_OnGetSessionRawData;
+                myFreeHttpWindow.OnGetSessionEventArgs += MyFreeHttpWindow_OnGetSessionEventArgs;
                 myFreeHttpWindow.OnGetSessionSeekHead += myFreeHttpWindow_OnGetSessionSeekHead;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
                 myFreeHttpWindow.Enter += myFreeHttpWindow_Enter;
@@ -227,6 +228,19 @@ namespace FreeHttp
                 default:
                     Fiddler.FiddlerObject.UI.ShowAlert(new frmAlert("STOP", "Not supported this SessionAction", "OK"));
                     break;
+            }
+        }
+
+        private void MyFreeHttpWindow_OnGetSessionEventArgs(object sender, FreeHttpWindow.GetSessionEventArgs e)
+        {
+            Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
+            if (tempSession == null)
+            {
+                e.IsGetSuccess = false;
+            }
+            else
+            {
+               e.IsGetSuccess = FiddlerSessionTamper.GetSessionData(tempSession, e);
             }
         }
         private void myFreeHttpWindow_OnGetSessionSeekHead(object sender, FreeHttpWindow.GetSessionSeekHeadEventArgs e)

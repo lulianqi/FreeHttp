@@ -678,6 +678,17 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        private GetSessionEventArgs GetNowHttpSession(bool isNeedBody = false)
+        {
+            if (OnGetSessionEventArgs != null)
+            {
+                GetSessionEventArgs sessionEventArgs = new GetSessionEventArgs(isNeedBody);
+                this.OnGetSessionEventArgs(this, sessionEventArgs);
+                return sessionEventArgs;
+            }
+            return new GetSessionEventArgs(false) { IsGetSuccess = false };
+        }
+
         #endregion
 
         #region Public Function
@@ -833,12 +844,6 @@ namespace FreeHttp.FreeHttpControl
                 responseAddHeads.ListDataView.Items.Add(string.Format("Set-Cookie: {0}=delete by FreeHttp; {1}", kvCookie.Key, tempAttibute));
                 return true;
             }));
-        }
-
-        public void ShowDelCookieWindow()
-        {
-            EditCookieForm f = new EditCookieForm(responseAddHeads.ListDataView, null, null, "Max-Age=1;Domain=www.yourhost.com;Path=/");
-            f.ShowDialog();
         }
 
         public void ShowOwnerWindow(string name,string info)
