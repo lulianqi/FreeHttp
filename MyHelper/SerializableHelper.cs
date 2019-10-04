@@ -119,10 +119,11 @@ namespace FreeHttp.MyHelper
             return modificSettingInfo;
         }
 
-       
+
         /// <summary>
-        /// 『DataMemberAttribute Class』 
-        /// 使用 [DataContract()] 标记class
+        /// 『DataMemberAttribute Class』   
+        /// 使用 [DataContract()] 标记class  
+        /// 【如果要使用[Serializable] 默认序列化公开字段及属性，且要求其有公开的Set,用[DataContract]指没有这个限制，使用 [DataMember(Name = "ID")] / [DataMember]  标记成员】
         /// 使用 [DataMember(Name = "ID")] / [DataMember]  标记成员
         /// 并且不要求成员访问修饰符为public
         /// </summary>

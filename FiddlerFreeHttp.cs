@@ -42,6 +42,7 @@ namespace FreeHttp
         private TabPage tabPage; 
         private FreeHttpWindow myFreeHttpWindow;
         private UpgradeService upgradeService;
+        private OperationReportService operationReportService;
 
         private void ShowMes(string mes)
         {
@@ -99,6 +100,12 @@ namespace FreeHttp
             SerializableHelper.SerializeRuleList(myFreeHttpWindow.RequestRuleListView, myFreeHttpWindow.ResponseRuleListView);
             SerializableHelper.SerializeData<FiddlerModificSettingInfo>(myFreeHttpWindow.ModificSettingInfo, "FreeHttp\\FreeHttpSetting.xml");
             SerializableHelper.SerializeContractData<ActuatorStaticDataCollection>(myFreeHttpWindow.StaticDataCollection, "FreeHttp\\FreeHttpStaticDataCollection.xml");
+
+            if(isInFreeHttpTab)
+            {
+                operationReportService.OutOperation(DateTime.Now, myFreeHttpWindow.RequestRuleListView.Items.Count, myFreeHttpWindow.ResponseRuleListView.Items.Count);
+            }
+            operationReportService.ReportAsync();
         }
 
         public void OnLoad()
@@ -150,18 +157,32 @@ namespace FreeHttp
 
                 upgradeService = new UpgradeService();
                 upgradeService.GetUpgradeMes += upgradeService_GetUpgradeMes;
-               
+                operationReportService = new OperationReportService();
+
                 isOnLoad = true;
             }
         }
 
+        private bool isInFreeHttpTab = false;
         void tabsViews_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (FiddlerApplication.UI.tabsViews.SelectedTab == tabPage && isCheckedUpdata==false)
+            if (isCheckedUpdata==false && FiddlerApplication.UI.tabsViews.SelectedTab == tabPage )
             {
                 //upgradeService.StartCheckUpgradeThread();
                 upgradeService.StartCheckUpgrade();
                 isCheckedUpdata = true;
+            }
+
+            //operation report
+            if (FiddlerApplication.UI.tabsViews.SelectedTab == tabPage)
+            {
+                isInFreeHttpTab = true;
+                operationReportService.InOperation(DateTime.Now);
+            }
+            else if(isInFreeHttpTab)
+            {
+                isInFreeHttpTab = false;
+                operationReportService.OutOperation(DateTime.Now, myFreeHttpWindow.RequestRuleListView.Items.Count, myFreeHttpWindow.ResponseRuleListView.Items.Count);
             }
         }
 
@@ -170,11 +191,18 @@ namespace FreeHttp
             //when myFreeHttpWindow is enter do somethings
         }
 
-        void upgradeService_GetUpgradeMes(object sender, UpgradeService.UpgradeServiceEventArgs e)
+
+        void UI_Deactivate(object sender, EventArgs e)
         {
-            if(e.IsSuccess)
+            myFreeHttpWindow.CloseEditRtb();
+        }
+
+
+        private void upgradeService_GetUpgradeMes(object sender, UpgradeService.UpgradeServiceEventArgs e)
+        {
+            if (e.IsSuccess)
             {
-                if(MessageBox.Show("Find new version for [ FreeHttp Plug-in ] \r\nDo you want goto upgrade page to udpade your FreeHttp","find updata",MessageBoxButtons.OKCancel,MessageBoxIcon.Information) == DialogResult.OK)
+                if (MessageBox.Show("Find new version for [ FreeHttp Plug-in ] \r\nDo you want goto upgrade page to udpade your FreeHttp", "find updata", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                 {
                     if (string.IsNullOrEmpty(e.UpgradeMes))
                     {
@@ -185,9 +213,9 @@ namespace FreeHttp
                     {
                         System.Diagnostics.Process.Start(e.UpgradeMes);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        MessageBox.Show(string.Format("UpgradeMes is error \r\n{0}",ex.Message));
+                        MessageBox.Show(string.Format("UpgradeMes is error \r\n{0}", ex.Message));
                         return;
                     }
                 }
@@ -197,12 +225,6 @@ namespace FreeHttp
                 isCheckedUpdata = false;
             }
         }
-
-        void UI_Deactivate(object sender, EventArgs e)
-        {
-            myFreeHttpWindow.CloseEditRtb();
-        }
-
         private void myFreeHttpWindow_OnGetSessionRawData(object sender, FreeHttpWindow.GetSessionRawDataEventArgs e)
         {
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
@@ -230,7 +252,6 @@ namespace FreeHttp
                     break;
             }
         }
-
         private void MyFreeHttpWindow_OnGetSessionEventArgs(object sender, FreeHttpWindow.GetSessionEventArgs e)
         {
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
