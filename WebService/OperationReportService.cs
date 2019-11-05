@@ -85,12 +85,24 @@ namespace FreeHttp.WebService
 
         public async void ReportAsync()
         {
+            //task需要在执行时设置CurrentThread.IsBackground，不能确保在设置成功前主线程不退出
             Action reportAction = new Action(Report);
             await Task.Run(reportAction);
         }
 
+        public void StartReportThread()
+        {
+            System.Threading.Thread reportThread = new System.Threading.Thread(new System.Threading.ThreadStart(Report));
+            reportThread.IsBackground = false;
+            reportThread.Start();
+        }
+
         private void Report()
         {
+            if(System.Threading.Thread.CurrentThread.IsBackground)
+            {
+                System.Threading.Thread.CurrentThread.IsBackground = false;
+            }
             if (operationDetail.OperationDetailCells.Count > 0)
             {
                 string operationBody = null;

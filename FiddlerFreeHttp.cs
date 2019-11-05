@@ -105,7 +105,8 @@ namespace FreeHttp
             {
                 operationReportService.OutOperation(DateTime.Now, myFreeHttpWindow.RequestRuleListView.Items.Count, myFreeHttpWindow.ResponseRuleListView.Items.Count);
             }
-            operationReportService.ReportAsync();
+            //operationReportService.ReportAsync();
+            operationReportService.StartReportThread();
         }
 
         public void OnLoad()
