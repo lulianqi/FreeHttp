@@ -138,7 +138,6 @@ D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.UserFeedbackWindow.reso
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.Properties.Resources.resources
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.Resources.MyResource.resources
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.GenerateResource.cache
-D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.CoreCompileInputs.cache
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.CopyComplete
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.dll
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.pdb

@@ -227,7 +227,7 @@ namespace FreeHttp.FreeHttpControl
             this.antoContentLengthToolStripMenuItem,
             this.useParameterDataToolStripMenuItem});
             this.contextMenuStrip_AddFile.Name = "contextMenuStrip_AddFile";
-            this.contextMenuStrip_AddFile.Size = new System.Drawing.Size(196, 98);
+            this.contextMenuStrip_AddFile.Size = new System.Drawing.Size(196, 120);
             this.contextMenuStrip_AddFile.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_AddFile_Opening);
             // 
             // addFileToolStripMenuItem
@@ -289,6 +289,8 @@ namespace FreeHttp.FreeHttpControl
             // 
             // antoContentLengthToolStripMenuItem
             // 
+            this.antoContentLengthToolStripMenuItem.Checked = true;
+            this.antoContentLengthToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.antoContentLengthToolStripMenuItem.Name = "antoContentLengthToolStripMenuItem";
             this.antoContentLengthToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.antoContentLengthToolStripMenuItem.Text = "anto Content-Length";
@@ -949,7 +951,7 @@ namespace FreeHttp.FreeHttpControl
             this.helpToolStripMenuItem});
             this.menuStrip_quickRule.Location = new System.Drawing.Point(5, 0);
             this.menuStrip_quickRule.Name = "menuStrip_quickRule";
-            this.menuStrip_quickRule.Size = new System.Drawing.Size(349, 25);
+            this.menuStrip_quickRule.Size = new System.Drawing.Size(229, 25);
             this.menuStrip_quickRule.TabIndex = 2;
             this.menuStrip_quickRule.Text = "menuStrip1";
             // 
@@ -1084,7 +1086,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.feedbackToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("feedbackToolStripMenuItem.Image")));
             this.feedbackToolStripMenuItem.Name = "feedbackToolStripMenuItem";
-            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.feedbackToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.feedbackToolStripMenuItem.Text = "feedback";
             this.feedbackToolStripMenuItem.Click += new System.EventHandler(this.FeedbackToolStripMenuItem_Click);
             // 
@@ -1092,7 +1094,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.codeInGithubToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("codeInGithubToolStripMenuItem.Image")));
             this.codeInGithubToolStripMenuItem.Name = "codeInGithubToolStripMenuItem";
-            this.codeInGithubToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.codeInGithubToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.codeInGithubToolStripMenuItem.Text = "code in github";
             this.codeInGithubToolStripMenuItem.Click += new System.EventHandler(this.CodeInGithubToolStripMenuItem_Click);
             // 
@@ -1100,7 +1102,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.documentationToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("documentationToolStripMenuItem.Image")));
             this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.documentationToolStripMenuItem.Text = "documentation";
             this.documentationToolStripMenuItem.Click += new System.EventHandler(this.DocumentationToolStripMenuItem_Click);
             // 

@@ -515,7 +515,7 @@ namespace FreeHttp.FreeHttpControl
             rtb_requsetReplace_body.Clear();
             rtb_respenseModific_body.Clear();
             rtb_requestRaw.Clear();
-            antoContentLengthToolStripMenuItem.Checked = false;
+            antoContentLengthToolStripMenuItem.Checked = true;
             useParameterDataToolStripMenuItem.Checked = false;
             tabControl_Modific_Selecting(this.tabControl_Modific, null);
             ChangeSetResponseLatencyMode((tabControl_Modific.SelectedIndex == 0 || tabControl_Modific.SelectedIndex == 1) ? -1 : 0);
