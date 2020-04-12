@@ -339,13 +339,79 @@ namespace FreeHttp
         }
 
 
-        public static void PickSessionParameter(Session oSession, IFiddlerHttpTamper nowFiddlerHttpTamper, Action<string> ShowError, Action<string> ShowMes, bool isRequest)
+        /// <summary>
+        ///  Modific the websocket message with your rule
+        /// </summary>
+        /// <param name="oSession"></param>
+        /// <param name="webSocketMessage"></param>
+        /// <param name="nowFiddlerRequsetChange"></param>
+        /// <param name="ShowError"></param>
+        /// <param name="ShowMes"></param>
+        public static void ModificWebSocketMessage(Session oSession, WebSocketMessage webSocketMessage, IFiddlerHttpTamper nowFiddlerChange, bool isRequest,Action<string> ShowError, Action<string> ShowMes)
+        {
+            if (nowFiddlerChange.ParameterPickList != null)
+            {
+                PickSessionParameter(oSession, nowFiddlerChange, ShowError, ShowMes, webSocketMessage.IsOutbound , webSocketMessage);
+            }
+            ContentModific payLoadModific = null;
+            if (isRequest)
+            {
+                FiddlerRequestChange nowFiddlerRequsetChange = (FiddlerRequestChange)nowFiddlerChange;
+                payLoadModific = nowFiddlerRequsetChange.BodyModific;
+            }
+            else
+            {
+                FiddlerResponseChange nowFiddlerResponseChange = (FiddlerResponseChange)nowFiddlerChange;
+                payLoadModific = nowFiddlerResponseChange.BodyModific;
+            }
+            //Modific body
+            if (payLoadModific != null && payLoadModific.ModificMode != ContentModificMode.NoChange)
+            {
+                if (payLoadModific.ModificMode == ContentModificMode.HexReplace)
+                {
+                    try
+                    {
+                        webSocketMessage.SetPayload(payLoadModific.GetFinalContent(webSocketMessage.PayloadAsBytes()));
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowError(string.Format("error in GetFinalContent in HexReplace with [{0}]", ex.Message));
+                    }
+                }
+                else
+                {
+                    string sourcePayload = webSocketMessage.PayloadAsString();
+                    if (payLoadModific.ModificMode == ContentModificMode.ReCode)
+                    {
+                        try
+                        {
+                            webSocketMessage.SetPayload(payLoadModific.GetRecodeContent(sourcePayload));
+                        }
+                        catch (Exception ex)
+                        {
+                            ShowError(string.Format("error in GetRecodeContent in ReCode with [{0}]", ex.Message));
+                        }
+                    }
+                    else
+                    {
+                        webSocketMessage.SetPayload(payLoadModific.GetFinalContent(sourcePayload));
+                    }
+                }
+            }
+            
+        }
+
+
+
+        public static void PickSessionParameter(Session oSession, IFiddlerHttpTamper nowFiddlerHttpTamper, Action<string> ShowError, Action<string> ShowMes, bool isRequest , WebSocketMessage webSocketMessage=null)
         {
             Func<string, ParameterPick, string> PickFunc = (sourceStr, parameterPick) =>
             {
                 try { return ParameterPickTypeEngine.dictionaryParameterPickFunc[parameterPick.PickType].ParameterPickFunc(sourceStr, parameterPick.PickTypeExpression, parameterPick.PickTypeAdditional); }
                 catch (Exception) { return null; }
             };
+
+            bool isWebSocket = webSocketMessage != null;
 
             if (nowFiddlerHttpTamper.ParameterPickList != null)
             {
@@ -381,6 +447,11 @@ namespace FreeHttp
                             pickResult = PickFunc(pickSource, parameterPick);
                             break;
                         case ParameterPickRange.Heads:
+                            if(isWebSocket)
+                            {
+                                ShowError("[ParameterizationPick] can not pick parameter in head when the session is websocket");
+                                break;
+                            }
                             IEnumerable<HTTPHeaderItem> headerItems = isRequest ? (IEnumerable<HTTPHeaderItem>)oSession.RequestHeaders : (IEnumerable<HTTPHeaderItem>)oSession.ResponseHeaders;
                             foreach (HTTPHeaderItem tempHead in headerItems)
                             {
@@ -392,13 +463,26 @@ namespace FreeHttp
                             }
                             break;
                         case ParameterPickRange.Entity:
-                            if (((oSession.requestBodyBytes == null || oSession.requestBodyBytes.Length == 0) && isRequest) && ((oSession.ResponseBody == null || oSession.ResponseBody.Length == 0) && isRequest))
+                            if (isWebSocket)
                             {
-                                pickResult = null;
-                                break;
+                                if(webSocketMessage.PayloadLength==0)
+                                {
+                                    pickResult = null;
+                                    break;
+                                }
+                                pickSource = webSocketMessage.PayloadAsString();
+                                pickResult = PickFunc(pickSource, parameterPick);
                             }
-                            pickSource = isRequest ? oSession.GetRequestBodyAsString() : oSession.GetResponseBodyAsString();
-                            pickResult = PickFunc(pickSource, parameterPick);
+                            else
+                            {
+                                if (((oSession.requestBodyBytes == null || oSession.requestBodyBytes.Length == 0) && isRequest) && ((oSession.ResponseBody == null || oSession.ResponseBody.Length == 0) && isRequest))
+                                {
+                                    pickResult = null;
+                                    break;
+                                }
+                                pickSource = isRequest ? oSession.GetRequestBodyAsString() : oSession.GetResponseBodyAsString();
+                                pickResult = PickFunc(pickSource, parameterPick);
+                            }
                             break;
                         default:
                             ShowError("[ParameterizationPick] unkonw pick range");

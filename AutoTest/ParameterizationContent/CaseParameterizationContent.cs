@@ -93,7 +93,7 @@ namespace FreeHttp.AutoTest.ParameterizationContent
                     case ParameterizationContentEncodingType.decode_hex16:
                         try
                         {
-                            byte[] nowBytes = MyBytes.HexStringToByte(myTargetContentData, HexaDecimal.hex16, ShowHexMode.space);
+                            byte[] nowBytes = MyBytes.HexStringToByte(myTargetContentData, HexDecimal.hex16, ShowHexMode.space);
                             myTargetContentData = Encoding.UTF8.GetString(nowBytes);
                         }
                         catch (Exception ex)
@@ -103,12 +103,12 @@ namespace FreeHttp.AutoTest.ParameterizationContent
                         break;
                     //hex 2
                     case ParameterizationContentEncodingType.encode_hex2:
-                        myTargetContentData = MyBytes.StringToHexString(myTargetContentData, Encoding.UTF8, HexaDecimal.hex2, ShowHexMode.space);
+                        myTargetContentData = MyBytes.StringToHexString(myTargetContentData, Encoding.UTF8, HexDecimal.hex2, ShowHexMode.space);
                         break;
                     case ParameterizationContentEncodingType.decode_hex2:
                         try
                         {
-                            byte[] nowBytes = MyBytes.HexStringToByte(myTargetContentData, HexaDecimal.hex2, ShowHexMode.space);
+                            byte[] nowBytes = MyBytes.HexStringToByte(myTargetContentData, HexDecimal.hex2, ShowHexMode.space);
                             myTargetContentData = Encoding.UTF8.GetString(nowBytes);
                         }
                         catch (Exception ex)

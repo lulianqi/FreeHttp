@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FreeHttp.FiddlerHelper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,25 +10,6 @@ namespace FreeHttp.WebService
 {
     public class OperationReportService
     {
-
-        class JsonDataContractJsonSerializer
-        {
-            public static string ObjectToJson(object obj)
-            {
-                System.Runtime.Serialization.Json.DataContractJsonSerializer serializer = new System.Runtime.Serialization.Json.DataContractJsonSerializer(obj.GetType());
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    serializer.WriteObject(stream, obj);
-                    using (StreamReader sr = new StreamReader(stream))
-                    {
-                        stream.Position = 0;
-                        return sr.ReadToEnd();
-                    }
-                }
-            }
-
-        }
-
 
         [System.Runtime.Serialization.DataContract()]
         public class OperationDetail
@@ -66,10 +48,21 @@ namespace FreeHttp.WebService
         private OperationDetail operationDetail;
         private DateTime? nowInTime;
 
+        public List<FiddlerRequestChange> FiddlerRequestChangeRuleList { get; set; } = null;
+        public List<FiddlerResponseChange> FiddlerResponseChangeRuleList { get; set; } = null;
+
         public OperationReportService()
         {
             operationDetail = new OperationDetail(WebService.UserComputerInfo.GetComputerMac());
             nowInTime = null;
+        }
+
+        public bool HasAnyOperation
+        {
+            get
+            {
+                return operationDetail.OperationDetailCells.Count > 0;
+            }
         }
 
         public void InOperation(DateTime inTime)
@@ -93,13 +86,13 @@ namespace FreeHttp.WebService
         public void StartReportThread()
         {
             System.Threading.Thread reportThread = new System.Threading.Thread(new System.Threading.ThreadStart(Report));
-            reportThread.IsBackground = false;
+            reportThread.IsBackground = false; //使用Thread创建的线程其实默认IsBackground就是false
             reportThread.Start();
         }
 
         private void Report()
         {
-            if(System.Threading.Thread.CurrentThread.IsBackground)
+            if(System.Threading.Thread.CurrentThread.IsBackground)//大部分情况在async方法里使用这种方式也没有效果 1：不能确保线程执行到这里没有被主线程结束，2：对于async方法大部分情况执行这里的代码也是上一个线程，到await 才可能切换线程 （不过仍然可以通过同步的方式启动async方法）
             {
                 System.Threading.Thread.CurrentThread.IsBackground = false;
             }
@@ -107,9 +100,12 @@ namespace FreeHttp.WebService
             {
                 string operationBody = null;
                 //operationBody = Fiddler.WebFormats.JSON.JsonEncode(this.operationDetail);
-                operationBody = JsonDataContractJsonSerializer.ObjectToJson(this.operationDetail);
-                (new WebService.MyWebTool.MyHttp()).SendHttpRequest("https://api.lulianqi.com/freehttp/OperationReport", operationBody, "POST", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null);
-                //(new WebService.MyWebTool.MyHttp()).SendHttpRequest("http://localhost:5000/freehttp/OperationReport", operationBody, "POST", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null);
+                operationBody = MyHelper.MyJsonHelper.JsonDataContractJsonSerializer.ObjectToJsonStr(this.operationDetail);
+                (new WebService.MyWebTool.MyHttp()).SendHttpRequest(string.Format("{0}freehttp/OperationReport",ConfigurationData.BaseUrl), operationBody, "POST", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null);
+                if (FiddlerRequestChangeRuleList != null || FiddlerResponseChangeRuleList != null)
+                {
+                    new WebService.RuleReportService().UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(FiddlerRequestChangeRuleList, FiddlerResponseChangeRuleList).Wait();
+                }
             }
         }
     }

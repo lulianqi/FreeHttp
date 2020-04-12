@@ -16,6 +16,7 @@ namespace FreeHttp.MyHelper
     {
         public static void SerializeRuleList(ListView requestRuleListView, ListView reponseRuleListView)
         {
+            string rulePath = "FreeHttp\\RuleData.xml";
             if (requestRuleListView != null && reponseRuleListView!=null)
             {
                 //dynamic
@@ -30,34 +31,64 @@ namespace FreeHttp.MyHelper
                     responseList.Add((FiddlerResponseChange)tempItem.Tag);
                 }
                 //Stream stream = File.Open("data.xml", FileMode.Create);
-                TextWriter writer = new StreamWriter("FreeHttp\\RuleData.xml", false);
+                TextWriter writer = new StreamWriter(rulePath, false);
                 XmlSerializer serializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
                 //serializer = new XmlSerializer(typeof(List<IFiddlerHttpTamper>));
                 serializer.Serialize(writer, new FiddlerModificHttpRuleCollection(requestList, responseList));
                 writer.Close();
+
+                //写入版本
+                System.Xml.XmlDocument xmlDocument = new System.Xml.XmlDocument();
+                xmlDocument.Load(rulePath);
+                System.Xml.XmlAttribute dbAtt = xmlDocument.CreateAttribute("ruleVersion");
+                dbAtt.Value = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                xmlDocument.SelectSingleNode("/FiddlerModificHttpRuleCollection")?.Attributes.Append(dbAtt);
+                xmlDocument.Save(rulePath);
             }
         }
 
         public static FiddlerModificHttpRuleCollection DeserializeRuleList()
         {
+            string rulePath = "FreeHttp\\RuleData.xml";
             FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection = null;
-            if (File.Exists("FreeHttp\\RuleData.xml"))
+            if (File.Exists(rulePath))
             {
-                XmlSerializer mySerializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
-                FileStream myFileStream = new FileStream("FreeHttp\\RuleData.xml", FileMode.Open);
+                FileStream myFileStream = new FileStream(rulePath, FileMode.Open);
                 try
                 {
-                    //fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)mySerializer.Deserialize(myFileStream);
                     using (System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader(myFileStream))
                     {
                         reader.Normalization = false;
-                        fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)mySerializer.Deserialize(reader);
+                        //版本控制
+                        string ruleVersion = string.Empty;
+                        //System.Version version = new Version("2.0.0");
+                        while (reader.Read())
+                        {
+                            if (reader.NodeType == System.Xml.XmlNodeType.Element)
+                            {
+                                if (reader.Name == "FiddlerModificHttpRuleCollection")
+                                {
+                                    ruleVersion = reader.GetAttribute("ruleVersion");
+                                    break;
+                                }
+                            }
+                        }
+                        if (string.IsNullOrEmpty(ruleVersion))
+                        {
+                            XmlSerializer mySerializer = new XmlSerializer(typeof(FreeHttp.FiddlerHelper.VersionControlV1.FiddlerModificHttpRuleCollection));
+                            fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)(FreeHttp.FiddlerHelper.VersionControlV1.FiddlerModificHttpRuleCollection)mySerializer.Deserialize(reader);
+                        }
+                        else
+                        {
+                            XmlSerializer mySerializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
+                            fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)mySerializer.Deserialize(reader);
+                        }
                     }
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message), "load user rule fail");
-                    File.Copy("FreeHttp\\RuleData.xml", "FreeHttp\\RuleData.lastErrorFile", true);
+                    File.Copy(rulePath, rulePath+".lastErrorFile", true);
                 }
                 finally
                 {

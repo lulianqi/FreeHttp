@@ -5,28 +5,34 @@ using FreeHttp.HttpHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace FreeHttp.FiddlerHelper
 {
     [Serializable]
+    [System.Runtime.Serialization.DataContract()]
     public class FiddlerResponseChange : IFiddlerHttpTamper
     {
+        [DataMember]
         public bool IsEnable { get; set; }
-        //public FiddlerUriMatch UriMatch { get; set; }
+        [DataMember]
+        public TamperProtocalType TamperProtocol { get; set; }
+        [DataMember]
         public FiddlerHttpFilter HttpFilter { get; set; }
-
+        [DataMember]
         public List<ParameterPick> ParameterPickList { get; set; }
+        [DataMember]
         public ParameterHttpResponse HttpRawResponse { get; set; }
-
+        [DataMember]
         public bool IsIsDirectRespons { get; set; } //only for HttpRawResponse
-
+        [DataMember]
         public int LesponseLatency { get; set; }
-
+        [DataMember]
         public List<string> HeadAddList { get; set; }
-
+        [DataMember]
         public List<string> HeadDelList { get; set; }
-
+        [DataMember]
         public ContentModific BodyModific { get; set; }
 
         //[NonSerialized]

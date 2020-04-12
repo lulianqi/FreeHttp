@@ -1,9 +1,11 @@
 ﻿using Fiddler;
+using FreeHttp.AutoTest;
 using FreeHttp.HttpHelper;
 using FreeHttp.MyHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace FreeHttp.FiddlerHelper
@@ -18,9 +20,12 @@ namespace FreeHttp.FiddlerHelper
     }
 
     [Serializable]
+    [DataContract]
     public class FiddlerUriMatch
     {
+        [DataMember]
         public FiddlerUriMatchMode MatchMode { get; set; }
+        [DataMember]
         public String MatchUri { get; set; }
 
         public FiddlerUriMatch()
@@ -51,7 +56,6 @@ namespace FreeHttp.FiddlerHelper
                 default:
                     return false;
             }
-
         }
         public bool Equals(FiddlerUriMatch targetUriMatch)
         {
@@ -74,8 +78,10 @@ namespace FreeHttp.FiddlerHelper
     }
 
     [Serializable]
+    [DataContract]
     public class FiddlerHeadMatch
     {
+        [DataMember]
         public List<MyKeyValuePair<string, string>> HeadsFilter { get; set; }
 
         public FiddlerHeadMatch()
@@ -152,12 +158,102 @@ namespace FreeHttp.FiddlerHelper
     }
 
     [Serializable]
+    [DataContract]
+    public class FiddlerBodyMatch: FiddlerUriMatch
+    {
+        [DataMember]
+        public Byte[] MatchBodyBytes { get; set; }
+
+        [System.Xml.Serialization.XmlIgnore]
+        public bool IsHexMatch{ get { return MatchBodyBytes != null; } }
+
+        private string bufferBodyBytesStr;
+
+        public new bool Match(string matchString)
+        {
+            if (IsHexMatch)
+            {
+                return false;
+            }
+            return base.Match(matchString);
+        }
+
+        public FiddlerBodyMatch() : base()
+        { }
+        public FiddlerBodyMatch(FiddlerUriMatchMode matchMode, string matchData) //: base(matchMode, matchUri)
+        {
+            if (String.IsNullOrEmpty(matchData) && matchMode != FiddlerUriMatchMode.AllPass)
+            {
+                throw new Exception("empty data is illegal for this mode");
+            }
+            if (matchData.StartsWith("<hex>"))
+            {
+                if(matchMode== FiddlerUriMatchMode.Regex)
+                {
+                    throw new Exception("Regex can not use hex mode");
+                }
+                MatchBodyBytes = MyBytes.HexStringToByte(matchData.Remove(0, "<hex>".Length), HexDecimal.hex16);
+                if((MatchBodyBytes==null || MatchBodyBytes.Length==0)&& matchMode != FiddlerUriMatchMode.AllPass)
+                {
+                    throw new Exception("empty data is illegal for this mode");
+                }
+                MatchMode = matchMode;
+                MatchUri = string.Format("<hex>{0}", BitConverter.ToString(MatchBodyBytes));
+            }
+            else
+            {
+                MatchMode = matchMode;
+                MatchUri = matchData;
+            }
+        }
+
+        public static FiddlerBodyMatch GetFiddlerBodyMatch(FiddlerUriMatchMode matchMode, string matchData)
+        {
+            try { return new FiddlerBodyMatch(matchMode, matchData); } catch { }
+            return null;            
+        }
+
+        public bool Match(Byte[] matchBytes)
+        {
+            if(MatchBodyBytes==null && MatchBodyBytes.Length==0)
+            {
+                return false;
+            }
+            if (bufferBodyBytesStr == null)
+            {
+                bufferBodyBytesStr = BitConverter.ToString(MatchBodyBytes);
+            }
+            string matchString= BitConverter.ToString(matchBytes);
+            switch (MatchMode)
+            {
+                case FiddlerUriMatchMode.AllPass:
+                    return true;
+                case FiddlerUriMatchMode.Contain:
+                    return (matchString.Contains(bufferBodyBytesStr));
+                case FiddlerUriMatchMode.Is:
+                    return matchString == bufferBodyBytesStr;
+                case FiddlerUriMatchMode.Regex:
+                    return false;
+                case FiddlerUriMatchMode.StartWith:
+                    return matchString.StartsWith(bufferBodyBytesStr);
+                default:
+                    return false;
+            }
+        }
+    }
+
+    [Serializable]
+    [DataContract]
     public class FiddlerHttpFilter
     {
-        public string Name { get; set; } 
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
         public FiddlerUriMatch UriMatch { get; set; }   //UriMatch  must not be null
+        [DataMember]
         public FiddlerHeadMatch HeadMatch { get; set; }
-        public FiddlerUriMatch BodyMatch { get; set; }
+        [DataMember]
+        public FiddlerBodyMatch BodyMatch { get; set; }
 
         public FiddlerHttpFilter()
         {
@@ -168,28 +264,83 @@ namespace FreeHttp.FiddlerHelper
         {
             UriMatch = uriMatch;
         }
-        public bool Match(Session oSession, bool isRequest)
+        public bool Match(Session oSession, bool isRequest, WebSocketMessage webSocketMessage = null)
         {
+            bool isWebSocket = webSocketMessage != null;// oSession.BitFlags.HasFlag(SessionFlags.IsWebSocketTunnel);
             bool isMatch = true;
-            if (UriMatch != null)
+            if (isWebSocket)
             {
-                if(!UriMatch.Match(oSession.fullUrl))
+                if(!oSession.BitFlags.HasFlag(SessionFlags.IsWebSocketTunnel))
                 {
                     return false;
                 }
-            }
-            if (HeadMatch!=null)
-            {
-                if (!HeadMatch.Match(isRequest ? (HTTPHeaders)oSession.RequestHeaders : (HTTPHeaders)oSession.ResponseHeaders))
+                if(!((isRequest && webSocketMessage.IsOutbound) || (!isRequest && !webSocketMessage.IsOutbound)))
                 {
                     return false;
                 }
-            }
-            if (BodyMatch!=null)
-            {
-                if (!BodyMatch.Match(isRequest?oSession.GetRequestBodyAsString():oSession.GetResponseBodyAsString()))
+                if (!UriMatch.Match(oSession.fullUrl))
                 {
                     return false;
+                }
+                if (BodyMatch != null)
+                {
+                    if (webSocketMessage.FrameType == WebSocketFrameTypes.Binary && BodyMatch.IsHexMatch)
+                    {
+                        if(! BodyMatch.Match(webSocketMessage.PayloadAsBytes()))
+                        {
+                            return false;
+                        }
+                    }
+                    else if (webSocketMessage.FrameType == WebSocketFrameTypes.Text && !BodyMatch.IsHexMatch)
+                    {
+                        if (!BodyMatch.Match(webSocketMessage.PayloadAsString()))
+                        {
+                            return false;
+                        }
+                    }
+                    else if(webSocketMessage.FrameType == WebSocketFrameTypes.Continuation)
+                    {
+                        //延续帧
+                        return false;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                if (UriMatch != null)
+                {
+                    if (!UriMatch.Match(oSession.fullUrl))
+                    {
+                        return false;
+                    }
+                }
+                if (HeadMatch != null)
+                {
+                    if (!HeadMatch.Match(isRequest ? (HTTPHeaders)oSession.RequestHeaders : (HTTPHeaders)oSession.ResponseHeaders))
+                    {
+                        return false;
+                    }
+                }
+                if (BodyMatch != null)
+                {
+                    if (BodyMatch.IsHexMatch)
+                    {
+                        if (!BodyMatch.Match(isRequest ? oSession.requestBodyBytes : oSession.responseBodyBytes))
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (!BodyMatch.Match(isRequest ? oSession.GetRequestBodyAsString() : oSession.GetResponseBodyAsString()))
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
             return isMatch;

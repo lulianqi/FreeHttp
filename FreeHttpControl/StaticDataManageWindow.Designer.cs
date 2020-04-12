@@ -25,9 +25,9 @@
             this.tb_valueAdd = new System.Windows.Forms.TextBox();
             this.tb_keyAdd = new System.Windows.Forms.TextBox();
             this.label_info = new System.Windows.Forms.Label();
-            this.pb_edit = new FreeHttp.FreeHttpControl.MyPictureButton();
-            this.pb_next = new FreeHttp.FreeHttpControl.MyPictureButton();
-            this.pb_reset = new FreeHttp.FreeHttpControl.MyPictureButton();
+            this.pb_edit = new FreeHttp.FreeHttpControl.MyEnabledPictureButton();
+            this.pb_next = new FreeHttp.FreeHttpControl.MyEnabledPictureButton();
+            this.pb_reset = new FreeHttp.FreeHttpControl.MyEnabledPictureButton();
             ((System.ComponentModel.ISupportInitialize)(this.pb_addStaticData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_delStaticData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_edit)).BeginInit();
@@ -263,9 +263,9 @@
         private System.Windows.Forms.TextBox tb_valueAdd;
         private System.Windows.Forms.TextBox tb_keyAdd;
         private System.Windows.Forms.Label label_info;
-        private MyPictureButton pb_edit;
-        private MyPictureButton pb_next;
-        private MyPictureButton pb_reset;
+        private MyEnabledPictureButton pb_edit;
+        private MyEnabledPictureButton pb_next;
+        private MyEnabledPictureButton pb_reset;
 
     }
 }

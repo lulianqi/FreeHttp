@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace FreeHttp.FreeHttpControl
 {
-    class MyPictureButton:PictureBox
+    class MyEnabledPictureButton : PictureBox
     {
-        public MyPictureButton()
+        public MyEnabledPictureButton()
         {
             //this.MouseMove += pictureBox_MouseMove;
             //this.MouseLeave += pictureBox_MouseLeave;
@@ -58,6 +58,7 @@ namespace FreeHttp.FreeHttpControl
                 }
             }
         }
+
 
         protected override void OnMouseMove(MouseEventArgs e)
         {

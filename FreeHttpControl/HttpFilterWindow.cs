@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static FreeHttp.FreeHttpControl.FreeHttpWindow;
 
 namespace FreeHttp.FreeHttpControl
 {
@@ -21,9 +22,11 @@ namespace FreeHttp.FreeHttpControl
         }
 
         FiddlerHttpFilter httpFilter;
-        public HttpFilterWindow(object filter):this()
+        TamperProtocalType protocolMode;
+        public HttpFilterWindow(object filter , TamperProtocalType mode = TamperProtocalType.Http) :this()
         {
             httpFilter = filter as FiddlerHttpFilter;
+            protocolMode = mode;
         }
 
         private void HttpFilterWindow_Load(object sender, EventArgs e)
@@ -72,7 +75,13 @@ namespace FreeHttp.FreeHttpControl
             {
                 tb_RuleAlias.Text = httpFilter.Name;
             }
-               
+            
+            if(protocolMode == TamperProtocalType.WebSocket)
+            {
+                this.Text = "WebsocketFilterWindow";
+                FilterHeads.Enabled = false;
+                lb_info_1.Text = "Payload Filter";
+            }
         }
 
         private void bt_ok_Click(object sender, EventArgs e)
@@ -128,8 +137,15 @@ namespace FreeHttp.FreeHttpControl
             }
             else
             {
-                httpFilter.BodyMatch = new FiddlerUriMatch(matchMode, rtb_bodyFilter.Text);
-                
+                try
+                {
+                    httpFilter.BodyMatch = new FiddlerBodyMatch(matchMode, rtb_bodyFilter.Text);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(string.Format("your body filter is illage \r\n{0}", ex.Message), "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
             }
 
             if (tb_RuleAlias.Text!=null)

@@ -57,7 +57,7 @@ namespace FreeHttp.FreeHttpControl
                     return;
                 }
                 isShowEditRichTextBox = value;
-                pb_editTextBox.Image = isShowEditRichTextBox ? ((Image)(myResources.GetObject("affirm"))) : ((Image)(myResources.GetObject("edit")));
+                pb_editTextBox.Image = isShowEditRichTextBox ? ((Image)(myResources.GetObject("zoomsmall"))) : ((Image)(myResources.GetObject("zoombig")));
             } 
         }
 
@@ -72,9 +72,10 @@ namespace FreeHttp.FreeHttpControl
             get { return editTextBox; }
             set 
             { 
-                editTextBox = value; 
-                if(editTextBox!=null)
+                editTextBox = value;
+                if (editTextBox!=null)
                 {
+                    this.BackColor = editTextBox.BackColor;
                     editTextBox.Resize += editTextBox_Resize;
                     editTextBox.Move += editTextBox_Move;
                 }

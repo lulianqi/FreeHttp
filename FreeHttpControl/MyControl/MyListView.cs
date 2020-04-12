@@ -27,6 +27,9 @@ namespace FreeHttp.FreeHttpControl
             this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
         }
+
+        public event EventHandler<DragEventArgs> OnItemDragSort;
+
         protected override void WndProc(ref Message m)
         { 
             if (m.Msg == WM_LBUTTONDBLCLK)
@@ -112,7 +115,7 @@ namespace FreeHttp.FreeHttpControl
                     targetIndex++;
                 }
             }
-
+            OnItemDragSort?.Invoke(sender, e);
         }
 
 

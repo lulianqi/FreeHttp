@@ -35,7 +35,7 @@
             this.lb_info_2 = new System.Windows.Forms.Label();
             this.tb_key = new FreeHttp.FreeHttpControl.WatermakTextBox();
             this.tb_value = new FreeHttp.FreeHttpControl.WatermakTextBox();
-            this.pb_confirm = new FreeHttp.FreeHttpControl.MyPictureButton();
+            this.pb_confirm = new FreeHttp.FreeHttpControl.MyEnabledPictureButton();
             ((System.ComponentModel.ISupportInitialize)(this.pb_confirm)).BeginInit();
             this.SuspendLayout();
             // 
@@ -151,6 +151,6 @@
         private System.Windows.Forms.Label lb_info_2;
         private WatermakTextBox tb_key;
         private WatermakTextBox tb_value;
-        private MyPictureButton pb_confirm;
+        private MyEnabledPictureButton pb_confirm;
     }
 }

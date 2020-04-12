@@ -27,7 +27,7 @@ namespace FreeHttp.AutoTest
     /// <summary>
     /// 表示要代表数据的进制
     /// </summary>
-    public enum HexaDecimal
+    public enum HexDecimal
     {
         hex2 = 2,
         hex10 = 10,        //001 224 023  表示显示需要补0
@@ -38,7 +38,7 @@ namespace FreeHttp.AutoTest
     {
         #region ByteSring
 
-        private static Dictionary<HexaDecimal, int> DictionaryHexaDecimal = new Dictionary<HexaDecimal, int>() { { HexaDecimal.hex2, 8 }, { HexaDecimal.hex10, 3 }, { HexaDecimal.hex16, 2 } };
+        private static Dictionary<HexDecimal, int> DictionaryHexDecimal = new Dictionary<HexDecimal, int>() { { HexDecimal.hex2, 8 }, { HexDecimal.hex10, 3 }, { HexDecimal.hex16, 2 } };
         private static Dictionary<ShowHexMode, string> DictionaryShowHexMode = new Dictionary<ShowHexMode, string>() { { ShowHexMode.spitSpace0x, " 0x" }, { ShowHexMode.spit0x, "0x" }, { ShowHexMode.spitSpace0d, " 0d" }, { ShowHexMode.spit0d, "0d" }, { ShowHexMode.spitSpace0b, " 0b" }, { ShowHexMode.spit0b, "0b" }, { ShowHexMode.spitM_, "-" }, { ShowHexMode.spit_, "_" }, { ShowHexMode.space, " " }, { ShowHexMode.@null, "" } };
 
 
@@ -49,7 +49,7 @@ namespace FreeHttp.AutoTest
         /// <returns>返回结果</returns>
         public static string StringToHexString(string yourStr)
         {
-            return StringToHexString(yourStr, Encoding.UTF8, HexaDecimal.hex16, ShowHexMode.space);
+            return StringToHexString(yourStr, Encoding.UTF8, HexDecimal.hex16, ShowHexMode.space);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace FreeHttp.AutoTest
         /// <param name="hexaDecimal">指定进制</param>
         /// <param name="stringMode">指定格式</param>
         /// <returns>返回结果</returns>
-        public static string StringToHexString(string yourStr, Encoding encode, HexaDecimal hexaDecimal, ShowHexMode stringMode)
+        public static string StringToHexString(string yourStr, Encoding encode, HexDecimal hexaDecimal, ShowHexMode stringMode)
         {
             byte[] tempBytes = encode.GetBytes(yourStr);
             return ByteToHexString(tempBytes, hexaDecimal, stringMode);
@@ -73,19 +73,19 @@ namespace FreeHttp.AutoTest
         /// <param name="hexDecimal">指定进制</param>
         /// <param name="stringMode">指定格式</param>
         /// <returns>返回结果</returns>
-        public static string ByteToHexString(byte[] yourBytes, HexaDecimal hexDecimal, ShowHexMode stringMode)
+        public static string ByteToHexString(byte[] yourBytes, HexDecimal hexDecimal, ShowHexMode stringMode)
         {
             // 如果只考虑16进制对格式没有特殊要求 可以直接使用 ((byte)233).ToString("X2"); 或 BitConverter.ToString(new byte[]{1,2,3,10,12,233})
             if (yourBytes == null)
             {
                 return null;
             }
-            StringBuilder result = new StringBuilder(DictionaryHexaDecimal[hexDecimal] + DictionaryShowHexMode[stringMode].Length);
+            StringBuilder result = new StringBuilder(DictionaryHexDecimal[hexDecimal] + DictionaryShowHexMode[stringMode].Length);
 
             for (int i = 0; i < yourBytes.Length; i++)
             {
                 result.Append(DictionaryShowHexMode[stringMode]);
-                result.Append(Convert.ToString(yourBytes[i], (int)hexDecimal).PadLeft(DictionaryHexaDecimal[hexDecimal], '0'));
+                result.Append(Convert.ToString(yourBytes[i], (int)hexDecimal).PadLeft(DictionaryHexDecimal[hexDecimal], '0'));
             }
             return result.ToString().Trim();
         }
@@ -97,9 +97,9 @@ namespace FreeHttp.AutoTest
         /// <param name="hexDecimal">指定进制</param>
         /// <param name="stringMode">指定格式</param>
         /// <returns>返回结果(如果yourStr为""返回长度为0的byte[])</returns>
-        public static byte[] HexStringToByte(string yourStr, HexaDecimal hexDecimal, ShowHexMode stringMode)
+        public static byte[] HexStringToByte(string yourStr, HexDecimal hexDecimal, ShowHexMode stringMode)
         {
-            if (hexDecimal == HexaDecimal.hex16 && (stringMode == ShowHexMode.spit0b || stringMode == ShowHexMode.spit0d || stringMode == ShowHexMode.spitSpace0b || stringMode == ShowHexMode.spitSpace0d))
+            if (hexDecimal == HexDecimal.hex16 && (stringMode == ShowHexMode.spit0b || stringMode == ShowHexMode.spit0d || stringMode == ShowHexMode.spitSpace0b || stringMode == ShowHexMode.spitSpace0d))
             {
                 throw new Exception("your HexaDecimal and ShowHexMode is conflict");
             }
@@ -112,15 +112,15 @@ namespace FreeHttp.AutoTest
             }
             if (modeStr == string.Empty)
             {
-                if (yourStr.Length % DictionaryHexaDecimal[hexDecimal] != 0)
+                if (yourStr.Length % DictionaryHexDecimal[hexDecimal] != 0)
                 {
                     throw new Exception("error leng of your data");
                 }
-                long tempHexNum = yourStr.Length / DictionaryHexaDecimal[hexDecimal];
+                long tempHexNum = yourStr.Length / DictionaryHexDecimal[hexDecimal];
                 hexStrs = new string[tempHexNum];
                 for (int startIndex = 0; startIndex < tempHexNum; startIndex++)
                 {
-                    hexStrs[startIndex] = yourStr.Substring(startIndex * DictionaryHexaDecimal[hexDecimal], DictionaryHexaDecimal[hexDecimal]);
+                    hexStrs[startIndex] = yourStr.Substring(startIndex * DictionaryHexDecimal[hexDecimal], DictionaryHexDecimal[hexDecimal]);
                 }
             }
             else
@@ -151,12 +151,12 @@ namespace FreeHttp.AutoTest
         /// <param name="yourStr">需要转换的字符串</param>
         /// <param name="hexDecimal">指定进制</param>
         /// <returns>返回结果(如果yourStr为""返回长度为0的byte[])</returns>
-        public static byte[] HexStringToByte(string yourStr, HexaDecimal hexDecimal)
+        public static byte[] HexStringToByte(string yourStr, HexDecimal hexDecimal)
         {
             if (yourStr == null) throw new Exception("your source string is null");
             foreach(var tryStringSpitMode in DictionaryShowHexMode)
             {
-                if (hexDecimal == HexaDecimal.hex16 && (tryStringSpitMode.Key == ShowHexMode.spit0b || tryStringSpitMode.Key == ShowHexMode.spit0d || tryStringSpitMode.Key == ShowHexMode.spitSpace0b || tryStringSpitMode.Key == ShowHexMode.spitSpace0d)) continue;
+                if (hexDecimal == HexDecimal.hex16 && (tryStringSpitMode.Key == ShowHexMode.spit0b || tryStringSpitMode.Key == ShowHexMode.spit0d || tryStringSpitMode.Key == ShowHexMode.spitSpace0b || tryStringSpitMode.Key == ShowHexMode.spitSpace0d)) continue;
                 if (yourStr.Contains(tryStringSpitMode.Value)) return HexStringToByte(yourStr, hexDecimal, tryStringSpitMode.Key);
             }
             throw new Exception("unknown exception with HexStringToByte");
@@ -408,6 +408,7 @@ namespace FreeHttp.AutoTest
             {
                 if (src[i] == find[0])
                 {
+                   if (find.Length == 1) return i;
                    for(int m=1;m< find.Length;m++)
                    {
                         if (src[i + m] != find[m]) break;

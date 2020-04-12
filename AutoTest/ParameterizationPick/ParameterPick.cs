@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,12 +9,18 @@ namespace FreeHttp.AutoTest.ParameterizationPick
 {
 
      [Serializable]
+     [DataContract]
     public class ParameterPick
     {
+        [DataMember]
         public string ParameterName { get; set; }
+        [DataMember]
         public ParameterPickType PickType { get; set; }
+        [DataMember]
         public ParameterPickRange PickRange { get; set; }
+        [DataMember]
         public string PickTypeAdditional { get; set; }
+        [DataMember]
         public string PickTypeExpression { get; set; }
     }
 
