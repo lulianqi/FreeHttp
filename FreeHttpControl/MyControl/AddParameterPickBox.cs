@@ -27,7 +27,7 @@ namespace FreeHttp.FreeHttpControl.MyControl
         {
             InitializeComponent();
             cb_ParameterType.SelectedIndex = 0;
-            cb_pickRange.SelectedIndex = 0;
+            cb_pickRange.SelectedIndex = 2;
         }
 
         public AddParameterPickBox(ParameterPick yourParameterPick)

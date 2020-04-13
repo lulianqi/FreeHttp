@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextBoxEditer));
             this.pb_editTextBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb_editTextBox)).BeginInit();
             this.SuspendLayout();
@@ -38,10 +37,11 @@
             this.pb_editTextBox.BackColor = System.Drawing.Color.Transparent;
             this.pb_editTextBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pb_editTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pb_editTextBox.Image = ((System.Drawing.Image)(resources.GetObject("pb_editTextBox.Image")));
+            this.pb_editTextBox.Image = global::FreeHttp.Properties.Resources.zoombig;
             this.pb_editTextBox.Location = new System.Drawing.Point(0, 0);
+            this.pb_editTextBox.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.pb_editTextBox.Name = "pb_editTextBox";
-            this.pb_editTextBox.Size = new System.Drawing.Size(21, 21);
+            this.pb_editTextBox.Size = new System.Drawing.Size(39, 37);
             this.pb_editTextBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_editTextBox.TabIndex = 40;
             this.pb_editTextBox.TabStop = false;
@@ -51,11 +51,12 @@
             // 
             // TextBoxEditer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pb_editTextBox);
+            this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.Name = "TextBoxEditer";
-            this.Size = new System.Drawing.Size(21, 21);
+            this.Size = new System.Drawing.Size(39, 37);
             ((System.ComponentModel.ISupportInitialize)(this.pb_editTextBox)).EndInit();
             this.ResumeLayout(false);
 

@@ -4,52 +4,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FreeHttp.FiddlerHelper
 {
     class FiddlerSessionHelper
     {
-        public static List<ListViewItem> FindMatchTanperRule(Session oSession,ListView ruleListView)
-        {
-            if (oSession == null || ruleListView == null || ruleListView.Items.Count==0)
-            {
-                return null;
-            }
-            List<ListViewItem> matchItemList = new List<ListViewItem>();
-            foreach(ListViewItem tempItem in ruleListView.Items)
-            {
-                if (!tempItem.Checked)
-                {
-                    continue;
-                }
-                if(((IFiddlerHttpTamper)tempItem.Tag).HttpFilter.UriMatch.Match(oSession.fullUrl))
-                {
-                    matchItemList.Add(tempItem);
-                }
-            }
-            return matchItemList;
-        }
 
-        public static List<ListViewItem> FindMatchTanperRule(Session oSession, ListView ruleListView,bool isRequest)
+        public static List<IFiddlerHttpTamper> FindMatchTanperRule<T>(Session oSession, List<T> ruleList,bool isRequest,WebSocketMessage webSocketMessage = null) where T : IFiddlerHttpTamper
         {
-            if (oSession == null || ruleListView == null || ruleListView.Items.Count == 0)
+            if (oSession == null || ruleList == null || ruleList.Count == 0)
             {
                 return null;
             }
-            List<ListViewItem> matchItemList = new List<ListViewItem>();
-            foreach (ListViewItem tempItem in ruleListView.Items)
+            List<IFiddlerHttpTamper> matchRuleList = new List<IFiddlerHttpTamper>();
+            bool isMatchWebsocket = webSocketMessage != null;
+            foreach (IFiddlerHttpTamper tempItem in ruleList)
             {
-                if (!tempItem.Checked)
+                if (!tempItem.IsEnable)
                 {
                     continue;
                 }
-                if (((IFiddlerHttpTamper)tempItem.Tag).HttpFilter.Match(oSession , isRequest))
+                if (isMatchWebsocket)
                 {
-                    matchItemList.Add(tempItem);
+                    if (tempItem.TamperProtocol == TamperProtocalType.Http)
+                    {
+                        continue;
+                    }
+                    if (!oSession.BitFlags.HasFlag(SessionFlags.IsWebSocketTunnel))
+                    {
+                        continue;
+                    }
+                    if (tempItem.HttpFilter.Match(oSession, isRequest, webSocketMessage))
+                    {
+                        matchRuleList.Add(tempItem);
+                    }
+                }
+                else
+                {
+                    if (tempItem.TamperProtocol == TamperProtocalType.WebSocket)
+                    {
+                        continue;
+                    }
+                    if (tempItem.HttpFilter.Match(oSession, isRequest))
+                    {
+                        matchRuleList.Add(tempItem);
+                    }
                 }
             }
-            return matchItemList;
+            return matchRuleList;
         }
     }
 }

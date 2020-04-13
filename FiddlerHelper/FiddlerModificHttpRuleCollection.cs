@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace FreeHttp.FiddlerHelper
 {
     [Serializable]
     public class FiddlerModificHttpRuleCollection
     {
-        List<FiddlerRequsetChange> requestRuleList;
+        List<FiddlerRequestChange> requestRuleList;
         List<FiddlerResponseChange> responseRuleList;
 
-        public List<FiddlerRequsetChange> RequestRuleList { get { return requestRuleList; } set { requestRuleList = value; } }
+        public List<FiddlerRequestChange> RequestRuleList { get { return requestRuleList; } set { requestRuleList = value; } }
         public List<FiddlerResponseChange> ResponseRuleList { get { return responseRuleList; } set { responseRuleList = value; } }
 
 
@@ -22,7 +23,7 @@ namespace FreeHttp.FiddlerHelper
             responseRuleList = null;
         }
 
-        public FiddlerModificHttpRuleCollection(List<FiddlerRequsetChange> yourRequestRuleList, List<FiddlerResponseChange> yourResponseRuleList)
+        public FiddlerModificHttpRuleCollection(List<FiddlerRequestChange> yourRequestRuleList, List<FiddlerResponseChange> yourResponseRuleList)
         {
             requestRuleList = yourRequestRuleList;
             responseRuleList = yourResponseRuleList;

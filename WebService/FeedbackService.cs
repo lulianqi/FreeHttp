@@ -38,7 +38,7 @@ namespace FreeHttp.WebService
                     , Fiddler.WebFormats.JSON.JsonEncode(feedback.user_mac),
                     Fiddler.WebFormats.JSON.JsonEncode(feedback.feedback_content),
                     Fiddler.WebFormats.JSON.JsonEncode(feedback.contact_infomation));
-                int responseCode = (new WebService.MyWebTool.MyHttp()).SendHttpRequest("https://api.lulianqi.com/freehttp/Feedback", feedbackBody, "POST", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null).StatusCode;
+                int responseCode = (new WebService.MyWebTool.MyHttp()).SendHttpRequest(string.Format("{0}freehttp/Feedback", ConfigurationData.BaseUrl), feedbackBody, "POST", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null).StatusCode;
                 return responseCode;
             });
             int code =  await Task.Run(SubmitFeedbackTask);
@@ -57,7 +57,7 @@ namespace FreeHttp.WebService
                     , Fiddler.WebFormats.JSON.JsonEncode(feedback.user_mac),
                     Fiddler.WebFormats.JSON.JsonEncode(feedback.feedback_content),
                     Fiddler.WebFormats.JSON.JsonEncode(feedback.contact_infomation));
-                int responseCode = (new WebService.MyWebTool.MyHttp()).SendHttpRequest("https://api.lulianqi.com/freehttp/Feedback", feedbackBody, "POST",  new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null).StatusCode;
+                int responseCode = (new WebService.MyWebTool.MyHttp()).SendHttpRequest(string.Format("{0}freehttp/Feedback", ConfigurationData.BaseUrl), feedbackBody, "POST",  new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null).StatusCode;
                 return responseCode;
             });
             submitFeedback.Start();

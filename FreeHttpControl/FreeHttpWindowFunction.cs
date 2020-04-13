@@ -60,29 +60,106 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        #region Refresh RuleList for FiddlerResponseChangeList/FiddlerRequestChangeList
+        /// <summary>
+        /// Refresh RuleList by ListView
+        /// </summary>
+        /// <param name="yourRuleListView">ListView</param>
+        private void RefreshFiddlerRuleList(ListView yourRuleListView)
+        {
+            if (yourRuleListView == lv_requestRuleList)
+            {
+                RefreshFiddlerRequestChangeList();
+            }
+            else if (yourRuleListView == lv_responseRuleList)
+            {
+                RefreshFiddlerResponseChangeList();
+            }
+            else
+            {
+                throw new Exception("ListView is Illegal");
+            }
+        }
+
+        /// <summary>
+        /// Refresh FiddlerRequestChange list
+        /// </summary>
+        private void RefreshFiddlerRequestChangeList()
+        {
+            List<FiddlerRequestChange> requestList = null;
+            if (RequestRuleListView != null)
+            {
+                requestList = new List<FiddlerRequestChange>();
+                foreach (ListViewItem tempItem in RequestRuleListView.Items)
+                {
+                    requestList.Add((FiddlerRequestChange)tempItem.Tag);
+                }
+            }
+            FiddlerRequestChangeList = requestList;
+        }
+
+        /// <summary>
+        /// Refresh FiddlerResponseChange list
+        /// </summary>
+        public void RefreshFiddlerResponseChangeList()
+        {
+            List<FiddlerResponseChange> responseList = null;
+            if (RequestRuleListView != null)
+            {
+                responseList = new List<FiddlerResponseChange>();
+                foreach (ListViewItem tempItem in ResponseRuleListView.Items)
+                {
+                    responseList.Add((FiddlerResponseChange)tempItem.Tag);
+                }
+            }
+            FiddlerResponseChangeList = responseList;
+        }
+        #endregion
+
+        private void DelRuleFromListView(ListView yourListViews,ListViewItem yourItem)
+        {
+            if (yourItem == null)
+            {
+                yourListViews.Items.Clear();
+            }
+            else
+            {
+                yourListViews.Items.Remove(yourItem);
+            }
+            RefreshFiddlerRuleList(yourListViews);
+        }
+
         private void AddRuleToListView(ListView yourListViews, IFiddlerHttpTamper yourHttpTamper, bool isMark)
         {
-            ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), GetFiddlerHttpFilterName(yourHttpTamper.HttpFilter) }, yourHttpTamper.IsRawReplace ? 1 : 0);
+            //TamperProtocalType tempProtocolMode;
+            //if (!Enum.TryParse<TamperProtocalType>(yourHttpTamper.TamperProtocol, out tempProtocolMode))
+            //{
+            //    tempProtocolMode = TamperProtocalType.Http;
+            //    //throw new Exception("unkonw protocol");
+            //}
+            int tempListViewItemImageIndex = yourHttpTamper.TamperProtocol == TamperProtocalType.WebSocket ? 4 : yourHttpTamper.IsRawReplace ? 1 : 0;           
+            ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), GetFiddlerHttpFilterName(yourHttpTamper.HttpFilter) }, tempListViewItemImageIndex);
             nowRuleItem.Tag = yourHttpTamper;
             nowRuleItem.ToolTipText = yourHttpTamper.HttpFilter.ToString();
             nowRuleItem.Checked = yourHttpTamper.IsEnable;
             yourListViews.Items.Add(nowRuleItem);
+            AdjustRuleListViewIndex(yourListViews);
+            RefreshFiddlerRuleList(yourListViews);
             if (isMark)
             {
                 MarkRuleItem(nowRuleItem);
                 PutWarn(string.Format("Add {0} {1}", yourListViews.Columns[1].Text, nowRuleItem.SubItems[0].Text));
             }
-            AdjustRuleListViewIndex(yourListViews);
-
         }
 
         private void UpdataRuleToListView(ListViewItem yourListViewItem, IFiddlerHttpTamper yourHttpTamper, bool isMark)
         {
             yourListViewItem.Tag = yourHttpTamper;
             yourListViewItem.SubItems[1].Text = GetFiddlerHttpFilterName(yourHttpTamper.HttpFilter);
-            yourListViewItem.ImageIndex = yourHttpTamper.IsRawReplace ? 1 : 0;
+            yourListViewItem.ImageIndex = yourHttpTamper.TamperProtocol == TamperProtocalType.WebSocket ? 4 : yourHttpTamper.IsRawReplace ? 1 : 0;
             yourListViewItem.ToolTipText = yourHttpTamper.HttpFilter.ToString();
             yourListViewItem.Checked = yourHttpTamper.IsEnable;
+            RefreshFiddlerRuleList(yourListViewItem.ListView);
             if (isMark)
             {
                 MarkRuleItem(yourListViewItem);
@@ -103,11 +180,7 @@ namespace FreeHttp.FreeHttpControl
             get { return !panel_requestReplace_startLine.Visible; }
         }
 
-        private void ChangeEditRuleMode(RuleEditMode editMode, string mes, ListViewItem yourListViewItem)
-        {
-            ChangeEditRuleMode(editMode, mes, yourListViewItem, false);
-        }
-        private void ChangeEditRuleMode(RuleEditMode editMode, string mes, ListViewItem yourListViewItem, bool isSilentChange)
+        private void ChangeNowRuleMode(RuleEditMode editMode,TamperProtocalType protocolMode, string mes, ListViewItem yourListViewItem, bool isSilentChange = false)
         {
             switch (editMode)
             {
@@ -124,6 +197,7 @@ namespace FreeHttp.FreeHttpControl
                     pictureBox_editHttpFilter.Image = Resources.MyResource.filter_off;
                     pb_pickRule.Tag = null;
                     pb_pickRule.Image = Resources.MyResource.pick_off;
+                    NowEditMode = editMode;
                     break;
                 case RuleEditMode.EditRequsetRule:  //edit request
                     lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
@@ -138,6 +212,7 @@ namespace FreeHttp.FreeHttpControl
                     }
                     pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.edit_mode;
                     this.toolTip_forMainWindow.SetToolTip(this.pictureBox_editRuleMode, "save change for your requst rule");
+                    NowEditMode = editMode;
                     break;
                 case RuleEditMode.EditResponseRule:  //edit response
                     lb_editRuleMode.Text = (mes == null ? "Edit Mode" : mes);
@@ -152,13 +227,72 @@ namespace FreeHttp.FreeHttpControl
                     }
                     pictureBox_editRuleMode.Image = FreeHttp.Resources.MyResource.edit_mode;
                     this.toolTip_forMainWindow.SetToolTip(this.pictureBox_editRuleMode, "save change for your response rule");
+                    NowEditMode = editMode;
                     break;
                 default:
                     throw new Exception("get not support mode");
                 //break;
             }
+            ChangeProtocalRuleMode(protocolMode);
             ClearModificInfo();
-            NowEditMode = editMode;
+            if (editMode == RuleEditMode.EditRequsetRule && (tabControl_Modific.SelectedTab == tabPage_responseModific || tabControl_Modific.SelectedTab == tabPage_responseReplace)) tabControl_Modific.SelectedTab = tabPage_requestModific; //tabControl_Modific.SelectedIndex = 0;
+            if (editMode == RuleEditMode.EditResponseRule &&(tabControl_Modific.SelectedTab == tabPage_requestModific || tabControl_Modific.SelectedTab == tabPage_requestReplace)) tabControl_Modific.SelectedTab = tabPage_responseModific; //tabControl_Modific.SelectedIndex = 2;
+
+        }
+
+        private void ChangeProtocalRuleMode(TamperProtocalType protocolMode)
+        {
+            if (NowProtocalMode != protocolMode)
+            {
+
+                switch (protocolMode)
+                {
+                    case TamperProtocalType.Http:
+                        groupBox_bodyModific.Text = "Body Modific";
+                        groupBox_responseBodyModific.Text = "Body Modific";
+                        tabPage_requestModific.Text = "Request Modific";
+                        tabPage_responseModific.Text = "Response Modific";
+                        //add Controls
+                        tabPage_requestModific.Controls.Add(splitContainer_requestModific);
+                        tabPage_requestModific.Controls.Add(groupBox_uriModific);//DockStyle.Top需要后加，不然会盖住住DockStyle.Fill
+                        splitContainer_requestModific.Panel2.Controls.Add(groupBox_bodyModific);
+                        tabPage_responseModific.Controls.Add(splitContainer_responseModific);
+                        splitContainer_responseModific.Panel2.Controls.Add(groupBox_responseBodyModific);
+
+                        groupBox_uriModific.Enabled = true;
+                        groupBox_headsModific.Enabled = true;
+                        groupBox_reponseHeadModific.Enabled = true;
+                        quickRuleToolStripMenuItem.Enabled = true;
+                        pb_protocolSwitch.SwitchState = true;
+                        tabControl_Modific.Controls.Clear();
+                        tabControl_Modific.Controls.AddRange(new Control[] { tabPage_requestModific,tabPage_requestReplace,tabPage_responseModific ,tabPage_responseReplace});
+                        break;
+                    case TamperProtocalType.WebSocket:
+                        groupBox_bodyModific.Text = "Payload Modific";
+                        groupBox_responseBodyModific.Text = "Payload Modific";
+                        tabPage_requestModific.Text = "Websocket Send Modific";
+                        tabPage_responseModific.Text = "Websocket Receive Modific";
+                        //Remove Controls
+                        tabPage_requestModific.Controls.Remove(groupBox_uriModific);
+                        tabPage_requestModific.Controls.Remove(splitContainer_requestModific);
+                        tabPage_requestModific.Controls.Add(groupBox_bodyModific);
+                        tabPage_responseModific.Controls.Remove(splitContainer_responseModific);
+                        tabPage_responseModific.Controls.Add(groupBox_responseBodyModific);
+                        groupBox_uriModific.Enabled = false;
+                        groupBox_headsModific.Enabled = false;
+                        groupBox_reponseHeadModific.Enabled = false;
+                        quickRuleToolStripMenuItem.Enabled = false;
+                        pb_protocolSwitch.SwitchState = false;
+                        //if (tabControl_Modific.SelectedTab == tabPage_requestReplace || tabControl_Modific.SelectedTab == tabPage_responseReplace) tabControl_Modific.SelectedTab = tabPage_requestModific;//tabControl_Modific.SelectedIndex = 0;
+                        tabControl_Modific.Controls.Clear();
+                        tabControl_Modific.Controls.AddRange(new Control[] { tabPage_requestModific, tabPage_responseModific });
+                        break;
+                    default:
+                        PutError("unknow RuleProtocolMode");
+                        break;
+                }
+                NowProtocalMode = protocolMode;
+            }
         }
 
         #region MarkControl
@@ -192,6 +326,41 @@ namespace FreeHttp.FreeHttpControl
             MarkControl(yourControl, Color.Plum, 2);
         }
 
+        public ListViewItem FindListViewItemFromRule(IFiddlerHttpTamper yourRule)
+        {
+            ListViewItem markItem = null;
+            if (yourRule is FiddlerRequestChange)
+            {
+                foreach (ListViewItem tempItem in RequestRuleListView.Items)
+                {
+                    if (yourRule == tempItem.Tag)
+                    {
+                        markItem = tempItem;
+                        break;
+                    }
+                }
+            }
+            else if (yourRule is FiddlerResponseChange)
+            {
+                foreach (ListViewItem tempItem in ResponseRuleListView.Items)
+                {
+                    if (yourRule == tempItem.Tag)
+                    {
+                        markItem = tempItem;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("unknow IFiddlerHttpTamper");
+            }
+            if (markItem == null)
+            {
+                throw new Exception("can not find ListViewItem");
+            }
+            return markItem;
+        }
 
         private void MarkRuleInEdit(ListViewItem yourItem)
         {
@@ -345,9 +514,10 @@ namespace FreeHttp.FreeHttpControl
         {
             ChangeSetResponseLatencyMode(yourLatency);
         }
-        private FiddlerRequsetChange GetRequestModificInfo()
+        private FiddlerRequestChange GetRequestModificInfo()
         {
-            FiddlerRequsetChange requsetChange = new FiddlerRequsetChange();
+            FiddlerRequestChange requsetChange = new FiddlerRequestChange();
+            requsetChange.TamperProtocol = NowProtocalMode;
             requsetChange.HttpRawRequest = null;
             requsetChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             requsetChange.HttpFilter = GetHttpFilter();
@@ -373,9 +543,10 @@ namespace FreeHttp.FreeHttpControl
             return requsetChange;
         }
 
-        private FiddlerRequsetChange GetRequestReplaceInfo()
+        private FiddlerRequestChange GetRequestReplaceInfo()
         {
-            FiddlerRequsetChange requsetReplace = new FiddlerRequsetChange();
+            FiddlerRequestChange requsetReplace = new FiddlerRequestChange();
+            requsetReplace.TamperProtocol = NowProtocalMode;
             requsetReplace.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             requsetReplace.HttpFilter = GetHttpFilter();
             requsetReplace.ParameterPickList = GetParameterPick();
@@ -457,6 +628,7 @@ namespace FreeHttp.FreeHttpControl
         private FiddlerResponseChange GetResponseModificInfo()
         {
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
+            responseChange.TamperProtocol = NowProtocalMode;
             responseChange.HttpRawResponse = null;
             responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             responseChange.HttpFilter = GetHttpFilter();
@@ -485,6 +657,7 @@ namespace FreeHttp.FreeHttpControl
         private FiddlerResponseChange GetResponseReplaceInfo()
         {
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
+            responseChange.TamperProtocol = NowProtocalMode;
             responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             responseChange.HttpFilter = GetHttpFilter();
             responseChange.ParameterPickList = GetParameterPick();
@@ -515,19 +688,19 @@ namespace FreeHttp.FreeHttpControl
             rtb_requsetReplace_body.Clear();
             rtb_respenseModific_body.Clear();
             rtb_requestRaw.Clear();
-            antoContentLengthToolStripMenuItem.Checked = false;
+            antoContentLengthToolStripMenuItem.Checked = true;
             useParameterDataToolStripMenuItem.Checked = false;
-            tabControl_Modific_Selecting(this.tabControl_Modific, null);
-            ChangeSetResponseLatencyMode((tabControl_Modific.SelectedIndex == 0 || tabControl_Modific.SelectedIndex == 1) ? -1 : 0);
+            //tabControl_Modific_Selecting(this.tabControl_Modific, null);
+            ChangeSetResponseLatencyMode((tabControl_Modific.SelectedTab == tabPage_requestModific || tabControl_Modific.SelectedTab == tabPage_requestReplace) ? -1 : 0);
         }
 
-        private void SetRequestModificInfo(FiddlerRequsetChange fiddlerRequsetChange)
+        private void SetRequestModificInfo(FiddlerRequestChange fiddlerRequsetChange)
         {
             SetHttpMatch(fiddlerRequsetChange.HttpFilter);
             SetHttpParameterPick(fiddlerRequsetChange.ParameterPickList);
             if (fiddlerRequsetChange.HttpRawRequest == null)
             {
-                tabControl_Modific.SelectedIndex = 0;
+                tabControl_Modific.SelectedTab = tabPage_requestModific;
                 if (fiddlerRequsetChange.UriModific != null && fiddlerRequsetChange.UriModific.ModificMode != ContentModificMode.NoChange)
                 {
                     tb_requestModific_uriModificKey.Text = fiddlerRequsetChange.UriModific.TargetKey;
@@ -550,12 +723,15 @@ namespace FreeHttp.FreeHttpControl
                 if (fiddlerRequsetChange.BodyModific != null && fiddlerRequsetChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
                     tb_requestModific_body.Text = fiddlerRequsetChange.BodyModific.TargetKey;
-                    rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ReplaceContent);
+                    if (!string.IsNullOrEmpty(fiddlerRequsetChange.BodyModific.ReplaceContent))
+                    {
+                        rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ReplaceContent);
+                    }
                 }
             }
             else
             {
-                tabControl_Modific.SelectedIndex = 1;
+                tabControl_Modific.SelectedTab = tabPage_requestReplace;
                 if (IsRequestReplaceRawMode)
                 {
                     pb_requestReplace_changeMode_Click(null, null);
@@ -629,7 +805,7 @@ namespace FreeHttp.FreeHttpControl
             SetHttpParameterPick(fiddlerResponseChange.ParameterPickList);
             if (fiddlerResponseChange.HttpRawResponse == null)
             {
-                tabControl_Modific.SelectedIndex = 2;
+                tabControl_Modific.SelectedTab = tabPage_responseModific; 
                 if (fiddlerResponseChange.HeadDelList != null)
                 {
                     foreach (string tempHead in fiddlerResponseChange.HeadDelList)
@@ -647,12 +823,15 @@ namespace FreeHttp.FreeHttpControl
                 if (fiddlerResponseChange.BodyModific != null && fiddlerResponseChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
                     tb_responseModific_body.Text = fiddlerResponseChange.BodyModific.TargetKey;
-                    rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent);
+                    if (!string.IsNullOrEmpty(fiddlerResponseChange.BodyModific.ReplaceContent))
+                    {
+                        rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent);
+                    }
                 }
             }
             else
             {
-                tabControl_Modific.SelectedIndex = 3;
+                tabControl_Modific.SelectedTab = tabPage_responseReplace;
                 rawResponseEdit.IsDirectRespons = fiddlerResponseChange.IsIsDirectRespons;
                 rawResponseEdit.IsUseParameterData = fiddlerResponseChange.HttpRawResponse.ParameterizationContent.hasParameter;
                 if (fiddlerResponseChange.HttpRawResponse.OriginSting != null)
@@ -672,6 +851,17 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        private GetSessionEventArgs GetNowHttpSession(bool isNeedBody = false)
+        {
+            if (OnGetSessionEventArgs != null)
+            {
+                GetSessionEventArgs sessionEventArgs = new GetSessionEventArgs(isNeedBody);
+                this.OnGetSessionEventArgs(this, sessionEventArgs);
+                return sessionEventArgs;
+            }
+            return new GetSessionEventArgs(false) { IsGetSuccess = false };
+        }
+
         #endregion
 
         #region Public Function
@@ -687,18 +877,24 @@ namespace FreeHttp.FreeHttpControl
         }
         public void SetModificSession(Fiddler.Session session)
         {
-            ChangeEditRuleMode(RuleEditMode.NewRuleMode, null, null);
+            ChangeNowRuleMode(RuleEditMode.NewRuleMode, session.BitFlags.HasFlag(Fiddler.SessionFlags.IsWebSocketTunnel)? TamperProtocalType.WebSocket: TamperProtocalType.Http, null, null);
             tb_urlFilter.Text = session.fullUrl;
             cb_macthMode.SelectedIndex = 2;
-
             pictureBox_editHttpFilter.Tag = GetHttpFilter();
-            if (tabControl_Modific.SelectedIndex == 0)
+            if (NowProtocalMode == TamperProtocalType.Http)
             {
-                tabControl_Modific.SelectedIndex = 1;
+                if (tabControl_Modific.SelectedTab == tabPage_requestModific)
+                {
+                    tabControl_Modific.SelectedTab = tabPage_requestReplace;
+                }
+                else if (tabControl_Modific.SelectedTab == tabPage_responseModific)
+                {
+                    tabControl_Modific.SelectedTab = tabPage_responseReplace;
+                }
             }
-            else if (tabControl_Modific.SelectedIndex == 2)
+            else if (NowProtocalMode == TamperProtocalType.WebSocket)
             {
-                tabControl_Modific.SelectedIndex = 3;
+                if (tabControl_Modific.SelectedTab == tabPage_requestReplace || tabControl_Modific.SelectedTab == tabPage_responseReplace) tabControl_Modific.SelectedTab = tabPage_requestModific;
             }
 
             //Request Replace
@@ -827,12 +1023,6 @@ namespace FreeHttp.FreeHttpControl
                 responseAddHeads.ListDataView.Items.Add(string.Format("Set-Cookie: {0}=delete by FreeHttp; {1}", kvCookie.Key, tempAttibute));
                 return true;
             }));
-        }
-
-        public void ShowDelCookieWindow()
-        {
-            EditCookieForm f = new EditCookieForm(responseAddHeads.ListDataView, null, null, "Max-Age=1;Domain=www.yourhost.com;Path=/");
-            f.ShowDialog();
         }
 
         public void ShowOwnerWindow(string name,string info)

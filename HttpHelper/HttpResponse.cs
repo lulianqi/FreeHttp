@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace FreeHttp.HttpHelper
 {
     [Serializable]
+    [DataContract]
     public class HttpResponse
     {
         private string responseLine;
@@ -17,36 +19,43 @@ namespace FreeHttp.HttpHelper
         private List<MyKeyValuePair<string, string>> responseHeads;
         private byte[] responseEntity;
 
+        [DataMember]
         /// <summary>
         /// get or set the response line (it will updata ResponseStatusDescription,ResponseVersion,ResponseCode)
         /// </summary>
         public string ResponseLine { get { return responseLine; } set { SetResponseLine(value); ChangeRawData(); } }
 
+        [DataMember]
         /// <summary>
         /// get or set the response version (it will updata ResponseLine)
         /// </summary>
         public string ResponseVersion { get { return responseVersion; } set { responseVersion = value; UpdataResponseLine(); ChangeRawData(); } }
 
+        [DataMember]
         /// <summary>
         /// get or set the response code (it will updata ResponseLine)
         /// </summary>
         public int ResponseCode { get { return responseCode; } set { responseCode = value; UpdataResponseLine(); ChangeRawData(); } }
 
+        [DataMember]
         /// <summary>
         /// get or set the response StatusDescription (it will updata ResponseLine)
         /// </summary>
         public string ResponseStatusDescription { get { return responseStatusDescription; } set { responseStatusDescription = value; UpdataResponseLine(); ChangeRawData(); } }
 
+        [DataMember]
         /// <summary>
         /// get or set response heads (if you not set the List<MyKeyValuePair<string, string>> and just change or add a element ,the ChangeRawData() will not trigger ,so your should call ChangeRawData() )
         /// </summary>
         public List<MyKeyValuePair<string, string>> ResponseHeads { get { return responseHeads; } set { responseHeads = value; ChangeRawData(); } }
 
+        [DataMember]
         /// <summary>
         /// get or set response body (if you not set the byte[] and just change or add a element ,the ChangeRawData() will not trigger ,so your should call ChangeRawData() )
         /// </summary>
         public byte[] ResponseEntity { get { return responseEntity; } set { responseEntity = value; ChangeRawData(); } }
 
+        [DataMember]
         /// <summary>
         /// get or set OriginSting (the OriginSting is not the infor in http ,it only use for show ui)
         /// </summary>

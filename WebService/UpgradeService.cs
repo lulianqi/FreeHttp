@@ -38,7 +38,7 @@ namespace FreeHttp.WebService
 
             Task<UpgradeServiceEventArgs> checkUpgradeTask = new Task<UpgradeServiceEventArgs>(() =>
             {
-                string tempResponse = myHttp.SendData(string.Format(@"https://api.lulianqi.com/freehttp/UpdateCheck/v1.2?user={0}&dotnetrelease={1}", UserComputerInfo.GetComputerMac(), UserComputerInfo.GetDotNetRelease()));
+                string tempResponse = myHttp.SendData(string.Format(@"{0}freehttp/UpdateCheck/v{1}?user={2}&dotnetrelease={3}", ConfigurationData.BaseUrl, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(), UserComputerInfo.GetComputerMac(), UserComputerInfo.GetDotNetRelease()));
                 string isNeedUpdata = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"isNeedUpdata\":", ",", tempResponse);
                 string url = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"url\":", ",", tempResponse);
                 string message = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"message\":", ",", tempResponse);
@@ -67,7 +67,7 @@ namespace FreeHttp.WebService
 
         private void CheckUpgrade()
         {
-            string tempResponse = myHttp.SendData(string.Format(@"https://api.lulianqi.com/freehttp/UpdateCheck/v1.1?user={0}", UserComputerInfo.GetComputerMac()));
+            string tempResponse = myHttp.SendData(string.Format(@"{0}freehttp/UpdateCheck/v1.1?user={1}", ConfigurationData.BaseUrl, UserComputerInfo.GetComputerMac()));
             string isNeedUpdata = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter( "\"isNeedUpdata\":", ",",tempResponse);
             string url = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"url\":", ",", tempResponse);
             string message = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"message\":", ",", tempResponse);

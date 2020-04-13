@@ -16,48 +16,79 @@ namespace FreeHttp.MyHelper
     {
         public static void SerializeRuleList(ListView requestRuleListView, ListView reponseRuleListView)
         {
+            string rulePath = "FreeHttp\\RuleData.xml";
             if (requestRuleListView != null && reponseRuleListView!=null)
             {
                 //dynamic
-                List<FiddlerRequsetChange> requestList = new List<FiddlerRequsetChange>();
+                List<FiddlerRequestChange> requestList = new List<FiddlerRequestChange>();
                 List<FiddlerResponseChange> responseList = new List<FiddlerResponseChange>();
                 foreach (ListViewItem tempItem in requestRuleListView.Items)
                 {
-                    requestList.Add((FiddlerRequsetChange)tempItem.Tag);
+                    requestList.Add((FiddlerRequestChange)tempItem.Tag);
                 }
                 foreach (ListViewItem tempItem in reponseRuleListView.Items)
                 {
                     responseList.Add((FiddlerResponseChange)tempItem.Tag);
                 }
                 //Stream stream = File.Open("data.xml", FileMode.Create);
-                TextWriter writer = new StreamWriter("FreeHttp\\RuleData.xml", false);
+                TextWriter writer = new StreamWriter(rulePath, false);
                 XmlSerializer serializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
                 //serializer = new XmlSerializer(typeof(List<IFiddlerHttpTamper>));
                 serializer.Serialize(writer, new FiddlerModificHttpRuleCollection(requestList, responseList));
                 writer.Close();
+
+                //写入版本
+                System.Xml.XmlDocument xmlDocument = new System.Xml.XmlDocument();
+                xmlDocument.Load(rulePath);
+                System.Xml.XmlAttribute dbAtt = xmlDocument.CreateAttribute("ruleVersion");
+                dbAtt.Value = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                xmlDocument.SelectSingleNode("/FiddlerModificHttpRuleCollection")?.Attributes.Append(dbAtt);
+                xmlDocument.Save(rulePath);
             }
         }
 
         public static FiddlerModificHttpRuleCollection DeserializeRuleList()
         {
+            string rulePath = "FreeHttp\\RuleData.xml";
             FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection = null;
-            if (File.Exists("FreeHttp\\RuleData.xml"))
+            if (File.Exists(rulePath))
             {
-                XmlSerializer mySerializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
-                FileStream myFileStream = new FileStream("FreeHttp\\RuleData.xml", FileMode.Open);
+                FileStream myFileStream = new FileStream(rulePath, FileMode.Open);
                 try
                 {
-                    //fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)mySerializer.Deserialize(myFileStream);
                     using (System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader(myFileStream))
                     {
                         reader.Normalization = false;
-                        fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)mySerializer.Deserialize(reader);
+                        //版本控制
+                        string ruleVersion = string.Empty;
+                        //System.Version version = new Version("2.0.0");
+                        while (reader.Read())
+                        {
+                            if (reader.NodeType == System.Xml.XmlNodeType.Element)
+                            {
+                                if (reader.Name == "FiddlerModificHttpRuleCollection")
+                                {
+                                    ruleVersion = reader.GetAttribute("ruleVersion");
+                                    break;
+                                }
+                            }
+                        }
+                        if (string.IsNullOrEmpty(ruleVersion))
+                        {
+                            XmlSerializer mySerializer = new XmlSerializer(typeof(FreeHttp.FiddlerHelper.VersionControlV1.FiddlerModificHttpRuleCollection));
+                            fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)(FreeHttp.FiddlerHelper.VersionControlV1.FiddlerModificHttpRuleCollection)mySerializer.Deserialize(reader);
+                        }
+                        else
+                        {
+                            XmlSerializer mySerializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
+                            fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)mySerializer.Deserialize(reader);
+                        }
                     }
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message), "load user rule fail");
-                    File.Copy("FreeHttp\\RuleData.xml", "FreeHttp\\RuleData.lastErrorFile", true);
+                    File.Copy(rulePath, rulePath+".lastErrorFile", true);
                 }
                 finally
                 {
@@ -119,10 +150,11 @@ namespace FreeHttp.MyHelper
             return modificSettingInfo;
         }
 
-       
+
         /// <summary>
-        /// 『DataMemberAttribute Class』 
-        /// 使用 [DataContract()] 标记class
+        /// 『DataMemberAttribute Class』   
+        /// 使用 [DataContract()] 标记class  
+        /// 【如果要使用[Serializable] 默认序列化公开字段及属性，且要求其有公开的Set,用[DataContract]指没有这个限制，使用 [DataMember(Name = "ID")] / [DataMember]  标记成员】
         /// 使用 [DataMember(Name = "ID")] / [DataMember]  标记成员
         /// 并且不要求成员访问修饰符为public
         /// </summary>

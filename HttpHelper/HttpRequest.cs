@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace FreeHttp.HttpHelper
 {
     [Serializable]
+    [DataContract]
     public class HttpRequest
     {
         private string requestLine;
@@ -17,36 +19,43 @@ namespace FreeHttp.HttpHelper
         private List<MyKeyValuePair<string, string>> requestHeads;
         private byte[] requestEntity;
 
+        [DataMember]
         /// <summary>
         /// get or set the request line (it will updata RequestMethod,RequestUri,RequestVersions)
         /// </summary>
         public string RequestLine { get { return requestLine; } set { SetRequestLine(value); ChangeRawData(); } }
-        
+
+        [DataMember]
         /// <summary>
         /// get or set the requst method (it will updata RequestLine)
         /// </summary>
         public string RequestMethod { get { return requestMethod; } set { requestMethod = value; UpdataRequestLine(); ChangeRawData(); } }
-        
+
+        [DataMember]
         /// <summary>
         /// get or set the requst uri (it will updata RequestLine)
         /// </summary>
         public string RequestUri { get { return requestUri; } set { requestUri = value; UpdataRequestLine(); ChangeRawData(); } }
-        
+
+        [DataMember]
         /// <summary>
         /// get or set the requst versions (it will updata RequestLine)
         /// </summary>
         public string RequestVersions { get { return requestVersions; } set { requestVersions = value; UpdataRequestLine(); ChangeRawData(); } }
-        
+
+        [DataMember]
         /// <summary>
         /// get or set request heads (if you not set the List<MyKeyValuePair<string, string>> and just change or add a element ,the ChangeRawData() will not trigger ,so your should call ChangeRawData() )
         /// </summary>
         public List<MyKeyValuePair<string, string>> RequestHeads { get { return requestHeads; } set { requestHeads = value; ChangeRawData(); } }
 
+        [DataMember]
         /// <summary>
         /// get or set request body (if you not set the byte[] and just change or add a element ,the ChangeRawData() will not trigger ,so your should call ChangeRawData() )
         /// </summary>
         public byte[] RequestEntity { get { return requestEntity; } set { requestEntity = value; ChangeRawData(); } }
 
+        [DataMember]
         //public string OriginSting { get; private set; }
         /// <summary>
         /// get or set OriginSting (the OriginSting is not the infor in http ,it only use for show ui)

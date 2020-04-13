@@ -4,14 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FreeHttp.HttpHelper
 {
     [Serializable]
+    [DataContract]
     public class ParameterHttpResponse : HttpResponse
     {
+        [DataMember]
         public CaseParameterizationContent ParameterizationContent{ get; set; }
 
         [NonSerialized] 
