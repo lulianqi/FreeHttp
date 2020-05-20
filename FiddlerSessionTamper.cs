@@ -380,21 +380,32 @@ namespace FreeHttp
                 }
                 else
                 {
-                    string sourcePayload = webSocketMessage.PayloadAsString();
-                    if (payLoadModific.ModificMode == ContentModificMode.ReCode)
+                    if (webSocketMessage.FrameType == WebSocketFrameTypes.Binary)
                     {
-                        try
-                        {
-                            webSocketMessage.SetPayload(payLoadModific.GetRecodeContent(sourcePayload));
-                        }
-                        catch (Exception ex)
-                        {
-                            ShowError(string.Format("error in GetRecodeContent in ReCode with [{0}]", ex.Message));
-                        }
+                        ShowError("error in GetFinalContent that WebSocketFrameTypes is Binary ,just use <hex> mode");
+                    }
+                    else if (webSocketMessage.FrameType == WebSocketFrameTypes.Ping || webSocketMessage.FrameType == WebSocketFrameTypes.Pong || webSocketMessage.FrameType == WebSocketFrameTypes.Close)
+                    {
+                        // do nothing
                     }
                     else
                     {
-                        webSocketMessage.SetPayload(payLoadModific.GetFinalContent(sourcePayload));
+                        string sourcePayload = webSocketMessage.PayloadAsString();
+                        if (payLoadModific.ModificMode == ContentModificMode.ReCode)
+                        {
+                            try
+                            {
+                                webSocketMessage.SetPayload(payLoadModific.GetRecodeContent(sourcePayload));
+                            }
+                            catch (Exception ex)
+                            {
+                                ShowError(string.Format("error in GetRecodeContent in ReCode with [{0}]", ex.Message));
+                            }
+                        }
+                        else
+                        {
+                            webSocketMessage.SetPayload(payLoadModific.GetFinalContent(sourcePayload));
+                        }
                     }
                 }
             }
