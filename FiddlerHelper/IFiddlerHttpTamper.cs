@@ -10,6 +10,7 @@ namespace FreeHttp.FiddlerHelper
     public interface IFiddlerHttpTamper
     {
         bool IsEnable { get; set; }
+        bool IsHasParameter { get; set; }
         TamperProtocalType TamperProtocol { get; set; }
         FiddlerHttpFilter HttpFilter { get; set; }
 

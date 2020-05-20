@@ -244,6 +244,7 @@
     <Compile Include="HttpHelper\HttpRequest.cs" />
     <Compile Include="HttpHelper\HttpResponse.cs" />
     <Compile Include="FiddlerHelper\IFiddlerHttpTamper.cs" />
+    <Compile Include="HttpHelper\ParameterContentModific.cs" />
     <Compile Include="HttpHelper\ParameterHttpRequest.cs" />
     <Compile Include="HttpHelper\ParameterHttpResponse.cs" />
     <Compile Include="MyHelper\MyExtensionMethods.cs" />

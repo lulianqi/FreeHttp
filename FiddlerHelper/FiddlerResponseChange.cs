@@ -17,6 +17,8 @@ namespace FreeHttp.FiddlerHelper
         [DataMember]
         public bool IsEnable { get; set; }
         [DataMember]
+        public bool IsHasParameter { get; set; }
+        [DataMember]
         public TamperProtocalType TamperProtocol { get; set; }
         [DataMember]
         public FiddlerHttpFilter HttpFilter { get; set; }

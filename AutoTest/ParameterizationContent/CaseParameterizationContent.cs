@@ -132,6 +132,11 @@ namespace FreeHttp.AutoTest.ParameterizationContent
         {
             return contentData;
         }
+
+        public override string ToString()
+        {
+            return contentData;
+        }
     }
 
 }
