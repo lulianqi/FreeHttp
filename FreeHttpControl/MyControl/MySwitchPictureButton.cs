@@ -13,16 +13,23 @@ namespace FreeHttp.FreeHttpControl
     {
         public MySwitchPictureButton()
         {
-            //this.MouseMove += pictureBox_MouseMove;
-            //this.MouseLeave += pictureBox_MouseLeave;
             this.Cursor = Cursors.Hand;
             this.SizeMode = PictureBoxSizeMode.StretchImage;
+            //if(IsAutoChangeSwitchState)
+            //{
+            //    this.Click += (sender, e) => { SwitchState = !SwitchState; };
+            //}
         }
+
+       
+
+        [DescriptionAttribute("Is auto change switchState when click")]
+        public bool IsAutoChangeSwitchState { get; set; } = false;
 
         /// <summary>
         /// 备用状态显示的图片
         /// </summary>
-        [DescriptionAttribute("")]
+        [DescriptionAttribute("Image when switchState is false")]
         public Image SwitchOffImage { get; set; }
 
 
@@ -31,7 +38,7 @@ namespace FreeHttp.FreeHttpControl
         /// <summary>
         /// 主要状态显示的图片
         /// </summary>
-        [DescriptionAttribute("")]
+        [DescriptionAttribute("Image when switchState is true")]
         public Image SwitchOnImage { get { return switchOnImage; } set { switchOnImage = this.switchOnImage = value; } }
 
         private bool switchState = true;
@@ -59,6 +66,13 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        protected override void OnClick(EventArgs e)
+        {
+            if (IsAutoChangeSwitchState)
+            {
+                SwitchState = !SwitchState;
+            }
+        }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {

@@ -122,15 +122,14 @@ namespace FreeHttp.FreeHttpControl
                 }
                 foreach (var fr in fiddlerModificHttpRuleCollection.RequestRuleList)
                 {
-                    fr.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
                     if (fr.IsRawReplace)
                     {
                         if (fr.HttpRawRequest.ParameterizationContent== null)
                         {
                             fr.HttpRawRequest.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(fr.HttpRawRequest.OriginSting);
                         }
-                        fr.HttpRawRequest.SetActuatorStaticDataCollection(StaticDataCollection);
                     }
+                    fr.SetHasParameter(fr.IsHasParameter, StaticDataCollection);
                 }
             }
             if(!rawResponseEdit.SetContextMenuStrip(contextMenuStrip_AddFile))
@@ -938,7 +937,7 @@ namespace FreeHttp.FreeHttpControl
                 }
                 requestChange.HeadDelList = new List<string> { "Content-Type" };
                 requestChange.HeadAddList = new List<string> { string.Format("Content-Type: {0}", changeEncodeInfo.ContentType_Request) };
-                requestChange.BodyModific = new ContentModific(string.Format("<recode>{0}", changeEncodeInfo.NowEncode), "");
+                requestChange.BodyModific = new ParameterContentModific(string.Format("<recode>{0}", changeEncodeInfo.NowEncode), "");
                 SetRequestModificInfo(requestChange);
             }
         }

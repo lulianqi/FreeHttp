@@ -10,7 +10,7 @@ namespace FreeHttp.FiddlerHelper
 {
     public class FiddlerActuatorStaticDataCollectionController
     {
-        private ActuatorStaticDataCollection actuatorStaticDataCollection;
+        public ActuatorStaticDataCollection actuatorStaticDataCollection;
 
         public FiddlerActuatorStaticDataCollectionController(ActuatorStaticDataCollection yourStaticDataCollection)
         {

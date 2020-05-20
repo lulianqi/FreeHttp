@@ -39,8 +39,9 @@ namespace FreeHttp.HttpHelper
             OriginSting = httpRequest.OriginSting;
         }
 
-        public void SetActuatorStaticDataCollection(ActuatorStaticDataCollection yourStaticDataCollection)
+        public void SetUseParameterInfo(bool isUseParameter ,ActuatorStaticDataCollection yourStaticDataCollection)
         {
+            ParameterizationContent.hasParameter = isUseParameter;
             actuatorStaticDataCollection = yourStaticDataCollection;
         }
 
@@ -91,7 +92,7 @@ namespace FreeHttp.HttpHelper
         {
             ParameterHttpRequest returnPrameterHttpRequest = GetHttpRequest(yourRequest, isParameter);
             //returnPrameterHttpRequest.actuatorStaticDataCollection = yourActuatorStaticDataCollection;
-            returnPrameterHttpRequest.SetActuatorStaticDataCollection(yourActuatorStaticDataCollection);
+            returnPrameterHttpRequest.SetUseParameterInfo(isParameter,yourActuatorStaticDataCollection);
             return returnPrameterHttpRequest;
         }
         

@@ -522,7 +522,7 @@ namespace FreeHttp.FreeHttpControl
             requsetChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             requsetChange.HttpFilter = GetHttpFilter();
             requsetChange.ParameterPickList = GetParameterPick();
-            requsetChange.UriModific = new ContentModific(tb_requestModific_uriModificKey.Text, tb_requestModific_uriModificValue.Text);
+            requsetChange.UriModific = new ParameterContentModific(tb_requestModific_uriModificKey.Text, tb_requestModific_uriModificValue.Text);
             if (requestRemoveHeads.ListDataView.Items.Count > 0)
             {
                 requsetChange.HeadDelList = new List<string>();
@@ -539,7 +539,8 @@ namespace FreeHttp.FreeHttpControl
                     requsetChange.HeadAddList.Add(tempRequestAddHead.Text);
                 }
             }
-            requsetChange.BodyModific = new ContentModific(tb_requestModific_body.Text, rtb_requestModific_body.Text);
+            requsetChange.BodyModific = new ParameterContentModific(tb_requestModific_body.Text, rtb_requestModific_body.Text);
+            requsetChange.SetHasParameter(pb_parameterSwitch.SwitchState, StaticDataCollection);
             return requsetChange;
         }
 
@@ -547,7 +548,6 @@ namespace FreeHttp.FreeHttpControl
         {
             FiddlerRequestChange requsetReplace = new FiddlerRequestChange();
             requsetReplace.TamperProtocol = NowProtocalMode;
-            requsetReplace.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             requsetReplace.HttpFilter = GetHttpFilter();
             requsetReplace.ParameterPickList = GetParameterPick();
             if (IsRequestReplaceRawMode)
@@ -615,7 +615,8 @@ namespace FreeHttp.FreeHttpControl
                 }
                 requsetReplace.HttpRawRequest.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(requestSb.ToString(), useParameterDataToolStripMenuItem.Checked);
                 requsetReplace.HttpRawRequest.OriginSting = requsetReplace.HttpRawRequest.ParameterizationContent.GetTargetContentData();
-                requsetReplace.HttpRawRequest.SetActuatorStaticDataCollection(StaticDataCollection);
+                requsetReplace.SetHasParameter(pb_parameterSwitch.SwitchState, StaticDataCollection);
+
             }
 
             if (antoContentLengthToolStripMenuItem.Checked)
@@ -698,13 +699,14 @@ namespace FreeHttp.FreeHttpControl
         {
             SetHttpMatch(fiddlerRequsetChange.HttpFilter);
             SetHttpParameterPick(fiddlerRequsetChange.ParameterPickList);
+            pb_parameterSwitch.SwitchState = fiddlerRequsetChange.IsHasParameter;
             if (fiddlerRequsetChange.HttpRawRequest == null)
             {
                 tabControl_Modific.SelectedTab = tabPage_requestModific;
                 if (fiddlerRequsetChange.UriModific != null && fiddlerRequsetChange.UriModific.ModificMode != ContentModificMode.NoChange)
                 {
-                    tb_requestModific_uriModificKey.Text = fiddlerRequsetChange.UriModific.TargetKey;
-                    tb_requestModific_uriModificValue.Text = fiddlerRequsetChange.UriModific.ReplaceContent;
+                    tb_requestModific_uriModificKey.Text = fiddlerRequsetChange.UriModific.TargetKey.ToString();
+                    tb_requestModific_uriModificValue.Text = fiddlerRequsetChange.UriModific.ReplaceContent.ToString();
                 }
                 if (fiddlerRequsetChange.HeadDelList != null)
                 {
@@ -722,10 +724,10 @@ namespace FreeHttp.FreeHttpControl
                 }
                 if (fiddlerRequsetChange.BodyModific != null && fiddlerRequsetChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
-                    tb_requestModific_body.Text = fiddlerRequsetChange.BodyModific.TargetKey;
-                    if (!string.IsNullOrEmpty(fiddlerRequsetChange.BodyModific.ReplaceContent))
+                    tb_requestModific_body.Text = fiddlerRequsetChange.BodyModific.TargetKey.ToString();
+                    if (!string.IsNullOrEmpty(fiddlerRequsetChange.BodyModific.ReplaceContent.ToString()))
                     {
-                        rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ReplaceContent);
+                        rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ReplaceContent.ToString());
                     }
                 }
             }

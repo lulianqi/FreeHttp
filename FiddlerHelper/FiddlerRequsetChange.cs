@@ -29,14 +29,14 @@ namespace FreeHttp.FiddlerHelper
         [DataMember]
         public ParameterHttpRequest HttpRawRequest { get; set; }
         [DataMember]
-        public ContentModific UriModific { get; set; }
+        public ParameterContentModific UriModific { get; set; }
 
         [DataMember]
         public List<string> HeadAddList { get; set; }
         [DataMember]
         public List<string> HeadDelList { get; set; }
         [DataMember]
-        public ContentModific BodyModific { get; set; }
+        public ParameterContentModific BodyModific { get; set; }
 
         //[NonSerialized]
         [System.Xml.Serialization.XmlIgnore]
@@ -47,6 +47,34 @@ namespace FreeHttp.FiddlerHelper
         public bool IsRawReplace
         {
             get { return HttpRawRequest != null; }
+        }
+
+        public void SetHasParameter(bool hasParameter , ActuatorStaticDataCollection staticDataController = null)
+        {
+            if(staticDataController!=null)
+            {
+                ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(staticDataController);
+            }
+            IsHasParameter = hasParameter;
+
+            if(IsRawReplace)
+            {
+                if(HttpRawRequest!=null)
+                {
+                    HttpRawRequest.SetUseParameterInfo(IsHasParameter, ActuatorStaticDataController.actuatorStaticDataCollection);
+                }
+            }
+            else
+            {
+                if (UriModific != null && UriModific.ModificMode != ContentModificMode.NoChange)
+                {
+                    UriModific.SetUseParameterInfo(IsHasParameter, ActuatorStaticDataController.actuatorStaticDataCollection);
+                }
+                if (BodyModific != null && BodyModific.ModificMode != ContentModificMode.NoChange)
+                {
+                    BodyModific.SetUseParameterInfo(IsHasParameter, ActuatorStaticDataController.actuatorStaticDataCollection);
+                }
+            }
         }
     }
 }

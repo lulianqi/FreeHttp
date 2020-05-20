@@ -428,6 +428,12 @@
   <ItemGroup>
     <None Include="Resources\wsEnable.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\noParameter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\useParameter.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SYSTEMDRIVE)$(HOMEPATH)\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>
