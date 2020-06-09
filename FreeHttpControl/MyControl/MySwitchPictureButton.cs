@@ -72,6 +72,11 @@ namespace FreeHttp.FreeHttpControl
             {
                 SwitchState = !SwitchState;
             }
+            base.OnClick(e);
+            //else
+            //{
+                
+            //}
         }
 
         protected override void OnMouseMove(MouseEventArgs e)

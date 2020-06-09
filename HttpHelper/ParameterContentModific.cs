@@ -16,10 +16,14 @@ namespace FreeHttp.HttpHelper
     {
         [DataMember]
         [System.Xml.Serialization.XmlAttribute("ParameterTargetKey")]
+        //[System.Xml.Serialization.XmlElement("ParameterTargetKey")]
+        //public new CaseParameterizationContent TargetKey { get; set; }
         public new CaseParameterizationContent TargetKey { get; set; }
 
         [DataMember]
         [System.Xml.Serialization.XmlAttribute("ParameterReplaceContent")]
+        //[System.Xml.Serialization.XmlElement("ParameterReplaceContent")]
+        //public new CaseParameterizationContent ReplaceContent { get; set; }
         public new CaseParameterizationContent ReplaceContent { get; set; }
 
         //IsUseParameter will disable encodetype in CaseParameterizationContent ,if your need encodetype ability just remove it

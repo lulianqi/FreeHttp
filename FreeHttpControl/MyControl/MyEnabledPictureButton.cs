@@ -59,7 +59,6 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
-
         protected override void OnMouseMove(MouseEventArgs e)
         {
             pictureBox_MouseMove(this, e);
