@@ -15,16 +15,14 @@ namespace FreeHttp.HttpHelper
     public class ParameterContentModific: ContentModific
     {
         [DataMember]
-        [System.Xml.Serialization.XmlAttribute("ParameterTargetKey")]
-        //[System.Xml.Serialization.XmlElement("ParameterTargetKey")]
-        //public new CaseParameterizationContent TargetKey { get; set; }
-        public new CaseParameterizationContent TargetKey { get; set; }
+        //[System.Xml.Serialization.XmlAttribute("ParameterTargetKey")]
+        //public new CaseParameterizationContent TargetKey { get; set; } //使用new隐藏成员后，序列化同名，需要设置别名，别名设置又不能用于复杂类型
+        public CaseParameterizationContent ParameterTargetKey { get; set; }
 
         [DataMember]
-        [System.Xml.Serialization.XmlAttribute("ParameterReplaceContent")]
-        //[System.Xml.Serialization.XmlElement("ParameterReplaceContent")]
+        //[System.Xml.Serialization.XmlAttribute("ParameterReplaceContent")]
         //public new CaseParameterizationContent ReplaceContent { get; set; }
-        public new CaseParameterizationContent ReplaceContent { get; set; }
+        public CaseParameterizationContent ParameterReplaceContent { get; set; }
 
         //IsUseParameter will disable encodetype in CaseParameterizationContent ,if your need encodetype ability just remove it
         [DataMember]
@@ -33,6 +31,8 @@ namespace FreeHttp.HttpHelper
         public void SetUseParameterInfo(bool isUseParameter , ActuatorStaticDataCollection staticDataCollection =null )
         {
             IsUseParameter = isUseParameter;
+            ParameterTargetKey.hasParameter = IsUseParameter;
+            ParameterReplaceContent.hasParameter= IsUseParameter;
             if (IsUseParameter && staticDataCollection != null)
             {
                 actuatorStaticDataCollection = staticDataCollection;
@@ -44,8 +44,8 @@ namespace FreeHttp.HttpHelper
 
         public ParameterContentModific(string targetKey, string replaceContent , ActuatorStaticDataCollection dataCollection , bool useParameter): base(targetKey, replaceContent)
         {
-            TargetKey = new CaseParameterizationContent(targetKey, useParameter);
-            ReplaceContent = new CaseParameterizationContent(replaceContent, useParameter);
+            ParameterTargetKey = new CaseParameterizationContent(targetKey, useParameter);
+            ParameterReplaceContent = new CaseParameterizationContent(replaceContent, useParameter);
             actuatorStaticDataCollection = dataCollection;
             IsUseParameter = useParameter;
         }
@@ -65,20 +65,20 @@ namespace FreeHttp.HttpHelper
             errorMessage = null;
             if (IsUseParameter)
             {
-                base.TargetKey = TargetKey.GetTargetContentData(actuatorStaticDataCollection, yourDataResultCollection, out string errorMes);
+                base.TargetKey = ParameterTargetKey.GetTargetContentData(actuatorStaticDataCollection, yourDataResultCollection, out string errorMes);
                 if (errorMes != null)
                 {
-                    base.ReplaceContent = ReplaceContent.GetTargetContentData(actuatorStaticDataCollection, yourDataResultCollection, out errorMes);
+                    base.ReplaceContent = ParameterReplaceContent.GetTargetContentData(actuatorStaticDataCollection, yourDataResultCollection, out errorMes);
                 }
                 else
                 {
-                    base.ReplaceContent = ReplaceContent.GetTargetContentData();
+                    base.ReplaceContent = ParameterReplaceContent.GetTargetContentData();
                 }
             }
             else
             {
-                base.TargetKey = TargetKey.GetTargetContentData();
-                base.ReplaceContent = ReplaceContent.GetTargetContentData();
+                base.TargetKey = ParameterTargetKey.GetTargetContentData();
+                base.ReplaceContent = ParameterReplaceContent.GetTargetContentData();
             }
             return base.GetFinalContent(sourceContent);
         }

@@ -117,8 +117,8 @@ namespace FreeHttp.FreeHttpControl
                         {
                             fr.HttpRawResponse.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(fr.HttpRawResponse.OriginSting);
                         }
-                        fr.HttpRawResponse.SetActuatorStaticDataCollection(StaticDataCollection);
                     }
+                    fr.SetHasParameter(fr.IsHasParameter, StaticDataCollection);
                 }
                 foreach (var fr in fiddlerModificHttpRuleCollection.RequestRuleList)
                 {
@@ -925,7 +925,7 @@ namespace FreeHttp.FreeHttpControl
                 }
                 responseChange.HeadDelList = new List<string> { "Content-Type" };
                 responseChange.HeadAddList = new List<string>{string.Format("Content-Type: {0}", changeEncodeInfo.ContentType_Response)};
-                responseChange.BodyModific = new ContentModific(string.Format("<recode>{0}", changeEncodeInfo.NowEncode), "");
+                responseChange.BodyModific = new ParameterContentModific(string.Format("<recode>{0}", changeEncodeInfo.NowEncode), "");
                 SetResponseModificInfo(responseChange);
             }
             else

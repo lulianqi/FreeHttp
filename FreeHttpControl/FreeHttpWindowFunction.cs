@@ -651,7 +651,7 @@ namespace FreeHttp.FreeHttpControl
                     responseChange.HeadAddList.Add(tempRequestAddHead.Text);
                 }
             }
-            responseChange.BodyModific = new ContentModific(tb_responseModific_body.Text, rtb_respenseModific_body.Text);
+            responseChange.BodyModific = new ParameterContentModific(tb_responseModific_body.Text, rtb_respenseModific_body.Text);
             return responseChange;
         }
 
@@ -705,8 +705,8 @@ namespace FreeHttp.FreeHttpControl
                 tabControl_Modific.SelectedTab = tabPage_requestModific;
                 if (fiddlerRequsetChange.UriModific != null && fiddlerRequsetChange.UriModific.ModificMode != ContentModificMode.NoChange)
                 {
-                    tb_requestModific_uriModificKey.Text = fiddlerRequsetChange.UriModific.TargetKey.ToString();
-                    tb_requestModific_uriModificValue.Text = fiddlerRequsetChange.UriModific.ReplaceContent.ToString();
+                    tb_requestModific_uriModificKey.Text = fiddlerRequsetChange.UriModific.ParameterTargetKey.ToString();
+                    tb_requestModific_uriModificValue.Text = fiddlerRequsetChange.UriModific.ParameterReplaceContent.ToString();
                 }
                 if (fiddlerRequsetChange.HeadDelList != null)
                 {
@@ -724,10 +724,10 @@ namespace FreeHttp.FreeHttpControl
                 }
                 if (fiddlerRequsetChange.BodyModific != null && fiddlerRequsetChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
-                    tb_requestModific_body.Text = fiddlerRequsetChange.BodyModific.TargetKey.ToString();
-                    if (!string.IsNullOrEmpty(fiddlerRequsetChange.BodyModific.ReplaceContent.ToString()))
+                    tb_requestModific_body.Text = fiddlerRequsetChange.BodyModific.ParameterTargetKey.ToString();
+                    if (!string.IsNullOrEmpty(fiddlerRequsetChange.BodyModific.ParameterReplaceContent.ToString()))
                     {
-                        rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ReplaceContent.ToString());
+                        rtb_requestModific_body.AppendText(fiddlerRequsetChange.BodyModific.ParameterReplaceContent.ToString());
                     }
                 }
             }
@@ -824,10 +824,10 @@ namespace FreeHttp.FreeHttpControl
                 }
                 if (fiddlerResponseChange.BodyModific != null && fiddlerResponseChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
-                    tb_responseModific_body.Text = fiddlerResponseChange.BodyModific.TargetKey;
-                    if (!string.IsNullOrEmpty(fiddlerResponseChange.BodyModific.ReplaceContent))
+                    tb_responseModific_body.Text = fiddlerResponseChange.BodyModific.ParameterTargetKey.ToString();
+                    if (!string.IsNullOrEmpty(fiddlerResponseChange.BodyModific.ParameterReplaceContent.ToString()))
                     {
-                        rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent);
+                        rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent.ToString());
                     }
                 }
             }

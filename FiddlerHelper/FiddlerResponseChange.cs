@@ -35,7 +35,7 @@ namespace FreeHttp.FiddlerHelper
         [DataMember]
         public List<string> HeadDelList { get; set; }
         [DataMember]
-        public ContentModific BodyModific { get; set; }
+        public ParameterContentModific BodyModific { get; set; }
 
         //[NonSerialized]
         [System.Xml.Serialization.XmlIgnore]
@@ -46,6 +46,30 @@ namespace FreeHttp.FiddlerHelper
         public bool IsRawReplace
         {
             get { return HttpRawResponse != null; }
+        }
+
+        public void SetHasParameter(bool hasParameter, ActuatorStaticDataCollection staticDataController = null)
+        {
+            if (staticDataController != null)
+            {
+                ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(staticDataController);
+            }
+            IsHasParameter = hasParameter;
+
+            if (IsRawReplace)
+            {
+                if (HttpRawResponse != null)
+                {
+                    HttpRawResponse.SetUseParameterInfo(IsHasParameter, ActuatorStaticDataController.actuatorStaticDataCollection);
+                }
+            }
+            else
+            {
+                if (BodyModific != null && BodyModific.ModificMode != ContentModificMode.NoChange)
+                {
+                    BodyModific.SetUseParameterInfo(IsHasParameter, ActuatorStaticDataController.actuatorStaticDataCollection);
+                }
+            }
         }
 
     }
