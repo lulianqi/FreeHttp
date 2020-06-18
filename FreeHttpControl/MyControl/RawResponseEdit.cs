@@ -167,12 +167,13 @@ namespace FreeHttp.FreeHttpControl
         {
             if (yourContextMenuStrip != null && yourContextMenuStrip.Items.Count>3)
             {
-                ToolStripMenuItem tempParameterDataMenuItem = yourContextMenuStrip.Items[4] as ToolStripMenuItem;
+                //ToolStripMenuItem tempParameterDataMenuItem = yourContextMenuStrip.Items[4] as ToolStripMenuItem;
                 ToolStripMenuItem tempAutoContentLengthMenuItem = yourContextMenuStrip.Items[3] as ToolStripMenuItem;
-                if (tempParameterDataMenuItem != null && tempAutoContentLengthMenuItem!=null)
+                //if (tempParameterDataMenuItem != null && tempAutoContentLengthMenuItem!=null)
+                if (tempAutoContentLengthMenuItem != null)
                 {
                     rtb_rawResponse.ContextMenuStrip = yourContextMenuStrip;
-                    ParameterDataToolStripMenuItem = tempParameterDataMenuItem;
+                    //ParameterDataToolStripMenuItem = tempParameterDataMenuItem;
                     ContentLengthToolStripMenuItem = tempAutoContentLengthMenuItem;
                     return true;
                 }

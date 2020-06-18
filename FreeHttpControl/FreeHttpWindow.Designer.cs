@@ -43,7 +43,6 @@ namespace FreeHttp.FreeHttpControl
             this.editDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator_addAndCheck = new System.Windows.Forms.ToolStripSeparator();
             this.antoContentLengthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.useParameterDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog_addFIle = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer_main = new System.Windows.Forms.SplitContainer();
             this.splitContainer_httpEditInfo = new System.Windows.Forms.SplitContainer();
@@ -229,10 +228,9 @@ namespace FreeHttp.FreeHttpControl
             this.addFileToolStripMenuItem,
             this.addParameterDataToolStripMenuItem,
             this.toolStripSeparator_addAndCheck,
-            this.antoContentLengthToolStripMenuItem,
-            this.useParameterDataToolStripMenuItem});
+            this.antoContentLengthToolStripMenuItem});
             this.contextMenuStrip_AddFile.Name = "contextMenuStrip_AddFile";
-            this.contextMenuStrip_AddFile.Size = new System.Drawing.Size(196, 98);
+            this.contextMenuStrip_AddFile.Size = new System.Drawing.Size(196, 76);
             this.contextMenuStrip_AddFile.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_AddFile_Opening);
             // 
             // addFileToolStripMenuItem
@@ -300,13 +298,6 @@ namespace FreeHttp.FreeHttpControl
             this.antoContentLengthToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.antoContentLengthToolStripMenuItem.Text = "anto Content-Length";
             this.antoContentLengthToolStripMenuItem.Click += new System.EventHandler(this.antoContentLengthToolStripMenuItem_Click);
-            // 
-            // useParameterDataToolStripMenuItem
-            // 
-            this.useParameterDataToolStripMenuItem.Name = "useParameterDataToolStripMenuItem";
-            this.useParameterDataToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.useParameterDataToolStripMenuItem.Text = "use Parameter Data";
-            this.useParameterDataToolStripMenuItem.Click += new System.EventHandler(this.useParameterDataToolStripMenuItem_Click);
             // 
             // openFileDialog_addFIle
             // 
@@ -1808,7 +1799,6 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.ToolStripMenuItem copySessionCookiesToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox_editHttpFilter;
         private System.Windows.Forms.ToolStripMenuItem parameterDataManageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem useParameterDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem antoContentLengthToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem keyValueToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem parameterToolStripMenuItem;

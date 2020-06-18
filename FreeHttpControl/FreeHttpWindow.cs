@@ -289,6 +289,12 @@ namespace FreeHttp.FreeHttpControl
 
             MyControlHelper.SetRichTextBoxDropString(rtb_requsetReplace_body);
             MyControlHelper.SetRichTextBoxDropString(rtb_requestRaw);
+            MyControlHelper.SetRichTextBoxDropString(rtb_requestModific_body);
+            MyControlHelper.SetRichTextBoxDropString(rtb_respenseModific_body);
+            MyControlHelper.SetRichTextBoxDropString(tb_requestModific_body);
+            MyControlHelper.SetRichTextBoxDropString(tb_requestModific_uriModificKey);
+            MyControlHelper.SetRichTextBoxDropString(tb_requestModific_uriModificValue);
+            MyControlHelper.SetRichTextBoxDropString(tb_responseModific_body);
         }
 
         #region Public Event
@@ -442,7 +448,7 @@ namespace FreeHttp.FreeHttpControl
             int selectionStart = tempRichTextBox.SelectionStart;
             tempRichTextBox.Text = tempRichTextBox.Text.Insert(selectionStart, addParameterStr);
             tempRichTextBox.Select(selectionStart, addParameterStr.Length);
-            useParameterDataToolStripMenuItem.Checked = true;
+            pb_parameterSwitch.SwitchState = true;
         }
 
 
@@ -506,11 +512,6 @@ namespace FreeHttp.FreeHttpControl
         private void antoContentLengthToolStripMenuItem_Click(object sender, EventArgs e)
         {
             antoContentLengthToolStripMenuItem.Checked = !antoContentLengthToolStripMenuItem.Checked;
-        }
-
-        private void useParameterDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            useParameterDataToolStripMenuItem.Checked = !useParameterDataToolStripMenuItem.Checked;
         }
 
         private void pictureBox_editRuleMode_Click(object sender, EventArgs e)

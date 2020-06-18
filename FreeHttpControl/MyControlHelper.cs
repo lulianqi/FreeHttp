@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Forms;
 
 namespace FreeHttp.FreeHttpControl
 {
@@ -29,6 +31,50 @@ namespace FreeHttp.FreeHttpControl
             UnsafeNativeMethods.SendMessage(yourCtr.Handle, WM_SETREDRAW, 1, IntPtr.Zero);
             yourCtr.Refresh();
         }
+
+        public static void SetRichTextBoxDropString(System.Windows.Forms.TextBoxBase yourCtr)
+        {
+            if (yourCtr == null)
+            {
+                return;
+            }
+            if (yourCtr is RichTextBox)
+            {
+                ((RichTextBox)yourCtr).AllowDrop = true;
+            }
+            else if (yourCtr is TextBox)
+            {
+                ((TextBox)yourCtr).AllowDrop = true;
+            }
+            else
+            {
+                yourCtr.AllowDrop = true;
+            }
+            yourCtr.DragDrop += (sender, e) =>
+            {
+                System.Windows.Forms.TextBoxBase tempTextBoxBase = sender as System.Windows.Forms.TextBoxBase;
+                string tempText = (string)e.Data.GetData(typeof(string));
+                if (tempText == null || tempTextBoxBase == null)
+                {
+                    return;
+                }
+                int selectionStart = tempTextBoxBase.SelectionStart;
+                tempTextBoxBase.Text = tempTextBoxBase.Text.Insert(selectionStart, tempText);
+                tempTextBoxBase.Select(selectionStart, tempText.Length);
+            };
+            yourCtr.DragEnter += (sender,e)=>
+            {
+                if (e.Data.GetData(typeof(string)) == null)
+                {
+                    e.Effect = System.Windows.Forms.DragDropEffects.None;
+                }
+                else
+                {
+                    e.Effect = System.Windows.Forms.DragDropEffects.Move;
+                }
+            };
+        }
+
 
         public static void SetRichTextBoxDropString(System.Windows.Forms.RichTextBox yourRtb)
         {

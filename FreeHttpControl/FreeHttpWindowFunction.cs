@@ -519,7 +519,7 @@ namespace FreeHttp.FreeHttpControl
             FiddlerRequestChange requsetChange = new FiddlerRequestChange();
             requsetChange.TamperProtocol = NowProtocalMode;
             requsetChange.HttpRawRequest = null;
-            requsetChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
+            //requsetChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             requsetChange.HttpFilter = GetHttpFilter();
             requsetChange.ParameterPickList = GetParameterPick();
             requsetChange.UriModific = new ParameterContentModific(tb_requestModific_uriModificKey.Text, tb_requestModific_uriModificValue.Text);
@@ -552,7 +552,7 @@ namespace FreeHttp.FreeHttpControl
             requsetReplace.ParameterPickList = GetParameterPick();
             if (IsRequestReplaceRawMode)
             {
-                requsetReplace.HttpRawRequest = ParameterHttpRequest.GetHttpRequest(rtb_requestRaw.Text.Replace("\n", "\r\n"), useParameterDataToolStripMenuItem.Checked, StaticDataCollection);
+                requsetReplace.HttpRawRequest = ParameterHttpRequest.GetHttpRequest(rtb_requestRaw.Text.Replace("\n", "\r\n"), pb_parameterSwitch.SwitchState, StaticDataCollection);
             }
             else
             {
@@ -613,7 +613,7 @@ namespace FreeHttp.FreeHttpControl
                 {
                     requsetReplace.HttpRawRequest.RequestEntity = Encoding.UTF8.GetBytes(tempRequstBody);
                 }
-                requsetReplace.HttpRawRequest.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(requestSb.ToString(), useParameterDataToolStripMenuItem.Checked);
+                requsetReplace.HttpRawRequest.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(requestSb.ToString(), pb_parameterSwitch.SwitchState);
                 requsetReplace.HttpRawRequest.OriginSting = requsetReplace.HttpRawRequest.ParameterizationContent.GetTargetContentData();
                 requsetReplace.SetHasParameter(pb_parameterSwitch.SwitchState, StaticDataCollection);
 
@@ -631,7 +631,7 @@ namespace FreeHttp.FreeHttpControl
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
             responseChange.TamperProtocol = NowProtocalMode;
             responseChange.HttpRawResponse = null;
-            responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
+            //responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             responseChange.HttpFilter = GetHttpFilter();
             responseChange.ParameterPickList = GetParameterPick();
             responseChange.LesponseLatency = GetResponseLatency();
@@ -652,6 +652,8 @@ namespace FreeHttp.FreeHttpControl
                 }
             }
             responseChange.BodyModific = new ParameterContentModific(tb_responseModific_body.Text, rtb_respenseModific_body.Text);
+            responseChange.BodyModific = new ParameterContentModific(tb_responseModific_body.Text, rtb_respenseModific_body.Text);
+            responseChange.SetHasParameter(pb_parameterSwitch.SwitchState, StaticDataCollection);
             return responseChange;
         }
 
@@ -659,12 +661,13 @@ namespace FreeHttp.FreeHttpControl
         {
             FiddlerResponseChange responseChange = new FiddlerResponseChange();
             responseChange.TamperProtocol = NowProtocalMode;
-            responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
+            //responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             responseChange.HttpFilter = GetHttpFilter();
             responseChange.ParameterPickList = GetParameterPick();
             responseChange.LesponseLatency = GetResponseLatency();
             responseChange.HttpRawResponse = rawResponseEdit.GetHttpResponse(StaticDataCollection);
             responseChange.IsIsDirectRespons = rawResponseEdit.IsDirectRespons;
+            responseChange.SetHasParameter(pb_parameterSwitch.SwitchState, StaticDataCollection);
             return responseChange;
         }
 
@@ -690,7 +693,7 @@ namespace FreeHttp.FreeHttpControl
             rtb_respenseModific_body.Clear();
             rtb_requestRaw.Clear();
             antoContentLengthToolStripMenuItem.Checked = true;
-            useParameterDataToolStripMenuItem.Checked = false;
+            pb_parameterSwitch.SwitchState = false;
             //tabControl_Modific_Selecting(this.tabControl_Modific, null);
             ChangeSetResponseLatencyMode((tabControl_Modific.SelectedTab == tabPage_requestModific || tabControl_Modific.SelectedTab == tabPage_requestReplace) ? -1 : 0);
         }
@@ -795,7 +798,7 @@ namespace FreeHttp.FreeHttpControl
                 }
                 if (fiddlerRequsetChange.HttpRawRequest.ParameterizationContent.hasParameter)
                 {
-                    useParameterDataToolStripMenuItem.Checked = true;
+                    pb_parameterSwitch.SwitchState = true;
                 }
             }
         }
