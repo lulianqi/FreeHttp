@@ -287,14 +287,19 @@ namespace FreeHttp.FreeHttpControl
             panel_modific_Contorl.DragEnter += rtb_MesInfo_DragEnter;
             panel_modific_Contorl.DragDrop += rtb_MesInfo_DragDrop;
 
-            MyControlHelper.SetRichTextBoxDropString(rtb_requsetReplace_body);
-            MyControlHelper.SetRichTextBoxDropString(rtb_requestRaw);
-            MyControlHelper.SetRichTextBoxDropString(rtb_requestModific_body);
-            MyControlHelper.SetRichTextBoxDropString(rtb_respenseModific_body);
-            MyControlHelper.SetRichTextBoxDropString(tb_requestModific_body);
-            MyControlHelper.SetRichTextBoxDropString(tb_requestModific_uriModificKey);
-            MyControlHelper.SetRichTextBoxDropString(tb_requestModific_uriModificValue);
-            MyControlHelper.SetRichTextBoxDropString(tb_responseModific_body);
+            Action dropAction = () =>
+            {
+                pb_parameterSwitch.SwitchState = true;
+            };
+            MyControlHelper.SetRichTextBoxDropString(rtb_requsetReplace_body, dropAction);
+            MyControlHelper.SetRichTextBoxDropString(rtb_requestRaw, dropAction);
+            MyControlHelper.SetRichTextBoxDropString(rtb_requestModific_body, dropAction);
+            MyControlHelper.SetRichTextBoxDropString(rtb_respenseModific_body, dropAction);
+
+            MyControlHelper.SetRichTextBoxDropString(tb_requestModific_body , dropAction);
+            MyControlHelper.SetRichTextBoxDropString(tb_requestModific_uriModificKey, dropAction);
+            MyControlHelper.SetRichTextBoxDropString(tb_requestModific_uriModificValue, dropAction);
+            MyControlHelper.SetRichTextBoxDropString(tb_responseModific_body, dropAction);
         }
 
         #region Public Event

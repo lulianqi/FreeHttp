@@ -32,7 +32,7 @@ namespace FreeHttp.FreeHttpControl
             yourCtr.Refresh();
         }
 
-        public static void SetRichTextBoxDropString(System.Windows.Forms.TextBoxBase yourCtr)
+        public static void SetRichTextBoxDropString(System.Windows.Forms.TextBoxBase yourCtr, Action action = null)
         {
             if (yourCtr == null)
             {
@@ -61,6 +61,7 @@ namespace FreeHttp.FreeHttpControl
                 int selectionStart = tempTextBoxBase.SelectionStart;
                 tempTextBoxBase.Text = tempTextBoxBase.Text.Insert(selectionStart, tempText);
                 tempTextBoxBase.Select(selectionStart, tempText.Length);
+                action?.Invoke();
             };
             yourCtr.DragEnter += (sender,e)=>
             {

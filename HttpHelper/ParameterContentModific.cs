@@ -88,5 +88,6 @@ namespace FreeHttp.HttpHelper
             NameValueCollection nameValueCollection = new NameValueCollection();
             return GetFinalContent(sourceContent, nameValueCollection, out string _);
         }
+
     }
 }

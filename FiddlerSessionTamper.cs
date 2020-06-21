@@ -32,10 +32,16 @@ namespace FreeHttp
             }
             else
             {
+                string errMes;
+                NameValueCollection nameValueCollection = new NameValueCollection();
                 //Modific uri
                 if (nowFiddlerRequsetChange.UriModific != null && nowFiddlerRequsetChange.UriModific.ModificMode != ContentModificMode.NoChange)
                 {
-                    oSession.fullUrl = nowFiddlerRequsetChange.UriModific.GetFinalContent(oSession.fullUrl);
+                    oSession.fullUrl = nowFiddlerRequsetChange.UriModific.GetFinalContent(oSession.fullUrl, nameValueCollection, out errMes);
+                    if(errMes!=null)
+                    {
+                        ShowError(string.Format("error in GetFinalContent in UriModific that [{0}]", errMes));
+                    }
                 }
                 //Modific body
                 if (nowFiddlerRequsetChange.BodyModific != null && nowFiddlerRequsetChange.BodyModific.ModificMode != ContentModificMode.NoChange)
@@ -83,7 +89,13 @@ namespace FreeHttp
                                 //oSession.requestBodyBytes = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody)); // requestBodyBytes直接修改内部成员
                                 //oSession.ResponseBody = oSession.GetRequestBodyEncoding().GetBytes(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody)); //ResponseBody修改内部成员 更新Content-Length ，同时删除编码头，适用于hex数据
                                 //Session.RequestBody : Gets or Sets the HTTP Request body bytes. Setter adjusts Content-Length header, and removes Transfer-Encoding and Content-Encoding headers. Setter DOES NOT CLONE the passed array. Setter will throw if the Request object does not exist for some reason. Use utilSetRequestBody(sStr) to ensure proper character encoding if you need to use a string. 
-                                oSession.utilSetRequestBody(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody));  //utilSetRequestBody 虽然会自动更新Content-Length 但是会强制使用utf8 ，适用于字符串
+                                //oSession.utilSetRequestBody(nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody));  //utilSetRequestBody 虽然会自动更新Content-Length 但是会强制使用utf8 ，适用于字符串
+                                string tempRequestBody = nowFiddlerRequsetChange.BodyModific.GetFinalContent(sourceRequestBody, nameValueCollection, out errMes);
+                                if (errMes != null)
+                                {
+                                    ShowError(string.Format("error in GetFinalContent in BodyModific that [{0}]", errMes));
+                                }
+                                oSession.utilSetRequestBody(tempRequestBody);
                             }
                         }
                     }
@@ -109,6 +121,11 @@ namespace FreeHttp
                             ShowError(string.Format("error to deal add head string with [{0}]", tempAddHead));
                         }
                     }
+                }
+                //other action              
+                if (nameValueCollection != null && nameValueCollection.Count > 0)
+                {
+                    ShowMes(string.Format("[ParameterizationContent]:{0}", nameValueCollection.MyToFormatString()));
                 }
 
             }
@@ -200,6 +217,8 @@ namespace FreeHttp
             }
             else
             {
+                string errMes;
+                NameValueCollection nameValueCollection = new NameValueCollection();
                 //modific body
                 if (nowFiddlerResponseChange.BodyModific != null && nowFiddlerResponseChange.BodyModific.ModificMode != ContentModificMode.NoChange)
                 {
@@ -244,7 +263,13 @@ namespace FreeHttp
                             }
                             else
                             {
-                                oSession.utilSetResponseBody(nowFiddlerResponseChange.BodyModific.GetFinalContent(sourceResponseBody));
+                                //oSession.utilSetResponseBody(nowFiddlerResponseChange.BodyModific.GetFinalContent(sourceResponseBody));
+                                string tempResponseBody = nowFiddlerResponseChange.BodyModific.GetFinalContent(sourceResponseBody, nameValueCollection, out errMes);
+                                if (errMes != null)
+                                {
+                                    ShowError(string.Format("error in GetFinalContent in BodyModific that [{0}]", errMes));
+                                }
+                                oSession.utilSetRequestBody(tempResponseBody);
                             }
                         }
 
@@ -275,6 +300,11 @@ namespace FreeHttp
                             ShowError(string.Format("error to deal add head string with [{0}]", tempAddHead));
                         }
                     }
+                }
+                //other action
+                if (nameValueCollection != null && nameValueCollection.Count > 0)
+                {
+                    ShowMes(string.Format("[ParameterizationContent]:{0}", nameValueCollection.MyToFormatString()));
                 }
             }
         }
@@ -353,7 +383,7 @@ namespace FreeHttp
             {
                 PickSessionParameter(oSession, nowFiddlerChange, ShowError, ShowMes, webSocketMessage.IsOutbound, webSocketMessage);
             }
-            ContentModific payLoadModific = null;
+            ParameterContentModific payLoadModific = null;
             if (isRequest)
             {
                 FiddlerRequestChange nowFiddlerRequsetChange = (FiddlerRequestChange)nowFiddlerChange;
@@ -404,7 +434,21 @@ namespace FreeHttp
                         }
                         else
                         {
-                            webSocketMessage.SetPayload(payLoadModific.GetFinalContent(sourcePayload));
+                            string errMes;
+                            NameValueCollection nameValueCollection = new NameValueCollection();
+
+                            //webSocketMessage.SetPayload(payLoadModific.GetFinalContent(sourcePayload));
+                            string tempPayload = payLoadModific.GetFinalContent(sourcePayload, nameValueCollection, out errMes);
+                            if (errMes != null)
+                            {
+                                ShowError(string.Format("error in GetFinalContent in PayLoadModific that [{0}]", errMes));
+                            }
+                            webSocketMessage.SetPayload(tempPayload);
+
+                            if (nameValueCollection != null && nameValueCollection.Count > 0)
+                            {
+                                ShowMes(string.Format("[ParameterizationContent]:{0}", nameValueCollection.MyToFormatString()));
+                            }
                         }
                     }
                 }
