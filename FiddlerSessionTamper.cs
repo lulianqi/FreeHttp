@@ -203,7 +203,7 @@ namespace FreeHttp
         /// <param name="nowFiddlerResponseChange">FiddlerResponseChange</param>
         public static void ModificSessionResponse(Session oSession, FiddlerResponseChange nowFiddlerResponseChange, Action<string> ShowError, Action<string> ShowMes)
         {
-            if (nowFiddlerResponseChange.ParameterPickList != null)
+            if (nowFiddlerResponseChange.ParameterPickList != null && nowFiddlerResponseChange.ParameterPickList.Count>0)
             {
                 PickSessionParameter(oSession, nowFiddlerResponseChange, ShowError, ShowMes, false);
             }

@@ -66,7 +66,7 @@ namespace FreeHttp.HttpHelper
             if (IsUseParameter)
             {
                 base.TargetKey = ParameterTargetKey.GetTargetContentData(actuatorStaticDataCollection, yourDataResultCollection, out string errorMes);
-                if (errorMes != null)
+                if (errorMes == null)
                 {
                     base.ReplaceContent = ParameterReplaceContent.GetTargetContentData(actuatorStaticDataCollection, yourDataResultCollection, out errorMes);
                 }

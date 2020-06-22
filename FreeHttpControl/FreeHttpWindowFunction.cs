@@ -796,10 +796,9 @@ namespace FreeHttp.FreeHttpControl
                 {
                     rtb_requestRaw.AppendText(fiddlerRequsetChange.HttpRawRequest.OriginSting);
                 }
-                if (fiddlerRequsetChange.HttpRawRequest.ParameterizationContent.hasParameter)
-                {
-                    pb_parameterSwitch.SwitchState = true;
-                }
+                // if fiddlerRequsetChange is RawRequest ，just use HttpRawRequest hasParameter
+                pb_parameterSwitch.SwitchState = fiddlerRequsetChange.HttpRawRequest.ParameterizationContent.hasParameter;
+                
             }
         }
 
@@ -808,6 +807,7 @@ namespace FreeHttp.FreeHttpControl
             SetHttpMatch(fiddlerResponseChange.HttpFilter);
             SetResponseLatency(fiddlerResponseChange.LesponseLatency);
             SetHttpParameterPick(fiddlerResponseChange.ParameterPickList);
+            pb_parameterSwitch.SwitchState = fiddlerResponseChange.IsHasParameter;
             if (fiddlerResponseChange.HttpRawResponse == null)
             {
                 tabControl_Modific.SelectedTab = tabPage_responseModific; 
@@ -830,7 +830,7 @@ namespace FreeHttp.FreeHttpControl
                     tb_responseModific_body.Text = fiddlerResponseChange.BodyModific.ParameterTargetKey.ToString();
                     if (!string.IsNullOrEmpty(fiddlerResponseChange.BodyModific.ParameterReplaceContent.ToString()))
                     {
-                        rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ReplaceContent.ToString());
+                        rtb_respenseModific_body.AppendText(fiddlerResponseChange.BodyModific.ParameterReplaceContent.ToString());
                     }
                 }
             }
@@ -843,8 +843,10 @@ namespace FreeHttp.FreeHttpControl
                 {
                     rawResponseEdit.SetText(fiddlerResponseChange.HttpRawResponse.OriginSting);
                 }
+                pb_parameterSwitch.SwitchState = fiddlerResponseChange.HttpRawResponse.ParameterizationContent.hasParameter;
             }
         }
+        
         private void AdjustRuleListViewIndex(ListView ruleListView)
         {
             if (ruleListView.Items.Count > 0)
