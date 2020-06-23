@@ -269,7 +269,7 @@ namespace FreeHttp
                                 {
                                     ShowError(string.Format("error in GetFinalContent in BodyModific that [{0}]", errMes));
                                 }
-                                oSession.utilSetRequestBody(tempResponseBody);
+                                oSession.utilSetResponseBody(tempResponseBody);
                             }
                         }
 

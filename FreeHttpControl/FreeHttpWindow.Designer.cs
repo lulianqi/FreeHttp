@@ -471,6 +471,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             // rtb_requestModific_body
             // 
+            this.rtb_requestModific_body.ContextMenuStrip = this.contextMenuStrip_AddFile;
             this.rtb_requestModific_body.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb_requestModific_body.Location = new System.Drawing.Point(0, 0);
             this.rtb_requestModific_body.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

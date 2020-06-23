@@ -413,6 +413,16 @@ namespace FreeHttp.FreeHttpControl
         private void contextMenuStrip_AddFile_Opening(object sender, CancelEventArgs e)
         {
             ((ContextMenuStrip)sender).Tag = ((ContextMenuStrip)sender).SourceControl;
+            if(((ContextMenuStrip)sender).SourceControl == rtb_requestModific_body || ((ContextMenuStrip)sender).SourceControl == rtb_respenseModific_body)
+            {
+                addFileToolStripMenuItem.Enabled = false;
+                antoContentLengthToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                addFileToolStripMenuItem.Enabled = true;
+                antoContentLengthToolStripMenuItem.Enabled = true;
+            }
         }
 
         private void addParameterDataToolStripMenuItem_Click(object sender, EventArgs e)
