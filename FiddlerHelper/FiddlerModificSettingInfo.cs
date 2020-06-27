@@ -24,15 +24,21 @@ namespace FreeHttp.FiddlerHelper
         /// </summary>
         public bool IsOnlyMatchFistTamperRule { get; set; }
 
-        public FiddlerModificSettingInfo():this(false,true,true)
+        /// <summary>
+        /// if it is sync TamperRule in server
+        /// </summary>
+        public bool IsSyncTamperRule { get; set; }
+
+        public FiddlerModificSettingInfo():this(false,true, false ,true)
         {
             
         }
-        public FiddlerModificSettingInfo(bool isDefaultEnableRule, bool isSkipTlsHandshake, bool isOnlyMatchFistTamperRule)
+        public FiddlerModificSettingInfo(bool isDefaultEnableRule, bool isSkipTlsHandshake, bool isOnlyMatchFistTamperRule ,bool isSyncTamperRule)
         {
             IsDefaultEnableRule = isDefaultEnableRule;
             IsSkipConnectTunnels = isSkipTlsHandshake;
             IsOnlyMatchFistTamperRule = isOnlyMatchFistTamperRule;
+            IsSyncTamperRule = isSyncTamperRule ;
         }
     }
 }

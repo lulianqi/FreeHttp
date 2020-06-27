@@ -240,7 +240,10 @@ namespace FreeHttp
                         try
                         {
                             sourceResponseBody = oSession.GetResponseBodyAsString(); //if the head encode is change ,GetResponseBodyAsString maybe fail 
-                            sourceResponseBody = sourceResponseBody.Replace("\r\n", "\n");
+                            if (nowFiddlerResponseChange.BodyModific.ParameterTargetKey.ToString().Contains('\n'))
+                            {
+                                sourceResponseBody = sourceResponseBody.Replace("\r\n", "\n");
+                            }
                         }
                         catch (Exception ex)
                         {

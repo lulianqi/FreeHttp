@@ -35,10 +35,12 @@ namespace FreeHttp.FreeHttpControl
                 myEnableSwitch_IsDefaultEnableRule.IsEnable = modifcSettingInfo.IsDefaultEnableRule;
                 myEnableSwitch_IsSkipConnectTunnels.IsEnable = modifcSettingInfo.IsSkipConnectTunnels;
                 myEnableSwitch_IsEnableHttpsService.IsEnable = MyGlobalHelper.myHttpListener.IsStart;
+                myEnableSwitch_IsSyncTamperRule.IsEnable = modifcSettingInfo.IsSyncTamperRule;
                 myEnableSwitch_IsOnlyMatchFistTamperRule.OnChangeEnable += myEnableSwitch_IsOnlyMatchFistTamperRule_OnChangeEable;
                 myEnableSwitch_IsDefaultEnableRule.OnChangeEnable += myEnableSwitch_IsDefaultEnableRule_OnChangeEable;
                 myEnableSwitch_IsSkipConnectTunnels.OnChangeEnable += myEnableSwitch_IsConnectTunnels_OnChangeEable;
                 myEnableSwitch_IsEnableHttpsService.OnChangeEnable += myEnableSwitch_IsEnableHttpsService_OnChangeEnable;
+                myEnableSwitch_IsSyncTamperRule.OnChangeEnable += MyEnableSwitch_IsSyncTamperRule_OnChangeEnable;
             }
             //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = this.Size;
@@ -58,6 +60,11 @@ namespace FreeHttp.FreeHttpControl
         void myEnableSwitch_IsOnlyMatchFistTamperRule_OnChangeEable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)
         {
             modifcSettingInfo.IsOnlyMatchFistTamperRule = e.IsEnable;
+        }
+
+        private void MyEnableSwitch_IsSyncTamperRule_OnChangeEnable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)
+        {
+            modifcSettingInfo.IsSyncTamperRule = e.IsEnable;
         }
 
         void myEnableSwitch_IsEnableHttpsService_OnChangeEnable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)

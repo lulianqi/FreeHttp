@@ -103,7 +103,7 @@ namespace FreeHttp
             {
                 operationReportService.OutOperation(DateTime.Now, myFreeHttpWindow.RequestRuleListView.Items.Count, myFreeHttpWindow.ResponseRuleListView.Items.Count);
             }
-            if (operationReportService.HasAnyOperation)
+            if (operationReportService.HasAnyOperation && myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels)
             {
                 operationReportService.FiddlerRequestChangeRuleList = myFreeHttpWindow.FiddlerRequestChangeList;
                 operationReportService.FiddlerResponseChangeRuleList = myFreeHttpWindow.FiddlerResponseChangeList;
