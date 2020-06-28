@@ -73,21 +73,26 @@ namespace FreeHttp.MyHelper
                                 }
                             }
                         }
-                        if (string.IsNullOrEmpty(ruleVersion))
+                        if (string.IsNullOrEmpty(ruleVersion) || ruleVersion[0] == '1')
                         {
                             XmlSerializer mySerializer = new XmlSerializer(typeof(FreeHttp.FiddlerHelper.VersionControlV1.FiddlerModificHttpRuleCollection));
                             fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)(FreeHttp.FiddlerHelper.VersionControlV1.FiddlerModificHttpRuleCollection)mySerializer.Deserialize(reader);
+              
                         }
-                        else
+                        else if(ruleVersion[0]=='2')
                         {
                             XmlSerializer mySerializer = new XmlSerializer(typeof(FiddlerModificHttpRuleCollection));
                             fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)mySerializer.Deserialize(reader);
+                        }
+                        else
+                        {
+                            throw new Exception("unkonw ruleVersion",new Exception("this freehttp can not analysis the rule file , you should updata your freehttp"));
                         }
                     }
                 }
                 catch(Exception ex)
                 {
-                    MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message), "load user rule fail");
+                    MessageBox.Show(string.Format("{0}\r\n{1}\r\nyour error rule file will back up in {2}", ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message, Directory.GetCurrentDirectory() + rulePath + ".lastErrorFile"), "load user rule fail");
                     File.Copy(rulePath, rulePath+".lastErrorFile", true);
                 }
                 finally

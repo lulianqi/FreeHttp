@@ -42,6 +42,34 @@ namespace FreeHttp.FiddlerHelper.VersionControlV1
                 }
             }
             FreeHttp.FiddlerHelper.FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection = new FreeHttp.FiddlerHelper.FiddlerModificHttpRuleCollection(RequestRuleList, fiddlerModificHttpRuleCollectionV1.ResponseRuleList);
+            
+            if(fiddlerModificHttpRuleCollection.RequestRuleList!=null && fiddlerModificHttpRuleCollection.RequestRuleList.Count>0)
+            {
+                foreach (FiddlerRequestChange item in fiddlerModificHttpRuleCollection.RequestRuleList)
+                {
+                    if(item.UriModific!=null && item.UriModific.ModificMode != HttpHelper.ContentModificMode.NoChange)
+                    {
+                        item.UriModific.ParameterReplaceContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.UriModific.ReplaceContent);
+                        item.UriModific.ParameterTargetKey = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.UriModific.TargetKey);
+                    }
+                    if (item.BodyModific != null && item.BodyModific.ModificMode != HttpHelper.ContentModificMode.NoChange)
+                    {
+                        item.BodyModific.ParameterReplaceContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.BodyModific.ReplaceContent);
+                        item.BodyModific.ParameterTargetKey = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.BodyModific.TargetKey);
+                    }
+                }
+            }
+            if (fiddlerModificHttpRuleCollection.ResponseRuleList != null && fiddlerModificHttpRuleCollection.ResponseRuleList.Count > 0)
+            {
+                foreach (FiddlerResponseChange item in fiddlerModificHttpRuleCollection.ResponseRuleList)
+                {
+                    if (item.BodyModific != null && item.BodyModific.ModificMode != HttpHelper.ContentModificMode.NoChange)
+                    {
+                        item.BodyModific.ParameterReplaceContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.BodyModific.ReplaceContent);
+                        item.BodyModific.ParameterTargetKey = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.BodyModific.TargetKey);
+                    }
+                }
+            }
             return fiddlerModificHttpRuleCollection;
         }
     }
