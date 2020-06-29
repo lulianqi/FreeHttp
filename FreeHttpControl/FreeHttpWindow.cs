@@ -105,7 +105,7 @@ namespace FreeHttp.FreeHttpControl
         {
             fiddlerModificHttpRuleCollection = yourRuleCollection;
             ModificSettingInfo = yourModifcSettingInfo;
-            ModificSettingInfo.IsSyncTamperRule = true;
+            if(ModificSettingInfo!=null) ModificSettingInfo.IsSyncTamperRule = true;
             StaticDataCollection = yourStaticDataCollection;
             if(fiddlerModificHttpRuleCollection!=null&&StaticDataCollection!=null)
             {

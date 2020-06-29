@@ -258,30 +258,30 @@ namespace FreeHttp.FreeHttpControl
             // keyValueToolStripMenuItem
             // 
             this.keyValueToolStripMenuItem.Name = "keyValueToolStripMenuItem";
-            this.keyValueToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.keyValueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.keyValueToolStripMenuItem.Text = "KeyValue";
             // 
             // parameterToolStripMenuItem
             // 
             this.parameterToolStripMenuItem.Name = "parameterToolStripMenuItem";
-            this.parameterToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.parameterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.parameterToolStripMenuItem.Text = "Parameter";
             // 
             // dataSouceToolStripMenuItem
             // 
             this.dataSouceToolStripMenuItem.Name = "dataSouceToolStripMenuItem";
-            this.dataSouceToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.dataSouceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.dataSouceToolStripMenuItem.Text = "DataSouce";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(135, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // editDataToolStripMenuItem
             // 
             this.editDataToolStripMenuItem.Name = "editDataToolStripMenuItem";
-            this.editDataToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.editDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editDataToolStripMenuItem.Text = "Edit Data";
             this.editDataToolStripMenuItem.Click += new System.EventHandler(this.parameterDataManageToolStripMenuItem_Click);
             // 
@@ -815,6 +815,7 @@ namespace FreeHttp.FreeHttpControl
             // 
             // rtb_respenseModific_body
             // 
+            this.rtb_respenseModific_body.ContextMenuStrip = this.contextMenuStrip_AddFile;
             this.rtb_respenseModific_body.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtb_respenseModific_body.Location = new System.Drawing.Point(0, 0);
             this.rtb_respenseModific_body.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
