@@ -68,6 +68,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             return souseListData[nowIndex];
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         public string DataMoveNext()
         {
             if (isRandom)

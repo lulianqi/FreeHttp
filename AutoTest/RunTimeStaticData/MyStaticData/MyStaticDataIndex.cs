@@ -59,6 +59,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             return dataIndex.ToString();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         public string DataMoveNext()
         {
             if (isNew)

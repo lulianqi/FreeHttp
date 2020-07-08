@@ -59,6 +59,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             return dataIndex.ToString();
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         public string DataMoveNext()
         {
             if (isNew)
@@ -73,7 +74,10 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             }
             else
             {
-                dataIndex += defaultStep;
+                //lock(this)
+                //{
+                    dataIndex += defaultStep;
+                //}
             }
             return dataIndex.ToString();
         }

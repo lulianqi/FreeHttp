@@ -125,6 +125,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             return csvData[nowRowIndex][nowColumnIndex] ?? "";
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         public string DataMoveNext()
         {
             if (isNew)

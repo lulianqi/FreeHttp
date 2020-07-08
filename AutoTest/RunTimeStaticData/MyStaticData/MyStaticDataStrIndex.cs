@@ -76,6 +76,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData.MyStaticData
             return GetLenStr(dataIndex);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         public string DataMoveNext()
         {
             if (isNew)
