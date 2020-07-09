@@ -57,6 +57,11 @@ namespace FreeHttp.FiddlerHelper.VersionControlV1
                         item.BodyModific.ParameterReplaceContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.BodyModific.ReplaceContent);
                         item.BodyModific.ParameterTargetKey = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.BodyModific.TargetKey);
                     }
+                    if(item.IsRawReplace && item.HttpRawRequest.ParameterizationContent.hasParameter)
+                    {
+                        item.IsHasParameter = true;
+                        //item.SetHasParameter(true);
+                    }
                 }
             }
             if (fiddlerModificHttpRuleCollection.ResponseRuleList != null && fiddlerModificHttpRuleCollection.ResponseRuleList.Count > 0)
@@ -67,6 +72,11 @@ namespace FreeHttp.FiddlerHelper.VersionControlV1
                     {
                         item.BodyModific.ParameterReplaceContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.BodyModific.ReplaceContent);
                         item.BodyModific.ParameterTargetKey = new AutoTest.ParameterizationContent.CaseParameterizationContent(item.BodyModific.TargetKey);
+                    }
+                    if (item.IsRawReplace && item.HttpRawResponse.ParameterizationContent.hasParameter)
+                    {
+                        item.IsHasParameter = true;
+                        //item.SetHasParameter(true);
                     }
                 }
             }

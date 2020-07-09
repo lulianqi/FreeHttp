@@ -418,11 +418,13 @@ namespace FreeHttp.FreeHttpControl
             {
                 addFileToolStripMenuItem.Enabled = false;
                 antoContentLengthToolStripMenuItem.Enabled = false;
+                antoContentLengthToolStripMenuItem.Checked = false;
             }
             else
             {
                 addFileToolStripMenuItem.Enabled = true;
                 antoContentLengthToolStripMenuItem.Enabled = true;
+                antoContentLengthToolStripMenuItem.Checked = true;
             }
         }
 
