@@ -184,12 +184,12 @@ namespace FreeHttp.FreeHttpControl
         /// <summary>
         /// Is Request Rule Enable
         /// </summary>
-        public bool IsRequestRuleEnable { get;private set; }
+        public bool IsRequestRuleEnable { get { return ModificSettingInfo.IsEnableRequestRule; } private set { ModificSettingInfo.IsEnableRequestRule = value; } }
        
         /// <summary>
         /// Is Response Rule Enable
         /// </summary>
-        public bool IsResponseRuleEnable { get; private set; }
+        public bool IsResponseRuleEnable { get { return ModificSettingInfo.IsEnableResponseRule; } private set { ModificSettingInfo.IsEnableResponseRule = value; } }
 
         /// <summary>
         /// Get the RequestRule ListView (not add or del item in your code , if you want change the item just use exist function)
@@ -252,12 +252,15 @@ namespace FreeHttp.FreeHttpControl
             }
             if(ModificSettingInfo==null)
             {
-                ModificSettingInfo = new FiddlerModificSettingInfo(false, true, false ,true);
+                ModificSettingInfo = new FiddlerModificSettingInfo(true, false ,true,true);
             }
-            if(ModificSettingInfo.IsDefaultEnableRule)
+            if(ModificSettingInfo.IsEnableRequestRule)
             {
-                pb_requestRuleSwitch_Click(null, null);
-                pb_responseRuleSwitch_Click(null, null);
+                pb_requestRuleSwitch.Image = Resources.MyResource.switch_on;
+            }
+            if (ModificSettingInfo.IsEnableResponseRule)
+            {
+                pb_responseRuleSwitch.Image = Resources.MyResource.switch_on;
             }
 
             FreeHttp.MyHelper.MyGlobalHelper.OnGetGlobalMessage += ((obj, arg) => { PutWarn(arg.Message); });

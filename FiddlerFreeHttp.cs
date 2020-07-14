@@ -36,12 +36,45 @@ namespace FreeHttp
     {
         private bool isOnLoad = false;                  //是否已经加载过tab
         private bool isCheckedUpdata = false;           //是否已经成功完成更新检查，如果检查失败会被重新设置为false
-        private bool isSkipUiHide = false;              //是否跳过匹配被隐藏的session
         private bool isInFreeHttpTab = false;           //是否在正在FreeHttp Tab页中
         private TabPage tabPage;
         private FreeHttpWindow myFreeHttpWindow;
         private UpgradeService upgradeService;
         private OperationReportService operationReportService;
+
+        public bool IsSkipConnectTunnels
+        {
+            get 
+            {
+                if (myFreeHttpWindow != null && myFreeHttpWindow.ModificSettingInfo != null)
+                    return myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels;
+                else
+                    return true;
+            }
+        }
+
+        public bool IsSkipUiHide
+        {
+            get
+            {
+                if (myFreeHttpWindow != null && myFreeHttpWindow.ModificSettingInfo != null)
+                    return myFreeHttpWindow.ModificSettingInfo.IsSkipUiHide;
+                else
+                    return true;
+            }
+        }
+
+        public bool IsOnlyMatchFistTamperRule
+        {
+            get
+            {
+                if (myFreeHttpWindow != null && myFreeHttpWindow.ModificSettingInfo != null)
+                    return myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule;
+                else
+                    return false;
+            }
+        }
+
 
         private void ShowMes(string mes)
         {
@@ -103,7 +136,7 @@ namespace FreeHttp
             {
                 operationReportService.OutOperation(DateTime.Now, myFreeHttpWindow.RequestRuleListView.Items.Count, myFreeHttpWindow.ResponseRuleListView.Items.Count);
             }
-            if (operationReportService.HasAnyOperation && myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels)
+            if (operationReportService.HasAnyOperation && IsSkipConnectTunnels)
             {
                 operationReportService.FiddlerRequestChangeRuleList = myFreeHttpWindow.FiddlerRequestChangeList;
                 operationReportService.FiddlerResponseChangeRuleList = myFreeHttpWindow.FiddlerResponseChangeList;
@@ -348,11 +381,11 @@ namespace FreeHttp
             }
             if ((myFreeHttpWindow.IsRequestRuleEnable && webSocketMessage.IsOutbound)|| (myFreeHttpWindow.IsResponseRuleEnable && !webSocketMessage.IsOutbound))
             {
-                if (isSkipUiHide && oSession["ui-hide"] == "true")
+                if (IsSkipUiHide && oSession["ui-hide"] !=null)
                 {
                     return;
                 }
-                if (myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT") 
+                if (IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT") 
                 {
                     return;
                 }
@@ -386,7 +419,7 @@ namespace FreeHttp
                                 ShowMes(string.Format("[reponse rule {0}] is modified , now delay {1} ms", tempListViewItem.SubItems[0].Text, nowFiddlerResponseChange.LesponseLatency));
                                 System.Threading.Thread.Sleep(nowFiddlerResponseChange.LesponseLatency);
                             }
-                            if (myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
+                            if (IsOnlyMatchFistTamperRule)
                             {
                                 break;
                             }
@@ -417,11 +450,11 @@ namespace FreeHttp
             if (myFreeHttpWindow.IsRequestRuleEnable)
             {
                 //IsRequestRuleEnable is more efficient then string comparison (so if not IsRequestRuleEnable the string comparison will not execute)
-                if (isSkipUiHide && oSession["ui-hide"] == "true")
+                if (IsSkipUiHide && oSession["ui-hide"] != null)
                 {
                     return;
                 }
-                if (myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT")
+                if (IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT")
                 {
                     return;
                 }
@@ -436,7 +469,7 @@ namespace FreeHttp
                         MarkSession(oSession);
                         ShowMes(string.Format("macth the [requst rule {0}] with {1}", tempListViewItem.SubItems[0].Text, oSession.fullUrl));
                         FiddlerSessionTamper.ModificSessionRequest(oSession, nowFiddlerRequsetChange,ShowError,ShowMes);
-                        if(myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
+                        if(IsOnlyMatchFistTamperRule)
                         {
                             break;
                         }
@@ -446,7 +479,7 @@ namespace FreeHttp
 
             if (myFreeHttpWindow.IsResponseRuleEnable)
             {
-                if (myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT")
+                if (IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT")
                 {
                     return;
                 }
@@ -465,7 +498,7 @@ namespace FreeHttp
                             ShowMes(string.Format("macth the [reponse rule {0}] with {1}", tempListViewItem.SubItems[0].Text, oSession.fullUrl));
                             FiddlerSessionTamper.ReplaceSessionResponse(oSession, nowFiddlerResponseChange,ShowError,ShowMes);
                             //oSession.state = SessionStates.Done;
-                            if (myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
+                            if (IsOnlyMatchFistTamperRule)
                             {
                                 break;
                             }
@@ -483,11 +516,11 @@ namespace FreeHttp
             }
             if (myFreeHttpWindow.IsResponseRuleEnable)
             {
-                if (isSkipUiHide && oSession["ui-hide"] == "true")
+                if (IsSkipUiHide && oSession["ui-hide"] !=null)
                 {
                     return;
                 }
-                if (myFreeHttpWindow.ModificSettingInfo.IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT")
+                if (IsSkipConnectTunnels && oSession.RequestMethod == "CONNECT")
                 {
                     return;
                 }
@@ -510,7 +543,7 @@ namespace FreeHttp
                             ShowMes(string.Format("[reponse rule {0}] is modified , now delay {1} ms", tempListViewItem.SubItems[0].Text, nowFiddlerResponseChange.LesponseLatency));
                             System.Threading.Thread.Sleep(nowFiddlerResponseChange.LesponseLatency);
                         }
-                        if (myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule)
+                        if (IsOnlyMatchFistTamperRule)
                         {
                             break;
                         }

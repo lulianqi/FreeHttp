@@ -36,7 +36,7 @@
             this.lb_info_5 = new System.Windows.Forms.Label();
             this.myEnableSwitch_IsSyncTamperRule = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.myEnableSwitch_IsEnableHttpsService = new FreeHttp.FreeHttpControl.MyEnableSwitch();
-            this.myEnableSwitch_IsDefaultEnableRule = new FreeHttp.FreeHttpControl.MyEnableSwitch();
+            this.myEnableSwitch_IsSkipHideUi = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.myEnableSwitch_IsSkipConnectTunnels = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.myEnableSwitch_IsOnlyMatchFistTamperRule = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.SuspendLayout();
@@ -67,9 +67,9 @@
             this.lb_info_3.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lb_info_3.Location = new System.Drawing.Point(0, 76);
             this.lb_info_3.Name = "lb_info_3";
-            this.lb_info_3.Size = new System.Drawing.Size(217, 14);
+            this.lb_info_3.Size = new System.Drawing.Size(182, 14);
             this.lb_info_3.TabIndex = 3;
-            this.lb_info_3.Text = "is default enable tanper rule ";
+            this.lb_info_3.Text = "is skip filtered sessions";
             // 
             // lb_info_4
             // 
@@ -109,14 +109,14 @@
             this.myEnableSwitch_IsEnableHttpsService.Size = new System.Drawing.Size(54, 27);
             this.myEnableSwitch_IsEnableHttpsService.TabIndex = 8;
             // 
-            // myEnableSwitch_IsDefaultEnableRule
+            // myEnableSwitch_IsSkipHideUi
             // 
-            this.myEnableSwitch_IsDefaultEnableRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.myEnableSwitch_IsDefaultEnableRule.IsEnable = false;
-            this.myEnableSwitch_IsDefaultEnableRule.Location = new System.Drawing.Point(284, 69);
-            this.myEnableSwitch_IsDefaultEnableRule.Name = "myEnableSwitch_IsDefaultEnableRule";
-            this.myEnableSwitch_IsDefaultEnableRule.Size = new System.Drawing.Size(54, 27);
-            this.myEnableSwitch_IsDefaultEnableRule.TabIndex = 6;
+            this.myEnableSwitch_IsSkipHideUi.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.myEnableSwitch_IsSkipHideUi.IsEnable = false;
+            this.myEnableSwitch_IsSkipHideUi.Location = new System.Drawing.Point(284, 69);
+            this.myEnableSwitch_IsSkipHideUi.Name = "myEnableSwitch_IsSkipHideUi";
+            this.myEnableSwitch_IsSkipHideUi.Size = new System.Drawing.Size(54, 27);
+            this.myEnableSwitch_IsSkipHideUi.TabIndex = 6;
             // 
             // myEnableSwitch_IsSkipConnectTunnels
             // 
@@ -145,7 +145,7 @@
             this.Controls.Add(this.lb_info_5);
             this.Controls.Add(this.myEnableSwitch_IsEnableHttpsService);
             this.Controls.Add(this.lb_info_4);
-            this.Controls.Add(this.myEnableSwitch_IsDefaultEnableRule);
+            this.Controls.Add(this.myEnableSwitch_IsSkipHideUi);
             this.Controls.Add(this.myEnableSwitch_IsSkipConnectTunnels);
             this.Controls.Add(this.lb_info_3);
             this.Controls.Add(this.lb_info_2);
@@ -171,7 +171,7 @@
         private System.Windows.Forms.Label lb_info_2;
         private System.Windows.Forms.Label lb_info_3;
         private MyEnableSwitch myEnableSwitch_IsSkipConnectTunnels;
-        private MyEnableSwitch myEnableSwitch_IsDefaultEnableRule;
+        private MyEnableSwitch myEnableSwitch_IsSkipHideUi;
         private MyEnableSwitch myEnableSwitch_IsEnableHttpsService;
         private System.Windows.Forms.Label lb_info_4;
         private MyEnableSwitch myEnableSwitch_IsSyncTamperRule;

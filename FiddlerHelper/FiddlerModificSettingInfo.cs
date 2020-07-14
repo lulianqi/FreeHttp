@@ -9,10 +9,6 @@ namespace FreeHttp.FiddlerHelper
     [Serializable]
     public class FiddlerModificSettingInfo
     {
-        /// <summary>
-        /// is the rule will enable when the application load
-        /// </summary>
-        public bool IsDefaultEnableRule { get; set; }
 
         /// <summary>
         /// the rule will skip tls handshake when it is true
@@ -29,16 +25,35 @@ namespace FreeHttp.FiddlerHelper
         /// </summary>
         public bool IsSyncTamperRule { get; set; }
 
-        public FiddlerModificSettingInfo():this(false,true, false ,true)
+        /// <summary>
+        /// is skip when the session is hide
+        /// </summary>
+        public bool IsSkipUiHide { get; set; }
+
+        /// <summary>
+        /// is enable request rule when the application load
+        /// </summary>
+        public bool IsEnableRequestRule { get; set; }
+
+        /// <summary>
+        /// is enable response rule when the application load
+        /// </summary>
+        public bool IsEnableResponseRule { get; set; }
+
+
+
+        public FiddlerModificSettingInfo():this(true, false ,true,true)
         {
             
         }
-        public FiddlerModificSettingInfo(bool isDefaultEnableRule, bool isSkipTlsHandshake, bool isOnlyMatchFistTamperRule ,bool isSyncTamperRule)
+        public FiddlerModificSettingInfo( bool isSkipTlsHandshake, bool isOnlyMatchFistTamperRule ,bool isSyncTamperRule, bool isSkipUiHide, bool isEnableRequestRule = false, bool isEnableResponseRule = false)
         {
-            IsDefaultEnableRule = isDefaultEnableRule;
             IsSkipConnectTunnels = isSkipTlsHandshake;
             IsOnlyMatchFistTamperRule = isOnlyMatchFistTamperRule;
             IsSyncTamperRule = isSyncTamperRule ;
+            IsSkipUiHide = isSkipUiHide;
+            IsEnableRequestRule = isEnableRequestRule;
+            IsEnableResponseRule = isEnableResponseRule;
         }
     }
 }
