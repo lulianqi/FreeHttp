@@ -445,7 +445,7 @@ namespace FreeHttp.FreeHttpControl
             }
             else if (sender == previousValueToolStripMenuItem)
             {
-                additionStr = "(-)";
+                additionStr = "(+2)";
             }
             else
             {
