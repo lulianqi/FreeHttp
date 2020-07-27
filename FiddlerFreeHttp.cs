@@ -144,10 +144,12 @@ namespace FreeHttp
             }
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         public void OnLoad()
         {
             AddFiddlerObjectLog("OnLoad");
             //string workPath = string.Format("{0}\\FreeHttp", System.Windows.Forms.Application.StartupPath);
+            //System.Threading.Tasks.Task.Run(OnLoad);
             string workPath = string.Format("{0}\\FreeHttp", Directory.GetCurrentDirectory());
             if (!isOnLoad)
             {
@@ -195,7 +197,6 @@ namespace FreeHttp
                 upgradeService = new UpgradeService();
                 upgradeService.GetUpgradeMes += upgradeService_GetUpgradeMes;
                 operationReportService = new OperationReportService();
-
                 isOnLoad = true;
             }
         }
