@@ -320,7 +320,7 @@ namespace FreeHttp.FiddlerHelper
                 }
                 if (HeadMatch != null)
                 {
-                    if (!HeadMatch.Match(isRequest ? (HTTPHeaders)oSession.RequestHeaders : (HTTPHeaders)oSession.ResponseHeaders))
+                    if (!HeadMatch.Match(true ? (HTTPHeaders)oSession.RequestHeaders : (HTTPHeaders)oSession.ResponseHeaders))
                     {
                         return false;
                     }
@@ -329,14 +329,14 @@ namespace FreeHttp.FiddlerHelper
                 {
                     if (BodyMatch.IsHexMatch)
                     {
-                        if (!BodyMatch.Match(isRequest ? oSession.requestBodyBytes : oSession.responseBodyBytes))
+                        if (!BodyMatch.Match(true ? oSession.requestBodyBytes : oSession.responseBodyBytes))
                         {
                             return false;
                         }
                     }
                     else
                     {
-                        if (!BodyMatch.Match(isRequest ? oSession.GetRequestBodyAsString() : oSession.GetResponseBodyAsString()))
+                        if (!BodyMatch.Match(true ? oSession.GetRequestBodyAsString() : oSession.GetResponseBodyAsString()))
                         {
                             return false;
                         }

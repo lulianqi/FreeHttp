@@ -95,7 +95,10 @@ namespace FreeHttp
                                 {
                                     ShowError(string.Format("error in GetFinalContent in BodyModific that [{0}]", errMes));
                                 }
-                                oSession.utilSetRequestBody(tempRequestBody);
+                                if (tempRequestBody != sourceRequestBody)
+                                {
+                                    oSession.utilSetRequestBody(tempRequestBody);
+                                }
                             }
                         }
                     }
@@ -272,7 +275,10 @@ namespace FreeHttp
                                 {
                                     ShowError(string.Format("error in GetFinalContent in BodyModific that [{0}]", errMes));
                                 }
-                                oSession.utilSetResponseBody(tempResponseBody);
+                                if (tempResponseBody != sourceResponseBody)
+                                {
+                                    oSession.utilSetResponseBody(tempResponseBody);
+                                }
                             }
                         }
 
@@ -446,7 +452,10 @@ namespace FreeHttp
                             {
                                 ShowError(string.Format("error in GetFinalContent in PayLoadModific that [{0}]", errMes));
                             }
-                            webSocketMessage.SetPayload(tempPayload);
+                            if (tempPayload != sourcePayload) //非标准协议的实现，或没有实现的压缩会导致PayloadAsString()使数据不可逆
+                            {
+                                webSocketMessage.SetPayload(tempPayload);
+                            }
 
                             if (nameValueCollection != null && nameValueCollection.Count > 0)
                             {
