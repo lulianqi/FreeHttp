@@ -147,7 +147,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 MessageBox.Show("RawResponseEdit SetContextMenuStrip fail");
             }
-            
+            FreeHttpWindow_Load(null, null);
         }
         
 
@@ -238,12 +238,17 @@ namespace FreeHttp.FreeHttpControl
         /// </summary>
         public TamperProtocalType NowProtocalMode { get; private set; } = TamperProtocalType.Http;
 
-        FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
-        bool isSetResponseLatencyEable;
+        private FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
+        private bool isSetResponseLatencyEable;
+        private bool isLoadFreeHttpWindowUserControl = false;
 
-
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         private void FreeHttpWindow_Load(object sender, EventArgs e)
         {
+            if(isLoadFreeHttpWindowUserControl)
+            {
+                return;
+            }
             try
             {
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
@@ -314,6 +319,8 @@ namespace FreeHttp.FreeHttpControl
             MyControlHelper.SetRichTextBoxDropString(tb_requestModific_uriModificKey, dropAction);
             MyControlHelper.SetRichTextBoxDropString(tb_requestModific_uriModificValue, dropAction);
             MyControlHelper.SetRichTextBoxDropString(tb_responseModific_body, dropAction);
+
+            isLoadFreeHttpWindowUserControl = true;
         }
 
         #region Public Event
