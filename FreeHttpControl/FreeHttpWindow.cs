@@ -87,13 +87,23 @@ namespace FreeHttp.FreeHttpControl
 
         public delegate void GetSessionRawDataEventHandler(object sender, GetSessionRawDataEventArgs e);
 
+        PictureBox ShowRuleInfo_pb = new PictureBox() { Cursor = Cursors.Hand , SizeMode = PictureBoxSizeMode.StretchImage };
 
         public FreeHttpWindow()
         {
             InitializeComponent();
+            MyInitializeComponent();
             //this.DoubleBuffered = true;
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
+        }
+
+        private void MyInitializeComponent()
+        {
+            ShowRuleInfo_pb.Image = Resources.MyResource.show;
+            ShowRuleInfo_pb.MouseLeave += pictureBox_MouseLeave;
+            ShowRuleInfo_pb.MouseMove += pictureBox_MouseMove;
+            ShowRuleInfo_pb.Click += ShowRuleInfo_pb_Click;
         }
 
         /// <summary>
@@ -1151,6 +1161,46 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        
+        private void lv_requestRuleList_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
+        {
+            ShowRuleInfo_pb.Tag = e.Item;
+            lv_requestRuleList.Controls.Add(ShowRuleInfo_pb);
+            ShowRuleInfo_pb.Visible = true;
+            ListViewItem nowListViewItem = e.Item;
+            Rectangle r = nowListViewItem.Bounds;
+            ShowRuleInfo_pb.Size = new Size((int)((r.Height-4)*1.5), r.Height-4);
+            ShowRuleInfo_pb.Location =new Point( nowListViewItem.Position.X+r.Width - ShowRuleInfo_pb.Width-30, nowListViewItem.Position.Y+2);
+        }
+
+        private void ShowRuleInfo_pb_Click(object sender, EventArgs e)
+        {
+            ListViewItem nowListViewItem = ShowRuleInfo_pb.Tag as ListViewItem;
+            if(nowListViewItem==null)
+            {
+                return;
+            }
+            Point myPosition = new Point(nowListViewItem.Bounds.X, nowListViewItem.Bounds.Y );
+            myPosition = lv_requestRuleList.PointToScreen(myPosition);
+            myPosition = this.ParentForm.PointToClient(myPosition);
+            myPosition.Offset(40, 10);
+            RuleInfoWindow myListViewCBallon = new RuleInfoWindow(nowListViewItem);
+            myListViewCBallon.Owner = this.ParentForm;
+            myListViewCBallon.HasShadow = true;
+            myListViewCBallon.setBalloonPosition(this.ParentForm, myPosition, new Size(1, 1));
+            myListViewCBallon.Show();
+        }
+
+        private void lv_requestRuleList_MouseLeave(object sender, EventArgs e)
+        {
+            Point tempPosition = Control.MousePosition;
+            tempPosition = lv_requestRuleList.PointToClient(tempPosition);
+            if (lv_requestRuleList.GetItemAt(tempPosition.X, tempPosition.Y) == null)
+            {
+                ShowRuleInfo_pb.Visible = false;
+            }
+        }
+
         private void lv_RuleList_DoubleClick(object sender, EventArgs e)
         {
             //Point p = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)); 
@@ -1439,6 +1489,7 @@ namespace FreeHttp.FreeHttpControl
                 this.toolTip_forMainWindow.SetToolTip(this.pb_requestReplace_changeMode, "change request replace mode to raw mode");
             }
         }
+
 
 
 

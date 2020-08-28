@@ -115,11 +115,20 @@
     <Compile Include="FreeHttpControl\EditSheetForm.Designer.cs">
       <DependentUpon>EditSheetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\RuleInfoWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\RuleInfoWindow.designer.cs">
+      <DependentUpon>RuleInfoWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\MyControl\AddParameterPickBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FreeHttpControl\MyControl\AddParameterPickBox.Designer.cs">
       <DependentUpon>AddParameterPickBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\MyControl\CBalloonBase.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="FreeHttpControl\MyControl\EditListView.cs">
       <SubType>UserControl</SubType>
@@ -294,9 +303,13 @@
     <EmbeddedResource Include="FreeHttpControl\EditSheetForm.resx">
       <DependentUpon>EditSheetForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\RuleInfoWindow.resx">
+      <DependentUpon>RuleInfoWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\MyControl\AddParameterPickBox.resx">
       <DependentUpon>AddParameterPickBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\MyControl\CBalloonBase.resx" />
     <EmbeddedResource Include="FreeHttpControl\MyControl\EditListView.resx">
       <DependentUpon>EditListView.cs</DependentUpon>
     </EmbeddedResource>
@@ -436,6 +449,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\goto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\show.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
