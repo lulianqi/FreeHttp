@@ -79,6 +79,18 @@ namespace FreeHttp.FreeHttpControl
             {
                 throw new Exception("ListView is Illegal");
             }
+
+            //Refresh RuleInfoWindow
+            //if (nowRuleInfoWindowList!=null && nowRuleInfoWindowList.Count>0)
+            //{
+            //    foreach(var infoWindow in nowRuleInfoWindowList)
+            //    {
+            //        if(!infoWindow.IsDisposed)
+            //        {
+            //            infoWindow.RefreshRuleInfo();
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -1042,6 +1054,7 @@ namespace FreeHttp.FreeHttpControl
 
         public void PutInfo(string info)
         {
+            rtb_MesInfo.Select(rtb_MesInfo.TextLength, 0);
             rtb_MesInfo.SelectionColor = Color.Black;
             rtb_MesInfo.AppendText(string.Format("【{0}】:{1}", DateTime.Now.ToString(), info));
             rtb_MesInfo.AppendText("\r\n");
@@ -1050,6 +1063,7 @@ namespace FreeHttp.FreeHttpControl
 
         public void PutWarn(string info)
         {
+            rtb_MesInfo.Select(rtb_MesInfo.TextLength, 0);
             rtb_MesInfo.SelectionColor = Color.Indigo;
             rtb_MesInfo.AppendText(string.Format("【{0}】:{1}", DateTime.Now.ToString(), info));
             rtb_MesInfo.AppendText("\r\n");
@@ -1058,6 +1072,7 @@ namespace FreeHttp.FreeHttpControl
 
         public void PutError(string info)
         {
+            rtb_MesInfo.Select(rtb_MesInfo.TextLength, 0);
             rtb_MesInfo.SelectionColor = Color.Red;
             rtb_MesInfo.AppendText(string.Format("【{0}】:{1}", DateTime.Now.ToString(), info));
             rtb_MesInfo.AppendText("\r\n");

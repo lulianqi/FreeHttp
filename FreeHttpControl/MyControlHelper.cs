@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -32,6 +33,11 @@ namespace FreeHttp.FreeHttpControl
             yourCtr.Refresh();
         }
 
+        /// <summary>
+        /// 为TextBoxBase 控件添加拖放数据的功能
+        /// </summary>
+        /// <param name="yourCtr">需要启用拖放数据的控件</param>
+        /// <param name="action">拖放完成后的辅助事件</param>
         public static void SetRichTextBoxDropString(System.Windows.Forms.TextBoxBase yourCtr, Action action = null)
         {
             if (yourCtr == null)
@@ -149,5 +155,42 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
+        /// <summary>
+        /// 添加带颜色内容
+        /// </summary>
+        /// <param name="rtb">目标richtextbox</param>
+        /// <param name="strInput">输入内容</param>
+        /// <param name="fontColor">颜色</param>
+        /// <param name="isNewLine">是否换行</param>
+        public static void AddRtbStr(this RichTextBox rtb, string strInput, Color fontColor, bool isNewLine , Font font = null)
+        {
+            lock (rtb)
+            {
+                int p1 = rtb.TextLength;
+                //rtb.SelectionColor = fontColor;
+                if (isNewLine)
+                {
+                    rtb.AppendText(strInput + "\n");  //保留每行的所有颜色。 //  rtb.Text += strInput + "/n";  //添加时，仅当前行有颜色。    
+                }
+                else
+                {
+                    rtb.AppendText(strInput);
+                }
+                int p2 = strInput.Length;
+                rtb.Select(p1, p2);
+                rtb.SelectionColor = fontColor;
+                //rtb.SelectionFont = new Font(FontFamily.GenericMonospace, 14);
+                if(font!=null)
+                {
+                    rtb.SelectionFont = font;
+                }
+                rtb.Select(rtb.TextLength, 0);
+                rtb.SelectionColor = rtb.ForeColor;
+                if (font != null)
+                {
+                    rtb.SelectionFont = rtb.Font;
+                }
+            }
+        }
     }
 }

@@ -514,6 +514,26 @@ namespace CBalloon
             onForm.Move += m_evhMove;
         }
 
+
+        /// <summary>
+        /// UpdateBalloonPosition (add by lulianqi not change position with setBalloonPosition it will add EventHandler)
+        /// </summary>
+        /// <param name="atPoint">Point</param>
+        public void UpdateBalloonPosition(Point atPoint)
+        {
+            // calculate absolute position of the point
+            m_rtAnchor = new Rectangle(atPoint, new Size(0, 0));
+            Point ptScreen = m_fmParent.PointToScreen(m_rtAnchor.Location);
+
+            // see if we can anchor below the control 
+            if (bCalcTailPos(ptScreen, true) == false)
+            {
+                // unable to anchor below, so anchor above
+                ptScreen = m_fmParent.PointToScreen(ptScreen);
+                bCalcTailPos(ptScreen, false);
+            }
+        }
+
         public void Parent_Move(object sender, System.EventArgs e)
         {
             if ((sender is Form) == false) { return; }

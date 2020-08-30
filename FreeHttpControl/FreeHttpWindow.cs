@@ -87,7 +87,12 @@ namespace FreeHttp.FreeHttpControl
 
         public delegate void GetSessionRawDataEventHandler(object sender, GetSessionRawDataEventArgs e);
 
-        PictureBox ShowRuleInfo_pb = new PictureBox() { Cursor = Cursors.Hand , SizeMode = PictureBoxSizeMode.StretchImage };
+        private FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
+        private bool isSetResponseLatencyEable;
+        private bool isLoadFreeHttpWindowUserControl = false;
+
+        private PictureBox ShowRuleInfo_pb = new PictureBox() { Cursor = Cursors.Hand , SizeMode = PictureBoxSizeMode.StretchImage };
+        private List<RuleInfoWindow> nowRuleInfoWindowList = new List<RuleInfoWindow>();
 
         public FreeHttpWindow()
         {
@@ -237,10 +242,6 @@ namespace FreeHttp.FreeHttpControl
         /// Get now protocol mode
         /// </summary>
         public TamperProtocalType NowProtocalMode { get; private set; } = TamperProtocalType.Http;
-
-        private FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
-        private bool isSetResponseLatencyEable;
-        private bool isLoadFreeHttpWindowUserControl = false;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         private void FreeHttpWindow_Load(object sender, EventArgs e)
@@ -739,7 +740,7 @@ namespace FreeHttp.FreeHttpControl
             }
 
             ListViewItem nowRuleItem = null;
-            if(NowEditMode== RuleEditMode.NewRuleMode)
+            if(NowEditMode == RuleEditMode.NewRuleMode) //编辑模式不检查重复Filter，如果需要检查去掉if直接执行{}内逻辑
             {
                 foreach (ListViewItem tempItem in tamperRuleListView.Items)
                 {
@@ -1180,6 +1181,7 @@ namespace FreeHttp.FreeHttpControl
             ShowRuleInfo_pb.Location =new Point( nowListViewItem.Position.X+r.Width - ShowRuleInfo_pb.Width-30, nowListViewItem.Position.Y+2);
         }
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         private void ShowRuleInfo_pb_Click(object sender, EventArgs e)
         {
             ListViewItem nowListViewItem = ShowRuleInfo_pb.Tag as ListViewItem;
@@ -1196,6 +1198,20 @@ namespace FreeHttp.FreeHttpControl
             myListViewCBallon.HasShadow = true;
             myListViewCBallon.setBalloonPosition(this.ParentForm, myPosition, new Size(1, 1));
             myListViewCBallon.Show();
+
+            nowRuleInfoWindowList.Add(myListViewCBallon);
+            for(int i = nowRuleInfoWindowList.Count -1 ;i>=0; i--)
+            {
+                if(nowRuleInfoWindowList[i].IsDisposed)
+                {
+                    nowRuleInfoWindowList.RemoveAt(i);
+                }
+            }
+            if (nowRuleInfoWindowList.Count>4)
+            {
+                nowRuleInfoWindowList[0].Close();
+                nowRuleInfoWindowList.RemoveAt(0);
+            }
         }
 
         private void lv_requestRuleList_MouseLeave(object sender, EventArgs e)
