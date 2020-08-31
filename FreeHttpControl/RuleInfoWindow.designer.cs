@@ -33,7 +33,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lb_ruleId = new System.Windows.Forms.Label();
             this.pb_ruleIcon = new System.Windows.Forms.PictureBox();
-            this.rtb_filter = new System.Windows.Forms.RichTextBox();
+            this.rtb_ruleInfo = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_close)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ruleIcon)).BeginInit();
@@ -86,21 +86,22 @@
             this.pb_ruleIcon.TabIndex = 9;
             this.pb_ruleIcon.TabStop = false;
             // 
-            // rtb_filter
+            // rtb_ruleInfo
             // 
-            this.rtb_filter.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtb_filter.DetectUrls = false;
-            this.rtb_filter.Location = new System.Drawing.Point(35, 59);
-            this.rtb_filter.Name = "rtb_filter";
-            this.rtb_filter.ReadOnly = true;
-            this.rtb_filter.Size = new System.Drawing.Size(858, 242);
-            this.rtb_filter.TabIndex = 0;
-            this.rtb_filter.Text = "";
+            this.rtb_ruleInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtb_ruleInfo.DetectUrls = false;
+            this.rtb_ruleInfo.Location = new System.Drawing.Point(35, 59);
+            this.rtb_ruleInfo.Name = "rtb_ruleInfo";
+            this.rtb_ruleInfo.ReadOnly = true;
+            this.rtb_ruleInfo.Size = new System.Drawing.Size(858, 242);
+            this.rtb_ruleInfo.TabIndex = 0;
+            this.rtb_ruleInfo.Text = "";
+            this.rtb_ruleInfo.ContentsResized += new System.Windows.Forms.ContentsResizedEventHandler(this.rtb_ruleInfo_ContentsResized);
             // 
             // RuleInfoWindow
             // 
             this.ClientSize = new System.Drawing.Size(929, 337);
-            this.Controls.Add(this.rtb_filter);
+            this.Controls.Add(this.rtb_ruleInfo);
             this.Controls.Add(this.pb_ruleIcon);
             this.Controls.Add(this.lb_ruleId);
             this.Controls.Add(this.pictureBox1);
@@ -123,6 +124,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lb_ruleId;
         private System.Windows.Forms.PictureBox pb_ruleIcon;
-        private System.Windows.Forms.RichTextBox rtb_filter;
+        private System.Windows.Forms.RichTextBox rtb_ruleInfo;
     }
 }
