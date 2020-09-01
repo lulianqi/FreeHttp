@@ -329,6 +329,14 @@ namespace CBalloon
             m_rInnerFrame.Exclude(iPath);
             #endregion
 
+
+            //add by lulianqi resize the m_fmShadow size when the main window size change
+            if (m_fmShadow != null)
+            {
+                m_fmShadow.Width = this.Width;
+                m_fmShadow.Height = this.Height;
+            }
+
             // force a complete redraw
             this.Invalidate();
         }

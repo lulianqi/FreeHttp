@@ -81,16 +81,16 @@ namespace FreeHttp.FreeHttpControl
             }
 
             //Refresh RuleInfoWindow
-            //if (nowRuleInfoWindowList!=null && nowRuleInfoWindowList.Count>0)
-            //{
-            //    foreach(var infoWindow in nowRuleInfoWindowList)
-            //    {
-            //        if(!infoWindow.IsDisposed)
-            //        {
-            //            infoWindow.RefreshRuleInfo();
-            //        }
-            //    }
-            //}
+            if (nowRuleInfoWindowList != null && nowRuleInfoWindowList.Count > 0)
+            {
+                foreach (var infoWindow in nowRuleInfoWindowList)
+                {
+                    if (!infoWindow.IsDisposed)
+                    {
+                        infoWindow.RefreshRuleInfo();
+                    }
+                }
+            }
         }
 
         /// <summary>

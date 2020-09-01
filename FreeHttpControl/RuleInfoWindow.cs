@@ -33,18 +33,11 @@ namespace FreeHttp.FreeHttpControl
         ListViewItem myListViewItem;
         Timer timer;
         Rectangle lastListViewItemRectangle;
+        bool isLoadRuleComplete = false;
         Point nowLocation = Point.Empty;
 
 
-        private void analyzeCaseData()
-        {
-            //System.Drawing.Image myBit = Image.FromFile(@"D:/123.png", false);
-            //Bitmap myBit = Resources.MyResource.show;
-            //Graphics GraphicsMyg = rtb_Content.CreateGraphics();
-            //GraphicsMyg.DrawImage(myBit,0, 0, myBit.Width/10, myBit.Height/10);
-            //GraphicsMyg.ResetTransform();
-        }
-
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         private void LoadRuleInfo(IFiddlerHttpTamper ruleInfo )
         {
             Action<FiddlerRequestChange> GetFiddlerRequestChangeAddition = (nowFiddlerRequestChange) =>
@@ -98,7 +91,11 @@ namespace FreeHttp.FreeHttpControl
                 }
             };
 
+            isLoadRuleComplete = false;
+            MyControlHelper.SetControlFreeze(rtb_ruleInfo);
+            MyControlHelper.SetControlFreeze(this);
             pb_ruleIcon.Image = myListViewItem.ImageList.Images[myListViewItem.ImageIndex];
+            rtb_ruleInfo.Clear();
             rtb_ruleInfo.AddRtbStr("Filter ", Color.Red, true, new Font(FontFamily.GenericMonospace, 14));
             if (ruleInfo.HttpFilter.UriMatch!=null)
             {
@@ -248,11 +245,18 @@ namespace FreeHttp.FreeHttpControl
             {
                 lb_ruleId.Text += string.Format(" ({0})", ruleInfo.HttpFilter.Name);
             }
-                  
+            isLoadRuleComplete = true;
+            MyControlHelper.SetControlUnfreeze(rtb_ruleInfo);
+            MyControlHelper.SetControlUnfreeze(this);
+            if (rtb_ruleInfo.Rtf.EndsWith("\r\n"))
+            {
+                rtb_ruleInfo.Rtf = rtb_ruleInfo.Rtf.Remove(rtb_ruleInfo.Rtf.Length - 2, 2);
+            }
         }
 
         private void MyCBalloon_Load(object sender, EventArgs e)
         {
+            isLoadRuleComplete = false;
             if (myListViewItem != null && myListViewItem.Tag is IFiddlerHttpTamper)
             {
                 IFiddlerHttpTamper nowRule = myListViewItem.Tag as IFiddlerHttpTamper;
@@ -292,9 +296,19 @@ namespace FreeHttp.FreeHttpControl
             this.Close();
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            RefreshRuleInfo();
+        }
+
         public void RefreshRuleInfo()
         {
-            if (myListViewItem != null && myListViewItem.Tag is IFiddlerHttpTamper)
+            if (myListViewItem == null || myListViewItem.ListView == null)
+            {
+                Close();
+                return;
+            }
+            if (myListViewItem.Tag !=null && myListViewItem.Tag is IFiddlerHttpTamper)
             {
                 IFiddlerHttpTamper nowRule = myListViewItem.Tag as IFiddlerHttpTamper;
                 LoadRuleInfo(nowRule);
@@ -323,7 +337,13 @@ namespace FreeHttp.FreeHttpControl
                 nHeight = lineheight;
             else
                 nHeight = e.NewRectangle.Height + lineheight;
-            richTextBox.Height = nHeight;
+
+            richTextBox.Height = nHeight > System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2 ? System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2 : nHeight;
+
+            this.Height = richTextBox.Height + 95;
+            this.reSizeMe();
         }
+
+       
     }
 }

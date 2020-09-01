@@ -1328,7 +1328,8 @@ namespace FreeHttp.FreeHttpControl
                     DelRuleFromListView(nowRuleListView, tempItem);
                     //nowRuleListView.Items.Remove(tempItem);
                 }
-                AdjustRuleListViewIndex(nowRuleListView);
+                //删除不用调整rule id 没有重复的风险
+                //AdjustRuleListViewIndex(nowRuleListView);
             }
             else
             {
