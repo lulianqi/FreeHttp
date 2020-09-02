@@ -674,6 +674,11 @@ namespace CBalloon
             {
                 m_fmShadow.Show();
             }
+            //add by lulianqi when hide the base window the m_fmShadow is not hide
+            else if ((this.Visible == false) && (m_fmShadow != null))
+            {
+                m_fmShadow.Visible = false;
+            }
         }
 
         private void CBalloonBase_Closing(object sender, System.ComponentModel.CancelEventArgs e)

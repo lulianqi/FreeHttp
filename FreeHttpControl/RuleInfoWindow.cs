@@ -17,20 +17,13 @@ namespace FreeHttp.FreeHttpControl
         {
             InitializeComponent();
             //this.Width= System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width/2;
-            myListViewItem = yourListViewItem;
+            InnerListViewItem = yourListViewItem;
             timer = new Timer();
             timer.Interval = 200;
             timer.Tick += Timer_Tick;
         }
 
-        
-
-        //RichTextBox rtb_errorList = new RichTextBox();
-        //rtb_errorList.AppendText("test");
-        //rtb_errorList.Dock = DockStyle.Fill;
-        //this.Controls.Add(rtb_errorList);
-
-        ListViewItem myListViewItem;
+        public ListViewItem InnerListViewItem { get; private set; }
         Timer timer;
         Rectangle lastListViewItemRectangle;
         bool isLoadRuleComplete = false;
@@ -94,7 +87,7 @@ namespace FreeHttp.FreeHttpControl
             isLoadRuleComplete = false;
             MyControlHelper.SetControlFreeze(rtb_ruleInfo);
             MyControlHelper.SetControlFreeze(this);
-            pb_ruleIcon.Image = myListViewItem.ImageList.Images[myListViewItem.ImageIndex];
+            pb_ruleIcon.Image = InnerListViewItem.ImageList.Images[InnerListViewItem.ImageIndex];
             rtb_ruleInfo.Clear();
             rtb_ruleInfo.AddRtbStr("Filter ", Color.Red, true, new Font(FontFamily.GenericMonospace, 14));
             if (ruleInfo.HttpFilter.UriMatch!=null)
@@ -125,7 +118,7 @@ namespace FreeHttp.FreeHttpControl
                 case TamperProtocalType.Http:
                     if(ruleInfo is FiddlerRequestChange)
                     {
-                        lb_ruleId.Text = string.Format("Http Request Tamper Rule {0}", myListViewItem.SubItems[0].Text);
+                        lb_ruleId.Text = string.Format("Http Request Tamper Rule {0}", InnerListViewItem.SubItems[0].Text);
 
                         FiddlerRequestChange nowFiddlerRequestChange = ruleInfo as FiddlerRequestChange;
                         if (nowFiddlerRequestChange.IsRawReplace)
@@ -170,7 +163,7 @@ namespace FreeHttp.FreeHttpControl
                     }
                     else if(ruleInfo is FiddlerResponseChange)
                     {
-                        lb_ruleId.Text = string.Format("Http Response Tamper Rule {0}", myListViewItem.SubItems[0].Text);
+                        lb_ruleId.Text = string.Format("Http Response Tamper Rule {0}", InnerListViewItem.SubItems[0].Text);
 
                         FiddlerResponseChange nowFiddlerResponseChange = ruleInfo as FiddlerResponseChange;
                         if (nowFiddlerResponseChange.IsRawReplace)
@@ -212,7 +205,7 @@ namespace FreeHttp.FreeHttpControl
                 case TamperProtocalType.WebSocket:
                     if (ruleInfo is FiddlerRequestChange)
                     {
-                        lb_ruleId.Text = string.Format("Websocket Send Tamper Rule {0}", myListViewItem.SubItems[0].Text);
+                        lb_ruleId.Text = string.Format("Websocket Send Tamper Rule {0}", InnerListViewItem.SubItems[0].Text);
 
                         FiddlerRequestChange nowFiddlerWebSocketRequestChange = ruleInfo as FiddlerRequestChange;
                         if (nowFiddlerWebSocketRequestChange.BodyModific != null && nowFiddlerWebSocketRequestChange.BodyModific.ModificMode != HttpHelper.ContentModificMode.NoChange)
@@ -225,7 +218,7 @@ namespace FreeHttp.FreeHttpControl
                     }
                     else if (ruleInfo is FiddlerResponseChange)
                     {
-                        lb_ruleId.Text = string.Format("Websocket Receive Tamper Rule {0}", myListViewItem.SubItems[0].Text);
+                        lb_ruleId.Text = string.Format("Websocket Receive Tamper Rule {0}", InnerListViewItem.SubItems[0].Text);
 
                         FiddlerResponseChange nowFiddlerWebSocketResponseChange = ruleInfo as FiddlerResponseChange;
                         if (nowFiddlerWebSocketResponseChange.BodyModific != null && nowFiddlerWebSocketResponseChange.BodyModific.ModificMode != HttpHelper.ContentModificMode.NoChange)
@@ -257,12 +250,12 @@ namespace FreeHttp.FreeHttpControl
         private void MyCBalloon_Load(object sender, EventArgs e)
         {
             isLoadRuleComplete = false;
-            if (myListViewItem != null && myListViewItem.Tag is IFiddlerHttpTamper)
+            if (InnerListViewItem != null && InnerListViewItem.Tag is IFiddlerHttpTamper)
             {
-                IFiddlerHttpTamper nowRule = myListViewItem.Tag as IFiddlerHttpTamper;
+                IFiddlerHttpTamper nowRule = InnerListViewItem.Tag as IFiddlerHttpTamper;
                 LoadRuleInfo(nowRule );
                 
-                lastListViewItemRectangle = myListViewItem.Bounds;
+                lastListViewItemRectangle = InnerListViewItem.Bounds;
                 timer.Start();
             }
             else
@@ -273,17 +266,17 @@ namespace FreeHttp.FreeHttpControl
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if(myListViewItem==null || myListViewItem.ListView==null)
+            if(InnerListViewItem==null || InnerListViewItem.ListView==null)
             {
                 Close();
                 return;
             }
-            if(lastListViewItemRectangle != myListViewItem.Bounds)
+            if(lastListViewItemRectangle != InnerListViewItem.Bounds)
             {
-                lastListViewItemRectangle = myListViewItem.Bounds;
+                lastListViewItemRectangle = InnerListViewItem.Bounds;
                 Form mainForm = this.Owner.Owner;
-                Point myPosition = new Point(myListViewItem.Bounds.X, myListViewItem.Bounds.Y);
-                myPosition = myListViewItem.ListView.PointToScreen(myPosition);
+                Point myPosition = new Point(InnerListViewItem.Bounds.X, InnerListViewItem.Bounds.Y);
+                myPosition = InnerListViewItem.ListView.PointToScreen(myPosition);
                 myPosition = mainForm.PointToClient(myPosition);
                 myPosition.Offset(40, 10);
                 this.UpdateBalloonPosition(myPosition);
@@ -303,14 +296,14 @@ namespace FreeHttp.FreeHttpControl
 
         public void RefreshRuleInfo()
         {
-            if (myListViewItem == null || myListViewItem.ListView == null)
+            if (InnerListViewItem == null || InnerListViewItem.ListView == null)
             {
                 Close();
                 return;
             }
-            if (myListViewItem.Tag !=null && myListViewItem.Tag is IFiddlerHttpTamper)
+            if (InnerListViewItem.Tag !=null && InnerListViewItem.Tag is IFiddlerHttpTamper)
             {
-                IFiddlerHttpTamper nowRule = myListViewItem.Tag as IFiddlerHttpTamper;
+                IFiddlerHttpTamper nowRule = InnerListViewItem.Tag as IFiddlerHttpTamper;
                 LoadRuleInfo(nowRule);
             }
         }
@@ -321,7 +314,7 @@ namespace FreeHttp.FreeHttpControl
                 timer.Stop();
                 timer.Dispose();
             }
-            myListViewItem = null;
+            InnerListViewItem = null;
             base.Close();
 
 

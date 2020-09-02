@@ -324,6 +324,39 @@ namespace FreeHttp.FreeHttpControl
             isLoadFreeHttpWindowUserControl = true;
         }
 
+        internal void FreeHttpWindowSelectedChanged(bool isInFreeHttpWindowSelected)
+        {
+            if(nowRuleInfoWindowList==null || nowRuleInfoWindowList.Count==0)
+            {
+                return;
+            }
+            for (int i = nowRuleInfoWindowList.Count - 1; i >= 0; i--)
+            {
+                if (nowRuleInfoWindowList[i].IsDisposed)
+                {
+                    nowRuleInfoWindowList.RemoveAt(i);
+                    continue;
+                }
+                nowRuleInfoWindowList[i].Visible = isInFreeHttpWindowSelected;
+            }
+        }
+
+        internal void FreeHttpWindowParentChanged(object sender)
+        {
+            if (nowRuleInfoWindowList == null || nowRuleInfoWindowList.Count == 0)
+            {
+                return;
+            }
+            for (int i = nowRuleInfoWindowList.Count - 1; i >= 0; i--)
+            {
+                if (!nowRuleInfoWindowList[i].IsDisposed)
+                {
+                    nowRuleInfoWindowList[i].Close();
+                }
+            }
+            nowRuleInfoWindowList.Clear();
+        }
+
         #region Public Event
         private void tabControl_Modific_Selecting(object sender, TabControlCancelEventArgs e)
         {
@@ -813,6 +846,9 @@ namespace FreeHttp.FreeHttpControl
 
         private void pb_ruleCancel_Click(object sender, EventArgs e)
         {
+            Form newForm = new Form();
+            newForm.Controls.Add(this);
+            newForm.Show();
             //ClearModificInfo();
             PutWarn("Clear the Modific Info");
             ChangeNowRuleMode(RuleEditMode.NewRuleMode, NowProtocalMode, null, null);
@@ -1170,27 +1206,55 @@ namespace FreeHttp.FreeHttpControl
         }
 
         
-        private void lv_requestRuleList_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
+        private void lv_ruleList_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
         {
-            ShowRuleInfo_pb.Tag = e.Item;
-            lv_requestRuleList.Controls.Add(ShowRuleInfo_pb);
-            ShowRuleInfo_pb.Visible = true;
             ListViewItem nowListViewItem = e.Item;
+            ShowRuleInfo_pb.Tag = nowListViewItem;
+            nowListViewItem.ListView.Controls.Add(ShowRuleInfo_pb);
+            ShowRuleInfo_pb.Visible = true;
             Rectangle r = nowListViewItem.Bounds;
             ShowRuleInfo_pb.Size = new Size((int)((r.Height-4)*1.5), r.Height-4);
             ShowRuleInfo_pb.Location =new Point( nowListViewItem.Position.X+r.Width - ShowRuleInfo_pb.Width-30, nowListViewItem.Position.Y+2);
+        }
+
+        private void lv_ruleList_MouseLeave(object sender, EventArgs e)
+        {
+            ListView tempListView = sender as ListView;
+            if (tempListView == null) return;
+            Point tempPosition = Control.MousePosition;
+            tempPosition = tempListView.PointToClient(tempPosition);
+            if (tempListView.GetItemAt(tempPosition.X, tempPosition.Y) == null)
+            {
+                ShowRuleInfo_pb.Visible = false;
+            }
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         private void ShowRuleInfo_pb_Click(object sender, EventArgs e)
         {
             ListViewItem nowListViewItem = ShowRuleInfo_pb.Tag as ListViewItem;
-            if(nowListViewItem==null)
+            bool isExistedInfoWindow = false;
+            if (nowListViewItem==null) return;
+            for (int i = nowRuleInfoWindowList.Count - 1; i >= 0; i--)
+            {
+                if (nowRuleInfoWindowList[i].IsDisposed)
+                {
+                    nowRuleInfoWindowList.RemoveAt(i);
+                    continue;
+                }
+                if(!isExistedInfoWindow && nowRuleInfoWindowList[i].InnerListViewItem == nowListViewItem)
+                {
+                    nowRuleInfoWindowList[i].Activate();
+                    isExistedInfoWindow = true;
+                }
+            }
+            if(isExistedInfoWindow)
             {
                 return;
             }
+
             Point myPosition = new Point(nowListViewItem.Bounds.X, nowListViewItem.Bounds.Y );
-            myPosition = lv_requestRuleList.PointToScreen(myPosition);
+            myPosition = nowListViewItem.ListView.PointToScreen(myPosition);
             myPosition = this.ParentForm.PointToClient(myPosition);
             myPosition.Offset(40, 10);
             RuleInfoWindow myListViewCBallon = new RuleInfoWindow(nowListViewItem);
@@ -1200,27 +1264,10 @@ namespace FreeHttp.FreeHttpControl
             myListViewCBallon.Show();
 
             nowRuleInfoWindowList.Add(myListViewCBallon);
-            for(int i = nowRuleInfoWindowList.Count -1 ;i>=0; i--)
-            {
-                if(nowRuleInfoWindowList[i].IsDisposed)
-                {
-                    nowRuleInfoWindowList.RemoveAt(i);
-                }
-            }
             if (nowRuleInfoWindowList.Count>4)
             {
                 nowRuleInfoWindowList[0].Close();
                 nowRuleInfoWindowList.RemoveAt(0);
-            }
-        }
-
-        private void lv_requestRuleList_MouseLeave(object sender, EventArgs e)
-        {
-            Point tempPosition = Control.MousePosition;
-            tempPosition = lv_requestRuleList.PointToClient(tempPosition);
-            if (lv_requestRuleList.GetItemAt(tempPosition.X, tempPosition.Y) == null)
-            {
-                ShowRuleInfo_pb.Visible = false;
             }
         }
 

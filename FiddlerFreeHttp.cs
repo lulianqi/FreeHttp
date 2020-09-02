@@ -193,6 +193,7 @@ namespace FreeHttp
                 Fiddler.FiddlerApplication.UI.Deactivate += UI_Deactivate;
                 FiddlerApplication.UI.tabsViews.SelectedIndexChanged += tabsViews_SelectedIndexChanged;
                 FiddlerApplication.OnWebSocketMessage += FiddlerApplication_OnWebSocketMessage;
+                FiddlerApplication.UI.tabsViews.ParentChanged += TabsViews_ParentChanged;
 
                 upgradeService = new UpgradeService();
                 upgradeService.GetUpgradeMes += upgradeService_GetUpgradeMes;
@@ -201,6 +202,10 @@ namespace FreeHttp
             }
         }
 
+        private void TabsViews_ParentChanged(object sender, EventArgs e)
+        {
+            myFreeHttpWindow.FreeHttpWindowParentChanged(sender);
+        }
 
         void tabsViews_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -216,11 +221,13 @@ namespace FreeHttp
             {
                 isInFreeHttpTab = true;
                 operationReportService.InOperation(DateTime.Now);
+                myFreeHttpWindow.FreeHttpWindowSelectedChanged(true);
             }
             else if (isInFreeHttpTab)
             {
                 isInFreeHttpTab = false;
                 operationReportService.OutOperation(DateTime.Now, myFreeHttpWindow.RequestRuleListView.Items.Count, myFreeHttpWindow.ResponseRuleListView.Items.Count);
+                myFreeHttpWindow.FreeHttpWindowSelectedChanged(false);
             }
         }
 
