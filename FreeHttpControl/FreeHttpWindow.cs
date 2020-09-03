@@ -171,9 +171,14 @@ namespace FreeHttp.FreeHttpControl
         public event EventHandler<GetSessionSeekHeadEventArgs> OnGetSessionSeekHead;
 
         /// <summary>
-        /// get select session info
+        /// get select session info show in 
         /// </summary>
         public event EventHandler<GetSessionEventArgs> OnGetSessionEventArgs;
+
+        /// <summary>
+        /// when the freehttp want show independent 
+        /// </summary>
+        public event EventHandler<bool> OnShowInIndependentWindow;
 
         //public 
 
@@ -846,10 +851,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void pb_ruleCancel_Click(object sender, EventArgs e)
         {
-            Form newForm = new Form();
-            newForm.Controls.Add(this);
-            newForm.Show();
-            //ClearModificInfo();
+            this.OnShowInIndependentWindow(this, true);
             PutWarn("Clear the Modific Info");
             ChangeNowRuleMode(RuleEditMode.NewRuleMode, NowProtocalMode, null, null);
         }

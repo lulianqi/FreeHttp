@@ -186,6 +186,7 @@ namespace FreeHttp
                 myFreeHttpWindow.OnGetSessionRawData += myFreeHttpWindow_OnGetSessionRawData;
                 myFreeHttpWindow.OnGetSessionEventArgs += MyFreeHttpWindow_OnGetSessionEventArgs;
                 myFreeHttpWindow.OnGetSessionSeekHead += myFreeHttpWindow_OnGetSessionSeekHead;
+                myFreeHttpWindow.OnShowInIndependentWindow += MyFreeHttpWindow_OnShowInIndependentWindow;
                 myFreeHttpWindow.Dock = DockStyle.Fill;
                 myFreeHttpWindow.Enter += myFreeHttpWindow_Enter;
                 tabPage.Controls.Add(myFreeHttpWindow);
@@ -202,6 +203,7 @@ namespace FreeHttp
             }
         }
 
+       
         private void TabsViews_ParentChanged(object sender, EventArgs e)
         {
             myFreeHttpWindow.FreeHttpWindowParentChanged(sender);
@@ -341,6 +343,51 @@ namespace FreeHttp
                 }
             }
         }
+
+        private void MyFreeHttpWindow_OnShowInIndependentWindow(object sender, bool e)
+        {
+            myFreeHttpWindow.FreeHttpWindowParentChanged(sender);
+            Form newForm = new Form();
+            newForm.Size = tabPage.Size;
+            newForm.FormClosing += new FormClosingEventHandler((yourSender, yourE) => {
+                myFreeHttpWindow.FreeHttpWindowParentChanged(sender);
+                MyControlHelper.SetControlFreeze(tabPage);
+                tabPage.Controls.Clear();
+                tabPage.Controls.Add(myFreeHttpWindow);
+                MyControlHelper.SetControlUnfreeze(tabPage);
+            });
+            MyControlHelper.SetControlFreeze(newForm);
+            Label lb_info = new Label();
+            lb_info.Text = "closing...";
+            lb_info.ForeColor = Color.Blue;
+            lb_info.Location = new Point((newForm.Width - lb_info.Width) / 2, (newForm.Height - lb_info.Height) / 2);
+            lb_info.Anchor = AnchorStyles.None;
+            newForm.Controls.Add(lb_info);
+            newForm.Controls.Add(myFreeHttpWindow);
+            lb_info.SendToBack();
+            MyControlHelper.SetControlUnfreeze(newForm);
+            newForm.Show();
+
+            LinkLabel llb_info = new LinkLabel();
+            llb_info.Text = "FreeHttp is in independent mode";
+            llb_info.ForeColor = Color.Blue;
+            llb_info.AutoSize = true;
+            llb_info.Location = new Point((tabPage.Width - llb_info.Width) / 2, (tabPage.Height - llb_info.Height) / 2);
+            llb_info.Anchor = AnchorStyles.None;
+            llb_info.LinkClicked += new LinkLabelLinkClickedEventHandler((yourSender, yourE) => { newForm.Activate(); });
+            tabPage.Controls.Add(llb_info);
+
+            LinkLabel llb_infoRecover = new LinkLabel();
+            llb_infoRecover.AutoSize = true;
+            llb_infoRecover.Text = "recover";
+            llb_infoRecover.ForeColor = Color.Blue;
+            llb_infoRecover.AutoSize = true;
+            llb_infoRecover.Location = new Point((tabPage.Width - llb_infoRecover.Width) / 2, ((tabPage.Height - llb_infoRecover.Height) / 2)+50);
+            llb_infoRecover.Anchor = AnchorStyles.None;
+            llb_infoRecover.LinkClicked += new LinkLabelLinkClickedEventHandler((yourSender, yourE) => { newForm.Close(); });
+            tabPage.Controls.Add(llb_infoRecover);
+        }
+
         private void myFreeHttpWindow_OnUpdataFromSession(object sender, EventArgs e)
         {
             Session tempSession = Fiddler.FiddlerObject.UI.GetFirstSelectedSession();
