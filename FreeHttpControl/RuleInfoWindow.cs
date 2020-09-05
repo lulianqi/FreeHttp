@@ -57,7 +57,7 @@ namespace FreeHttp.FreeHttpControl
             };
             Action<FiddlerResponseChange> GetFiddlerResponseChangeAddition = (nowFiddlerResponseChange) =>
             {
-                if ((nowFiddlerResponseChange.ParameterPickList != null && nowFiddlerResponseChange.ParameterPickList.Count > 0) || nowFiddlerResponseChange.IsHasParameter || nowFiddlerResponseChange.LesponseLatency > 0)
+                if ((nowFiddlerResponseChange.ParameterPickList != null && nowFiddlerResponseChange.ParameterPickList.Count > 0) || nowFiddlerResponseChange.IsHasParameter || nowFiddlerResponseChange.ResponseLatency > 0)
                 {
                     rtb_ruleInfo.AddRtbStr("Addition ", Color.Red, true, new Font(FontFamily.GenericMonospace, 14));
                     if (nowFiddlerResponseChange.IsHasParameter)
@@ -66,10 +66,10 @@ namespace FreeHttp.FreeHttpControl
                         rtb_ruleInfo.AppendText("true");
                         rtb_ruleInfo.AppendText("\r\n");
                     }
-                    if (nowFiddlerResponseChange.LesponseLatency > 0)
+                    if (nowFiddlerResponseChange.ResponseLatency > 0)
                     {
                         rtb_ruleInfo.AddRtbStr("ResponseLatency: ", Color.Blue, false);
-                        rtb_ruleInfo.AppendText(nowFiddlerResponseChange.LesponseLatency + "ms");
+                        rtb_ruleInfo.AppendText(nowFiddlerResponseChange.ResponseLatency + "ms");
                         rtb_ruleInfo.AppendText("\r\n");
                     }
                     if (nowFiddlerResponseChange.ParameterPickList != null && nowFiddlerResponseChange.ParameterPickList.Count > 0)

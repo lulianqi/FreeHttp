@@ -110,6 +110,7 @@ namespace FreeHttp.FreeHttpControl
             this.showSelectedSessionStreamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.httpTamperSettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.parameterDataManageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.independentWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.feedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.codeInGithubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1044,7 +1045,7 @@ namespace FreeHttp.FreeHttpControl
             this.menuStrip_quickRule.Location = new System.Drawing.Point(73, 0);
             this.menuStrip_quickRule.Name = "menuStrip_quickRule";
             this.menuStrip_quickRule.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.menuStrip_quickRule.Size = new System.Drawing.Size(223, 24);
+            this.menuStrip_quickRule.Size = new System.Drawing.Size(343, 24);
             this.menuStrip_quickRule.TabIndex = 2;
             this.menuStrip_quickRule.Text = "menuStrip1";
             // 
@@ -1132,9 +1133,10 @@ namespace FreeHttp.FreeHttpControl
             // modificToolToolStripMenuItem
             // 
             this.modificToolToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.independentWindowToolStripMenuItem,
             this.showSelectedSessionStreamToolStripMenuItem,
-            this.httpTamperSettingToolStripMenuItem,
-            this.parameterDataManageToolStripMenuItem});
+            this.parameterDataManageToolStripMenuItem,
+            this.httpTamperSettingToolStripMenuItem});
             this.modificToolToolStripMenuItem.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.modificToolToolStripMenuItem.Name = "modificToolToolStripMenuItem";
             this.modificToolToolStripMenuItem.Size = new System.Drawing.Size(94, 21);
@@ -1163,6 +1165,14 @@ namespace FreeHttp.FreeHttpControl
             this.parameterDataManageToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.parameterDataManageToolStripMenuItem.Text = "parameter data manage";
             this.parameterDataManageToolStripMenuItem.Click += new System.EventHandler(this.parameterDataManageToolStripMenuItem_Click);
+            // 
+            // independentWindowToolStripMenuItem
+            // 
+            this.independentWindowToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("independentWindowToolStripMenuItem.Image")));
+            this.independentWindowToolStripMenuItem.Name = "independentWindowToolStripMenuItem";
+            this.independentWindowToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.independentWindowToolStripMenuItem.Text = "independent window";
+            this.independentWindowToolStripMenuItem.Click += new System.EventHandler(this.independentWindowToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -1827,5 +1837,6 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.ToolStripMenuItem changeSessionEncodingToolStripMenuItem;
         private MySwitchPictureButton pb_protocolSwitch;
         private MySwitchPictureButton pb_parameterSwitch;
+        internal System.Windows.Forms.ToolStripMenuItem independentWindowToolStripMenuItem;
     }
 }

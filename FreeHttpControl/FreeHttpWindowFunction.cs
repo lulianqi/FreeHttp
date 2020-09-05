@@ -646,7 +646,7 @@ namespace FreeHttp.FreeHttpControl
             //responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             responseChange.HttpFilter = GetHttpFilter();
             responseChange.ParameterPickList = GetParameterPick();
-            responseChange.LesponseLatency = GetResponseLatency();
+            responseChange.ResponseLatency = GetResponseLatency();
             if (responseRemoveHeads.ListDataView.Items.Count > 0)
             {
                 responseChange.HeadDelList = new List<string>();
@@ -676,7 +676,7 @@ namespace FreeHttp.FreeHttpControl
             //responseChange.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
             responseChange.HttpFilter = GetHttpFilter();
             responseChange.ParameterPickList = GetParameterPick();
-            responseChange.LesponseLatency = GetResponseLatency();
+            responseChange.ResponseLatency = GetResponseLatency();
             responseChange.HttpRawResponse = rawResponseEdit.GetHttpResponse(StaticDataCollection);
             responseChange.IsIsDirectRespons = rawResponseEdit.IsDirectRespons;
             responseChange.SetHasParameter(pb_parameterSwitch.SwitchState, StaticDataCollection);
@@ -817,7 +817,7 @@ namespace FreeHttp.FreeHttpControl
         private void SetResponseModificInfo(FiddlerResponseChange fiddlerResponseChange)
         {
             SetHttpMatch(fiddlerResponseChange.HttpFilter);
-            SetResponseLatency(fiddlerResponseChange.LesponseLatency);
+            SetResponseLatency(fiddlerResponseChange.ResponseLatency);
             SetHttpParameterPick(fiddlerResponseChange.ParameterPickList);
             pb_parameterSwitch.SwitchState = fiddlerResponseChange.IsHasParameter;
             if (fiddlerResponseChange.HttpRawResponse == null)

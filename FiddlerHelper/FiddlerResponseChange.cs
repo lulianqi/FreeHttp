@@ -29,7 +29,7 @@ namespace FreeHttp.FiddlerHelper
         [DataMember]
         public bool IsIsDirectRespons { get; set; } //only for HttpRawResponse
         [DataMember]
-        public int LesponseLatency { get; set; }
+        public int ResponseLatency { get; set; }
         [DataMember]
         public List<string> HeadAddList { get; set; }
         [DataMember]

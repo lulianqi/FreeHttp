@@ -37,6 +37,7 @@ namespace FreeHttp
         private bool isOnLoad = false;                  //是否已经加载过tab
         private bool isCheckedUpdata = false;           //是否已经成功完成更新检查，如果检查失败会被重新设置为false
         private bool isInFreeHttpTab = false;           //是否在正在FreeHttp Tab页中
+        private Image myIco;
         private TabPage tabPage;
         private FreeHttpWindow myFreeHttpWindow;
         private UpgradeService upgradeService;
@@ -157,7 +158,7 @@ namespace FreeHttp
                 tabPage.Text = "Free Http";
                 if (FiddlerApplication.UI.tabsViews.ImageList != null)
                 {
-                    Image myIco = FreeHttp.Resources.MyResource.freehttpico;
+                    myIco = FreeHttp.Resources.MyResource.freehttp;
                     FiddlerApplication.UI.tabsViews.ImageList.Images.Add(myIco);
                     tabPage.ImageIndex = FiddlerApplication.UI.tabsViews.ImageList.Images.Count - 1;
                 }
@@ -346,46 +347,56 @@ namespace FreeHttp
 
         private void MyFreeHttpWindow_OnShowInIndependentWindow(object sender, bool e)
         {
-            myFreeHttpWindow.FreeHttpWindowParentChanged(sender);
-            Form newForm = new Form();
-            newForm.Size = tabPage.Size;
-            newForm.FormClosing += new FormClosingEventHandler((yourSender, yourE) => {
+            if(e)
+            {
                 myFreeHttpWindow.FreeHttpWindowParentChanged(sender);
-                MyControlHelper.SetControlFreeze(tabPage);
-                tabPage.Controls.Clear();
-                tabPage.Controls.Add(myFreeHttpWindow);
-                MyControlHelper.SetControlUnfreeze(tabPage);
-            });
-            MyControlHelper.SetControlFreeze(newForm);
-            Label lb_info = new Label();
-            lb_info.Text = "closing...";
-            lb_info.ForeColor = Color.Blue;
-            lb_info.Location = new Point((newForm.Width - lb_info.Width) / 2, (newForm.Height - lb_info.Height) / 2);
-            lb_info.Anchor = AnchorStyles.None;
-            newForm.Controls.Add(lb_info);
-            newForm.Controls.Add(myFreeHttpWindow);
-            lb_info.SendToBack();
-            MyControlHelper.SetControlUnfreeze(newForm);
-            newForm.Show();
+                Form newForm = new Form();
+                newForm.Icon = FreeHttp.Resources.MyResource.freehttpico;
+                newForm.Text = "FreeHttp";
+                newForm.Size = tabPage.Size;
+                newForm.FormClosing += new FormClosingEventHandler((yourSender, yourE) => {
+                    myFreeHttpWindow.FreeHttpWindowParentChanged(sender);
+                    MyControlHelper.SetControlFreeze(tabPage);
+                    myFreeHttpWindow.independentWindowToolStripMenuItem.Text = "independent window";
+                    tabPage.Controls.Clear();
+                    tabPage.Controls.Add(myFreeHttpWindow);
+                    MyControlHelper.SetControlUnfreeze(tabPage);
+                });
+                MyControlHelper.SetControlFreeze(newForm);
+                Label lb_info = new Label();
+                lb_info.Text = "closing...";
+                lb_info.ForeColor = Color.Blue;
+                lb_info.Location = new Point((newForm.Width - lb_info.Width) / 2, (newForm.Height - lb_info.Height) / 2);
+                lb_info.Anchor = AnchorStyles.None;
+                newForm.Controls.Add(lb_info);
+                newForm.Controls.Add(myFreeHttpWindow);
+                lb_info.SendToBack();
+                MyControlHelper.SetControlUnfreeze(newForm);
+                newForm.Show();
 
-            LinkLabel llb_info = new LinkLabel();
-            llb_info.Text = "FreeHttp is in independent mode";
-            llb_info.ForeColor = Color.Blue;
-            llb_info.AutoSize = true;
-            llb_info.Location = new Point((tabPage.Width - llb_info.Width) / 2, (tabPage.Height - llb_info.Height) / 2);
-            llb_info.Anchor = AnchorStyles.None;
-            llb_info.LinkClicked += new LinkLabelLinkClickedEventHandler((yourSender, yourE) => { newForm.Activate(); });
-            tabPage.Controls.Add(llb_info);
+                LinkLabel llb_info = new LinkLabel();
+                llb_info.Text = "FreeHttp is in independent mode";
+                llb_info.ForeColor = Color.Blue;
+                llb_info.AutoSize = true;
+                llb_info.Location = new Point((tabPage.Width - llb_info.Width) / 2, (tabPage.Height - llb_info.Height) / 2);
+                llb_info.Anchor = AnchorStyles.None;
+                llb_info.LinkClicked += new LinkLabelLinkClickedEventHandler((yourSender, yourE) => { newForm.Activate(); });
+                tabPage.Controls.Add(llb_info);
 
-            LinkLabel llb_infoRecover = new LinkLabel();
-            llb_infoRecover.AutoSize = true;
-            llb_infoRecover.Text = "recover";
-            llb_infoRecover.ForeColor = Color.Blue;
-            llb_infoRecover.AutoSize = true;
-            llb_infoRecover.Location = new Point((tabPage.Width - llb_infoRecover.Width) / 2, ((tabPage.Height - llb_infoRecover.Height) / 2)+50);
-            llb_infoRecover.Anchor = AnchorStyles.None;
-            llb_infoRecover.LinkClicked += new LinkLabelLinkClickedEventHandler((yourSender, yourE) => { newForm.Close(); });
-            tabPage.Controls.Add(llb_infoRecover);
+                LinkLabel llb_infoRecover = new LinkLabel();
+                llb_infoRecover.Text = "recover to addin mode";
+                llb_infoRecover.ForeColor = Color.Blue;
+                llb_infoRecover.AutoSize = true;
+                llb_infoRecover.Location = new Point((tabPage.Width - llb_infoRecover.Width) / 2, ((tabPage.Height - llb_infoRecover.Height) / 2) + 20);
+                llb_infoRecover.Anchor = AnchorStyles.None;
+                llb_infoRecover.LinkClicked += new LinkLabelLinkClickedEventHandler((yourSender, yourE) => { myFreeHttpWindow.independentWindowToolStripMenuItem_Click(null, null);});
+                tabPage.Controls.Add(llb_infoRecover);
+            }
+            else
+            {
+                (myFreeHttpWindow.Parent as Form)?.Close();
+            }
+           
         }
 
         private void myFreeHttpWindow_OnUpdataFromSession(object sender, EventArgs e)
@@ -469,10 +480,10 @@ namespace FreeHttp
                         if (!isRequest)
                         {
                             FiddlerResponseChange nowFiddlerResponseChange = ((FiddlerResponseChange)matchItem);
-                            if (nowFiddlerResponseChange.LesponseLatency > 0)
+                            if (nowFiddlerResponseChange.ResponseLatency > 0)
                             {
-                                ShowMes(string.Format("[reponse rule {0}] is modified , now delay {1} ms", tempListViewItem.SubItems[0].Text, nowFiddlerResponseChange.LesponseLatency));
-                                System.Threading.Thread.Sleep(nowFiddlerResponseChange.LesponseLatency);
+                                ShowMes(string.Format("[reponse rule {0}] is modified , now delay {1} ms", tempListViewItem.SubItems[0].Text, nowFiddlerResponseChange.ResponseLatency));
+                                System.Threading.Thread.Sleep(nowFiddlerResponseChange.ResponseLatency);
                             }
                             if (IsOnlyMatchFistTamperRule)
                             {
@@ -593,10 +604,10 @@ namespace FreeHttp
                             ShowMes(string.Format("macth the [reponse rule {0}] with {1}", tempListViewItem.SubItems[0].Text, oSession.fullUrl));
                             FiddlerSessionTamper.ModificSessionResponse(oSession, nowFiddlerResponseChange,ShowError,ShowMes);
                         }
-                        if (nowFiddlerResponseChange.LesponseLatency > 0)
+                        if (nowFiddlerResponseChange.ResponseLatency > 0)
                         {
-                            ShowMes(string.Format("[reponse rule {0}] is modified , now delay {1} ms", tempListViewItem.SubItems[0].Text, nowFiddlerResponseChange.LesponseLatency));
-                            System.Threading.Thread.Sleep(nowFiddlerResponseChange.LesponseLatency);
+                            ShowMes(string.Format("[reponse rule {0}] is modified , now delay {1} ms", tempListViewItem.SubItems[0].Text, nowFiddlerResponseChange.ResponseLatency));
+                            System.Threading.Thread.Sleep(nowFiddlerResponseChange.ResponseLatency);
                         }
                         if (IsOnlyMatchFistTamperRule)
                         {

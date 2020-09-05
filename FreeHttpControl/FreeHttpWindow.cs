@@ -331,6 +331,10 @@ namespace FreeHttp.FreeHttpControl
 
         internal void FreeHttpWindowSelectedChanged(bool isInFreeHttpWindowSelected)
         {
+            if(this.Parent is Form)
+            {
+                return;
+            }
             if(nowRuleInfoWindowList==null || nowRuleInfoWindowList.Count==0)
             {
                 return;
@@ -851,7 +855,6 @@ namespace FreeHttp.FreeHttpControl
 
         private void pb_ruleCancel_Click(object sender, EventArgs e)
         {
-            this.OnShowInIndependentWindow(this, true);
             PutWarn("Clear the Modific Info");
             ChangeNowRuleMode(RuleEditMode.NewRuleMode, NowProtocalMode, null, null);
         }
@@ -1147,6 +1150,20 @@ namespace FreeHttp.FreeHttpControl
             staticDataManageWindow.StartPosition = FormStartPosition.CenterScreen;
             //f.ShowDialog();
             staticDataManageWindow.Show();
+        }
+
+        public void independentWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (independentWindowToolStripMenuItem.Text == "independent window")
+            {
+                this.OnShowInIndependentWindow(this, true);
+                independentWindowToolStripMenuItem.Text = "addin window";
+            }
+            else
+            {
+                this.OnShowInIndependentWindow(this, false);
+                independentWindowToolStripMenuItem.Text = "independent window";
+            }
         }
 
         private void FeedbackToolStripMenuItem_Click(object sender, EventArgs e)

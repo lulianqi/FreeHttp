@@ -376,7 +376,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="readme.md" />
-    <None Include="Resources\freehttpico.png" />
+    <None Include="Resources\freehttp.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\add_mode.png" />
@@ -452,6 +452,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\show.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\freehttpico.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
