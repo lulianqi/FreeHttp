@@ -70,7 +70,7 @@ namespace FreeHttp
             get
             {
                 if (myFreeHttpWindow != null && myFreeHttpWindow.ModificSettingInfo != null)
-                    return myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFistTamperRule;
+                    return myFreeHttpWindow.ModificSettingInfo.IsOnlyMatchFirstTamperRule;
                 else
                     return false;
             }
