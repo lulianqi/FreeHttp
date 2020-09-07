@@ -94,7 +94,11 @@ namespace FreeHttp.FreeHttpControl
                 tempViewSource = GetData();
                 this.SaveSheetData(this, new SaveSheetDataEventArgs(tempViewSource, dataGridView.CurrentCell == null ? (Point?)null : new Point?(new Point(dataGridView.CurrentCell.ColumnIndex, dataGridView.CurrentCell.RowIndex))));
             }
-            
+        }
+
+        private void EditSheetForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            pb_saveSheet_Click(this, null);
         }
 
         private void pb_export_Click(object sender, EventArgs e)
@@ -163,6 +167,25 @@ namespace FreeHttp.FreeHttpControl
                 }
             }
             return outData;
+        }
+
+        private bool IsDataSourceEqual(List<List<string>> yourDataSource)
+        {
+            if (listViewSource == yourDataSource) return true;
+            if(listViewSource == null || yourDataSource==null) return false;
+            if(listViewSource.Count!= yourDataSource.Count) return false;
+            for(int i =0;i< listViewSource.Count;i++)
+            {
+                if (listViewSource[i].Count != yourDataSource[i].Count) return false;
+                for(int j =0;j< listViewSource[i].Count;j++)
+                {
+                    if(listViewSource[i][j]!= yourDataSource[i][j])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
     }

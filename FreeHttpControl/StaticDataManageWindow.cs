@@ -120,6 +120,10 @@ namespace FreeHttp.FreeHttpControl
                         MessageBox.Show("you data is empty \nplease check it ", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         return;
                     }
+                    if(nowEditItem!=null)
+                    {
+                        tb_valueAdd.Text = nowEditItem.SubItems[2].Text;
+                    }
                 }
             }
         }
