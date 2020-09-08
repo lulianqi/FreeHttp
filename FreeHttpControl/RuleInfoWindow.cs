@@ -180,6 +180,7 @@ namespace FreeHttp.FreeHttpControl
                                 {
                                     rtb_ruleInfo.AddRtbStr("Response Head Delete: ", Color.Blue, false);
                                     rtb_ruleInfo.AppendText(tempHeaderDel);
+                                    rtb_ruleInfo.AppendText("\r\n");
                                 }
                             }
                             if (nowFiddlerResponseChange.HeadAddList != null && nowFiddlerResponseChange.HeadAddList.Count > 0)

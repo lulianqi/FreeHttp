@@ -481,13 +481,13 @@ namespace FreeHttp.FreeHttpControl
             {
                 addFileToolStripMenuItem.Enabled = false;
                 antoContentLengthToolStripMenuItem.Enabled = false;
-                antoContentLengthToolStripMenuItem.Checked = false;
+                antoContentLengthToolStripMenuItem.Checked = true;
             }
             else
             {
                 addFileToolStripMenuItem.Enabled = true;
                 antoContentLengthToolStripMenuItem.Enabled = true;
-                antoContentLengthToolStripMenuItem.Checked = true;
+                //antoContentLengthToolStripMenuItem.Checked = true;
             }
         }
 
@@ -1279,8 +1279,9 @@ namespace FreeHttp.FreeHttpControl
             RuleInfoWindow myListViewCBallon = new RuleInfoWindow(nowListViewItem);
             myListViewCBallon.Owner = this.ParentForm;
             myListViewCBallon.HasShadow = true;
-            myListViewCBallon.setBalloonPosition(this.ParentForm, myPosition, new Size(1, 1));
+            myListViewCBallon.setBalloonPosition(this.ParentForm, myPosition, new Size(0, 0));
             myListViewCBallon.Show();
+            myListViewCBallon.UpdateBalloonPosition(myPosition);
 
             nowRuleInfoWindowList.Add(myListViewCBallon);
             if (nowRuleInfoWindowList.Count>4)
