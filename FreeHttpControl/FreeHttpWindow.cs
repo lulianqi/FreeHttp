@@ -87,13 +87,28 @@ namespace FreeHttp.FreeHttpControl
 
         public delegate void GetSessionRawDataEventHandler(object sender, GetSessionRawDataEventArgs e);
 
+        private FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
+        private bool isSetResponseLatencyEable;
+        private bool isLoadFreeHttpWindowUserControl = false;
+
+        private PictureBox ShowRuleInfo_pb = new PictureBox() { Cursor = Cursors.Hand , SizeMode = PictureBoxSizeMode.StretchImage };
+        private List<RuleInfoWindow> nowRuleInfoWindowList = new List<RuleInfoWindow>();
 
         public FreeHttpWindow()
         {
             InitializeComponent();
+            MyInitializeComponent();
             //this.DoubleBuffered = true;
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
+        }
+
+        private void MyInitializeComponent()
+        {
+            ShowRuleInfo_pb.Image = Resources.MyResource.show;
+            ShowRuleInfo_pb.MouseLeave += pictureBox_MouseLeave;
+            ShowRuleInfo_pb.MouseMove += pictureBox_MouseMove;
+            ShowRuleInfo_pb.Click += ShowRuleInfo_pb_Click;
         }
 
         /// <summary>
@@ -156,9 +171,14 @@ namespace FreeHttp.FreeHttpControl
         public event EventHandler<GetSessionSeekHeadEventArgs> OnGetSessionSeekHead;
 
         /// <summary>
-        /// get select session info
+        /// get select session info show in 
         /// </summary>
         public event EventHandler<GetSessionEventArgs> OnGetSessionEventArgs;
+
+        /// <summary>
+        /// when the freehttp want show independent 
+        /// </summary>
+        public event EventHandler<bool> OnShowInIndependentWindow;
 
         //public 
 
@@ -227,10 +247,6 @@ namespace FreeHttp.FreeHttpControl
         /// Get now protocol mode
         /// </summary>
         public TamperProtocalType NowProtocalMode { get; private set; } = TamperProtocalType.Http;
-
-        private FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
-        private bool isSetResponseLatencyEable;
-        private bool isLoadFreeHttpWindowUserControl = false;
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         private void FreeHttpWindow_Load(object sender, EventArgs e)
@@ -311,6 +327,43 @@ namespace FreeHttp.FreeHttpControl
             MyControlHelper.SetRichTextBoxDropString(tb_responseModific_body, dropAction);
 
             isLoadFreeHttpWindowUserControl = true;
+        }
+
+        internal void FreeHttpWindowSelectedChanged(bool isInFreeHttpWindowSelected)
+        {
+            if(this.Parent is Form)
+            {
+                return;
+            }
+            if(nowRuleInfoWindowList==null || nowRuleInfoWindowList.Count==0)
+            {
+                return;
+            }
+            for (int i = nowRuleInfoWindowList.Count - 1; i >= 0; i--)
+            {
+                if (nowRuleInfoWindowList[i].IsDisposed)
+                {
+                    nowRuleInfoWindowList.RemoveAt(i);
+                    continue;
+                }
+                nowRuleInfoWindowList[i].Visible = isInFreeHttpWindowSelected;
+            }
+        }
+
+        internal void FreeHttpWindowParentChanged(object sender)
+        {
+            if (nowRuleInfoWindowList == null || nowRuleInfoWindowList.Count == 0)
+            {
+                return;
+            }
+            for (int i = nowRuleInfoWindowList.Count - 1; i >= 0; i--)
+            {
+                if (!nowRuleInfoWindowList[i].IsDisposed)
+                {
+                    nowRuleInfoWindowList[i].Close();
+                }
+            }
+            nowRuleInfoWindowList.Clear();
         }
 
         #region Public Event
@@ -428,13 +481,13 @@ namespace FreeHttp.FreeHttpControl
             {
                 addFileToolStripMenuItem.Enabled = false;
                 antoContentLengthToolStripMenuItem.Enabled = false;
-                antoContentLengthToolStripMenuItem.Checked = false;
+                antoContentLengthToolStripMenuItem.Checked = true;
             }
             else
             {
                 addFileToolStripMenuItem.Enabled = true;
                 antoContentLengthToolStripMenuItem.Enabled = true;
-                antoContentLengthToolStripMenuItem.Checked = true;
+                //antoContentLengthToolStripMenuItem.Checked = true;
             }
         }
 
@@ -729,7 +782,7 @@ namespace FreeHttp.FreeHttpControl
             }
 
             ListViewItem nowRuleItem = null;
-            if(NowEditMode== RuleEditMode.NewRuleMode)
+            if(NowEditMode == RuleEditMode.NewRuleMode) //编辑模式不检查重复Filter，如果需要检查去掉if直接执行{}内逻辑
             {
                 foreach (ListViewItem tempItem in tamperRuleListView.Items)
                 {
@@ -802,7 +855,6 @@ namespace FreeHttp.FreeHttpControl
 
         private void pb_ruleCancel_Click(object sender, EventArgs e)
         {
-            //ClearModificInfo();
             PutWarn("Clear the Modific Info");
             ChangeNowRuleMode(RuleEditMode.NewRuleMode, NowProtocalMode, null, null);
         }
@@ -1100,6 +1152,20 @@ namespace FreeHttp.FreeHttpControl
             staticDataManageWindow.Show();
         }
 
+        public void independentWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (independentWindowToolStripMenuItem.Text == "independent window")
+            {
+                this.OnShowInIndependentWindow(this, true);
+                independentWindowToolStripMenuItem.Text = "addin window";
+            }
+            else
+            {
+                this.OnShowInIndependentWindow(this, false);
+                independentWindowToolStripMenuItem.Text = "independent window";
+            }
+        }
+
         private void FeedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserFeedbackWindow f = new UserFeedbackWindow(this);
@@ -1155,6 +1221,73 @@ namespace FreeHttp.FreeHttpControl
                 pb_responseRuleSwitch.Image = Resources.MyResource.switch_on;
                 IsResponseRuleEnable = true;
                 PutWarn("Response Temper Rule Enabled");
+            }
+        }
+
+        
+        private void lv_ruleList_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
+        {
+            ListViewItem nowListViewItem = e.Item;
+            ShowRuleInfo_pb.Tag = nowListViewItem;
+            nowListViewItem.ListView.Controls.Add(ShowRuleInfo_pb);
+            ShowRuleInfo_pb.Visible = true;
+            Rectangle r = nowListViewItem.Bounds;
+            ShowRuleInfo_pb.Size = new Size((int)((r.Height-4)*1.5), r.Height-4);
+            ShowRuleInfo_pb.Location =new Point( nowListViewItem.Position.X+r.Width - ShowRuleInfo_pb.Width-30, nowListViewItem.Position.Y+2);
+        }
+
+        private void lv_ruleList_MouseLeave(object sender, EventArgs e)
+        {
+            ListView tempListView = sender as ListView;
+            if (tempListView == null) return;
+            Point tempPosition = Control.MousePosition;
+            tempPosition = tempListView.PointToClient(tempPosition);
+            if (tempListView.GetItemAt(tempPosition.X, tempPosition.Y) == null)
+            {
+                ShowRuleInfo_pb.Visible = false;
+            }
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
+        private void ShowRuleInfo_pb_Click(object sender, EventArgs e)
+        {
+            ListViewItem nowListViewItem = ShowRuleInfo_pb.Tag as ListViewItem;
+            bool isExistedInfoWindow = false;
+            if (nowListViewItem==null) return;
+            for (int i = nowRuleInfoWindowList.Count - 1; i >= 0; i--)
+            {
+                if (nowRuleInfoWindowList[i].IsDisposed)
+                {
+                    nowRuleInfoWindowList.RemoveAt(i);
+                    continue;
+                }
+                if(!isExistedInfoWindow && nowRuleInfoWindowList[i].InnerListViewItem == nowListViewItem)
+                {
+                    nowRuleInfoWindowList[i].Activate();
+                    isExistedInfoWindow = true;
+                }
+            }
+            if(isExistedInfoWindow)
+            {
+                return;
+            }
+
+            Point myPosition = new Point(nowListViewItem.Bounds.X, nowListViewItem.Bounds.Y );
+            myPosition = nowListViewItem.ListView.PointToScreen(myPosition);
+            myPosition = this.ParentForm.PointToClient(myPosition);
+            myPosition.Offset(40, 10);
+            RuleInfoWindow myListViewCBallon = new RuleInfoWindow(nowListViewItem);
+            myListViewCBallon.Owner = this.ParentForm;
+            myListViewCBallon.HasShadow = true;
+            myListViewCBallon.setBalloonPosition(this.ParentForm, myPosition, new Size(0, 0));
+            myListViewCBallon.Show();
+            myListViewCBallon.UpdateBalloonPosition(myPosition);
+
+            nowRuleInfoWindowList.Add(myListViewCBallon);
+            if (nowRuleInfoWindowList.Count>4)
+            {
+                nowRuleInfoWindowList[0].Close();
+                nowRuleInfoWindowList.RemoveAt(0);
             }
         }
 
@@ -1262,7 +1395,8 @@ namespace FreeHttp.FreeHttpControl
                     DelRuleFromListView(nowRuleListView, tempItem);
                     //nowRuleListView.Items.Remove(tempItem);
                 }
-                AdjustRuleListViewIndex(nowRuleListView);
+                //删除不用调整rule id 没有重复的风险
+                //AdjustRuleListViewIndex(nowRuleListView);
             }
             else
             {
@@ -1446,6 +1580,7 @@ namespace FreeHttp.FreeHttpControl
                 this.toolTip_forMainWindow.SetToolTip(this.pb_requestReplace_changeMode, "change request replace mode to raw mode");
             }
         }
+
 
 
 

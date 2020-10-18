@@ -22,6 +22,11 @@ namespace FreeHttp.AutoTest.ParameterizationPick
         public string PickTypeAdditional { get; set; }
         [DataMember]
         public string PickTypeExpression { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("get [{0}] from [{1}] by [{2} grep]({3}) with [{4}]", ParameterName, PickRange.ToString(), PickType.ToString(), PickTypeAdditional, PickTypeExpression);
+        }
     }
 
     public class ParameterPickInfo

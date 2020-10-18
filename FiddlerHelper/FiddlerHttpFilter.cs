@@ -153,6 +153,10 @@ namespace FreeHttp.FiddlerHelper
             {
                 tempSb.AppendLine(string.Format("{0} [contain] {1}", tempKv.Key, tempKv.Value));
             }
+            if(tempSb[tempSb.Length-2]=='\r'&& tempSb[tempSb.Length - 1] == '\n')
+            {
+                tempSb.Remove(tempSb.Length - 2, 2);
+            }
             return tempSb.ToString();
         }
     }
@@ -395,7 +399,7 @@ namespace FreeHttp.FiddlerHelper
             StringBuilder tempSb = new StringBuilder(string.Format("Uri:\r\n{0}\r\n",UriMatch.ToString()));
             if(HeadMatch!=null)
             {
-                tempSb.Append(string.Format("Heads:\r\n{0}", HeadMatch.ToString()));
+                tempSb.AppendLine(string.Format("Heads:\r\n{0}", HeadMatch.ToString()));
             }
             if(BodyMatch!=null)
             {

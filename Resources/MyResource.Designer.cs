@@ -103,10 +103,20 @@ namespace FreeHttp.Resources {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap freehttpico {
+        internal static System.Drawing.Bitmap freehttp {
+            get {
+                object obj = ResourceManager.GetObject("freehttp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Icon freehttpico {
             get {
                 object obj = ResourceManager.GetObject("freehttpico", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -146,6 +156,16 @@ namespace FreeHttp.Resources {
         internal static System.Drawing.Bitmap pick_on {
             get {
                 object obj = ResourceManager.GetObject("pick_on", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap show {
+            get {
+                object obj = ResourceManager.GetObject("show", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

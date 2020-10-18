@@ -75,9 +75,9 @@ namespace FreeHttp.MyHelper
                         }
                         if (string.IsNullOrEmpty(ruleVersion) || ruleVersion[0] == '1')
                         {
+                            File.Copy(rulePath, rulePath + ".oldVersion", true);
                             XmlSerializer mySerializer = new XmlSerializer(typeof(FreeHttp.FiddlerHelper.VersionControlV1.FiddlerModificHttpRuleCollection));
                             fiddlerModificHttpRuleCollection = (FiddlerModificHttpRuleCollection)(FreeHttp.FiddlerHelper.VersionControlV1.FiddlerModificHttpRuleCollection)mySerializer.Deserialize(reader);
-              
                         }
                         else if(ruleVersion[0]=='2')
                         {

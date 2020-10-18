@@ -177,5 +177,45 @@ namespace FreeHttp.HttpHelper
                     throw new Exception("not support ContentModificMode");
             }
         }
+    
+        public override string ToString()
+        {
+            StringBuilder resultStringBuilder = new StringBuilder();
+            switch (ModificMode)
+            {
+                case ContentModificMode.NoChange:
+                    break;
+                case ContentModificMode.EntireReplace:
+                    resultStringBuilder.Append("[EntireReplace] ");
+                    resultStringBuilder.Append(ReplaceContent);
+                    break;
+                case ContentModificMode.KeyVauleReplace:
+                    resultStringBuilder.Append("[Replace] ");
+                    resultStringBuilder.Append(TargetKey);
+                    resultStringBuilder.Append(" [To] ");
+                    resultStringBuilder.Append(ReplaceContent); 
+                    break;
+                case ContentModificMode.RegexReplace:
+                    resultStringBuilder.Append("[RegexReplace] ");
+                    resultStringBuilder.Append(TargetKey);
+                    resultStringBuilder.Append(" [To] ");
+                    resultStringBuilder.Append(ReplaceContent);
+                    break;
+                case ContentModificMode.HexReplace:
+                    resultStringBuilder.Append("[HexReplace] ");
+                    resultStringBuilder.Append(TargetKey);
+                    resultStringBuilder.Append(" [To] ");
+                    resultStringBuilder.Append(ReplaceContent);
+                    break;
+                case ContentModificMode.ReCode:
+                    resultStringBuilder.Append("[ReCode] ");
+                    resultStringBuilder.Append(TargetKey);
+                    break;
+                default:
+                    resultStringBuilder.Append("not support ContentModificMode");
+                    break;
+            }
+            return resultStringBuilder.ToString();
+        }
     }
 }

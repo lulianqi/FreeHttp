@@ -57,10 +57,11 @@
             // 
             // pb_saveSheet
             // 
+            this.pb_saveSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_saveSheet.BackColor = System.Drawing.Color.Transparent;
             this.pb_saveSheet.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pb_saveSheet.Image = ((System.Drawing.Image)(resources.GetObject("pb_saveSheet.Image")));
-            this.pb_saveSheet.Location = new System.Drawing.Point(1, 0);
+            this.pb_saveSheet.Location = new System.Drawing.Point(830, 0);
             this.pb_saveSheet.Name = "pb_saveSheet";
             this.pb_saveSheet.Size = new System.Drawing.Size(20, 20);
             this.pb_saveSheet.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -73,10 +74,11 @@
             // 
             // pb_export
             // 
+            this.pb_export.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_export.BackColor = System.Drawing.Color.Transparent;
             this.pb_export.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pb_export.Image = ((System.Drawing.Image)(resources.GetObject("pb_export.Image")));
-            this.pb_export.Location = new System.Drawing.Point(22, 0);
+            this.pb_export.Location = new System.Drawing.Point(851, 0);
             this.pb_export.Name = "pb_export";
             this.pb_export.Size = new System.Drawing.Size(20, 20);
             this.pb_export.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -103,6 +105,7 @@
             this.MinimizeBox = false;
             this.Name = "EditSheetForm";
             this.Text = "EditSheetForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditSheetForm_FormClosing);
             this.Load += new System.EventHandler(this.EditSheetForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_saveSheet)).EndInit();

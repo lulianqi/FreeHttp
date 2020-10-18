@@ -31,7 +31,7 @@ namespace FreeHttp.FreeHttpControl
         {
             if (modifcSettingInfo != null)
             {
-                myEnableSwitch_IsOnlyMatchFistTamperRule.IsEnable = modifcSettingInfo.IsOnlyMatchFistTamperRule;
+                myEnableSwitch_IsOnlyMatchFistTamperRule.IsEnable = modifcSettingInfo.IsOnlyMatchFirstTamperRule;
                 myEnableSwitch_IsSkipHideUi.IsEnable = modifcSettingInfo.IsSkipUiHide;
                 myEnableSwitch_IsSkipConnectTunnels.IsEnable = modifcSettingInfo.IsSkipConnectTunnels;
                 myEnableSwitch_IsEnableHttpsService.IsEnable = MyGlobalHelper.myHttpListener.IsStart;
@@ -59,7 +59,7 @@ namespace FreeHttp.FreeHttpControl
 
         void myEnableSwitch_IsOnlyMatchFistTamperRule_OnChangeEable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)
         {
-            modifcSettingInfo.IsOnlyMatchFistTamperRule = e.IsEnable;
+            modifcSettingInfo.IsOnlyMatchFirstTamperRule = e.IsEnable;
         }
 
         private void MyEnableSwitch_IsSyncTamperRule_OnChangeEnable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)

@@ -47,9 +47,9 @@
             this.lb_info_1.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lb_info_1.Location = new System.Drawing.Point(0, 12);
             this.lb_info_1.Name = "lb_info_1";
-            this.lb_info_1.Size = new System.Drawing.Size(224, 14);
+            this.lb_info_1.Size = new System.Drawing.Size(231, 14);
             this.lb_info_1.TabIndex = 1;
-            this.lb_info_1.Text = "is only match fist tamper rule ";
+            this.lb_info_1.Text = "is only match first tamper rule ";
             // 
             // lb_info_2
             // 

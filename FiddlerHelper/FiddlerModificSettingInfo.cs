@@ -18,7 +18,7 @@ namespace FreeHttp.FiddlerHelper
         /// <summary>
         /// if it is true the FiddlerFreeHttp will only match the fist request or response rule 
         /// </summary>
-        public bool IsOnlyMatchFistTamperRule { get; set; }
+        public bool IsOnlyMatchFirstTamperRule { get; set; }
 
         /// <summary>
         /// if it is sync TamperRule in server
@@ -46,10 +46,10 @@ namespace FreeHttp.FiddlerHelper
         {
             
         }
-        public FiddlerModificSettingInfo( bool isSkipTlsHandshake, bool isOnlyMatchFistTamperRule ,bool isSyncTamperRule, bool isSkipUiHide, bool isEnableRequestRule = false, bool isEnableResponseRule = false)
+        public FiddlerModificSettingInfo( bool isSkipTlsHandshake, bool isOnlyMatchFirstTamperRule ,bool isSyncTamperRule, bool isSkipUiHide, bool isEnableRequestRule = false, bool isEnableResponseRule = false)
         {
             IsSkipConnectTunnels = isSkipTlsHandshake;
-            IsOnlyMatchFistTamperRule = isOnlyMatchFistTamperRule;
+            IsOnlyMatchFirstTamperRule = isOnlyMatchFirstTamperRule;
             IsSyncTamperRule = isSyncTamperRule ;
             IsSkipUiHide = isSkipUiHide;
             IsEnableRequestRule = isEnableRequestRule;
