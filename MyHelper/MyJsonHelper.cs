@@ -11,6 +11,11 @@ namespace FreeHttp.MyHelper
     {
         public class JsonDataContractJsonSerializer
         {
+            /// <summary>
+            /// 使用.net内置方法将对象序列号为str 对象需要使用[System.Runtime.Serialization.DataContract()]标记
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <returns></returns>
             public static string ObjectToJsonStr(object obj)
             {
                 System.Runtime.Serialization.Json.DataContractJsonSerializer serializer = new System.Runtime.Serialization.Json.DataContractJsonSerializer(obj.GetType());

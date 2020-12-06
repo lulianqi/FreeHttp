@@ -260,6 +260,7 @@
     <Compile Include="MyHelper\MyGlobalHelper.cs" />
     <Compile Include="MyHelper\MyJsonHelper.cs" />
     <Compile Include="MyHelper\MyKeyValuePair.cs" />
+    <Compile Include="MyHelper\SelfUpgradeHelp.cs" />
     <Compile Include="MyHelper\SerializableHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -279,6 +280,7 @@
     <Compile Include="WebService\HttpServer\MySocketHelper.cs" />
     <Compile Include="WebService\MyWebTool.cs" />
     <Compile Include="WebService\OperationReportService.cs" />
+    <Compile Include="WebService\RemoteLogService.cs" />
     <Compile Include="WebService\RuleReportService.cs" />
     <Compile Include="WebService\UpgradeService.cs" />
     <Compile Include="WebService\UserComputerInfo.cs" />

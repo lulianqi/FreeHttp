@@ -46,6 +46,30 @@ namespace FreeHttp.WebService
 
         }
 
+        internal static string GetMachineName()
+        {
+            try
+            {
+                return System.Environment.MachineName;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        internal static string GetUserName()
+        {
+            try
+            {
+                return System.Environment.UserName;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
         internal static int GetDotNetRelease()
         {
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
@@ -58,6 +82,8 @@ namespace FreeHttp.WebService
                 return 0;
             }
         }
+
+
 
     }
 }
