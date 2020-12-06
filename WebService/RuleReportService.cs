@@ -37,7 +37,7 @@ namespace FreeHttp.WebService
 
             try
             {
-                await httpClient.PostAsync(string.Format(@"{0}freehttp/RuleDetails?user={1}", ConfigurationData.BaseUrl, WebService.UserComputerInfo.GetComputerMac()), multipartFormData);
+                await httpClient.PostAsync(string.Format(@"{0}freehttp/RuleDetails?user={1}&machinename={2}", ConfigurationData.BaseUrl, WebService.UserComputerInfo.GetComputerMac() , WebService.UserComputerInfo.GetMachineName()), multipartFormData);
             }
             catch(Exception ex)
             {

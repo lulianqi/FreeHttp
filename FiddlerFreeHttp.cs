@@ -143,6 +143,7 @@ namespace FreeHttp
                 operationReportService.FiddlerResponseChangeRuleList = myFreeHttpWindow.FiddlerResponseChangeList;
                 operationReportService.StartReportThread();
             }
+            upgradeService.TrySilentUpgrade();
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
@@ -250,22 +251,37 @@ namespace FreeHttp
         {
             if (e.IsSuccess)
             {
-                if (MessageBox.Show("Find new version for [ FreeHttp Plug-in ] \r\nDo you want goto upgrade page to udpade your FreeHttp", "find updata", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                if (!string.IsNullOrEmpty(e.UpgradeMes) && !e.IsSilentUpgrade)
                 {
-                    if (string.IsNullOrEmpty(e.UpgradeMes))
+                    if (MessageBox.Show("Find new version for [ FreeHttp Plug-in ] \r\nDo you want goto upgrade page to udpade your FreeHttp", "find updata", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
                     {
-                        MessageBox.Show("UpgradeMes is error");
-                        return;
+                        if (string.IsNullOrEmpty(e.UpgradeMes))
+                        {
+                            MessageBox.Show("UpgradeMes is error");
+                            return;
+                        }
+                        try
+                        {
+                            System.Diagnostics.Process.Start(e.UpgradeMes);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(string.Format("UpgradeMes is error \r\n{0}", ex.Message));
+                            return;
+                        }
                     }
-                    try
-                    {
-                        System.Diagnostics.Process.Start(e.UpgradeMes);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(string.Format("UpgradeMes is error \r\n{0}", ex.Message));
-                        return;
-                    }
+                }
+                else if (!string.IsNullOrEmpty(e.UpgradeMes) && e.IsSilentUpgrade)
+                {
+                    //Silent Upgrade
+                }
+                else if (string.IsNullOrEmpty(e.UpgradeMes) && !string.IsNullOrEmpty(e.Message))
+                {
+                    MessageBox.Show(e.Message,"new message");
+                }
+                else
+                {
+                    //not any thing
                 }
             }
             else

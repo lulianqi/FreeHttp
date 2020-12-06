@@ -25,12 +25,16 @@ namespace FreeHttp.WebService
             [System.Runtime.Serialization.DataMember(Name = "UserMac")]
             public String UserMac { get; set; }
 
+            [System.Runtime.Serialization.DataMember(Name = "MachineName")]
+            public String MachineName { get; set; }
+
             [System.Runtime.Serialization.DataMember(Name = "OperationDetailCells")]
             public List<OperationDetailCell> OperationDetailCells { get; set; }
 
-            public OperationDetail(string mac = "FF:FF:FF;FF:FF:FF")
+            public OperationDetail(string mac = "FF:FF:FF;FF:FF:FF" , string machineName =null)
             {
                 UserMac = mac;
+                MachineName = machineName;
                 OperationDetailCells = new List<OperationDetailCell>();
             }
 
@@ -53,7 +57,7 @@ namespace FreeHttp.WebService
 
         public OperationReportService()
         {
-            operationDetail = new OperationDetail(WebService.UserComputerInfo.GetComputerMac());
+            operationDetail = new OperationDetail(WebService.UserComputerInfo.GetComputerMac(), WebService.UserComputerInfo.GetMachineName());
             nowInTime = null;
         }
 
@@ -107,6 +111,7 @@ namespace FreeHttp.WebService
                     new WebService.RuleReportService().UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(FiddlerRequestChangeRuleList, FiddlerResponseChangeRuleList).Wait();
                 }
             }
+            //System.GC.Collect();
         }
     }
 }

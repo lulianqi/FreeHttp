@@ -861,7 +861,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void pb_protocolSwitch_Click(object sender, EventArgs e)
         {
-            if(NowEditMode != RuleEditMode.NewRuleMode)
+            if (NowEditMode != RuleEditMode.NewRuleMode)
             {
                 if (DialogResult.Cancel == MessageBox.Show("your are in EditMode now \r\nchange protocol mode will discard your change for this rule", "change protocol mode", MessageBoxButtons.OKCancel, MessageBoxIcon.Question))
                 { return; }
