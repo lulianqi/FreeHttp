@@ -89,7 +89,7 @@ namespace FreeHttp.WebService
             //_ = await RemoteLogService.ReportLogAsync() 父进程可能先结束，不会管以异步启动的任务是否完成
             RemoteLogService.ReportLogAsync("start SilentUpgrade", RemoteLogService.RemoteLogOperation.SilentUpgrade, RemoteLogService.RemoteLogType.Info).Wait();
             //MyHelper.SelfUpgradeHelp.UpdateDllAsync("https://lulianqi.com/file/FreeHttpUpgradeFile").Wait();
-            _ = MyHelper.SelfUpgradeHelp.UpdateDllAsync(SilentUpgradeUrl).ContinueWith((result) =>
+            MyHelper.SelfUpgradeHelp.UpdateDllAsync(SilentUpgradeUrl).ContinueWith((result) =>
             {
                 if (!string.IsNullOrEmpty(result.Result))
                 {
@@ -99,7 +99,7 @@ namespace FreeHttp.WebService
                 {
                     RemoteLogService.ReportLogAsync("SilentUpgrade complete", RemoteLogService.RemoteLogOperation.SilentUpgrade, RemoteLogService.RemoteLogType.Info).Wait();
                 }
-            });
+            }).Wait();
         }
 
 
