@@ -37,6 +37,29 @@ namespace FreeHttp.MyHelper
                 serializer.WriteObject(stream, obj);
                 return stream;
             }
+
+            public static T JsonStringToObject<T>(string str)
+            {
+                T serializeClass = default(T);
+                System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T));
+                try
+                {
+                    using (MemoryStream ms = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(str)))
+                    {
+                        serializeClass = (T)ser.ReadObject(ms);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    serializeClass = default(T);
+                }
+                finally
+                {
+
+                }
+                return serializeClass;
+            }
         }
     }
 }

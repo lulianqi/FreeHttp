@@ -41,6 +41,8 @@ namespace FreeHttp.FreeHttpControl
         {
             if (yourRuleCollecttion != null)
             {
+                DelRuleFromListView(lv_requestRuleList, null);
+                DelRuleFromListView(lv_responseRuleList, null);
                 if (yourRuleCollecttion.RequestRuleList != null)
                 {
                     foreach (var tempRule in yourRuleCollecttion.RequestRuleList)

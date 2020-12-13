@@ -139,6 +139,7 @@ namespace FreeHttp
             }
             if (operationReportService.HasAnyOperation && IsSkipConnectTunnels)
             {
+                operationReportService.StaticDataCollection = myFreeHttpWindow.StaticDataCollection.IsEmpty? null: myFreeHttpWindow.StaticDataCollection;
                 operationReportService.FiddlerRequestChangeRuleList = myFreeHttpWindow.FiddlerRequestChangeList;
                 operationReportService.FiddlerResponseChangeRuleList = myFreeHttpWindow.FiddlerResponseChangeList;
                 operationReportService.StartReportThread();

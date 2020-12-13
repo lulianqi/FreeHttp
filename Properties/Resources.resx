@@ -136,6 +136,9 @@
   <data name="minimize" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\minimize.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="goto" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\goto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="httpEnable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\httpEnable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -145,7 +148,7 @@
   <data name="noParameter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\noParameter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="goto" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\goto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="cloud" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cloud.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

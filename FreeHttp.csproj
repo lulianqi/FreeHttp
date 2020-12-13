@@ -280,6 +280,7 @@
     <Compile Include="WebService\HttpServer\MySocketHelper.cs" />
     <Compile Include="WebService\MyWebTool.cs" />
     <Compile Include="WebService\OperationReportService.cs" />
+    <Compile Include="WebService\RemoteRuleService.cs" />
     <Compile Include="WebService\RemoteLogService.cs" />
     <Compile Include="WebService\RuleReportService.cs" />
     <Compile Include="WebService\UpgradeService.cs" />
@@ -457,6 +458,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\freehttpico.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cloud.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
