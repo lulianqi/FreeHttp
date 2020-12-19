@@ -317,8 +317,6 @@ namespace FreeHttp.FreeHttpControl
             }
             InnerListViewItem = null;
             base.Close();
-
-
         }
 
         private void rtb_ruleInfo_ContentsResized(object sender, ContentsResizedEventArgs e)

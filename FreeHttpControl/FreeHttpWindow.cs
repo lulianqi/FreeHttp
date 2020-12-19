@@ -1140,6 +1140,10 @@ namespace FreeHttp.FreeHttpControl
         }
         private void loadingRemoteRuleToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            GetRemoteRuleWindow f = new GetRemoteRuleWindow(this);
+            f.StartPosition = FormStartPosition.CenterParent;
+            f.ShowDialog();
+            return;
             //WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").ContinueWith((rule) => { LoadFiddlerModificHttpRuleCollection(rule.Result); });
             System.Threading.Tasks.Task<RuleDetails> ruleTask = System.Threading.Tasks.Task.Run(new Func<RuleDetails>(() =>
             {

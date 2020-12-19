@@ -11,6 +11,7 @@ using FreeHttp.HttpHelper;
 using FreeHttp.FiddlerHelper;
 using FreeHttp.MyHelper;
 using FreeHttp.AutoTest.ParameterizationPick;
+using static FreeHttp.WebService.RemoteRuleService;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -886,7 +887,14 @@ namespace FreeHttp.FreeHttpControl
         #endregion
 
         #region Public Function
-
+        public void ReplaceRuleStorage(RuleDetails ruleDetails)
+        {
+            if (ruleDetails != null)
+            {
+                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection);
+                LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+            }
+        }
         public void CloseEditRtb()
         {
             tbe_RequestBodyModific.CloseRichTextBox();

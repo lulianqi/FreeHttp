@@ -115,6 +115,12 @@
     <Compile Include="FreeHttpControl\EditSheetForm.Designer.cs">
       <DependentUpon>EditSheetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\GetRemoteRuleWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\GetRemoteRuleWindow.Designer.cs">
+      <DependentUpon>GetRemoteRuleWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\RuleInfoWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -305,6 +311,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\EditSheetForm.resx">
       <DependentUpon>EditSheetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\GetRemoteRuleWindow.resx">
+      <DependentUpon>GetRemoteRuleWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RuleInfoWindow.resx">
       <DependentUpon>RuleInfoWindow.cs</DependentUpon>

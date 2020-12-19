@@ -42,6 +42,18 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             }
         }
 
+        public int Count
+        {
+            get
+            {
+                int tempCount = 0;
+                if (runActuatorStaticDataKeyList != null) tempCount += runActuatorStaticDataKeyList.Count;
+                if (runActuatorStaticDataParameterList != null) tempCount += runActuatorStaticDataParameterList.Count;
+                if (runActuatorStaticDataSouceList != null) tempCount += runActuatorStaticDataSouceList.Count;
+                return tempCount;
+            }
+        }
+
         /// <summary>
         /// RunTimeParameter List
         /// </summary>
