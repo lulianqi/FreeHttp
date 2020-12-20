@@ -12,6 +12,7 @@ using FreeHttp.AutoTest.RunTimeStaticData;
 using FreeHttp.FiddlerHelper;
 using FreeHttp.AutoTest.ParameterizationPick;
 using static FreeHttp.WebService.RemoteRuleService;
+using FreeHttp.WebService;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -266,7 +267,9 @@ namespace FreeHttp.FreeHttpControl
             }
             catch(Exception ex)
             {
-                MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException==null? "":ex.InnerException.Message), "load user rule fail");
+                string errorMes = string.Format("{0}\r\n{1}", ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message);
+                _ = RemoteLogService.ReportLogAsync(errorMes, RemoteLogService.RemoteLogOperation.WindowLoad, RemoteLogService.RemoteLogType.Error);
+                MessageBox.Show(errorMes, "load user rule fail");
                 if (File.Exists("RuleData.xml"))
                 {
                     File.Copy("RuleData.xml", "RuleData.lastErrorFile", true);
@@ -754,6 +757,7 @@ namespace FreeHttp.FreeHttpControl
             }
             catch (Exception ex)
             {
+                _ = RemoteLogService.ReportLogAsync(ex.Message, RemoteLogService.RemoteLogOperation.AddRule, RemoteLogService.RemoteLogType.Error);
                 MessageBox.Show(ex.Message, "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 PutError(string.Format("add rule fail :{0}", ex.Message));
                 MarkControl(tabControl_Modific.SelectedTab, Color.Plum, 2);

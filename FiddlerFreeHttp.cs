@@ -102,6 +102,7 @@ namespace FreeHttp
                 return;
             }
             AddFiddlerObjectLog(mes);
+            _ = RemoteLogService.ReportLogAsync(mes, RemoteLogService.RemoteLogOperation.SessionTamp, RemoteLogService.RemoteLogType.Error);
             if (myFreeHttpWindow.InvokeRequired)
             {
                 myFreeHttpWindow.BeginInvoke(new Action<string>(myFreeHttpWindow.PutError), mes);

@@ -33,8 +33,10 @@ namespace FreeHttp.WebService
         public enum RemoteLogOperation
         {
             Unknown ,
-            SilentUpgrade 
-
+            SilentUpgrade ,
+            SessionTamp,
+            WindowLoad,
+            AddRule
         }
 
         public enum RemoteLogType
