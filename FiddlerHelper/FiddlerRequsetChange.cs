@@ -48,7 +48,7 @@ namespace FreeHttp.FiddlerHelper
         {
             get { return HttpRawRequest != null; }
         }
-
+       
         public void SetHasParameter(bool hasParameter , ActuatorStaticDataCollection staticDataController = null)
         {
             if(staticDataController!=null)
@@ -76,5 +76,11 @@ namespace FreeHttp.FiddlerHelper
                 }
             }
         }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
