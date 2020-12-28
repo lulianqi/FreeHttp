@@ -76,13 +76,17 @@ namespace FreeHttp
             }
         }
 
-
         private void ShowMes(string mes)
+        {
+            ShowMes(mes, false);
+        }
+        private void ShowMes(string mes , bool isReport = false)
         {
             if (!isOnLoad)
             {
                 return;
             }
+            if (isReport) _ = RemoteLogService.ReportLogAsync(mes, RemoteLogService.RemoteLogOperation.SessionTamp, RemoteLogService.RemoteLogType.Info);
             if (myFreeHttpWindow.InvokeRequired)
             {
                 //BeginInvoke,Invoke will execute in the contol ui thread, but Invoke will with the end in the ui thread
@@ -97,12 +101,17 @@ namespace FreeHttp
 
         private void ShowError(string mes)
         {
+            ShowError(mes, true);
+        }
+
+        private void ShowError(string mes ,bool isReport = true)
+        {
             if (!isOnLoad)
             {
                 return;
             }
             AddFiddlerObjectLog(mes);
-            _ = RemoteLogService.ReportLogAsync(mes, RemoteLogService.RemoteLogOperation.SessionTamp, RemoteLogService.RemoteLogType.Error);
+            if(isReport)  _ = RemoteLogService.ReportLogAsync(mes, RemoteLogService.RemoteLogOperation.SessionTamp, RemoteLogService.RemoteLogType.Error);
             if (myFreeHttpWindow.InvokeRequired)
             {
                 myFreeHttpWindow.BeginInvoke(new Action<string>(myFreeHttpWindow.PutError), mes);
@@ -251,35 +260,78 @@ namespace FreeHttp
 
         private void upgradeService_GetUpgradeMes(object sender, UpgradeService.UpgradeServiceEventArgs e)
         {
+            Action<string, string> ShowDialogResultBox = (message, title) =>
+             {
+                 if (string.IsNullOrEmpty(e.UpgradeInfo.url))
+                 {
+                     MessageBox.Show(message, title);
+                 }
+                 else
+                 {
+                     if (MessageBox.Show(message, title,e.UpgradeInfo.isForceEnter? MessageBoxButtons.OK : MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                     {
+                         ShowMes(string.Format("enter message details [flag:{0}]", e.UpgradeInfo.messageFlag??"any"),true);
+                         if (string.IsNullOrEmpty(e.UpgradeInfo.url))
+                         {
+                             MessageBox.Show("UpgradeInfo.url is error");
+                             return;
+                         }
+                         try
+                         {
+                             System.Diagnostics.Process.Start(e.UpgradeInfo.url);
+                         }
+                         catch (Exception ex)
+                         {
+                             MessageBox.Show(string.Format("UpgradeMes is error \r\n{0}", ex.Message));
+                             ShowError(string.Format("process start fail [{0}] [{1}] ", e.UpgradeInfo.url , ex.Message));
+                         }
+                     }
+                     else
+                     {
+                         ShowMes(string.Format("cancel enter message details [flag:{0}]", e.UpgradeInfo.messageFlag ?? "any"),true);
+                     }
+                 }
+             };
+
             if (e.IsSuccess)
             {
-                if (!string.IsNullOrEmpty(e.UpgradeMes) && !e.IsSilentUpgrade)
+                if(!string.IsNullOrEmpty(e.UpgradeInfo.uuid)&& string.IsNullOrEmpty(myFreeHttpWindow.ModificSettingInfo.UserToken))
                 {
-                    if (MessageBox.Show("Find new version for [ FreeHttp Plug-in ] \r\nDo you want goto upgrade page to udpade your FreeHttp", "find updata", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-                    {
-                        if (string.IsNullOrEmpty(e.UpgradeMes))
-                        {
-                            MessageBox.Show("UpgradeMes is error");
-                            return;
-                        }
-                        try
-                        {
-                            System.Diagnostics.Process.Start(e.UpgradeMes);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(string.Format("UpgradeMes is error \r\n{0}", ex.Message));
-                            return;
-                        }
-                    }
+                    myFreeHttpWindow.ModificSettingInfo.UserToken = e.UpgradeInfo.uuid;
                 }
-                else if (!string.IsNullOrEmpty(e.UpgradeMes) && e.IsSilentUpgrade)
+
+                if (e.UpgradeInfo.isNeedUpdata && !e.UpgradeInfo.isSilentUpgrade)
+                {
+                    //ShowDialogResultBox(string.IsNullOrEmpty(e.UpgradeInfo.message)?"Find new version for [ FreeHttp Plug-in ] \r\nDo you want goto upgrade page to udpade your FreeHttp" : e.UpgradeInfo.message , "find new version");
+                    myFreeHttpWindow.Invoke(new Action(() => {
+                        ShowDialogResultBox(string.IsNullOrEmpty(e.UpgradeInfo.message) ? "Find new version for [ FreeHttp Plug-in ] \r\nDo you want goto upgrade page to udpade your FreeHttp" : e.UpgradeInfo.message, "find new version");
+                    }));
+                    return;
+                }
+                else if(e.UpgradeInfo.isNeedUpdata && e.UpgradeInfo.isSilentUpgrade)
                 {
                     //Silent Upgrade
                 }
-                else if (string.IsNullOrEmpty(e.UpgradeMes) && !string.IsNullOrEmpty(e.Message))
+                else if (e.UpgradeInfo.isShowMessage && !string.IsNullOrEmpty(e.UpgradeInfo.message))
                 {
-                    MessageBox.Show(e.Message,"new message");
+                    //show meaasge
+                    if(string.IsNullOrEmpty(e.UpgradeInfo.messageFlag))
+                    {
+                        myFreeHttpWindow.Invoke(new Action(() => {
+                            ShowDialogResultBox(e.UpgradeInfo.message, "new message");
+                        }));
+                    }
+                    else
+                    {
+                        if (!myFreeHttpWindow.ModificSettingInfo.ReadedMessageFlags.Contains(e.UpgradeInfo.messageFlag))
+                        {
+                            myFreeHttpWindow.Invoke(new Action(() =>
+                            {
+                                ShowDialogResultBox(e.UpgradeInfo.message, "new message");
+                            }));
+                        myFreeHttpWindow.ModificSettingInfo.ReadedMessageFlags.Add(e.UpgradeInfo.messageFlag);
+                        }
+                    }
                 }
                 else
                 {

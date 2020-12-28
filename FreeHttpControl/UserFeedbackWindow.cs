@@ -34,7 +34,7 @@ namespace FreeHttp.FreeHttpControl
             }
 
 #if NET4_5UP
-            Task<int> submitFeedback = WebService.FeedbackService.SubmitFeedbackAsync(WebService.UserComputerInfo.GetComputerMac(), WebService.UserComputerInfo.GetMachineName(), watermakTextBox_contactInfo.Text, rtb_feedbackContent.Text);
+            Task<int> submitFeedback = WebService.FeedbackService.SubmitFeedbackAsync(WebService.UserComputerInfo.UserToken ,WebService.UserComputerInfo.GetComputerMac(), WebService.UserComputerInfo.GetMachineName(), watermakTextBox_contactInfo.Text, rtb_feedbackContent.Text);
             submitFeedback.ContinueWith((task) => { if (mainWindow == null) return;  if (!(task.Result == 200 || task.Result ==201)) { mainWindow.PutError(string.Format("submit feedback fial with {0}", task.Result)); } else { mainWindow.PutInfo("submit feedback succeed"); } });
 #endif
 

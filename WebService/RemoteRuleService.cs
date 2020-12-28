@@ -69,7 +69,7 @@ namespace FreeHttp.WebService
                 return null;
             }
 
-            string nowVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string nowVersion = UserComputerInfo.GetRuleVersion();
 
             if (ruleDetails.RuleStaticData!=null)
             {

@@ -42,11 +42,11 @@ namespace FreeHttp.WebService
 
             try
             {
-                await httpClient.PostAsync(string.Format(@"{0}freehttp/RuleDetails?user={1}&machinename={2}&ruleversion={3}", ConfigurationData.BaseUrl, WebService.UserComputerInfo.GetComputerMac() , WebService.UserComputerInfo.GetMachineName(), System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()), multipartFormData);
+                await httpClient.PostAsync(string.Format(@"{0}freehttp/RuleDetails?ruleversion={1}&{2}", ConfigurationData.BaseUrl, UserComputerInfo.GetRuleVersion(), WebService.UserComputerInfo.GetFreeHttpUser()), multipartFormData);
             }
             catch(Exception ex)
             {
-
+                await RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.RuleUpload, RemoteLogService.RemoteLogType.Error);
             }
             finally
             {

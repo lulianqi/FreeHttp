@@ -16,6 +16,8 @@ namespace FreeHttp.WebService
         private  class RemoteLogDetail
         {
             [DataMember]
+            public String UserToken { get; set; }
+            [DataMember]
             public String UserMac { get; set; }
             [DataMember]
             public String MachineName { get; set; }
@@ -33,9 +35,13 @@ namespace FreeHttp.WebService
         public enum RemoteLogOperation
         {
             Unknown ,
+            Exception,
             SilentUpgrade ,
+            CheckUpgrade,
             SessionTamp,
             WindowLoad,
+            RuleUpload,
+            RemoteRule,
             AddRule
         }
 
@@ -56,14 +62,19 @@ namespace FreeHttp.WebService
         public static async Task ReportLogAsync(string message , RemoteLogOperation operation = RemoteLogOperation.Unknown, RemoteLogType type =  RemoteLogType.Info)
         {
             RemoteLogDetail remoteLogDetail = new RemoteLogDetail() {
+                UserToken = WebService.UserComputerInfo.UserToken,
                 UserMac = WebService.UserComputerInfo.GetComputerMac(),
                 MachineName = WebService.UserComputerInfo.GetMachineName(),
-                Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+                Version = UserComputerInfo.GetFreeHttpVersion(),
                 Type = type.ToString(),
                 Operation = operation.ToString(),
                 Message = message
             };
-            await httpClient.PostAsync(string.Format(@"{0}freehttp/UserLogReport", ConfigurationData.BaseUrl), new StringContent(MyJsonHelper.JsonDataContractJsonSerializer.ObjectToJsonStr(remoteLogDetail), Encoding.UTF8, "application/json"));
+            try
+            {
+                await httpClient.PostAsync(string.Format(@"{0}freehttp/UserLogReport", ConfigurationData.BaseUrl), new StringContent(MyJsonHelper.JsonDataContractJsonSerializer.ObjectToJsonStr(remoteLogDetail), Encoding.UTF8, "application/json"));
+            }
+            catch{ }
         }
     }
 }

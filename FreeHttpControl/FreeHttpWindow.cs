@@ -118,6 +118,7 @@ namespace FreeHttp.FreeHttpControl
             fiddlerModificHttpRuleCollection = yourRuleCollection;
             ModificSettingInfo = yourModifcSettingInfo;
             if (ModificSettingInfo != null) ModificSettingInfo.IsSyncTamperRule = true;
+            if (ModificSettingInfo != null && ModificSettingInfo.UserToken != null) UserComputerInfo.UserToken = ModificSettingInfo.UserToken;
             StaticDataCollection = yourStaticDataCollection;
             if (fiddlerModificHttpRuleCollection != null && StaticDataCollection != null)
             {
@@ -757,7 +758,7 @@ namespace FreeHttp.FreeHttpControl
             }
             catch (Exception ex)
             {
-                _ = RemoteLogService.ReportLogAsync(ex.Message, RemoteLogService.RemoteLogOperation.AddRule, RemoteLogService.RemoteLogType.Error);
+                _ = RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.AddRule, RemoteLogService.RemoteLogType.Error);
                 MessageBox.Show(ex.Message, "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 PutError(string.Format("add rule fail :{0}", ex.Message));
                 MarkControl(tabControl_Modific.SelectedTab, Color.Plum, 2);
@@ -1148,10 +1149,14 @@ namespace FreeHttp.FreeHttpControl
             f.StartPosition = FormStartPosition.CenterParent;
             f.ShowDialog();
             return;
+
             //WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").ContinueWith((rule) => { LoadFiddlerModificHttpRuleCollection(rule.Result); });
             System.Threading.Tasks.Task<RuleDetails> ruleTask = System.Threading.Tasks.Task.Run(new Func<RuleDetails>(() =>
             {
-                return WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").GetAwaiter().GetResult();
+                //return WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").GetAwaiter().GetResult();
+                var x = WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee");
+                System.Threading.Thread.Sleep(100);
+                return x.Result;
             }));
             RuleDetails ruleDetails = ruleTask.GetAwaiter().GetResult();
             if (ruleDetails != null)
@@ -1159,14 +1164,14 @@ namespace FreeHttp.FreeHttpControl
                 InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection);
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
             }
-            return;   
+            return;
 
             //FiddlerModificHttpRuleCollection tempModificHttpRuleCollection = WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").GetAwaiter().GetResult();
             System.Threading.Tasks.Task<WebService.RemoteRuleService.RuleDetails> getRuleTask = WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee");
-            getRuleTask.Start();
-            getRuleTask.Wait();
+            //getRuleTask.Start();
+            //getRuleTask.Wait();
             RuleDetails tempModificHttpRuleCollection = getRuleTask.Result;
-            if (tempModificHttpRuleCollection!=null)
+            if (tempModificHttpRuleCollection != null)
             {
                 LoadFiddlerModificHttpRuleCollection(tempModificHttpRuleCollection.ModificHttpRuleCollection);
             }

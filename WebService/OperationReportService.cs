@@ -23,6 +23,9 @@ namespace FreeHttp.WebService
                 public int ResponseRuleCount { get; set; }
             }
 
+            [System.Runtime.Serialization.DataMember(Name = "UserToken")]
+            public String UserToken { get; set; }
+
             [System.Runtime.Serialization.DataMember(Name = "UserMac")]
             public String UserMac { get; set; }
 
@@ -32,10 +35,11 @@ namespace FreeHttp.WebService
             [System.Runtime.Serialization.DataMember(Name = "OperationDetailCells")]
             public List<OperationDetailCell> OperationDetailCells { get; set; }
 
-            public OperationDetail(string mac = "FF:FF:FF;FF:FF:FF" , string machineName =null)
+            public OperationDetail(string mac = "FF:FF:FF;FF:FF:FF" , string machineName =null ,string userToken=null)
             {
                 UserMac = mac;
                 MachineName = machineName;
+                UserToken = userToken;
                 OperationDetailCells = new List<OperationDetailCell>();
             }
 
@@ -58,7 +62,7 @@ namespace FreeHttp.WebService
         public ActuatorStaticDataCollection StaticDataCollection { get; set; } = null;
         public OperationReportService()
         {
-            operationDetail = new OperationDetail(WebService.UserComputerInfo.GetComputerMac(), WebService.UserComputerInfo.GetMachineName());
+            operationDetail = new OperationDetail(WebService.UserComputerInfo.GetComputerMac(), WebService.UserComputerInfo.GetMachineName(), WebService.UserComputerInfo.UserToken);
             nowInTime = null;
         }
 

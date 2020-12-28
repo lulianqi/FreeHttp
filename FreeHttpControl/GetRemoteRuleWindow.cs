@@ -1,4 +1,5 @@
 ﻿using FreeHttp.FiddlerHelper;
+using FreeHttp.WebService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -104,6 +105,7 @@ namespace FreeHttp.FreeHttpControl
             }
             catch(Exception ex)
             {
+                _ = RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.RemoteRule, RemoteLogService.RemoteLogType.Error);
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -111,7 +113,7 @@ namespace FreeHttp.FreeHttpControl
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         private void lv_remote_ruleList_MouseDoubleClick(object sender, EventArgs e)
         {
-            
+            if ((sender as ListView)?.SelectedItems.Count == 0) return;
             ListViewItem nowListViewItem = (sender as ListView)?.SelectedItems[0];
             if (nowListViewItem == null) return;
             Point myPosition = new Point(nowListViewItem.Bounds.X, nowListViewItem.Bounds.Y);

@@ -60,6 +60,26 @@ namespace FreeHttp.MyHelper
                 }
                 return serializeClass;
             }
+
+            public static T JsonStreamToObject<T>(Stream jsonStream)
+            {
+                T serializeClass = default(T);
+                System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T));
+                try
+                {
+                    serializeClass = (T)ser.ReadObject(jsonStream);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    serializeClass = default(T);
+                }
+                finally
+                {
+
+                }
+                return serializeClass;
+            }
         }
     }
 }
