@@ -41,12 +41,22 @@ namespace FreeHttp.FiddlerHelper
         public bool IsEnableResponseRule { get; set; }
 
 
+        /// <summary>
+        /// user token 
+        /// </summary>
+        public string UserToken { get; set; }
+
+        /// <summary>
+        /// message flag
+        /// </summary>
+        public List<string> ReadedMessageFlags { get; set; }
+
 
         public FiddlerModificSettingInfo():this(true, false ,true,true)
         {
             
         }
-        public FiddlerModificSettingInfo( bool isSkipTlsHandshake, bool isOnlyMatchFirstTamperRule ,bool isSyncTamperRule, bool isSkipUiHide, bool isEnableRequestRule = false, bool isEnableResponseRule = false)
+        public FiddlerModificSettingInfo( bool isSkipTlsHandshake, bool isOnlyMatchFirstTamperRule ,bool isSyncTamperRule, bool isSkipUiHide, bool isEnableRequestRule = false, bool isEnableResponseRule = false ,string userToken=null)
         {
             IsSkipConnectTunnels = isSkipTlsHandshake;
             IsOnlyMatchFirstTamperRule = isOnlyMatchFirstTamperRule;
@@ -54,6 +64,8 @@ namespace FreeHttp.FiddlerHelper
             IsSkipUiHide = isSkipUiHide;
             IsEnableRequestRule = isEnableRequestRule;
             IsEnableResponseRule = isEnableResponseRule;
+            UserToken = userToken;
+            ReadedMessageFlags = new List<string>();
         }
     }
 }

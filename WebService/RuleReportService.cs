@@ -1,4 +1,5 @@
-﻿using FreeHttp.FiddlerHelper;
+﻿using FreeHttp.AutoTest.RunTimeStaticData;
+using FreeHttp.FiddlerHelper;
 using FreeHttp.MyHelper;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,13 @@ namespace FreeHttp.WebService
             httpClient = new HttpClient();
         }
 
-        public async Task UploadRulesAsync<T1, T2>(List<T1> requestRules, List<T2> responseRules) where T1 : IFiddlerHttpTamper where T2: IFiddlerHttpTamper
+        public async Task UploadRulesAsync<T1, T2>(List<T1> requestRules, List<T2> responseRules , ActuatorStaticDataCollection staticDataCollection =null) where T1 : IFiddlerHttpTamper where T2: IFiddlerHttpTamper
         {
             MultipartFormDataContent multipartFormData = new MultipartFormDataContent();
+            if(staticDataCollection!=null)
+            {
+                multipartFormData.Add(new StringContent(MyJsonHelper.JsonDataContractJsonSerializer.ObjectToJsonStr(staticDataCollection)), "staticData");
+            }
             if(requestRules!=null)
             {
                 foreach(var request in requestRules)
@@ -37,11 +42,11 @@ namespace FreeHttp.WebService
 
             try
             {
-                await httpClient.PostAsync(string.Format(@"{0}freehttp/RuleDetails?user={1}&machinename={2}", ConfigurationData.BaseUrl, WebService.UserComputerInfo.GetComputerMac() , WebService.UserComputerInfo.GetMachineName()), multipartFormData);
+                await httpClient.PostAsync(string.Format(@"{0}freehttp/RuleDetails?ruleversion={1}&{2}", ConfigurationData.BaseUrl, UserComputerInfo.GetRuleVersion(), WebService.UserComputerInfo.GetFreeHttpUser()), multipartFormData);
             }
             catch(Exception ex)
             {
-
+                await RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.RuleUpload, RemoteLogService.RemoteLogType.Error);
             }
             finally
             {

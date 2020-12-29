@@ -394,6 +394,19 @@ namespace FreeHttp.FiddlerHelper
             return this.Equals(fiddlerHttpTamper.HttpFilter);
         }
 
+        public string GetShowTitle()
+        {
+            if (!String.IsNullOrEmpty(this.Name))
+            {
+                return this.Name;
+            }
+            if (this.UriMatch != null)
+            {
+                return string.Format("【{0}】: {1}", this.UriMatch.MatchMode.ToString(), this.UriMatch.MatchUri);
+            }
+            return default;
+        }
+
         public new string ToString()
         {
             StringBuilder tempSb = new StringBuilder(string.Format("Uri:\r\n{0}\r\n",UriMatch.ToString()));

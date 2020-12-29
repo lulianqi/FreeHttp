@@ -4,24 +4,50 @@ using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Runtime.Serialization;
+using FreeHttp.MyHelper;
+using System.Net.Http;
 
 namespace FreeHttp.WebService
 {
     public class UpgradeService
     {
+        [DataContract]
+        public class UpdateInfo
+        {
+            [DataMember]
+            public bool isNeedUpdata { get; set; }
+
+            [DataMember]
+            public bool isSilentUpgrade { get; set; }
+
+            [DataMember]
+            public bool isShowMessage { get; set; }
+
+            [DataMember]
+            public string messageFlag { get; set; }
+
+            [DataMember]
+            public string url { get; set; }
+
+            [DataMember]
+            public string message { get; set; }
+
+            [DataMember]
+            public bool isForceEnter { get; set; }
+
+            [DataMember]
+            public string uuid { get; set; }
+        }
         public class UpgradeServiceEventArgs : EventArgs
         {
             public bool IsSuccess { get; set; }
-            public bool IsSilentUpgrade { get; set; }
-            public string UpgradeMes { get; set; }
-            public string Message { get; set; }
+            public UpdateInfo UpgradeInfo { get; set; }
 
-            public UpgradeServiceEventArgs(bool isSuccess, string upgradeMes, string message = null, bool isSilentUpgrade = false)
+            public UpgradeServiceEventArgs(bool isSuccess, UpdateInfo upgradeInfo)
             {
                 IsSuccess = isSuccess;
-                UpgradeMes = upgradeMes;
-                Message = message;
-                IsSilentUpgrade = isSilentUpgrade;
+                UpgradeInfo = upgradeInfo;
             }
         }
 
@@ -30,6 +56,13 @@ namespace FreeHttp.WebService
         public event EventHandler<UpgradeServiceEventArgs> GetUpgradeMes;
 
         public string SilentUpgradeUrl { get; private set; }
+
+
+        private static HttpClient httpClient;
+        static UpgradeService()
+        {
+            httpClient = new HttpClient();
+        }
 
         public UpgradeService()
         {
@@ -45,26 +78,57 @@ namespace FreeHttp.WebService
 
             Task<UpgradeServiceEventArgs> checkUpgradeTask = new Task<UpgradeServiceEventArgs>(() =>
             {
-                string tempResponse = myHttp.SendData(string.Format(@"{0}freehttp/UpdateCheck/v{1}?user={2}&dotnetrelease={3}&username={4}&machinename={5}", ConfigurationData.BaseUrl, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(), UserComputerInfo.GetComputerMac(), UserComputerInfo.GetDotNetRelease(), UserComputerInfo.GetUserName(), UserComputerInfo.GetMachineName()));
-                string isNeedUpdata = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"isNeedUpdata\":", ",", tempResponse);
-                string isSilentUpgrade = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"isSilentUpgrade\":", ",", tempResponse);
-                string url = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"url\":\"", "\",", tempResponse);
-                string message = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"message\":\"", "\"", tempResponse);
-                if (string.IsNullOrEmpty(isNeedUpdata))
+                //string tempResponse = myHttp.SendData(string.Format(@"{0}freehttp/UpdateCheck/v{1}?dotnetrelease={2}&{3}", ConfigurationData.BaseUrl, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(),  UserComputerInfo.GetDotNetRelease(), UserComputerInfo.GetFreeHttpUser()));
+                //string isNeedUpdata = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"isNeedUpdata\":", ",", tempResponse);
+                //string isSilentUpgrade = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"isSilentUpgrade\":", ",", tempResponse);
+                //string url = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"url\":\"", "\",", tempResponse);
+                //string message = FreeHttp.AutoTest.ParameterizationPick.ParameterPickHelper.PickStrParameter("\"message\":\"", "\"", tempResponse);
+                //if (string.IsNullOrEmpty(isNeedUpdata))
+                //{
+                //    return new UpgradeServiceEventArgs(false, null);
+                //}
+                //if (isNeedUpdata == "true")
+                //{
+                //    if (isSilentUpgrade == "true") SilentUpgradeUrl = url;
+                //    return new UpgradeServiceEventArgs(true, url, null, isSilentUpgrade == "true");
+                //}
+                //if (!string.IsNullOrEmpty(message))
+                //{
+                //    return new UpgradeServiceEventArgs(true, null, message);
+                //}
+                //return null;
+
+                try
                 {
+                    HttpResponseMessage response = httpClient.GetAsync(string.Format(@"{0}freehttp/UpdateCheck/v{1}?dotnetrelease={2}&{3}", ConfigurationData.BaseUrl, UserComputerInfo.GetFreeHttpVersion(), UserComputerInfo.GetDotNetRelease(), UserComputerInfo.GetFreeHttpUser())).GetAwaiter().GetResult();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        UpdateInfo ruleDetails = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<UpdateInfo>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+                        if (ruleDetails == null)
+                        {
+                            _ = RemoteLogService.ReportLogAsync("JsonStringToObject fail that StartCheckUpgrade", RemoteLogService.RemoteLogOperation.CheckUpgrade, RemoteLogService.RemoteLogType.Error);
+                            return new UpgradeServiceEventArgs(false, null);
+                        }
+                        if (ruleDetails.isNeedUpdata && ruleDetails.isSilentUpgrade && !string.IsNullOrEmpty(ruleDetails.url))
+                        {
+                            SilentUpgradeUrl = ruleDetails.url;
+                        }
+                        return new UpgradeServiceEventArgs(true, ruleDetails);
+                    }
+                    else
+                    {
+                        _ = RemoteLogService.ReportLogAsync("StartCheckUpgrade get error response", RemoteLogService.RemoteLogOperation.CheckUpgrade, RemoteLogService.RemoteLogType.Error);
+                        return new UpgradeServiceEventArgs(false, null);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    _ = RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.Exception, RemoteLogService.RemoteLogType.Error);
                     return new UpgradeServiceEventArgs(false, null);
                 }
-                if (isNeedUpdata == "true")
-                {
-                    if (isSilentUpgrade == "true") SilentUpgradeUrl = url;
-                    return new UpgradeServiceEventArgs(true, url, null, isSilentUpgrade == "true");
-                }
-                if (!string.IsNullOrEmpty(message))
-                {
-                    return new UpgradeServiceEventArgs(true, null, message);
-                }
-                return null;
+
             });
+
             checkUpgradeTask.Start();
             checkUpgradeTask.ContinueWith((task) => { if (checkUpgradeTask.Result != null) this.GetUpgradeMes(this, checkUpgradeTask.Result); });
         }
@@ -89,7 +153,7 @@ namespace FreeHttp.WebService
             //_ = await RemoteLogService.ReportLogAsync() 父进程可能先结束，不会管以异步启动的任务是否完成
             RemoteLogService.ReportLogAsync("start SilentUpgrade", RemoteLogService.RemoteLogOperation.SilentUpgrade, RemoteLogService.RemoteLogType.Info).Wait();
             //MyHelper.SelfUpgradeHelp.UpdateDllAsync("https://lulianqi.com/file/FreeHttpUpgradeFile").Wait();
-            _ = MyHelper.SelfUpgradeHelp.UpdateDllAsync(SilentUpgradeUrl).ContinueWith((result) =>
+            MyHelper.SelfUpgradeHelp.UpdateDllAsync(SilentUpgradeUrl).ContinueWith((result) =>
             {
                 if (!string.IsNullOrEmpty(result.Result))
                 {
@@ -99,7 +163,7 @@ namespace FreeHttp.WebService
                 {
                     RemoteLogService.ReportLogAsync("SilentUpgrade complete", RemoteLogService.RemoteLogOperation.SilentUpgrade, RemoteLogService.RemoteLogType.Info).Wait();
                 }
-            });
+            }).Wait();
         }
 
 
@@ -130,7 +194,7 @@ namespace FreeHttp.WebService
             }
             if (isNeedUpdata == "true")
             {
-                this.GetUpgradeMes(this, new UpgradeServiceEventArgs(true, url));
+                this.GetUpgradeMes(this, new UpgradeServiceEventArgs(true, new UpdateInfo() { url = url}));
             }
         }
     }

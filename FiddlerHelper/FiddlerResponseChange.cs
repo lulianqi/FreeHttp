@@ -2,6 +2,7 @@
 using FreeHttp.AutoTest.RunTimeStaticData;
 using FreeHttp.AutoTest.RunTimeStaticData.MyStaticData;
 using FreeHttp.HttpHelper;
+using FreeHttp.MyHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,6 @@ namespace FreeHttp.FiddlerHelper
         {
             get { return HttpRawResponse != null; }
         }
-
         public void SetHasParameter(bool hasParameter, ActuatorStaticDataCollection staticDataController = null)
         {
             if (staticDataController != null)
@@ -72,5 +72,11 @@ namespace FreeHttp.FiddlerHelper
             }
         }
 
+        public object Clone()
+        {
+            FiddlerResponseChange cloneFiddlerResponseChange = this.MyDeepClone();
+            cloneFiddlerResponseChange?.SetHasParameter(IsHasParameter, ActuatorStaticDataController?.actuatorStaticDataCollection);
+            return cloneFiddlerResponseChange;
+        }
     }
 }

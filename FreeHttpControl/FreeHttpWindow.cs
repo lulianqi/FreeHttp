@@ -11,6 +11,8 @@ using FreeHttp.HttpHelper;
 using FreeHttp.AutoTest.RunTimeStaticData;
 using FreeHttp.FiddlerHelper;
 using FreeHttp.AutoTest.ParameterizationPick;
+using static FreeHttp.WebService.RemoteRuleService;
+using FreeHttp.WebService;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -111,25 +113,21 @@ namespace FreeHttp.FreeHttpControl
             ShowRuleInfo_pb.Click += ShowRuleInfo_pb_Click;
         }
 
-        /// <summary>
-        /// FreeHttpWindow
-        /// </summary>
-        /// <param name="yourRuleCollection">the history rule</param>
-        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection, FiddlerModificSettingInfo yourModifcSettingInfo, ActuatorStaticDataCollection yourStaticDataCollection)
-            : this()
+        private void InitializeConfigInfo(FiddlerModificHttpRuleCollection yourRuleCollection, FiddlerModificSettingInfo yourModifcSettingInfo, ActuatorStaticDataCollection yourStaticDataCollection)
         {
             fiddlerModificHttpRuleCollection = yourRuleCollection;
             ModificSettingInfo = yourModifcSettingInfo;
-            if(ModificSettingInfo!=null) ModificSettingInfo.IsSyncTamperRule = true;
+            if (ModificSettingInfo != null) ModificSettingInfo.IsSyncTamperRule = true;
+            if (ModificSettingInfo != null && ModificSettingInfo.UserToken != null) UserComputerInfo.UserToken = ModificSettingInfo.UserToken;
             StaticDataCollection = yourStaticDataCollection;
-            if(fiddlerModificHttpRuleCollection!=null&&StaticDataCollection!=null)
+            if (fiddlerModificHttpRuleCollection != null && StaticDataCollection != null)
             {
-                foreach(var fr in fiddlerModificHttpRuleCollection.ResponseRuleList)
+                foreach (var fr in fiddlerModificHttpRuleCollection.ResponseRuleList)
                 {
                     fr.ActuatorStaticDataController = new FiddlerActuatorStaticDataCollectionController(StaticDataCollection);
-                    if(fr.IsRawReplace)
+                    if (fr.IsRawReplace)
                     {
-                        if(fr.HttpRawResponse.ParameterizationContent==null)
+                        if (fr.HttpRawResponse.ParameterizationContent == null)
                         {
                             fr.HttpRawResponse.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(fr.HttpRawResponse.OriginSting);
                         }
@@ -140,7 +138,7 @@ namespace FreeHttp.FreeHttpControl
                 {
                     if (fr.IsRawReplace)
                     {
-                        if (fr.HttpRawRequest.ParameterizationContent== null)
+                        if (fr.HttpRawRequest.ParameterizationContent == null)
                         {
                             fr.HttpRawRequest.ParameterizationContent = new AutoTest.ParameterizationContent.CaseParameterizationContent(fr.HttpRawRequest.OriginSting);
                         }
@@ -148,7 +146,16 @@ namespace FreeHttp.FreeHttpControl
                     fr.SetHasParameter(fr.IsHasParameter, StaticDataCollection);
                 }
             }
-            if(!rawResponseEdit.SetContextMenuStrip(contextMenuStrip_AddFile))
+        }
+        /// <summary>
+        /// FreeHttpWindow
+        /// </summary>
+        /// <param name="yourRuleCollection">the history rule</param>
+        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection, FiddlerModificSettingInfo yourModifcSettingInfo, ActuatorStaticDataCollection yourStaticDataCollection)
+            : this()
+        {
+            InitializeConfigInfo(yourRuleCollection, yourModifcSettingInfo, yourStaticDataCollection);
+            if (!rawResponseEdit.SetContextMenuStrip(contextMenuStrip_AddFile))
             {
                 MessageBox.Show("RawResponseEdit SetContextMenuStrip fail");
             }
@@ -261,7 +268,9 @@ namespace FreeHttp.FreeHttpControl
             }
             catch(Exception ex)
             {
-                MessageBox.Show(string.Format("{0}\r\n{1}", ex.Message, ex.InnerException==null? "":ex.InnerException.Message), "load user rule fail");
+                string errorMes = string.Format("{0}\r\n{1}", ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message);
+                _ = RemoteLogService.ReportLogAsync(errorMes, RemoteLogService.RemoteLogOperation.WindowLoad, RemoteLogService.RemoteLogType.Error);
+                MessageBox.Show(errorMes, "load user rule fail");
                 if (File.Exists("RuleData.xml"))
                 {
                     File.Copy("RuleData.xml", "RuleData.lastErrorFile", true);
@@ -749,6 +758,7 @@ namespace FreeHttp.FreeHttpControl
             }
             catch (Exception ex)
             {
+                _ = RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.AddRule, RemoteLogService.RemoteLogType.Error);
                 MessageBox.Show(ex.Message, "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 PutError(string.Format("add rule fail :{0}", ex.Message));
                 MarkControl(tabControl_Modific.SelectedTab, Color.Plum, 2);
@@ -1133,6 +1143,39 @@ namespace FreeHttp.FreeHttpControl
             SettingWindow f = new SettingWindow(ModificSettingInfo);
             f.ShowDialog();
         }
+        private void loadingRemoteRuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetRemoteRuleWindow f = new GetRemoteRuleWindow(this);
+            f.StartPosition = FormStartPosition.CenterParent;
+            f.ShowDialog();
+            return;
+
+            //WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").ContinueWith((rule) => { LoadFiddlerModificHttpRuleCollection(rule.Result); });
+            System.Threading.Tasks.Task<RuleDetails> ruleTask = System.Threading.Tasks.Task.Run(new Func<RuleDetails>(() =>
+            {
+                //return WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").GetAwaiter().GetResult();
+                var x = WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee");
+                System.Threading.Thread.Sleep(100);
+                return x.Result;
+            }));
+            RuleDetails ruleDetails = ruleTask.GetAwaiter().GetResult();
+            if (ruleDetails != null)
+            {
+                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection);
+                LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+            }
+            return;
+
+            //FiddlerModificHttpRuleCollection tempModificHttpRuleCollection = WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").GetAwaiter().GetResult();
+            System.Threading.Tasks.Task<WebService.RemoteRuleService.RuleDetails> getRuleTask = WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee");
+            //getRuleTask.Start();
+            //getRuleTask.Wait();
+            RuleDetails tempModificHttpRuleCollection = getRuleTask.Result;
+            if (tempModificHttpRuleCollection != null)
+            {
+                LoadFiddlerModificHttpRuleCollection(tempModificHttpRuleCollection.ModificHttpRuleCollection);
+            }
+        }
 
         private void parameterDataManageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1455,6 +1498,33 @@ namespace FreeHttp.FreeHttpControl
             }
             //tempRuleLv.Items.Clear();
             DelRuleFromListView(tempRuleLv, null);
+        }
+
+        private void copySelectedRuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListView nowRuleListView = GetRuleToolStripMenuItemSourceControl(sender);
+            if (nowRuleListView.SelectedItems != null && nowRuleListView.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem tempItem in nowRuleListView.SelectedItems)
+                {
+                    try
+                    {
+                        IFiddlerHttpTamper tempHttpTamper = ((IFiddlerHttpTamper)tempItem.Tag).Clone() as IFiddlerHttpTamper;
+                        tempHttpTamper.HttpFilter.Name = string.Format("<copy from> {0}", tempHttpTamper.HttpFilter?.GetShowTitle() ?? "");
+                        AddRuleToListView(nowRuleListView, tempHttpTamper, true);
+                    }
+                    catch(Exception ex)
+                    {
+                        _ = RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.AddRule, RemoteLogService.RemoteLogType.Error);
+                        MessageBox.Show(string.Format("copy rule file\r\n{0}", tempItem?.SubItems[1].Text, "Stop"));
+                        continue;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("please select the rules that your want copy","Stop");
+            }
         }
 
         private void enableThisRuleToolStripMenuItem_Click(object sender, EventArgs e)

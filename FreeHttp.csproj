@@ -115,6 +115,12 @@
     <Compile Include="FreeHttpControl\EditSheetForm.Designer.cs">
       <DependentUpon>EditSheetForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\GetRemoteRuleWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\GetRemoteRuleWindow.Designer.cs">
+      <DependentUpon>GetRemoteRuleWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\RuleInfoWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -280,6 +286,7 @@
     <Compile Include="WebService\HttpServer\MySocketHelper.cs" />
     <Compile Include="WebService\MyWebTool.cs" />
     <Compile Include="WebService\OperationReportService.cs" />
+    <Compile Include="WebService\RemoteRuleService.cs" />
     <Compile Include="WebService\RemoteLogService.cs" />
     <Compile Include="WebService\RuleReportService.cs" />
     <Compile Include="WebService\UpgradeService.cs" />
@@ -304,6 +311,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\EditSheetForm.resx">
       <DependentUpon>EditSheetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\GetRemoteRuleWindow.resx">
+      <DependentUpon>GetRemoteRuleWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RuleInfoWindow.resx">
       <DependentUpon>RuleInfoWindow.cs</DependentUpon>
@@ -457,6 +467,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\freehttpico.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

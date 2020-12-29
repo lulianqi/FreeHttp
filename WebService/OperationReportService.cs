@@ -1,4 +1,5 @@
-﻿using FreeHttp.FiddlerHelper;
+﻿using FreeHttp.AutoTest.RunTimeStaticData;
+using FreeHttp.FiddlerHelper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,6 +23,9 @@ namespace FreeHttp.WebService
                 public int ResponseRuleCount { get; set; }
             }
 
+            [System.Runtime.Serialization.DataMember(Name = "UserToken")]
+            public String UserToken { get; set; }
+
             [System.Runtime.Serialization.DataMember(Name = "UserMac")]
             public String UserMac { get; set; }
 
@@ -31,10 +35,11 @@ namespace FreeHttp.WebService
             [System.Runtime.Serialization.DataMember(Name = "OperationDetailCells")]
             public List<OperationDetailCell> OperationDetailCells { get; set; }
 
-            public OperationDetail(string mac = "FF:FF:FF;FF:FF:FF" , string machineName =null)
+            public OperationDetail(string mac = "FF:FF:FF;FF:FF:FF" , string machineName =null ,string userToken=null)
             {
                 UserMac = mac;
                 MachineName = machineName;
+                UserToken = userToken;
                 OperationDetailCells = new List<OperationDetailCell>();
             }
 
@@ -54,10 +59,10 @@ namespace FreeHttp.WebService
 
         public List<FiddlerRequestChange> FiddlerRequestChangeRuleList { get; set; } = null;
         public List<FiddlerResponseChange> FiddlerResponseChangeRuleList { get; set; } = null;
-
+        public ActuatorStaticDataCollection StaticDataCollection { get; set; } = null;
         public OperationReportService()
         {
-            operationDetail = new OperationDetail(WebService.UserComputerInfo.GetComputerMac(), WebService.UserComputerInfo.GetMachineName());
+            operationDetail = new OperationDetail(WebService.UserComputerInfo.GetComputerMac(), WebService.UserComputerInfo.GetMachineName(), WebService.UserComputerInfo.UserToken);
             nowInTime = null;
         }
 
@@ -108,7 +113,7 @@ namespace FreeHttp.WebService
                 (new WebService.MyWebTool.MyHttp()).SendHttpRequest(string.Format("{0}freehttp/OperationReport",ConfigurationData.BaseUrl), operationBody, "POST", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null);
                 if (FiddlerRequestChangeRuleList != null || FiddlerResponseChangeRuleList != null)
                 {
-                    new WebService.RuleReportService().UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(FiddlerRequestChangeRuleList, FiddlerResponseChangeRuleList).Wait();
+                    new WebService.RuleReportService().UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(FiddlerRequestChangeRuleList, FiddlerResponseChangeRuleList , StaticDataCollection).Wait();
                 }
             }
             //System.GC.Collect();

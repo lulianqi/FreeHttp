@@ -41,7 +41,7 @@ namespace FreeHttp.MyHelper
                 System.Xml.XmlDocument xmlDocument = new System.Xml.XmlDocument();
                 xmlDocument.Load(rulePath);
                 System.Xml.XmlAttribute dbAtt = xmlDocument.CreateAttribute("ruleVersion");
-                dbAtt.Value = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                dbAtt.Value = WebService.UserComputerInfo.GetRuleVersion();
                 xmlDocument.SelectSingleNode("/FiddlerModificHttpRuleCollection")?.Attributes.Append(dbAtt);
                 xmlDocument.Save(rulePath);
             }

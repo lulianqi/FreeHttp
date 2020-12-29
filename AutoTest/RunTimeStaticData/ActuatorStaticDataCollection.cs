@@ -29,6 +29,32 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
         public bool IsAllCollectionKeyUnique { get; private set; }
 
         /// <summary>
+        /// is all staticdata list is empty in ActuatorStaticDataCollection
+        /// </summary>
+        public bool IsEmpty
+        {
+            get
+            {
+                if (runActuatorStaticDataKeyList != null && runActuatorStaticDataKeyList.Count > 0) return false;
+                if (runActuatorStaticDataParameterList != null && runActuatorStaticDataParameterList.Count > 0) return false;
+                if (runActuatorStaticDataSouceList != null && runActuatorStaticDataSouceList.Count > 0) return false;
+                return true;
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                int tempCount = 0;
+                if (runActuatorStaticDataKeyList != null) tempCount += runActuatorStaticDataKeyList.Count;
+                if (runActuatorStaticDataParameterList != null) tempCount += runActuatorStaticDataParameterList.Count;
+                if (runActuatorStaticDataSouceList != null) tempCount += runActuatorStaticDataSouceList.Count;
+                return tempCount;
+            }
+        }
+
+        /// <summary>
         /// RunTimeParameter List
         /// </summary>
         [DataMember]

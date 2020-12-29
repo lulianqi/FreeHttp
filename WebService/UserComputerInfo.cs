@@ -9,6 +9,8 @@ namespace FreeHttp.WebService
 {
     internal class UserComputerInfo
     {
+        internal static string UserToken { get; set; }
+        
         internal static string GetComputerMac()
         {
             ManagementClass mc = null;
@@ -68,6 +70,28 @@ namespace FreeHttp.WebService
             {
                 return "";
             }
+        }
+
+        internal static string GetFreeHttpVersion()
+        {
+            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        internal static string GetRuleVersion()
+        {
+            return ConfigurationData.RuleVersion;
+        }
+
+        internal static string GetFreeHttpUser()
+        {
+            if(string.IsNullOrEmpty(UserToken))
+            {
+                return string.Format("user={0}&username={1}&machinename={2}", GetComputerMac(), GetUserName(), GetMachineName());
+            }
+            else
+            {
+                return string.Format("user={0}&username={1}&machinename={2}&usertoken={3}", GetComputerMac(), GetUserName(), GetMachineName(), UserToken);
+            }       
         }
 
         internal static int GetDotNetRelease()

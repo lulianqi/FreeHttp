@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FreeHttp.FiddlerHelper
 {
-    public interface IFiddlerHttpTamper
+    public interface IFiddlerHttpTamper:ICloneable
     {
         bool IsEnable { get; set; }
         bool IsHasParameter { get; set; }

@@ -71,6 +71,7 @@
             this.lb_ruleId.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lb_ruleId.ForeColor = System.Drawing.Color.RosyBrown;
             this.lb_ruleId.Location = new System.Drawing.Point(60, 37);
+            this.lb_ruleId.MaximumSize = new System.Drawing.Size(800, 18);
             this.lb_ruleId.Name = "lb_ruleId";
             this.lb_ruleId.Size = new System.Drawing.Size(62, 16);
             this.lb_ruleId.TabIndex = 8;
@@ -102,11 +103,11 @@
             // RuleInfoWindow
             // 
             this.ClientSize = new System.Drawing.Size(929, 337);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBox_close);
             this.Controls.Add(this.rtb_ruleInfo);
             this.Controls.Add(this.pb_ruleIcon);
             this.Controls.Add(this.lb_ruleId);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.pictureBox_close);
             this.FrameBottomRight = System.Drawing.Color.Cyan;
             this.FrameTopLeft = System.Drawing.Color.SkyBlue;
             this.Name = "RuleInfoWindow";
