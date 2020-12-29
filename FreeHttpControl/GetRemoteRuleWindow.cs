@@ -26,26 +26,11 @@ namespace FreeHttp.FreeHttpControl
             lv_remote_responseRuleList.SmallImageList = mainWindow.imageList_forTab;
         }
 
-        private string GetRemoteRuleWindowGetFiddlerHttpFilterName(FiddlerHttpFilter fiddlerHttpFilter)
-        {
-            if (fiddlerHttpFilter != null)
-            {
-                if (!String.IsNullOrEmpty(fiddlerHttpFilter.Name))
-                {
-                    return fiddlerHttpFilter.Name;
-                }
-                if (fiddlerHttpFilter.UriMatch != null)
-                {
-                    return string.Format("【{0}】: {1}", fiddlerHttpFilter.UriMatch.MatchMode.ToString(), fiddlerHttpFilter.UriMatch.MatchUri);
-                }
-            }
-            return "";
-        }
         private void GetRemoteRuleWindowAddRuleToListView(ListView yourListViews, IFiddlerHttpTamper yourHttpTamper)
         {
 
             int tempListViewItemImageIndex = yourHttpTamper.TamperProtocol == TamperProtocalType.WebSocket ? 4 : yourHttpTamper.IsRawReplace ? 1 : 0;
-            ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), GetRemoteRuleWindowGetFiddlerHttpFilterName(yourHttpTamper.HttpFilter) }, tempListViewItemImageIndex);
+            ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), yourHttpTamper.HttpFilter?.GetShowTitle() ?? "" }, tempListViewItemImageIndex);
             nowRuleItem.Tag = yourHttpTamper;
             nowRuleItem.ToolTipText = yourHttpTamper.HttpFilter.ToString();
             nowRuleItem.Checked = yourHttpTamper.IsEnable;

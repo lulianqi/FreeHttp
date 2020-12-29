@@ -75,7 +75,7 @@ namespace FreeHttp.FiddlerHelper
         public object Clone()
         {
             FiddlerResponseChange cloneFiddlerResponseChange = this.MyDeepClone();
-
+            cloneFiddlerResponseChange?.SetHasParameter(IsHasParameter, ActuatorStaticDataController?.actuatorStaticDataCollection);
             return cloneFiddlerResponseChange;
         }
     }

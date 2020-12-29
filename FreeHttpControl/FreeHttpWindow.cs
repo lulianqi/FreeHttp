@@ -1500,6 +1500,33 @@ namespace FreeHttp.FreeHttpControl
             DelRuleFromListView(tempRuleLv, null);
         }
 
+        private void copySelectedRuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListView nowRuleListView = GetRuleToolStripMenuItemSourceControl(sender);
+            if (nowRuleListView.SelectedItems != null && nowRuleListView.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem tempItem in nowRuleListView.SelectedItems)
+                {
+                    try
+                    {
+                        IFiddlerHttpTamper tempHttpTamper = ((IFiddlerHttpTamper)tempItem.Tag).Clone() as IFiddlerHttpTamper;
+                        tempHttpTamper.HttpFilter.Name = string.Format("<copy from> {0}", tempHttpTamper.HttpFilter?.GetShowTitle() ?? "");
+                        AddRuleToListView(nowRuleListView, tempHttpTamper, true);
+                    }
+                    catch(Exception ex)
+                    {
+                        _ = RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.AddRule, RemoteLogService.RemoteLogType.Error);
+                        MessageBox.Show(string.Format("copy rule file\r\n{0}", tempItem?.SubItems[1].Text, "Stop"));
+                        continue;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("please select the rules that your want copy","Stop");
+            }
+        }
+
         private void enableThisRuleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ListView tempRuleLv = GetRuleToolStripMenuItemSourceControl(sender);

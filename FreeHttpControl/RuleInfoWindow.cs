@@ -276,7 +276,16 @@ namespace FreeHttp.FreeHttpControl
             {
                 lastListViewItemRectangle = InnerListViewItem.Bounds;
                 Form mainForm = this.Owner.Owner;
-                Point myPosition = new Point(InnerListViewItem.Bounds.X, InnerListViewItem.Bounds.Y);
+                int tempFinalY = InnerListViewItem.Bounds.Y;
+                if(tempFinalY < 0)
+                {
+                    tempFinalY = 0;
+                }
+                else if(tempFinalY> InnerListViewItem.ListView.Height)
+                {
+                    tempFinalY = InnerListViewItem.ListView.Height;
+                }
+                Point myPosition = new Point(InnerListViewItem.Bounds.X, tempFinalY);
                 myPosition = InnerListViewItem.ListView.PointToScreen(myPosition);
                 myPosition = mainForm.PointToClient(myPosition);
                 myPosition.Offset(40, 10);

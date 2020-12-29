@@ -153,7 +153,7 @@ namespace FreeHttp.FreeHttpControl
             //    //throw new Exception("unkonw protocol");
             //}
             int tempListViewItemImageIndex = yourHttpTamper.TamperProtocol == TamperProtocalType.WebSocket ? 4 : yourHttpTamper.IsRawReplace ? 1 : 0;           
-            ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), GetFiddlerHttpFilterName(yourHttpTamper.HttpFilter) }, tempListViewItemImageIndex);
+            ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), yourHttpTamper.HttpFilter?.GetShowTitle() ?? "" }, tempListViewItemImageIndex);
             nowRuleItem.Tag = yourHttpTamper;
             nowRuleItem.ToolTipText = yourHttpTamper.HttpFilter.ToString();
             nowRuleItem.Checked = yourHttpTamper.IsEnable;
@@ -170,7 +170,7 @@ namespace FreeHttp.FreeHttpControl
         private void UpdataRuleToListView(ListViewItem yourListViewItem, IFiddlerHttpTamper yourHttpTamper, bool isMark)
         {
             yourListViewItem.Tag = yourHttpTamper;
-            yourListViewItem.SubItems[1].Text = GetFiddlerHttpFilterName(yourHttpTamper.HttpFilter);
+            yourListViewItem.SubItems[1].Text = yourHttpTamper.HttpFilter?.GetShowTitle() ?? ""; 
             yourListViewItem.ImageIndex = yourHttpTamper.TamperProtocol == TamperProtocalType.WebSocket ? 4 : yourHttpTamper.IsRawReplace ? 1 : 0;
             yourListViewItem.ToolTipText = yourHttpTamper.HttpFilter.ToString();
             yourListViewItem.Checked = yourHttpTamper.IsEnable;
@@ -433,22 +433,6 @@ namespace FreeHttp.FreeHttpControl
                 return ((List<ParameterPick>)pb_pickRule.Tag).Count > 0 ? (List<ParameterPick>)pb_pickRule.Tag : null;
             }
             return null;
-        }
-
-        private string GetFiddlerHttpFilterName(FiddlerHttpFilter fiddlerHttpFilter)
-        {
-            if (fiddlerHttpFilter != null)
-            {
-                if(!String.IsNullOrEmpty(fiddlerHttpFilter.Name))
-                {
-                    return fiddlerHttpFilter.Name;
-                }
-                if(fiddlerHttpFilter.UriMatch!=null)
-                {
-                    return string.Format("【{0}】: {1}", fiddlerHttpFilter.UriMatch.MatchMode.ToString(), fiddlerHttpFilter.UriMatch.MatchUri);
-                }
-            }
-            return "";
         }
 
         private void SetUriMatch(FiddlerUriMatch fiddlerUriMatch)

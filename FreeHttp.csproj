@@ -471,6 +471,9 @@
   <ItemGroup>
     <None Include="Resources\cloud.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SYSTEMDRIVE)$(HOMEPATH)\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>

@@ -67,6 +67,7 @@ namespace FreeHttp.MyHelper
                 System.Runtime.Serialization.Json.DataContractJsonSerializer ser = new System.Runtime.Serialization.Json.DataContractJsonSerializer(typeof(T));
                 try
                 {
+                    jsonStream.Position = 0;
                     serializeClass = (T)ser.ReadObject(jsonStream);
                 }
                 catch (Exception ex)
