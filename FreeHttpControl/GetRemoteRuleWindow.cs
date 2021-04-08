@@ -13,14 +13,27 @@ using static FreeHttp.WebService.RemoteRuleService;
 
 namespace FreeHttp.FreeHttpControl
 {
-    public partial class GetRemoteRuleWindow : Form
+    public partial class GetRemoteRuleWindow : MyBaseInfoWindow
     {
+        public enum ShowRuleCollectionType
+        {
+            RemoteRule = 0,
+            SharedRule = 1,
+            LocalRule = 2
+        }
+
         FreeHttpWindow mainWindow;
         RuleInfoWindow myListViewCBallon;
+        RuleDetails localRuleDetails;
         RuleDetails nowRuleDetails;
-        public GetRemoteRuleWindow(FreeHttpWindow freeHttpWindow)
+
+        private ShowRuleCollectionType nowShowType = ShowRuleCollectionType.RemoteRule;
+        private Point lv_requestRuleOriginLocation = new Point(2, 72);
+        private int lv_requestRuleOriginHeight = 220;
+        public GetRemoteRuleWindow(FreeHttpWindow freeHttpWindow , ShowRuleCollectionType expectType= ShowRuleCollectionType.RemoteRule)
         {
             InitializeComponent();
+            nowShowType = expectType;
             mainWindow = freeHttpWindow;
             lv_remote_requestRuleList.SmallImageList = mainWindow.imageList_forTab;
             lv_remote_responseRuleList.SmallImageList = mainWindow.imageList_forTab;
@@ -28,14 +41,12 @@ namespace FreeHttp.FreeHttpControl
 
         private void GetRemoteRuleWindowAddRuleToListView(ListView yourListViews, IFiddlerHttpTamper yourHttpTamper)
         {
-
             int tempListViewItemImageIndex = yourHttpTamper.TamperProtocol == TamperProtocalType.WebSocket ? 4 : yourHttpTamper.IsRawReplace ? 1 : 0;
             ListViewItem nowRuleItem = new ListViewItem(new string[] { (yourListViews.Items.Count + 1).ToString(), yourHttpTamper.HttpFilter?.GetShowTitle() ?? "" }, tempListViewItemImageIndex);
             nowRuleItem.Tag = yourHttpTamper;
             nowRuleItem.ToolTipText = yourHttpTamper.HttpFilter.ToString();
             nowRuleItem.Checked = yourHttpTamper.IsEnable;
             yourListViews.Items.Add(nowRuleItem);
-          
         }
 
         private void ClearRemoteRule()
@@ -50,6 +61,99 @@ namespace FreeHttp.FreeHttpControl
             nowRuleDetails = null;
         }
 
+        private void GetRemoteRuleWindow_Load(object sender, EventArgs e)
+        {
+            lv_requestRuleOriginLocation = lv_remote_requestRuleList.Location;
+            lv_requestRuleOriginHeight = lv_remote_requestRuleList.Height;
+            localRuleDetails = new RuleDetails() { ModificHttpRuleCollection = mainWindow.ModificHttpRuleCollection, StaticDataCollection = mainWindow.StaticDataCollection };
+            ShowInfoChange(nowShowType);
+        }
+        private void ShowInfoChange(ShowRuleCollectionType showParameter)
+        {
+            ClearRemoteRule();
+            switch (showParameter)
+            {
+                case ShowRuleCollectionType.RemoteRule:
+                    nowShowType = ShowRuleCollectionType.RemoteRule;
+                    lb_info_RemoteRule.ForeColor = Color.SaddleBrown;
+                    lb_info_SharedRule.ForeColor = lb_info_LocalRule.ForeColor = Color.DarkGray;
+
+                    lb_info_1.Text = "remote tule token:";
+                    lb_info_1.Visible = true;
+                    watermakTextBox_ruleToken.Visible = true;
+                    bt_getRule.Visible = true;
+                    comboBox_yourRule.Visible = false;
+                    lv_remote_requestRuleList.Location = lv_requestRuleOriginLocation;
+                    lv_remote_requestRuleList.Height = lv_requestRuleOriginHeight;
+                    lv_remote_requestRuleList.CheckBoxes = false;
+                    lv_remote_responseRuleList.CheckBoxes = false;
+                    break;
+                case ShowRuleCollectionType.SharedRule:
+                    nowShowType = ShowRuleCollectionType.SharedRule;
+                    lb_info_SharedRule.ForeColor = Color.SaddleBrown;
+                    lb_info_RemoteRule.ForeColor = lb_info_LocalRule.ForeColor = Color.DarkGray;
+
+                    lb_info_1.Text = "select your shared rule:";
+                    lb_info_1.Visible = true;
+                    watermakTextBox_ruleToken.Visible = false;
+                    bt_getRule.Visible = true;
+                    comboBox_yourRule.Visible = true;
+                    lv_remote_requestRuleList.Location = lv_requestRuleOriginLocation;
+                    lv_remote_requestRuleList.Height = lv_requestRuleOriginHeight;
+                    lv_remote_requestRuleList.CheckBoxes = false;
+                    lv_remote_responseRuleList.CheckBoxes = false;
+                    break;
+                case ShowRuleCollectionType.LocalRule:
+                    nowShowType = ShowRuleCollectionType.LocalRule;
+                    lb_info_LocalRule.ForeColor = Color.SaddleBrown;
+                    lb_info_RemoteRule.ForeColor = lb_info_SharedRule.ForeColor = Color.DarkGray;
+
+                    lb_info_1.Visible = false;
+                    watermakTextBox_ruleToken.Visible = false;
+                    bt_getRule.Visible = false;
+                    comboBox_yourRule.Visible = false;
+                    lv_remote_requestRuleList.Location = new Point(lv_requestRuleOriginLocation.X, lv_requestRuleOriginLocation.Y - 40);
+                    lv_remote_requestRuleList.Height = lv_requestRuleOriginHeight + 40;
+                    lv_remote_requestRuleList.CheckBoxes = true;
+                    lv_remote_responseRuleList.CheckBoxes = true;
+
+                    //action
+                    LoadRules(localRuleDetails);
+                    break;
+                default:
+                    MessageBox.Show("nonsupport static data type");
+                    break;
+            }
+            
+        }
+
+        private void LoadRules(RuleDetails ruleDetails)
+        {
+            foreach (var tempRule in ruleDetails.ModificHttpRuleCollection.RequestRuleList)
+            {
+                GetRemoteRuleWindowAddRuleToListView(lv_remote_requestRuleList, tempRule);
+            }
+            foreach (var tempRule in ruleDetails.ModificHttpRuleCollection.ResponseRuleList)
+            {
+                GetRemoteRuleWindowAddRuleToListView(lv_remote_responseRuleList, tempRule);
+            }
+            lb_info_2.Text = string.Format("Get RequestRule:{0} ; ResponseRule:{1} ; StaticData:{2}", ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count, ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count, ruleDetails.StaticDataCollection?.Count ?? 0);
+            nowRuleDetails = ruleDetails;
+        }
+        private void CreatShareRule()
+        {
+
+        }
+
+        
+        private void lb_info_showType_Click(object sender, EventArgs e)
+        {
+            ShowRuleCollectionType hereType;
+            if (Enum.TryParse<ShowRuleCollectionType>(((Label)sender).Text, out hereType))
+            {
+                ShowInfoChange(hereType);
+            }
+        }
         private void bt_getRule_Click(object sender, EventArgs e)
         {
             try
@@ -135,5 +239,33 @@ namespace FreeHttp.FreeHttpControl
             mainWindow.ReplaceRuleStorage(nowRuleDetails);
             this.Close();
         }
+
+
+
+        #region public event helper
+        private void lb_info_MouseMove(object sender, MouseEventArgs e)
+        {
+            ((Label)sender).BackColor = Color.LavenderBlush;
+        }
+
+        private void lb_info_MouseLeave(object sender, EventArgs e)
+        {
+            ((Label)sender).BackColor = Color.FromArgb(194, 217, 247);
+        }
+
+        //pictureBox change for all
+        public void pictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            ((PictureBox)sender).BackColor = Color.Honeydew;
+        }
+
+        //pictureBox change for all
+        public void pictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            ((PictureBox)sender).BackColor = Color.Transparent;
+        }
+        #endregion
+
+        
     }
 }

@@ -41,12 +41,16 @@ namespace FreeHttp.FreeHttpControl
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_requstRule = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.watermakTextBox_ruleToken = new FreeHttp.FreeHttpControl.WatermakTextBox();
+            this.lb_info_LocalRule = new System.Windows.Forms.Label();
+            this.lb_info_SharedRule = new System.Windows.Forms.Label();
+            this.lb_info_RemoteRule = new System.Windows.Forms.Label();
+            this.comboBox_yourRule = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lb_info_1
             // 
             this.lb_info_1.AutoSize = true;
-            this.lb_info_1.Location = new System.Drawing.Point(12, 18);
+            this.lb_info_1.Location = new System.Drawing.Point(13, 38);
             this.lb_info_1.Name = "lb_info_1";
             this.lb_info_1.Size = new System.Drawing.Size(113, 12);
             this.lb_info_1.TabIndex = 12;
@@ -55,7 +59,7 @@ namespace FreeHttp.FreeHttpControl
             // bt_getRule
             // 
             this.bt_getRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bt_getRule.Location = new System.Drawing.Point(543, 14);
+            this.bt_getRule.Location = new System.Drawing.Point(544, 34);
             this.bt_getRule.Name = "bt_getRule";
             this.bt_getRule.Size = new System.Drawing.Size(75, 23);
             this.bt_getRule.TabIndex = 13;
@@ -66,7 +70,7 @@ namespace FreeHttp.FreeHttpControl
             // bt_replaceRule
             // 
             this.bt_replaceRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bt_replaceRule.Location = new System.Drawing.Point(514, 496);
+            this.bt_replaceRule.Location = new System.Drawing.Point(515, 516);
             this.bt_replaceRule.Name = "bt_replaceRule";
             this.bt_replaceRule.Size = new System.Drawing.Size(104, 23);
             this.bt_replaceRule.TabIndex = 16;
@@ -77,7 +81,7 @@ namespace FreeHttp.FreeHttpControl
             // lb_info_2
             // 
             this.lb_info_2.AutoSize = true;
-            this.lb_info_2.Location = new System.Drawing.Point(4, 501);
+            this.lb_info_2.Location = new System.Drawing.Point(5, 521);
             this.lb_info_2.Name = "lb_info_2";
             this.lb_info_2.Size = new System.Drawing.Size(0, 12);
             this.lb_info_2.TabIndex = 17;
@@ -90,7 +94,7 @@ namespace FreeHttp.FreeHttpControl
             this.columnHeader_responseRule});
             this.lv_remote_responseRuleList.FullRowSelect = true;
             this.lv_remote_responseRuleList.HideSelection = false;
-            this.lv_remote_responseRuleList.Location = new System.Drawing.Point(1, 273);
+            this.lv_remote_responseRuleList.Location = new System.Drawing.Point(2, 293);
             this.lv_remote_responseRuleList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.lv_remote_responseRuleList.Name = "lv_remote_responseRuleList";
             this.lv_remote_responseRuleList.ShowItemToolTips = true;
@@ -118,7 +122,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_remote_requestRuleList.Cursor = System.Windows.Forms.Cursors.Default;
             this.lv_remote_requestRuleList.FullRowSelect = true;
             this.lv_remote_requestRuleList.HideSelection = false;
-            this.lv_remote_requestRuleList.Location = new System.Drawing.Point(1, 52);
+            this.lv_remote_requestRuleList.Location = new System.Drawing.Point(2, 72);
             this.lv_remote_requestRuleList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.lv_remote_requestRuleList.Name = "lv_remote_requestRuleList";
             this.lv_remote_requestRuleList.ShowItemToolTips = true;
@@ -140,17 +144,78 @@ namespace FreeHttp.FreeHttpControl
             // 
             // watermakTextBox_ruleToken
             // 
-            this.watermakTextBox_ruleToken.Location = new System.Drawing.Point(131, 15);
+            this.watermakTextBox_ruleToken.Location = new System.Drawing.Point(132, 35);
             this.watermakTextBox_ruleToken.Name = "watermakTextBox_ruleToken";
             this.watermakTextBox_ruleToken.Size = new System.Drawing.Size(404, 21);
             this.watermakTextBox_ruleToken.TabIndex = 11;
             this.watermakTextBox_ruleToken.WatermarkText = "input your token";
             // 
+            // lb_info_LocalRule
+            // 
+            this.lb_info_LocalRule.AutoSize = true;
+            this.lb_info_LocalRule.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lb_info_LocalRule.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lb_info_LocalRule.ForeColor = System.Drawing.Color.DarkGray;
+            this.lb_info_LocalRule.Location = new System.Drawing.Point(364, 9);
+            this.lb_info_LocalRule.Name = "lb_info_LocalRule";
+            this.lb_info_LocalRule.Size = new System.Drawing.Size(79, 13);
+            this.lb_info_LocalRule.TabIndex = 22;
+            this.lb_info_LocalRule.Text = "LocalRule";
+            this.lb_info_LocalRule.Click += new System.EventHandler(this.lb_info_showType_Click);
+            this.lb_info_LocalRule.MouseLeave += new System.EventHandler(this.lb_info_MouseLeave);
+            this.lb_info_LocalRule.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_info_MouseMove);
+            // 
+            // lb_info_SharedRule
+            // 
+            this.lb_info_SharedRule.AutoSize = true;
+            this.lb_info_SharedRule.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lb_info_SharedRule.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lb_info_SharedRule.ForeColor = System.Drawing.Color.DarkGray;
+            this.lb_info_SharedRule.Location = new System.Drawing.Point(271, 9);
+            this.lb_info_SharedRule.Name = "lb_info_SharedRule";
+            this.lb_info_SharedRule.Size = new System.Drawing.Size(87, 13);
+            this.lb_info_SharedRule.TabIndex = 21;
+            this.lb_info_SharedRule.Text = "SharedRule";
+            this.lb_info_SharedRule.Click += new System.EventHandler(this.lb_info_showType_Click);
+            this.lb_info_SharedRule.MouseLeave += new System.EventHandler(this.lb_info_MouseLeave);
+            this.lb_info_SharedRule.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_info_MouseMove);
+            // 
+            // lb_info_RemoteRule
+            // 
+            this.lb_info_RemoteRule.AutoSize = true;
+            this.lb_info_RemoteRule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
+            this.lb_info_RemoteRule.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lb_info_RemoteRule.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lb_info_RemoteRule.ForeColor = System.Drawing.Color.SaddleBrown;
+            this.lb_info_RemoteRule.Location = new System.Drawing.Point(176, 9);
+            this.lb_info_RemoteRule.Name = "lb_info_RemoteRule";
+            this.lb_info_RemoteRule.Size = new System.Drawing.Size(87, 13);
+            this.lb_info_RemoteRule.TabIndex = 20;
+            this.lb_info_RemoteRule.Text = "RemoteRule";
+            this.lb_info_RemoteRule.Click += new System.EventHandler(this.lb_info_showType_Click);
+            this.lb_info_RemoteRule.MouseLeave += new System.EventHandler(this.lb_info_MouseLeave);
+            this.lb_info_RemoteRule.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_info_MouseMove);
+            // 
+            // comboBox_yourRule
+            // 
+            this.comboBox_yourRule.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_yourRule.FormattingEnabled = true;
+            this.comboBox_yourRule.Items.AddRange(new object[] {
+            "Please share a set of rules first"});
+            this.comboBox_yourRule.Location = new System.Drawing.Point(168, 36);
+            this.comboBox_yourRule.Name = "comboBox_yourRule";
+            this.comboBox_yourRule.Size = new System.Drawing.Size(368, 20);
+            this.comboBox_yourRule.TabIndex = 23;
+            // 
             // GetRemoteRuleWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(630, 521);
+            this.ClientSize = new System.Drawing.Size(630, 544);
+            this.Controls.Add(this.comboBox_yourRule);
+            this.Controls.Add(this.lb_info_LocalRule);
+            this.Controls.Add(this.lb_info_SharedRule);
+            this.Controls.Add(this.lb_info_RemoteRule);
             this.Controls.Add(this.lb_info_2);
             this.Controls.Add(this.bt_replaceRule);
             this.Controls.Add(this.lv_remote_responseRuleList);
@@ -158,13 +223,25 @@ namespace FreeHttp.FreeHttpControl
             this.Controls.Add(this.bt_getRule);
             this.Controls.Add(this.lb_info_1);
             this.Controls.Add(this.watermakTextBox_ruleToken);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.IsShowHideBox = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "GetRemoteRuleWindow";
-            this.Text = "GetRemoteRule";
+            this.WindowName = "";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GetRemoteRuleWindow_FormClosing);
+            this.Load += new System.EventHandler(this.GetRemoteRuleWindow_Load);
+            this.Controls.SetChildIndex(this.watermakTextBox_ruleToken, 0);
+            this.Controls.SetChildIndex(this.lb_info_1, 0);
+            this.Controls.SetChildIndex(this.bt_getRule, 0);
+            this.Controls.SetChildIndex(this.lv_remote_requestRuleList, 0);
+            this.Controls.SetChildIndex(this.lv_remote_responseRuleList, 0);
+            this.Controls.SetChildIndex(this.bt_replaceRule, 0);
+            this.Controls.SetChildIndex(this.lb_info_2, 0);
+            this.Controls.SetChildIndex(this.lb_info_RemoteRule, 0);
+            this.Controls.SetChildIndex(this.lb_info_SharedRule, 0);
+            this.Controls.SetChildIndex(this.lb_info_LocalRule, 0);
+            this.Controls.SetChildIndex(this.comboBox_yourRule, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,5 +260,9 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.ColumnHeader columnHeader_requstRule;
         private System.Windows.Forms.Button bt_replaceRule;
         private System.Windows.Forms.Label lb_info_2;
+        private System.Windows.Forms.Label lb_info_LocalRule;
+        private System.Windows.Forms.Label lb_info_SharedRule;
+        private System.Windows.Forms.Label lb_info_RemoteRule;
+        private System.Windows.Forms.ComboBox comboBox_yourRule;
     }
 }

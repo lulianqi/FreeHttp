@@ -200,6 +200,14 @@ namespace FreeHttp.FreeHttpControl
         public ActuatorStaticDataCollection StaticDataCollection { get; set; }
 
         /// <summary>
+        /// get FiddlerModificHttpRuleCollection
+        /// </summary>
+        public FiddlerModificHttpRuleCollection ModificHttpRuleCollection
+        {
+            get { return fiddlerModificHttpRuleCollection; }
+        }
+
+        /// <summary>
         /// get or set IsSetResponseLatencyEable
         /// </summary>
         public bool IsSetResponseLatencyEable

@@ -14,7 +14,7 @@ namespace FreeHttp.WebService
 
         public static string BaseUrl
         {
-            get { return url_pro; }
+            get { return url_dev; }
         }
 
         public static string RuleVersion
