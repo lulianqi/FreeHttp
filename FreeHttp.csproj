@@ -198,6 +198,12 @@
     <Compile Include="FreeHttpControl\RemoveHead.Designer.cs">
       <DependentUpon>RemoveHead.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\SaveShareRule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\SaveShareRule.Designer.cs">
+      <DependentUpon>SaveShareRule.cs</DependentUpon>
+    </Compile>
     <Compile Include="FreeHttpControl\SettingWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -280,6 +286,7 @@
       <DependentUpon>MyResource.resx</DependentUpon>
     </Compile>
     <Compile Include="WebService\ConfigurationData.cs" />
+    <Compile Include="WebService\DataModel\RuleDetails.cs" />
     <Compile Include="WebService\FeedbackService.cs" />
     <Compile Include="WebService\HttpServer\CertificatesHelper.cs" />
     <Compile Include="WebService\HttpServer\MyHttpListener.cs" />
@@ -289,6 +296,7 @@
     <Compile Include="WebService\RemoteRuleService.cs" />
     <Compile Include="WebService\RemoteLogService.cs" />
     <Compile Include="WebService\RuleReportService.cs" />
+    <Compile Include="WebService\ShareRuleService.cs" />
     <Compile Include="WebService\UpgradeService.cs" />
     <Compile Include="WebService\UserComputerInfo.cs" />
   </ItemGroup>
@@ -348,6 +356,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RemoveHead.resx">
       <DependentUpon>RemoveHead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\SaveShareRule.resx">
+      <DependentUpon>SaveShareRule.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\SettingWindow.resx">
       <DependentUpon>SettingWindow.cs</DependentUpon>
@@ -474,6 +485,7 @@
   <ItemGroup>
     <None Include="Resources\copy.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SYSTEMDRIVE)$(HOMEPATH)\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>

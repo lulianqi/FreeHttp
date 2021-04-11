@@ -44,7 +44,9 @@ namespace FreeHttp.FreeHttpControl
             this.lb_info_LocalRule = new System.Windows.Forms.Label();
             this.lb_info_SharedRule = new System.Windows.Forms.Label();
             this.lb_info_RemoteRule = new System.Windows.Forms.Label();
-            this.comboBox_yourRule = new System.Windows.Forms.ComboBox();
+            this.lv_shareRuleList = new System.Windows.Forms.ListView();
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // lb_info_1
@@ -88,7 +90,6 @@ namespace FreeHttp.FreeHttpControl
             // 
             // lv_remote_responseRuleList
             // 
-            this.lv_remote_responseRuleList.AllowDrop = true;
             this.lv_remote_responseRuleList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
             this.columnHeader_responseRule});
@@ -196,23 +197,37 @@ namespace FreeHttp.FreeHttpControl
             this.lb_info_RemoteRule.MouseLeave += new System.EventHandler(this.lb_info_MouseLeave);
             this.lb_info_RemoteRule.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_info_MouseMove);
             // 
-            // comboBox_yourRule
+            // lv_shareRuleList
             // 
-            this.comboBox_yourRule.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_yourRule.FormattingEnabled = true;
-            this.comboBox_yourRule.Items.AddRange(new object[] {
-            "Please share a set of rules first"});
-            this.comboBox_yourRule.Location = new System.Drawing.Point(168, 36);
-            this.comboBox_yourRule.Name = "comboBox_yourRule";
-            this.comboBox_yourRule.Size = new System.Drawing.Size(368, 20);
-            this.comboBox_yourRule.TabIndex = 23;
+            this.lv_shareRuleList.BackColor = System.Drawing.Color.Azure;
+            this.lv_shareRuleList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader2,
+            this.columnHeader4});
+            this.lv_shareRuleList.HideSelection = false;
+            this.lv_shareRuleList.Location = new System.Drawing.Point(2, 32);
+            this.lv_shareRuleList.Name = "lv_shareRuleList";
+            this.lv_shareRuleList.Size = new System.Drawing.Size(230, 479);
+            this.lv_shareRuleList.TabIndex = 23;
+            this.lv_shareRuleList.UseCompatibleStateImageBehavior = false;
+            this.lv_shareRuleList.View = System.Windows.Forms.View.Details;
+            this.lv_shareRuleList.Visible = false;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Share Token";
+            this.columnHeader2.Width = 110;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Remark";
+            this.columnHeader4.Width = 115;
             // 
             // GetRemoteRuleWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(630, 544);
-            this.Controls.Add(this.comboBox_yourRule);
+            this.Controls.Add(this.lv_shareRuleList);
             this.Controls.Add(this.lb_info_LocalRule);
             this.Controls.Add(this.lb_info_SharedRule);
             this.Controls.Add(this.lb_info_RemoteRule);
@@ -241,7 +256,7 @@ namespace FreeHttp.FreeHttpControl
             this.Controls.SetChildIndex(this.lb_info_RemoteRule, 0);
             this.Controls.SetChildIndex(this.lb_info_SharedRule, 0);
             this.Controls.SetChildIndex(this.lb_info_LocalRule, 0);
-            this.Controls.SetChildIndex(this.comboBox_yourRule, 0);
+            this.Controls.SetChildIndex(this.lv_shareRuleList, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -263,6 +278,8 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.Label lb_info_LocalRule;
         private System.Windows.Forms.Label lb_info_SharedRule;
         private System.Windows.Forms.Label lb_info_RemoteRule;
-        private System.Windows.Forms.ComboBox comboBox_yourRule;
+        private System.Windows.Forms.ListView lv_shareRuleList;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
     }
 }

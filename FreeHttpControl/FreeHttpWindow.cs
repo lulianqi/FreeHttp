@@ -13,6 +13,7 @@ using FreeHttp.FiddlerHelper;
 using FreeHttp.AutoTest.ParameterizationPick;
 using static FreeHttp.WebService.RemoteRuleService;
 using FreeHttp.WebService;
+using FreeHttp.WebService.DataModel;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -1175,7 +1176,7 @@ namespace FreeHttp.FreeHttpControl
             return;
 
             //FiddlerModificHttpRuleCollection tempModificHttpRuleCollection = WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").GetAwaiter().GetResult();
-            System.Threading.Tasks.Task<WebService.RemoteRuleService.RuleDetails> getRuleTask = WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee");
+            System.Threading.Tasks.Task<RuleDetails> getRuleTask = WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee");
             //getRuleTask.Start();
             //getRuleTask.Wait();
             RuleDetails tempModificHttpRuleCollection = getRuleTask.Result;

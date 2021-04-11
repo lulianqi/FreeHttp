@@ -18,6 +18,7 @@ namespace FreeHttp.WebService
             httpClient = new HttpClient();
         }
 
+        protected string UploadRuleUrl = @"{0}freehttp/RuleDetails?ruleversion={1}&{2}";
         public async Task UploadRulesAsync<T1, T2>(List<T1> requestRules, List<T2> responseRules , ActuatorStaticDataCollection staticDataCollection =null) where T1 : IFiddlerHttpTamper where T2: IFiddlerHttpTamper
         {
             MultipartFormDataContent multipartFormData = new MultipartFormDataContent();
@@ -42,7 +43,7 @@ namespace FreeHttp.WebService
 
             try
             {
-                await httpClient.PostAsync(string.Format(@"{0}freehttp/RuleDetails?ruleversion={1}&{2}", ConfigurationData.BaseUrl, UserComputerInfo.GetRuleVersion(), WebService.UserComputerInfo.GetFreeHttpUser()), multipartFormData);
+                await httpClient.PostAsync(string.Format(UploadRuleUrl, ConfigurationData.BaseUrl, UserComputerInfo.GetRuleVersion(), WebService.UserComputerInfo.GetFreeHttpUser()), multipartFormData);
             }
             catch(Exception ex)
             {

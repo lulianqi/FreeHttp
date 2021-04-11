@@ -1,6 +1,7 @@
 ﻿using FreeHttp.AutoTest.RunTimeStaticData;
 using FreeHttp.FiddlerHelper;
 using FreeHttp.MyHelper;
+using FreeHttp.WebService.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,42 +14,7 @@ namespace FreeHttp.WebService
 {
     public class RemoteRuleService
     {
-        [DataContract]
-        public class RuleDetails
-        {
-            [DataContract]
-
-            public class RuleCell
-            {
-                public RuleCell() { }
-
-                [DataMember]
-                public string RuleContent { get; set; }
-                [DataMember]
-                public string RuleVersion { get; set; }
-            }
-
-            public RuleDetails()
-            {
-                RequestRuleCells = new List<RuleCell>();
-                ResponseRuleCells = new List<RuleCell>();
-            }
-
-
-            [DataMember]
-            public List<RuleCell> RequestRuleCells { get; set; }
-
-            [DataMember]
-            public List<RuleCell> ResponseRuleCells { get; set; }
-
-            [DataMember]
-            public RuleCell RuleStaticData { get; set; }
-
-            public FiddlerModificHttpRuleCollection ModificHttpRuleCollection { get; set; }
-
-            public ActuatorStaticDataCollection StaticDataCollection { get; set; }
-
-        }
+        
 
         private static HttpClient httpClient;
         static RemoteRuleService()
@@ -56,9 +22,10 @@ namespace FreeHttp.WebService
             httpClient = new HttpClient();
         }
 
-        public static async Task<RuleDetails> GetRemoteRuleAsync(string token)
+        protected  const string getRuleUrl = @"{0}freehttp/RuleDetails?userToken={1}";
+        public static async Task<RuleDetails> GetRemoteRuleAsync(string token ,string apiUrl= getRuleUrl)
         {
-            HttpResponseMessage responseMessage = await httpClient.GetAsync(string.Format(@"{0}freehttp/RuleDetails?userToken={1}", ConfigurationData.BaseUrl, token));
+            HttpResponseMessage responseMessage = await httpClient.GetAsync(string.Format(apiUrl, ConfigurationData.BaseUrl, token));
             if(responseMessage.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 return null;

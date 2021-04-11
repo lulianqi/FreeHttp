@@ -12,6 +12,7 @@ using FreeHttp.FiddlerHelper;
 using FreeHttp.MyHelper;
 using FreeHttp.AutoTest.ParameterizationPick;
 using static FreeHttp.WebService.RemoteRuleService;
+using FreeHttp.WebService.DataModel;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
