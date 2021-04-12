@@ -91,6 +91,7 @@
     <Compile Include="FreeHttpControl\ChangeEncodeForm.Designer.cs">
       <DependentUpon>ChangeEncodeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\ControlHelper\LoadBitmap.cs" />
     <Compile Include="FreeHttpControl\EditKeyVaule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,11 +158,11 @@
     <Compile Include="FreeHttpControl\HttpFilterWindow.Designer.cs">
       <DependentUpon>HttpFilterWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="FreeHttpControl\MarkControlService.cs" />
+    <Compile Include="FreeHttpControl\ControlHelper\MarkControlService.cs" />
     <Compile Include="FreeHttpControl\MyBaseInfoWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\MyControlHelper.cs" />
+    <Compile Include="FreeHttpControl\ControlHelper\MyControlHelper.cs" />
     <Compile Include="FreeHttpControl\MyControl\MySwitchPictureButton.cs">
       <SubType>Component</SubType>
     </Compile>

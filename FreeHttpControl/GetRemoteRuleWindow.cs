@@ -80,7 +80,7 @@ namespace FreeHttp.FreeHttpControl
                 }
             }
 
-            if(nowFiddlerResponseChangeRuleList.Count==0 && nowFiddlerResponseChangeRuleList.Count==0)
+            if(nowFiddlerRequestChangeRuleList.Count==0 && nowFiddlerResponseChangeRuleList.Count==0)
             {
                 MessageBox.Show("Please check the rules you want to share","stop");
                 return;
@@ -90,6 +90,10 @@ namespace FreeHttp.FreeHttpControl
                 ModificHttpRuleCollection = new FiddlerModificHttpRuleCollection(nowFiddlerRequestChangeRuleList, nowFiddlerResponseChangeRuleList)
             };
 
+            FreeHttp.FreeHttpControl.SaveShareRule saveShareRuleWindow = new SaveShareRule(shareRuleService);
+            saveShareRuleWindow.StartPosition = FormStartPosition.CenterParent;
+            saveShareRuleWindow.ShowDialog();
+            return;
         }
         private void AddRuleToListView(ListView yourListViews, IFiddlerHttpTamper yourHttpTamper)
         {
@@ -204,10 +208,6 @@ namespace FreeHttp.FreeHttpControl
             lb_info_2.Text = string.Format("Get RequestRule:{0} ; ResponseRule:{1} ; StaticData:{2}", ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count, ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count, ruleDetails.StaticDataCollection?.Count ?? 0);
             nowRuleDetails = ruleDetails;
         }
-        private void CreatShareRule()
-        {
-
-        }
 
         
         private void lb_info_showType_Click(object sender, EventArgs e)
@@ -295,7 +295,10 @@ namespace FreeHttp.FreeHttpControl
 
         private void bt_replaceRule_Click(object sender, EventArgs e)
         {
-            if(nowRuleDetails==null)
+            SaveShareRule();
+            return;
+
+            if (nowRuleDetails==null)
             {
                 MessageBox.Show("please get remore rule first", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;

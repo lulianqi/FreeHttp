@@ -33,9 +33,11 @@ namespace FreeHttp.FreeHttpControl
             this.rb_updataRule = new System.Windows.Forms.RadioButton();
             this.rb_newRule = new System.Windows.Forms.RadioButton();
             this.comboBox_yourRule = new System.Windows.Forms.ComboBox();
-            this.wtb_ruleRemark = new FreeHttp.FreeHttpControl.WatermakTextBox();
             this.ck_parameterData = new System.Windows.Forms.CheckBox();
             this.bt_save = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.wtb_ruleRemark = new FreeHttp.FreeHttpControl.WatermakTextBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // rb_updataRule
@@ -71,14 +73,6 @@ namespace FreeHttp.FreeHttpControl
             this.comboBox_yourRule.Size = new System.Drawing.Size(287, 20);
             this.comboBox_yourRule.TabIndex = 24;
             // 
-            // wtb_ruleRemark
-            // 
-            this.wtb_ruleRemark.Location = new System.Drawing.Point(157, 52);
-            this.wtb_ruleRemark.Name = "wtb_ruleRemark";
-            this.wtb_ruleRemark.Size = new System.Drawing.Size(287, 21);
-            this.wtb_ruleRemark.TabIndex = 25;
-            this.wtb_ruleRemark.WatermarkText = "please enter comment name";
-            // 
             // ck_parameterData
             // 
             this.ck_parameterData.AutoSize = true;
@@ -99,12 +93,32 @@ namespace FreeHttp.FreeHttpControl
             this.bt_save.TabIndex = 27;
             this.bt_save.Text = "confirm";
             this.bt_save.UseVisualStyleBackColor = true;
+            this.bt_save.Click += new System.EventHandler(this.bt_save_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::FreeHttp.Properties.Resources.cancel;
+            this.pictureBox1.Location = new System.Drawing.Point(181, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(117, 108);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 28;
+            this.pictureBox1.TabStop = false;
+            // 
+            // wtb_ruleRemark
+            // 
+            this.wtb_ruleRemark.Location = new System.Drawing.Point(157, 52);
+            this.wtb_ruleRemark.Name = "wtb_ruleRemark";
+            this.wtb_ruleRemark.Size = new System.Drawing.Size(287, 21);
+            this.wtb_ruleRemark.TabIndex = 25;
+            this.wtb_ruleRemark.WatermarkText = "please enter comment name";
             // 
             // SaveShareRule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(452, 119);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.bt_save);
             this.Controls.Add(this.ck_parameterData);
             this.Controls.Add(this.wtb_ruleRemark);
@@ -118,6 +132,8 @@ namespace FreeHttp.FreeHttpControl
             this.Name = "SaveShareRule";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SaveShareRule";
+            this.Load += new System.EventHandler(this.SaveShareRule_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,5 +147,6 @@ namespace FreeHttp.FreeHttpControl
         private WatermakTextBox wtb_ruleRemark;
         private System.Windows.Forms.CheckBox ck_parameterData;
         private System.Windows.Forms.Button bt_save;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
