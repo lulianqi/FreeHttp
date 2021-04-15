@@ -8,12 +8,12 @@ namespace FreeHttp.FreeHttpControl
     public partial class SaveShareRule : Form
     {
         ShareRuleService shareRuleService;
-        LoadBitmap loadBitmap;
+        LoadWindowService loadWindowService;
         public SaveShareRule(ShareRuleService ruleService)
         {
             InitializeComponent();
             shareRuleService = ruleService;
-            loadBitmap = new LoadBitmap(this.Size);
+            loadWindowService = new LoadWindowService();
         }
 
         private void SaveShareRule_Load(object sender, EventArgs e)
@@ -23,7 +23,7 @@ namespace FreeHttp.FreeHttpControl
 
         private void bt_save_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = loadBitmap.DrawCircle((new Random()).Next(0, 7));
+            loadWindowService.StartLoad(this);
         }
         
     }

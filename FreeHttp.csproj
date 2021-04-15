@@ -92,6 +92,7 @@
       <DependentUpon>ChangeEncodeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\ControlHelper\LoadBitmap.cs" />
+    <Compile Include="FreeHttpControl\ControlHelper\LoadWindowService.cs" />
     <Compile Include="FreeHttpControl\EditKeyVaule.cs">
       <SubType>Form</SubType>
     </Compile>

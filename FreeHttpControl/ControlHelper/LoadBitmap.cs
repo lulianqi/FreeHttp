@@ -26,15 +26,26 @@ namespace FreeHttp.FreeHttpControl.ControlHelper
             Width = size.Width;
             Height = size.Height;
         }
+
+        internal void SetSize(int size)
+        {
+            SetSize(new Size(size, size));
+        }
+        public void SetSize(Size size)
+        {
+            Width = size.Width;
+            Height = size.Height;
+        }
+
         public Bitmap DrawCircle(int j)
         {
-            const float angle = 360.0F / 8; Bitmap map = new Bitmap(150, 150);
+            const float angle = 360.0F / 8; Bitmap map = new Bitmap(Width, Height);
             Graphics g = Graphics.FromImage(map);
 
-            //g.TranslateTransform(Width / 2.0F, Height / 2.0F);
-            //g.RotateTransform(angle * _value);
-            //g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            //g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.TranslateTransform(Width / 2.0F, Height / 2.0F);
+            g.RotateTransform(angle * _value);
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
             int[] a = new int[8] { 25, 50, 75, 100, 125, 150, 175, 200 };
             for (int i = 1; i <= 8; i++)
             {
@@ -53,9 +64,11 @@ namespace FreeHttp.FreeHttpControl.ControlHelper
                     g.RotateTransform(angle);
                 }
             }
-            g.DrawLine(new Pen(Color.Red),1,1,10,10);
+            //g.DrawLine(new Pen(Color.Red),1,1,10,10);
             //g.Save();
             return map;
         }
+
+        
     }
 }
