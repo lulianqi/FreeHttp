@@ -124,7 +124,7 @@ namespace FreeHttp.FreeHttpControl
             localRuleDetails = new RuleDetails() { ModificHttpRuleCollection = mainWindow.ModificHttpRuleCollection, StaticDataCollection = mainWindow.StaticDataCollection };
             ShowInfoChange(nowShowType);
             shareRuleService = new ShareRuleService(WebService.UserComputerInfo.GetFreeHttpUser());
-            _ = shareRuleService.GetPersonalShareRulesAsync();
+            _ = shareRuleService.GetShareRuleSummaryAsync();
         }
         private void ShowInfoChange(ShowRuleCollectionType showParameter)
         {

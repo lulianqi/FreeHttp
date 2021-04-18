@@ -18,11 +18,15 @@ namespace FreeHttp.FreeHttpControl
 
         private void SaveShareRule_Load(object sender, EventArgs e)
         {
-
+            comboBox_yourRule.DataSource = shareRuleService.NowShareRuleSummary.PrivateRuleList;
+            comboBox_yourRule.ValueMember = "Token";
+            comboBox_yourRule.DisplayMember = "Token";
+            comboBox_yourRule.Text = "please select personal ShareRule";
         }
 
         private void bt_save_Click(object sender, EventArgs e)
         {
+            shareRuleService.SaveShareRules().ContinueWith((rs => loadWindowService.StopLoad())) ;
             loadWindowService.StartLoad(this);
         }
         

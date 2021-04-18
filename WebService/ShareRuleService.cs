@@ -1,8 +1,10 @@
 ﻿using FreeHttp.FiddlerHelper;
+using FreeHttp.MyHelper;
 using FreeHttp.WebService.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +12,7 @@ namespace FreeHttp.WebService
 {
     public class ShareRuleService: RuleReportService
     {
-        public Dictionary<string, string> PersonalShareRules { get; private set; }
+        public ShareRuleSummary NowShareRuleSummary { get;private set; }
         public RuleDetails NowSaveRuleDetails { get; set; }
 
         private string _userInfoStr;
@@ -18,24 +20,57 @@ namespace FreeHttp.WebService
         public ShareRuleService(string personalUserInfoStr)
         {
             base.UploadRuleUrl = @"{0}freehttp/sharerule/create?ruleversion={1}&{2}";
-            PersonalShareRules = new Dictionary<string, string>();
+            NowShareRuleSummary = new ShareRuleSummary();
             _userInfoStr = personalUserInfoStr;
         }
 
-        public async Task<Dictionary<string, string>> GetPersonalShareRulesAsync()
+        public async Task<ShareRuleSummary> GetShareRuleSummaryAsync()
         {
-            return PersonalShareRules;
+            try
+            {
+                HttpResponseMessage responseMessage = await httpClient.GetAsync($"{ConfigurationData.BaseUrl}freehttp/sharerule/sharerulesummary?{_userInfoStr}");
+
+                if (responseMessage.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await RemoteLogService.ReportLogAsync("GetPersonalShareRulesAsync fail", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                }
+                else
+                {
+                    NowShareRuleSummary = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<ShareRuleSummary>(await responseMessage.Content.ReadAsStringAsync());
+                    if (NowShareRuleSummary == null)
+                    {
+                        await RemoteLogService.ReportLogAsync($"JsonStringToObject fail in【GetPersonalShareRulesAsync】 that {await responseMessage.Content.ReadAsStringAsync()}", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                    }
+                    else
+                    {
+                        return NowShareRuleSummary;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+            }
+
+            return default;
         }
 
 
-        public async Task<KeyValuePair<string, string>> SaveShareRules()
+        public async Task<KeyValuePair<string, string>> SaveShareRules(string remark=null,bool isUploadStaticData=false)
         {
+            if(!string.IsNullOrEmpty(remark))
+            {
+                base.UploadRuleUrl = $@"{0}freehttp/sharerule/create?remark={remark}&ruleversion={1}&{2}";
+            }
             if(NowSaveRuleDetails==null || NowSaveRuleDetails.ModificHttpRuleCollection==null)
             {
                 _ = RemoteLogService.ReportLogAsync("SaveShareRules fail in ShareRuleService that NowSaveRuleDetails is null", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
                 return default;
             }
-            await base.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(null, null);
+            await base.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(
+                NowSaveRuleDetails.ModificHttpRuleCollection?.RequestRuleList,
+                NowSaveRuleDetails.ModificHttpRuleCollection?.ResponseRuleList, 
+                isUploadStaticData? NowSaveRuleDetails.StaticDataCollection:null);
             return default;
         }
 

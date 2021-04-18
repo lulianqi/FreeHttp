@@ -12,7 +12,7 @@ namespace FreeHttp.WebService
 {
     public class RuleReportService
     {
-        HttpClient httpClient;
+        protected HttpClient httpClient;
         public RuleReportService()
         {
             httpClient = new HttpClient();
