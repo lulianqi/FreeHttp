@@ -60,7 +60,7 @@ namespace FreeHttp.WebService
         {
             if(!string.IsNullOrEmpty(remark))
             {
-                base.UploadRuleUrl = $@"{0}freehttp/sharerule/create?remark={remark}&ruleversion={1}&{2}";
+                base.UploadRuleUrl = $"{{0}}freehttp/sharerule/create?remark={remark}&ruleversion={{1}}&{{2}}";
             }
             if(NowSaveRuleDetails==null || NowSaveRuleDetails.ModificHttpRuleCollection==null)
             {

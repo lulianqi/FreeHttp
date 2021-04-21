@@ -288,6 +288,7 @@
       <DependentUpon>MyResource.resx</DependentUpon>
     </Compile>
     <Compile Include="WebService\ConfigurationData.cs" />
+    <Compile Include="WebService\DataModel\BaseResultModel.cs" />
     <Compile Include="WebService\DataModel\RuleDetails.cs" />
     <Compile Include="WebService\DataModel\ShareRuleSummary.cs" />
     <Compile Include="WebService\FeedbackService.cs" />

@@ -59,6 +59,7 @@ namespace FreeHttp.FreeHttpControl
             this.rb_newRule.TabStop = true;
             this.rb_newRule.Text = "create new share rule";
             this.rb_newRule.UseVisualStyleBackColor = true;
+            this.rb_newRule.CheckedChanged += new System.EventHandler(this.rb_newRule_CheckedChanged);
             // 
             // comboBox_yourRule
             // 

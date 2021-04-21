@@ -206,7 +206,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_shareRuleList.HideSelection = false;
             this.lv_shareRuleList.Location = new System.Drawing.Point(2, 32);
             this.lv_shareRuleList.Name = "lv_shareRuleList";
-            this.lv_shareRuleList.Size = new System.Drawing.Size(230, 479);
+            this.lv_shareRuleList.Size = new System.Drawing.Size(230, 481);
             this.lv_shareRuleList.TabIndex = 23;
             this.lv_shareRuleList.UseCompatibleStateImageBehavior = false;
             this.lv_shareRuleList.View = System.Windows.Forms.View.Details;

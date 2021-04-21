@@ -19,7 +19,7 @@ namespace FreeHttp.WebService
         }
 
         protected string UploadRuleUrl = @"{0}freehttp/RuleDetails?ruleversion={1}&{2}";
-        public async Task UploadRulesAsync<T1, T2>(List<T1> requestRules, List<T2> responseRules , ActuatorStaticDataCollection staticDataCollection =null) where T1 : IFiddlerHttpTamper where T2: IFiddlerHttpTamper
+        public async Task UploadRulesAsync<T1, T2>(List<T1> requestRules, List<T2> responseRules , ActuatorStaticDataCollection staticDataCollection =null ) where T1 : IFiddlerHttpTamper where T2: IFiddlerHttpTamper
         {
             MultipartFormDataContent multipartFormData = new MultipartFormDataContent();
             if(staticDataCollection!=null)

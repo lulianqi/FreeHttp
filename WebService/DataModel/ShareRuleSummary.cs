@@ -12,6 +12,14 @@ namespace FreeHttp.WebService.DataModel
         {
             public string Token { get; set; }
             public string Remark { get; set; }
+
+            public string ShowTag
+            {
+                get
+                {
+                    return $"...{Token.Substring(Token.Length > 22 ? 22 : 0)} [{Remark}]";
+                }
+            }
         }
 
         public List<RuleToken> ShareRuleList { get; set; }

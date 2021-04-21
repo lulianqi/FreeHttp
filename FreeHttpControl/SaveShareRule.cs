@@ -20,15 +20,37 @@ namespace FreeHttp.FreeHttpControl
         {
             comboBox_yourRule.DataSource = shareRuleService.NowShareRuleSummary.PrivateRuleList;
             comboBox_yourRule.ValueMember = "Token";
-            comboBox_yourRule.DisplayMember = "Token";
+            comboBox_yourRule.DisplayMember = "ShowTag";
             comboBox_yourRule.Text = "please select personal ShareRule";
+            rb_newRule_CheckedChanged(sender, e);
         }
 
+        private void rb_newRule_CheckedChanged(object sender, EventArgs e)
+        {
+            if(rb_newRule.Checked)
+            {
+                wtb_ruleRemark.Enabled = true;
+                comboBox_yourRule.Enabled = false;
+            }
+            else
+            {
+                wtb_ruleRemark.Enabled = false;
+                comboBox_yourRule.Enabled = true;
+            }
+        }
         private void bt_save_Click(object sender, EventArgs e)
         {
-            shareRuleService.SaveShareRules().ContinueWith((rs => loadWindowService.StopLoad())) ;
+            if(string.IsNullOrEmpty(wtb_ruleRemark.Text))
+            {
+                MessageBox.Show("please enter comment name", "Stop");
+                MyHelper.MyGlobalHelper.markControlService.MarkControl(wtb_ruleRemark, System.Drawing.Color.Aquamarine, 2);
+                return;
+            }
+            shareRuleService.SaveShareRules(wtb_ruleRemark.Text, ck_parameterData.Checked).ContinueWith((rs => {
+                loadWindowService.StopLoad();
+                MyHelper.MyGlobalHelper.PutGlobalMessage(this, new MyHelper.MyGlobalHelper.GlobalMessageEventArgs(false, $"{rs.Result.Key}:{rs.Result.Value}"));
+            })) ;
             loadWindowService.StartLoad(this);
         }
-        
     }
 }
