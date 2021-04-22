@@ -47,6 +47,15 @@ namespace FreeHttp.FreeHttpControl
                 return;
             }
             shareRuleService.SaveShareRules(wtb_ruleRemark.Text, ck_parameterData.Checked).ContinueWith((rs => {
+                if(rs.Result.Key==null)
+                {
+                    MessageBox.Show("Save share rule fail ,Please try again later", "Fail",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    shareRuleService.NowShareRuleSummary.PrivateRuleList.Add(new WebService.DataModel.ShareRuleSummary.RuleToken() { Token = rs.Result.Key, Remark = rs.Result.Value });
+                    MessageBox.Show($"your share rule [{rs.Result.Value??"-"}] save succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.None);
+                }
                 loadWindowService.StopLoad();
                 MyHelper.MyGlobalHelper.PutGlobalMessage(this, new MyHelper.MyGlobalHelper.GlobalMessageEventArgs(false, $"{rs.Result.Key}:{rs.Result.Value}"));
             })) ;

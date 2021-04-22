@@ -58,19 +58,30 @@ namespace FreeHttp.WebService
 
         public async Task<KeyValuePair<string, string>> SaveShareRules(string remark=null,bool isUploadStaticData=false)
         {
-            if(!string.IsNullOrEmpty(remark))
+            string tempExecuteUrl = null;
+            if (!string.IsNullOrEmpty(remark))
             {
-                base.UploadRuleUrl = $"{{0}}freehttp/sharerule/create?remark={remark}&ruleversion={{1}}&{{2}}";
+                tempExecuteUrl = $"{{0}}freehttp/sharerule/create?remark={remark}&ruleversion={{1}}&{{2}}";
             }
             if(NowSaveRuleDetails==null || NowSaveRuleDetails.ModificHttpRuleCollection==null)
             {
                 _ = RemoteLogService.ReportLogAsync("SaveShareRules fail in ShareRuleService that NowSaveRuleDetails is null", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
                 return default;
             }
-            await base.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(
+            string response = await base.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(
                 NowSaveRuleDetails.ModificHttpRuleCollection?.RequestRuleList,
                 NowSaveRuleDetails.ModificHttpRuleCollection?.ResponseRuleList, 
-                isUploadStaticData? NowSaveRuleDetails.StaticDataCollection:null);
+                isUploadStaticData? NowSaveRuleDetails.StaticDataCollection:null,
+                tempExecuteUrl);
+            BaseResultModel<string> httpResult = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<BaseResultModel<string>>(response);
+            if(httpResult==null)
+            {
+                _ = RemoteLogService.ReportLogAsync($"SaveShareRules fail in ShareRuleService that JsonDataContractJsonSerializer fial [{response}]", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+            }
+            else
+            {
+                return new KeyValuePair<string, string>(httpResult.Result, remark);
+            }
             return default;
         }
 

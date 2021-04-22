@@ -87,7 +87,8 @@ namespace FreeHttp.FreeHttpControl
             }
 
             shareRuleService.NowSaveRuleDetails = new RuleDetails() {
-                ModificHttpRuleCollection = new FiddlerModificHttpRuleCollection(nowFiddlerRequestChangeRuleList, nowFiddlerResponseChangeRuleList)
+                ModificHttpRuleCollection = new FiddlerModificHttpRuleCollection(nowFiddlerRequestChangeRuleList, nowFiddlerResponseChangeRuleList),
+                StaticDataCollection = localRuleDetails.StaticDataCollection
             };
 
             FreeHttp.FreeHttpControl.SaveShareRule saveShareRuleWindow = new SaveShareRule(shareRuleService);
