@@ -17,7 +17,15 @@ namespace FreeHttp.WebService.DataModel
             {
                 get
                 {
-                    return $"...{Token.Substring(Token.Length > 22 ? 22 : 0)} [{Remark}]";
+                    return $"...{Token.Substring(Token.Length > 22 ? 22 : 0)} [{Remark??"-"}]";
+                }
+            }
+
+            public string ShowWholeTag
+            {
+                get
+                {
+                    return $"{Token} [{Remark ?? "-"}]";
                 }
             }
         }

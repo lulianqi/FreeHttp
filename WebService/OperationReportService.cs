@@ -113,7 +113,7 @@ namespace FreeHttp.WebService
                 (new WebService.MyWebTool.MyHttp()).SendHttpRequest(string.Format("{0}freehttp/OperationReport",ConfigurationData.BaseUrl), operationBody, "POST", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null);
                 if (FiddlerRequestChangeRuleList != null || FiddlerResponseChangeRuleList != null)
                 {
-                    new WebService.RuleReportService().UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(FiddlerRequestChangeRuleList, FiddlerResponseChangeRuleList , StaticDataCollection).Wait();
+                    WebService.RemoteRuleService.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(FiddlerRequestChangeRuleList, FiddlerResponseChangeRuleList , StaticDataCollection).Wait();
                 }
             }
             //System.GC.Collect();

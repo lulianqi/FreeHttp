@@ -14,16 +14,18 @@ namespace FreeHttp.WebService
 {
     public class RemoteRuleService
     {
-        
 
-        private static HttpClient httpClient;
+
+        protected static HttpClient httpClient;
         static RemoteRuleService()
         {
             httpClient = new HttpClient();
         }
 
-        protected  const string getRuleUrl = @"{0}freehttp/RuleDetails?userToken={1}";
-        public static async Task<RuleDetails> GetRemoteRuleAsync(string token ,string apiUrl= getRuleUrl)
+        protected const string getRuleUrl = @"{0}freehttp/RuleDetails?userToken={1}";
+        protected const string UploadRuleUrl = @"{0}freehttp/RuleDetails?ruleversion={1}&{2}";
+
+        public static async Task<RuleDetails> GetRemoteRuleAsync(string token ,string apiUrl = getRuleUrl)
         {
             HttpResponseMessage responseMessage = await httpClient.GetAsync(string.Format(apiUrl, ConfigurationData.BaseUrl, token));
             if(responseMessage.StatusCode != System.Net.HttpStatusCode.OK)
@@ -125,5 +127,46 @@ namespace FreeHttp.WebService
 
             return ruleDetails;
         }
+        public static async Task<string> UploadRulesAsync<T1, T2>(List<T1> requestRules, List<T2> responseRules, ActuatorStaticDataCollection staticDataCollection = null, string executeUrl = null) where T1 : IFiddlerHttpTamper where T2 : IFiddlerHttpTamper
+        {
+            MultipartFormDataContent multipartFormData = new MultipartFormDataContent();
+            if (staticDataCollection != null)
+            {
+                multipartFormData.Add(new StringContent(MyJsonHelper.JsonDataContractJsonSerializer.ObjectToJsonStr(staticDataCollection)), "staticData");
+            }
+            if (requestRules != null)
+            {
+                foreach (var request in requestRules)
+                {
+                    multipartFormData.Add(new StringContent(MyJsonHelper.JsonDataContractJsonSerializer.ObjectToJsonStr(request)), "requestRule");
+                }
+            }
+            if (responseRules != null)
+            {
+                foreach (var response in responseRules)
+                {
+                    multipartFormData.Add(new StringContent(MyJsonHelper.JsonDataContractJsonSerializer.ObjectToJsonStr(response)), "responseRule");
+                }
+            }
+
+            try
+            {
+                HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(string.Format(executeUrl ?? UploadRuleUrl, ConfigurationData.BaseUrl, UserComputerInfo.GetRuleVersion(), WebService.UserComputerInfo.GetFreeHttpUser()), multipartFormData);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    return await httpResponseMessage.Content.ReadAsStringAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                await RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.RuleUpload, RemoteLogService.RemoteLogType.Error);
+            }
+            finally
+            {
+
+            }
+            return null;
+        }
+   
     }
 }

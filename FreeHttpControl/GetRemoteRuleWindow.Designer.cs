@@ -157,7 +157,7 @@ namespace FreeHttp.FreeHttpControl
             this.lb_info_LocalRule.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lb_info_LocalRule.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lb_info_LocalRule.ForeColor = System.Drawing.Color.DarkGray;
-            this.lb_info_LocalRule.Location = new System.Drawing.Point(364, 9);
+            this.lb_info_LocalRule.Location = new System.Drawing.Point(366, 9);
             this.lb_info_LocalRule.Name = "lb_info_LocalRule";
             this.lb_info_LocalRule.Size = new System.Drawing.Size(79, 13);
             this.lb_info_LocalRule.TabIndex = 22;

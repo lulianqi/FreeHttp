@@ -299,7 +299,6 @@
     <Compile Include="WebService\OperationReportService.cs" />
     <Compile Include="WebService\RemoteRuleService.cs" />
     <Compile Include="WebService\RemoteLogService.cs" />
-    <Compile Include="WebService\RuleReportService.cs" />
     <Compile Include="WebService\ShareRuleService.cs" />
     <Compile Include="WebService\UpgradeService.cs" />
     <Compile Include="WebService\UserComputerInfo.cs" />

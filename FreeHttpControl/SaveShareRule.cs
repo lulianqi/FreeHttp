@@ -40,26 +40,63 @@ namespace FreeHttp.FreeHttpControl
         }
         private void bt_save_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(wtb_ruleRemark.Text))
+            if (rb_newRule.Checked)
             {
-                MessageBox.Show("please enter comment name", "Stop");
-                MyHelper.MyGlobalHelper.markControlService.MarkControl(wtb_ruleRemark, System.Drawing.Color.Aquamarine, 2);
-                return;
+                if (string.IsNullOrEmpty(wtb_ruleRemark.Text))
+                {
+                    MessageBox.Show("please enter comment name", "Stop");
+                    MyHelper.MyGlobalHelper.markControlService.MarkControl(wtb_ruleRemark, System.Drawing.Color.Aquamarine, 2);
+                    return;
+                }
+                shareRuleService.SaveShareRulesAsync(wtb_ruleRemark.Text, ck_parameterData.Checked).ContinueWith((rs =>
+                {
+                    if (rs.Result.Key == null)
+                    {
+                        MessageBox.Show("Save share rule fail ,Please try again later", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        shareRuleService.NowShareRuleSummary.PrivateRuleList.Add(new WebService.DataModel.ShareRuleSummary.RuleToken() { Token = rs.Result.Key, Remark = rs.Result.Value });
+                        MessageBox.Show($"your share rule [{rs.Result.Value ?? "-"}] save succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.None);
+                        if(this !=null && !this.IsDisposed)
+                        {
+                            this.Close();
+                        }
+                    }
+                    loadWindowService.StopLoad();
+                    MyHelper.MyGlobalHelper.PutGlobalMessage(this, new MyHelper.MyGlobalHelper.GlobalMessageEventArgs(false, $"save share rule [{rs.Result.Value}] that taken is : {rs.Result.Key}"));
+                }));
+                loadWindowService.StartLoad(this);
             }
-            shareRuleService.SaveShareRules(wtb_ruleRemark.Text, ck_parameterData.Checked).ContinueWith((rs => {
-                if(rs.Result.Key==null)
+            else if(rb_updataRule.Checked)
+            {
+                if(string.IsNullOrEmpty((string)comboBox_yourRule.SelectedValue))
                 {
-                    MessageBox.Show("Save share rule fail ,Please try again later", "Fail",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    MessageBox.Show("Update share rule fail ,please choose an existed share rule first ", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MyHelper.MyGlobalHelper.markControlService.MarkControl(comboBox_yourRule, System.Drawing.Color.Pink, 2);
+                    return;
                 }
-                else
+
+                shareRuleService.UpdateShareRulesAsync((string)comboBox_yourRule.SelectedValue,ck_parameterData.Checked).ContinueWith((rs =>
                 {
-                    shareRuleService.NowShareRuleSummary.PrivateRuleList.Add(new WebService.DataModel.ShareRuleSummary.RuleToken() { Token = rs.Result.Key, Remark = rs.Result.Value });
-                    MessageBox.Show($"your share rule [{rs.Result.Value??"-"}] save succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.None);
-                }
-                loadWindowService.StopLoad();
-                MyHelper.MyGlobalHelper.PutGlobalMessage(this, new MyHelper.MyGlobalHelper.GlobalMessageEventArgs(false, $"{rs.Result.Key}:{rs.Result.Value}"));
-            })) ;
-            loadWindowService.StartLoad(this);
+                    if (!rs.Result)
+                    {
+                        MessageBox.Show("Update share rule fail ,Please try again later", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"your share rule [{comboBox_yourRule.Text}] update succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.None);
+                        if (this != null && !this.IsDisposed)
+                        {
+                            this.Close();
+                        }
+                    }
+                    loadWindowService.StopLoad();
+                    MyHelper.MyGlobalHelper.PutGlobalMessage(this, new MyHelper.MyGlobalHelper.GlobalMessageEventArgs(false, $"update share rule [{comboBox_yourRule.Text}]"));
+                }));
+                loadWindowService.StartLoad(this);
+            }
+
         }
     }
 }

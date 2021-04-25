@@ -83,6 +83,8 @@ namespace FreeHttp.FreeHttpControl
             if(nowFiddlerRequestChangeRuleList.Count==0 && nowFiddlerResponseChangeRuleList.Count==0)
             {
                 MessageBox.Show("Please check the rules you want to share","stop");
+                MyHelper.MyGlobalHelper.markControlService.MarkControl(lv_remote_requestRuleList, System.Drawing.Color.Pink, 2);
+                MyHelper.MyGlobalHelper.markControlService.MarkControl(lv_remote_responseRuleList, System.Drawing.Color.Pink, 2);
                 return;
             }
 
@@ -105,7 +107,6 @@ namespace FreeHttp.FreeHttpControl
             //nowRuleItem.Checked = yourHttpTamper.IsEnable;
             yourListViews.Items.Add(nowRuleItem);
         }
-
         private void ClearRemoteRule()
         {
             if (myListViewCBallon != null)
@@ -117,15 +118,18 @@ namespace FreeHttp.FreeHttpControl
             lb_info_2.Text = "";
             nowRuleDetails = null;
         }
-
         private void GetRemoteRuleWindow_Load(object sender, EventArgs e)
         {
+            watermakTextBox_ruleToken.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            watermakTextBox_ruleToken.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
             lv_requestRuleOriginLocation = lv_remote_requestRuleList.Location;
             lv_requestRuleOriginHeight = lv_remote_requestRuleList.Height;
             localRuleDetails = new RuleDetails() { ModificHttpRuleCollection = mainWindow.ModificHttpRuleCollection, StaticDataCollection = mainWindow.StaticDataCollection };
             ShowInfoChange(nowShowType);
             shareRuleService = new ShareRuleService(WebService.UserComputerInfo.GetFreeHttpUser());
-            _ = shareRuleService.GetShareRuleSummaryAsync();
+            //_ = shareRuleService.GetShareRuleSummaryAsync();
+            shareRuleService.GetShareRuleSummaryAsync().ContinueWith((rs)=> LoadShareRuleSummary(rs.Result));
         }
         private void ShowInfoChange(ShowRuleCollectionType showParameter)
         {
@@ -196,6 +200,33 @@ namespace FreeHttp.FreeHttpControl
             
         }
 
+        private void LoadShareRuleSummary(ShareRuleSummary shareRuleSummary)
+        {
+            if(shareRuleSummary==null)
+            {
+                _ = RemoteLogService.ReportLogAsync("LoadShareRuleSummary fial with null data", RemoteLogService.RemoteLogOperation.RemoteRule, RemoteLogService.RemoteLogType.Error);
+                return;
+            }
+            if (shareRuleSummary.ShareRuleList?.Count > 0)
+            {
+               
+                var autoCompleteStringCollection = new AutoCompleteStringCollection();
+                foreach (var tempShareToken in shareRuleSummary.ShareRuleList)
+                {
+                    autoCompleteStringCollection.Add(tempShareToken.ShowWholeTag);
+                    this.Invoke(new Action(() => watermakTextBox_ruleToken.AutoCompleteCustomSource.Add(tempShareToken.ShowWholeTag)));
+                }
+            }
+            if (shareRuleSummary.PrivateRuleList?.Count > 0)
+            {
+                lv_shareRuleList.Items.Clear();
+                foreach (var tempShareToken in shareRuleSummary.PrivateRuleList)
+                {
+                    lv_shareRuleList.Items.Add(new ListViewItem(new string[] {tempShareToken.Token,tempShareToken.Remark }));
+                }
+            }
+        }
+
         private void LoadRules(RuleDetails ruleDetails)
         {
             foreach (var tempRule in ruleDetails.ModificHttpRuleCollection.RequestRuleList)
@@ -226,17 +257,20 @@ namespace FreeHttp.FreeHttpControl
                 if (string.IsNullOrEmpty(watermakTextBox_ruleToken.Text))
                 {
                     MessageBox.Show("just input your rule token", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
                     return;
                 }
                 ClearRemoteRule();
+                //shareRuleService
                 System.Threading.Tasks.Task<RuleDetails> ruleTask = System.Threading.Tasks.Task.Run(new Func<RuleDetails>(() =>
                 {
-                //6077f8fa617545cb9fbf12b1c874f7ee
-                return WebService.RemoteRuleService.GetRemoteRuleAsync(watermakTextBox_ruleToken.Text).GetAwaiter().GetResult();
+                    //return WebService.RemoteRuleService.GetRemoteRuleAsync(watermakTextBox_ruleToken.Text).GetAwaiter().GetResult();
+                    return shareRuleService.GetShareRuleDetailAsync(watermakTextBox_ruleToken.Text).GetAwaiter().GetResult();
                 }));
                 RuleDetails ruleDetails = ruleTask.GetAwaiter().GetResult();
                 if (ruleDetails == null)
                 {
+                    MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
                     MessageBox.Show("your rule token is not permitted", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return;
                 }
@@ -245,17 +279,7 @@ namespace FreeHttp.FreeHttpControl
                     MessageBox.Show("can not find any rule in your storage spaces", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return;
                 }
-                //this.Height = 560;
-                foreach (var tempRule in ruleDetails.ModificHttpRuleCollection.RequestRuleList)
-                {
-                    AddRuleToListView(lv_remote_requestRuleList, tempRule);
-                }
-                foreach (var tempRule in ruleDetails.ModificHttpRuleCollection.ResponseRuleList)
-                {
-                    AddRuleToListView(lv_remote_responseRuleList, tempRule);
-                }
-                lb_info_2.Text = string.Format("Get RequestRule:{0} ; ResponseRule:{1} ; StaticData:{2}", ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count, ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count, ruleDetails.StaticDataCollection?.Count??0);
-                nowRuleDetails = ruleDetails;
+                LoadRules(ruleDetails);
             }
             catch(Exception ex)
             {
@@ -263,6 +287,7 @@ namespace FreeHttp.FreeHttpControl
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         private void lv_remote_ruleList_MouseDoubleClick(object sender, EventArgs e)
@@ -301,6 +326,7 @@ namespace FreeHttp.FreeHttpControl
 
             if (nowRuleDetails==null)
             {
+                MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
                 MessageBox.Show("please get remore rule first", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }

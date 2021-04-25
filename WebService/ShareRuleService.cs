@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace FreeHttp.WebService
 {
-    public class ShareRuleService: RuleReportService
+    public class ShareRuleService: RemoteRuleService
     {
         public ShareRuleSummary NowShareRuleSummary { get;private set; }
         public RuleDetails NowSaveRuleDetails { get; set; }
+        public RuleDetails NowShowRuleDetails { get; set; }
 
         private string _userInfoStr;
 
         public ShareRuleService(string personalUserInfoStr)
         {
-            base.UploadRuleUrl = @"{0}freehttp/sharerule/create?ruleversion={1}&{2}";
             NowShareRuleSummary = new ShareRuleSummary();
             _userInfoStr = personalUserInfoStr;
         }
@@ -55,8 +55,7 @@ namespace FreeHttp.WebService
             return default;
         }
 
-
-        public async Task<KeyValuePair<string, string>> SaveShareRules(string remark=null,bool isUploadStaticData=false)
+        public async Task<KeyValuePair<string, string>> SaveShareRulesAsync(string remark=null,bool isUploadStaticData=false)
         {
             string tempExecuteUrl = null;
             if (!string.IsNullOrEmpty(remark))
@@ -68,7 +67,7 @@ namespace FreeHttp.WebService
                 _ = RemoteLogService.ReportLogAsync("SaveShareRules fail in ShareRuleService that NowSaveRuleDetails is null", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
                 return default;
             }
-            string response = await base.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(
+            string response = await RemoteRuleService.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(
                 NowSaveRuleDetails.ModificHttpRuleCollection?.RequestRuleList,
                 NowSaveRuleDetails.ModificHttpRuleCollection?.ResponseRuleList, 
                 isUploadStaticData? NowSaveRuleDetails.StaticDataCollection:null,
@@ -85,5 +84,47 @@ namespace FreeHttp.WebService
             return default;
         }
 
+        public async Task<bool> UpdateShareRulesAsync(string shareToken, bool isUploadStaticData = false)
+        {
+            string tempExecuteUrl = null;
+            if (string.IsNullOrEmpty(shareToken))
+            {
+                return false;
+            }
+            tempExecuteUrl = $"{{0}}freehttp/sharerule/update?sharetoken={shareToken}&ruleversion={{1}}&{{2}}";
+            if (NowSaveRuleDetails == null || NowSaveRuleDetails.ModificHttpRuleCollection == null)
+            {
+                _ = RemoteLogService.ReportLogAsync("SaveShareRules fail in ShareRuleService that NowSaveRuleDetails is null", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                return default;
+            }
+            string response = await RemoteRuleService.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(
+                NowSaveRuleDetails.ModificHttpRuleCollection?.RequestRuleList,
+                NowSaveRuleDetails.ModificHttpRuleCollection?.ResponseRuleList,
+                isUploadStaticData ? NowSaveRuleDetails.StaticDataCollection : null,
+                tempExecuteUrl);
+            BaseResultModel<string> httpResult = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<BaseResultModel<string>>(response);
+            if (httpResult == null)
+            {
+                _ = RemoteLogService.ReportLogAsync($"SaveShareRules fail in ShareRuleService that JsonDataContractJsonSerializer fial [{response}]", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+            }
+            else
+            {
+                if(httpResult.Status== ReturnStatus.Success)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public async Task<RuleDetails> GetShareRuleDetailAsync(string token)
+        {
+            if(string.IsNullOrEmpty(token))
+            {
+                return null;
+            }
+            NowShowRuleDetails = await RemoteRuleService.GetRemoteRuleAsync(token, "{0}freehttp/ShareRule/get?shareToken={1}");
+            return NowShowRuleDetails;
+        }
     }
 }
