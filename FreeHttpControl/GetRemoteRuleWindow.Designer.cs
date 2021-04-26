@@ -203,14 +203,17 @@ namespace FreeHttp.FreeHttpControl
             this.lv_shareRuleList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader2,
             this.columnHeader4});
+            this.lv_shareRuleList.FullRowSelect = true;
             this.lv_shareRuleList.HideSelection = false;
             this.lv_shareRuleList.Location = new System.Drawing.Point(2, 32);
             this.lv_shareRuleList.Name = "lv_shareRuleList";
+            this.lv_shareRuleList.ShowItemToolTips = true;
             this.lv_shareRuleList.Size = new System.Drawing.Size(230, 481);
             this.lv_shareRuleList.TabIndex = 23;
             this.lv_shareRuleList.UseCompatibleStateImageBehavior = false;
             this.lv_shareRuleList.View = System.Windows.Forms.View.Details;
             this.lv_shareRuleList.Visible = false;
+            this.lv_shareRuleList.DoubleClick += new System.EventHandler(this.lv_shareRuleList_DoubleClick);
             // 
             // columnHeader2
             // 

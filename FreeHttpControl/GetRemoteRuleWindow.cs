@@ -241,7 +241,36 @@ namespace FreeHttp.FreeHttpControl
             nowRuleDetails = ruleDetails;
         }
 
-        
+        private RuleDetails GetRuleDetailsFromToken(string shareToken)
+        {
+            RuleDetails ruleDetails = null;
+            try
+            {
+                System.Threading.Tasks.Task<RuleDetails> ruleTask = System.Threading.Tasks.Task.Run(new Func<RuleDetails>(() =>
+                {
+                    //return WebService.RemoteRuleService.GetRemoteRuleAsync(watermakTextBox_ruleToken.Text).GetAwaiter().GetResult();
+                    return shareRuleService.GetShareRuleDetailAsync(shareToken).GetAwaiter().GetResult();
+                }));
+                ruleDetails = ruleTask.GetAwaiter().GetResult();
+                if (ruleDetails == null)
+                {
+                    MessageBox.Show("your rule token is not permitted", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
+                if (ruleDetails.ModificHttpRuleCollection == null || ((ruleDetails.ModificHttpRuleCollection.RequestRuleList == null || ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count == 0) && (ruleDetails.ModificHttpRuleCollection.ResponseRuleList == null || ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count == 0)))
+                {
+                    MessageBox.Show("can not find any rule in your storage spaces", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    ruleDetails = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _ = RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.RemoteRule, RemoteLogService.RemoteLogType.Error);
+                ruleDetails = null;
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return ruleDetails;
+        }
+
         private void lb_info_showType_Click(object sender, EventArgs e)
         {
             ShowRuleCollectionType hereType;
@@ -252,41 +281,35 @@ namespace FreeHttp.FreeHttpControl
         }
         private void bt_getRule_Click(object sender, EventArgs e)
         {
-            try
+            if (string.IsNullOrEmpty(watermakTextBox_ruleToken.Text))
             {
-                if (string.IsNullOrEmpty(watermakTextBox_ruleToken.Text))
-                {
-                    MessageBox.Show("just input your rule token", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
-                    return;
-                }
-                ClearRemoteRule();
-                //shareRuleService
-                System.Threading.Tasks.Task<RuleDetails> ruleTask = System.Threading.Tasks.Task.Run(new Func<RuleDetails>(() =>
-                {
-                    //return WebService.RemoteRuleService.GetRemoteRuleAsync(watermakTextBox_ruleToken.Text).GetAwaiter().GetResult();
-                    return shareRuleService.GetShareRuleDetailAsync(watermakTextBox_ruleToken.Text).GetAwaiter().GetResult();
-                }));
-                RuleDetails ruleDetails = ruleTask.GetAwaiter().GetResult();
-                if (ruleDetails == null)
-                {
-                    MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
-                    MessageBox.Show("your rule token is not permitted", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return;
-                }
-                if (ruleDetails.ModificHttpRuleCollection == null || ((ruleDetails.ModificHttpRuleCollection.RequestRuleList == null || ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count == 0) && (ruleDetails.ModificHttpRuleCollection.ResponseRuleList == null || ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count == 0)))
-                {
-                    MessageBox.Show("can not find any rule in your storage spaces", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return;
-                }
-                LoadRules(ruleDetails);
+                MessageBox.Show("just input your rule token", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
+                return;
             }
-            catch(Exception ex)
+            string shareToken = watermakTextBox_ruleToken.Text.Contains('[') ? watermakTextBox_ruleToken.Text.Substring(0, watermakTextBox_ruleToken.Text.IndexOf('[')).Trim() : watermakTextBox_ruleToken.Text.Trim();
+            ClearRemoteRule();
+            RuleDetails ruleDetails = GetRuleDetailsFromToken(shareToken);
+            if (ruleDetails == null)
             {
-                _ = RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.RemoteRule, RemoteLogService.RemoteLogType.Error);
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
+                return;
             }
+            LoadRules(ruleDetails);
         }
+
+        private void lv_shareRuleList_DoubleClick(object sender, EventArgs e)
+        {
+            ClearRemoteRule();
+            RuleDetails ruleDetails = GetRuleDetailsFromToken(lv_shareRuleList.SelectedItems[0].SubItems[0].Text);
+            if (ruleDetails == null)
+            {
+                MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
+                return;
+            }
+            LoadRules(ruleDetails);
+        }
+
 
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
@@ -334,8 +357,6 @@ namespace FreeHttp.FreeHttpControl
             this.Close();
         }
 
-
-
         #region public event helper
         private void lb_info_MouseMove(object sender, MouseEventArgs e)
         {
@@ -358,8 +379,8 @@ namespace FreeHttp.FreeHttpControl
         {
             ((PictureBox)sender).BackColor = Color.Transparent;
         }
+
         #endregion
 
-        
     }
 }
