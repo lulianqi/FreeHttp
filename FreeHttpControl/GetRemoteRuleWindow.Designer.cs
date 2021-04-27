@@ -29,6 +29,7 @@ namespace FreeHttp.FreeHttpControl
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GetRemoteRuleWindow));
             this.lb_info_1 = new System.Windows.Forms.Label();
             this.bt_getRule = new System.Windows.Forms.Button();
@@ -47,6 +48,10 @@ namespace FreeHttp.FreeHttpControl
             this.lv_shareRuleList = new System.Windows.Forms.ListView();
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip_shareRuleList = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyThisTokenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteThisTokenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip_shareRuleList.SuspendLayout();
             this.SuspendLayout();
             // 
             // lb_info_1
@@ -203,6 +208,7 @@ namespace FreeHttp.FreeHttpControl
             this.lv_shareRuleList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader2,
             this.columnHeader4});
+            this.lv_shareRuleList.ContextMenuStrip = this.contextMenuStrip_shareRuleList;
             this.lv_shareRuleList.FullRowSelect = true;
             this.lv_shareRuleList.HideSelection = false;
             this.lv_shareRuleList.Location = new System.Drawing.Point(2, 32);
@@ -224,6 +230,30 @@ namespace FreeHttp.FreeHttpControl
             // 
             this.columnHeader4.Text = "Remark";
             this.columnHeader4.Width = 115;
+            // 
+            // contextMenuStrip_shareRuleList
+            // 
+            this.contextMenuStrip_shareRuleList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyThisTokenToolStripMenuItem,
+            this.deleteThisTokenToolStripMenuItem});
+            this.contextMenuStrip_shareRuleList.Name = "contextMenuStrip_shareRuleList";
+            this.contextMenuStrip_shareRuleList.Size = new System.Drawing.Size(181, 70);
+            // 
+            // copyThisTokenToolStripMenuItem
+            // 
+            this.copyThisTokenToolStripMenuItem.Image = global::FreeHttp.Properties.Resources.copy_value;
+            this.copyThisTokenToolStripMenuItem.Name = "copyThisTokenToolStripMenuItem";
+            this.copyThisTokenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyThisTokenToolStripMenuItem.Text = "Copy this token";
+            this.copyThisTokenToolStripMenuItem.Click += new System.EventHandler(this.copyThisTokenToolStripMenuItem_Click);
+            // 
+            // deleteThisTokenToolStripMenuItem
+            // 
+            this.deleteThisTokenToolStripMenuItem.Image = global::FreeHttp.Properties.Resources.delete_value;
+            this.deleteThisTokenToolStripMenuItem.Name = "deleteThisTokenToolStripMenuItem";
+            this.deleteThisTokenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteThisTokenToolStripMenuItem.Text = "Delete this token";
+            this.deleteThisTokenToolStripMenuItem.Click += new System.EventHandler(this.deleteThisTokenToolStripMenuItem_Click);
             // 
             // GetRemoteRuleWindow
             // 
@@ -260,6 +290,7 @@ namespace FreeHttp.FreeHttpControl
             this.Controls.SetChildIndex(this.lb_info_SharedRule, 0);
             this.Controls.SetChildIndex(this.lb_info_LocalRule, 0);
             this.Controls.SetChildIndex(this.lv_shareRuleList, 0);
+            this.contextMenuStrip_shareRuleList.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,5 +315,8 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.ListView lv_shareRuleList;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_shareRuleList;
+        private System.Windows.Forms.ToolStripMenuItem copyThisTokenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteThisTokenToolStripMenuItem;
     }
 }

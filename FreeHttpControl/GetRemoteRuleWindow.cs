@@ -310,6 +310,28 @@ namespace FreeHttp.FreeHttpControl
             LoadRules(ruleDetails);
         }
 
+        private void copyThisTokenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(lv_shareRuleList.SelectedItems?.Count>0)
+            {
+                Clipboard.SetText(lv_shareRuleList.SelectedItems[0].SubItems[0].Text, TextDataFormat.Text);
+            }
+        }
+
+        private void deleteThisTokenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lv_shareRuleList.SelectedItems?.Count > 0)
+            {
+                _ = shareRuleService.DeleteShareRuleDetailAsync(lv_shareRuleList.SelectedItems[0].SubItems[0].Text).ContinueWith((rs) =>
+                {
+                    if(rs.Result)
+                    {
+                        MessageBox.Show("delete ok");
+                    }
+                }
+                );
+            }
+        }
 
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]

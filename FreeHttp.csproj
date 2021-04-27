@@ -488,7 +488,12 @@
   <ItemGroup>
     <None Include="Resources\copy.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\copy_value.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_value.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SYSTEMDRIVE)$(HOMEPATH)\AppData\Local\Programs\Fiddler\Scripts\$(TargetFilename)"</PostBuildEvent>

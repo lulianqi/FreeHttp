@@ -126,5 +126,34 @@ namespace FreeHttp.WebService
             NowShowRuleDetails = await RemoteRuleService.GetRemoteRuleAsync(token, "{0}freehttp/ShareRule/get?shareToken={1}");
             return NowShowRuleDetails;
         }
+
+        public async Task<bool> DeleteShareRuleDetailAsync(string token)
+        {
+            try
+            {
+                HttpResponseMessage responseMessage = await httpClient.DeleteAsync($"{ConfigurationData.BaseUrl}freehttp/sharerule?sharetoken={token}&{_userInfoStr}");
+
+                if (responseMessage.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    await RemoteLogService.ReportLogAsync("DeleteShareRuleDetailAsync fail", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                }
+                else
+                {
+                    if (MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<BaseResultModel<string>>(await responseMessage.Content.ReadAsStringAsync()) == null)
+                    {
+                        await RemoteLogService.ReportLogAsync($"JsonStringToObject fail in【DeleteShareRuleDetailAsync】 that {await responseMessage.Content.ReadAsStringAsync()}", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await RemoteLogService.ReportLogAsync(ex.ToString(), RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+            }
+            return false;
+        }
     }
 }
