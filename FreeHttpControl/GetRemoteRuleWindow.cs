@@ -45,7 +45,20 @@ namespace FreeHttp.FreeHttpControl
             lv_remote_requestRuleList.SmallImageList = mainWindow.imageList_forTab;
             lv_remote_responseRuleList.SmallImageList = mainWindow.imageList_forTab;
         }
-
+        
+        public void GotoPrvateRule(string ruleToken)
+        {
+            ShowInfoChange(ShowRuleCollectionType.SharedRule);
+            LoadShareRuleSummary(shareRuleService.NowShareRuleSummary);
+            foreach(ListViewItem item in lv_shareRuleList.Items)
+            {
+                if(item.SubItems[0].Text == ruleToken)
+                {
+                    item.Selected = true;
+                }
+            }
+            lv_shareRuleList_DoubleClick(null, null);
+        }
         private void SaveShareRule()
         {
             List<FiddlerRequestChange> nowFiddlerRequestChangeRuleList = new List<FiddlerRequestChange>();
@@ -94,6 +107,7 @@ namespace FreeHttp.FreeHttpControl
             };
 
             FreeHttp.FreeHttpControl.SaveShareRule saveShareRuleWindow = new SaveShareRule(shareRuleService);
+            saveShareRuleWindow.Owner = this;
             saveShareRuleWindow.StartPosition = FormStartPosition.CenterParent;
             saveShareRuleWindow.ShowDialog();
             return;
@@ -318,18 +332,14 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
-        private void deleteThisTokenToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void deleteThisTokenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (lv_shareRuleList.SelectedItems?.Count > 0)
             {
-                _ = shareRuleService.DeleteShareRuleDetailAsync(lv_shareRuleList.SelectedItems[0].SubItems[0].Text).ContinueWith((rs) =>
-                {
-                    if(rs.Result)
-                    {
-                        MessageBox.Show("delete ok");
-                    }
-                }
-                );
+               if(await shareRuleService.DeleteShareRuleDetailAsync(lv_shareRuleList.SelectedItems[0].SubItems[0].Text))
+               {
+                    MessageBox.Show("delete ok");
+               }
             }
         }
 

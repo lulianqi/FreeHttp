@@ -56,10 +56,13 @@ namespace FreeHttp.FreeHttpControl
                     }
                     else
                     {
-                        shareRuleService.NowShareRuleSummary.PrivateRuleList.Add(new WebService.DataModel.ShareRuleSummary.RuleToken() { Token = rs.Result.Key, Remark = rs.Result.Value });
+                        shareRuleService.NowShareRuleSummary?.PrivateRuleList.Add(new WebService.DataModel.ShareRuleSummary.RuleToken() { Token = rs.Result.Key, Remark = rs.Result.Value });
                         MessageBox.Show($"your share rule [{rs.Result.Value ?? "-"}] save succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.None);
-                        if(this !=null && !this.IsDisposed)
+                        if (this != null && !this.IsDisposed)
                         {
+                            //使用.ConfigureAwait(true); 可以不用Invoke
+                            this.Invoke(new Action(() => { (this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key); }));
+                            //(this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key);
                             this.Close();
                         }
                     }
