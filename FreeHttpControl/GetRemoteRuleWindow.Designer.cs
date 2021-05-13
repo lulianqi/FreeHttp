@@ -237,22 +237,22 @@ namespace FreeHttp.FreeHttpControl
             this.copyThisTokenToolStripMenuItem,
             this.deleteThisTokenToolStripMenuItem});
             this.contextMenuStrip_shareRuleList.Name = "contextMenuStrip_shareRuleList";
-            this.contextMenuStrip_shareRuleList.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip_shareRuleList.Size = new System.Drawing.Size(211, 48);
             // 
             // copyThisTokenToolStripMenuItem
             // 
             this.copyThisTokenToolStripMenuItem.Image = global::FreeHttp.Properties.Resources.copy_value;
             this.copyThisTokenToolStripMenuItem.Name = "copyThisTokenToolStripMenuItem";
-            this.copyThisTokenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.copyThisTokenToolStripMenuItem.Text = "Copy this token";
+            this.copyThisTokenToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.copyThisTokenToolStripMenuItem.Text = "Copy this share token";
             this.copyThisTokenToolStripMenuItem.Click += new System.EventHandler(this.copyThisTokenToolStripMenuItem_Click);
             // 
             // deleteThisTokenToolStripMenuItem
             // 
             this.deleteThisTokenToolStripMenuItem.Image = global::FreeHttp.Properties.Resources.delete_value;
             this.deleteThisTokenToolStripMenuItem.Name = "deleteThisTokenToolStripMenuItem";
-            this.deleteThisTokenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.deleteThisTokenToolStripMenuItem.Text = "Delete this token";
+            this.deleteThisTokenToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.deleteThisTokenToolStripMenuItem.Text = "Delete this share token";
             this.deleteThisTokenToolStripMenuItem.Click += new System.EventHandler(this.deleteThisTokenToolStripMenuItem_Click);
             // 
             // GetRemoteRuleWindow

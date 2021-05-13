@@ -135,7 +135,9 @@ namespace FreeHttp.WebService
 
                 if (responseMessage.StatusCode != System.Net.HttpStatusCode.OK)
                 {
-                    await RemoteLogService.ReportLogAsync("DeleteShareRuleDetailAsync fail", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                    string errorMes =await responseMessage.Content.ReadAsStringAsync();
+                    MyHelper.MyGlobalHelper.PutGlobalMessage(null,new MyGlobalHelper.GlobalMessageEventArgs(true, $"remove share token fial that :{errorMes}"));
+                    await RemoteLogService.ReportLogAsync($"DeleteShareRuleDetailAsync fail : {errorMes}", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
                 }
                 else
                 {

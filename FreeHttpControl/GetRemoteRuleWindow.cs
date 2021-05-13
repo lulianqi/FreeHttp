@@ -167,6 +167,7 @@ namespace FreeHttp.FreeHttpControl
                     lv_remote_responseRuleList.Width = lv_requestRuleOriginWidth;
                     lv_remote_requestRuleList.CheckBoxes = false;
                     lv_remote_responseRuleList.CheckBoxes = false;
+                    ClearShowShareTakenItemBackColor();
                     break;
                 case ShowRuleCollectionType.SharedRule:
                     nowShowType = ShowRuleCollectionType.SharedRule;
@@ -203,7 +204,7 @@ namespace FreeHttp.FreeHttpControl
                     lv_remote_responseRuleList.Width = lv_requestRuleOriginWidth;
                     lv_remote_requestRuleList.CheckBoxes = true;
                     lv_remote_responseRuleList.CheckBoxes = true;
-
+                    ClearShowShareTakenItemBackColor();
                     //action
                     LoadRules(localRuleDetails);
                     break;
@@ -312,15 +313,30 @@ namespace FreeHttp.FreeHttpControl
             LoadRules(ruleDetails);
         }
 
+        private ListViewItem nowShowShareTakenListViewItem = null;
+        private void ClearShowShareTakenItemBackColor()
+        {
+            if (nowShowShareTakenListViewItem != null)
+            {
+                MyHelper.MyGlobalHelper.markControlService.SetColor(nowShowShareTakenListViewItem, Color.Azure);
+                nowShowShareTakenListViewItem = null;
+            }
+        }
         private void lv_shareRuleList_DoubleClick(object sender, EventArgs e)
         {
-            ClearRemoteRule();
-            RuleDetails ruleDetails = GetRuleDetailsFromToken(lv_shareRuleList.SelectedItems[0].SubItems[0].Text);
-            if (ruleDetails == null)
+            ListViewItem tempListViewItem = lv_shareRuleList.SelectedItems[0];
+            RuleDetails ruleDetails = GetRuleDetailsFromToken(tempListViewItem.SubItems[0].Text);
+            if(ruleDetails==null)
             {
+                MessageBox.Show("get share taken fail", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
                 return;
             }
+
+            ClearRemoteRule();
+            ClearShowShareTakenItemBackColor();
+            MyHelper.MyGlobalHelper.markControlService.SetColor(tempListViewItem, Color.Pink);
+            nowShowShareTakenListViewItem = tempListViewItem;
             LoadRules(ruleDetails);
         }
 
@@ -336,10 +352,25 @@ namespace FreeHttp.FreeHttpControl
         {
             if (lv_shareRuleList.SelectedItems?.Count > 0)
             {
-               if(await shareRuleService.DeleteShareRuleDetailAsync(lv_shareRuleList.SelectedItems[0].SubItems[0].Text))
-               {
+                ListViewItem tempListViewItem = lv_shareRuleList.SelectedItems[0];
+                if (await shareRuleService.DeleteShareRuleDetailAsync(tempListViewItem.SubItems[0].Text))
+                {
                     MessageBox.Show("delete ok");
-               }
+                    lv_shareRuleList.Items.Remove(tempListViewItem);
+                    if(nowShowShareTakenListViewItem== tempListViewItem)
+                    {
+                        ClearRemoteRule();
+                        nowShowShareTakenListViewItem = null;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("delete share taken fail","Fail",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please choose the item that your want delete first");
             }
         }
 
