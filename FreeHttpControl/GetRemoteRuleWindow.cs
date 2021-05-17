@@ -168,6 +168,7 @@ namespace FreeHttp.FreeHttpControl
                     lv_remote_requestRuleList.CheckBoxes = false;
                     lv_remote_responseRuleList.CheckBoxes = false;
                     ClearShowShareTakenItemBackColor();
+                    bt_replaceRule.Text = "Merge Remote Rule";
                     break;
                 case ShowRuleCollectionType.SharedRule:
                     nowShowType = ShowRuleCollectionType.SharedRule;
@@ -186,6 +187,7 @@ namespace FreeHttp.FreeHttpControl
                     lv_remote_responseRuleList.Width = lv_requestRuleOriginWidth - lv_shareRuleList.Width;
                     lv_remote_requestRuleList.CheckBoxes = false;
                     lv_remote_responseRuleList.CheckBoxes = false;
+                    bt_replaceRule.Text = "Merge Share Rule";
                     break;
                 case ShowRuleCollectionType.LocalRule:
                     nowShowType = ShowRuleCollectionType.LocalRule;
@@ -205,6 +207,7 @@ namespace FreeHttp.FreeHttpControl
                     lv_remote_requestRuleList.CheckBoxes = true;
                     lv_remote_responseRuleList.CheckBoxes = true;
                     ClearShowShareTakenItemBackColor();
+                    bt_replaceRule.Text = "Save Share Rule";
                     //action
                     LoadRules(localRuleDetails);
                     break;
@@ -407,17 +410,28 @@ namespace FreeHttp.FreeHttpControl
 
         private void bt_replaceRule_Click(object sender, EventArgs e)
         {
-            SaveShareRule();
-            return;
-
-            if (nowRuleDetails==null)
+            switch(nowShowType)
             {
-                MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
-                MessageBox.Show("please get remore rule first", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                return;
+                case ShowRuleCollectionType.RemoteRule:
+                    if (nowRuleDetails == null)
+                    {
+                        MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
+                        MessageBox.Show("please get remore rule first", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        return;
+                    }
+                    mainWindow.MergeRuleStorage(nowRuleDetails);
+                    //mainWindow.ReplaceRuleStorage(nowRuleDetails);
+                    this.Close();
+                    break;
+                case ShowRuleCollectionType.SharedRule:
+                    break;
+                case ShowRuleCollectionType.LocalRule:
+                    SaveShareRule();
+                    break;
+                default:
+                    MessageBox.Show("Unknow state", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    break;
             }
-            mainWindow.ReplaceRuleStorage(nowRuleDetails);
-            this.Close();
         }
 
         #region public event helper

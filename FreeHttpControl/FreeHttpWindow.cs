@@ -90,7 +90,8 @@ namespace FreeHttp.FreeHttpControl
 
         public delegate void GetSessionRawDataEventHandler(object sender, GetSessionRawDataEventArgs e);
 
-        private FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection;
+        //fiddlerModificHttpRuleCollection不保持最新数据集合，仅保持最后一次InitializeConfigInfo的rule数据关系
+        private FiddlerModificHttpRuleCollection fiddlerModificHttpRuleCollection; 
         private bool isSetResponseLatencyEable;
         private bool isLoadFreeHttpWindowUserControl = false;
 
@@ -114,6 +115,12 @@ namespace FreeHttp.FreeHttpControl
             ShowRuleInfo_pb.Click += ShowRuleInfo_pb_Click;
         }
 
+        /// <summary>
+        /// updata reference relationship（ActuatorStaticDataCollection 与 HttpRule 这这里需要重建引用关系）
+        /// </summary>
+        /// <param name="yourRuleCollection"></param>
+        /// <param name="yourModifcSettingInfo"></param>
+        /// <param name="yourStaticDataCollection"></param>
         private void InitializeConfigInfo(FiddlerModificHttpRuleCollection yourRuleCollection, FiddlerModificSettingInfo yourModifcSettingInfo, ActuatorStaticDataCollection yourStaticDataCollection)
         {
             fiddlerModificHttpRuleCollection = yourRuleCollection;
@@ -205,7 +212,7 @@ namespace FreeHttp.FreeHttpControl
         /// </summary>
         public FiddlerModificHttpRuleCollection ModificHttpRuleCollection
         {
-            get { return fiddlerModificHttpRuleCollection; }
+            get { return new FiddlerModificHttpRuleCollection(FiddlerRequestChangeList, FiddlerResponseChangeList); }
         }
 
         /// <summary>

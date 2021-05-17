@@ -13,6 +13,8 @@ using FreeHttp.MyHelper;
 using FreeHttp.AutoTest.ParameterizationPick;
 using static FreeHttp.WebService.RemoteRuleService;
 using FreeHttp.WebService.DataModel;
+using FreeHttp.WebService;
+using FreeHttp.AutoTest.RunTimeStaticData;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -117,7 +119,7 @@ namespace FreeHttp.FreeHttpControl
         /// <summary>
         /// Refresh FiddlerResponseChange list
         /// </summary>
-        public void RefreshFiddlerResponseChangeList()
+        private void RefreshFiddlerResponseChangeList()
         {
             List<FiddlerResponseChange> responseList = null;
             if (RequestRuleListView != null)
@@ -880,6 +882,64 @@ namespace FreeHttp.FreeHttpControl
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
             }
         }
+        public void MergeRuleStorage(RuleDetails ruleDetails)
+        {
+            if (ruleDetails != null)
+            {
+                if(ruleDetails.ModificHttpRuleCollection?.RequestRuleList!=null)
+                {
+                    FiddlerRequestChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.RequestRuleList);
+                    PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count} request rule succeed ");
+                }
+                if (ruleDetails.ModificHttpRuleCollection?.ResponseRuleList != null)
+                {
+                    FiddlerResponseChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.ResponseRuleList);
+                    PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count} response rule succeed ");
+                }
+                if(ruleDetails.StaticDataCollection!=null)
+                {
+                    foreach (KeyValuePair<string, IRunTimeStaticData> tempAddData in ruleDetails.StaticDataCollection)
+                    {
+                        //PutInfo($"Key:{x.Key} Value:{x.Value.ToString()} -  {x.Value.DataCurrent()}");
+                        if(StaticDataCollection.IsHaveSameKey(tempAddData.Key))
+                        {
+                            if(MessageBox.Show($"find same static data type:{tempAddData.Value.RunTimeStaticDataType}  key: {tempAddData.Key}\r\ndo you want replace this static key","find same key",MessageBoxButtons.YesNo,MessageBoxIcon.Question)
+                                == DialogResult.Yes)
+                            {
+                                if (!StaticDataCollection.RemoveStaticData(tempAddData.Key, false))
+                                {
+                                    _ = RemoteLogService.ReportLogAsync($"[MergeRuleStorage]RemoveStaticData error with {tempAddData.Key}", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                                    PutError($"RemoveStaticData error with {tempAddData.Key}");
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        if (StaticDataCollection.AddStaticData(tempAddData.Key, tempAddData.Value))
+                        {
+                            PutInfo($"[MergeRule]AddStaticData succeed with {tempAddData.Key}-{tempAddData.Value.RunTimeStaticDataType}");
+                        }
+                        else
+                        {
+                            _ = RemoteLogService.ReportLogAsync($"[MergeRuleStorage]AddStaticDataKey error with {tempAddData.Key}", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                            PutError($"AddStaticDataKey error with {tempAddData.Key}");
+                        }
+                    }
+                }
+
+                InitializeConfigInfo(new FiddlerModificHttpRuleCollection(FiddlerRequestChangeList , FiddlerResponseChangeList), ModificSettingInfo, StaticDataCollection);
+                LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+            }
+            else
+            {
+                MyGlobalHelper.PutGlobalMessage(null, new MyGlobalHelper.GlobalMessageEventArgs(true, "MergeRuleStorage fill that ruleDetails is null"));
+                _ = RemoteLogService.ReportLogAsync("MergeRuleStorage fill that ruleDetails is null", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+            }
+        }
+
         public void CloseEditRtb()
         {
             tbe_RequestBodyModific.CloseRichTextBox();

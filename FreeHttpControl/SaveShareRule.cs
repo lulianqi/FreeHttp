@@ -91,6 +91,7 @@ namespace FreeHttp.FreeHttpControl
                         MessageBox.Show($"your share rule [{comboBox_yourRule.Text}] update succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.None);
                         if (this != null && !this.IsDisposed)
                         {
+                            this.Invoke(new Action(() => { (this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule((string)comboBox_yourRule.SelectedValue); }));
                             this.Close();
                         }
                     }

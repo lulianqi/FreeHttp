@@ -77,11 +77,11 @@ namespace FreeHttp.FreeHttpControl
             // bt_replaceRule
             // 
             this.bt_replaceRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bt_replaceRule.Location = new System.Drawing.Point(515, 516);
+            this.bt_replaceRule.Location = new System.Drawing.Point(488, 516);
             this.bt_replaceRule.Name = "bt_replaceRule";
-            this.bt_replaceRule.Size = new System.Drawing.Size(104, 23);
+            this.bt_replaceRule.Size = new System.Drawing.Size(131, 23);
             this.bt_replaceRule.TabIndex = 16;
-            this.bt_replaceRule.Text = "Replace Rule";
+            this.bt_replaceRule.Text = "Merge Remote Rule";
             this.bt_replaceRule.UseVisualStyleBackColor = true;
             this.bt_replaceRule.Click += new System.EventHandler(this.bt_replaceRule_Click);
             // 
