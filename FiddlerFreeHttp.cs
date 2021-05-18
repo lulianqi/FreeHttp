@@ -76,6 +76,14 @@ namespace FreeHttp
             }
         }
 
+        public bool IsHideFreeHttpSession
+        {
+            get
+            {
+                return isCheckedUpdata && myFreeHttpWindow.ModificSettingInfo.IsHideSelfSession;
+            }
+        }
+
         private void ShowMes(string mes)
         {
             ShowMes(mes, false);
@@ -582,6 +590,10 @@ namespace FreeHttp
             if (!isOnLoad)
             {
                 return;
+            }
+            if(IsHideFreeHttpSession && oSession.oRequest.host=="api.lulianqi.com")
+            {
+                oSession["ui-hide"] = "true";
             }
             if (myFreeHttpWindow.IsRequestRuleEnable)
             {

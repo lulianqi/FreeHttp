@@ -33,7 +33,7 @@ namespace FreeHttp.FreeHttpControl
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GetRemoteRuleWindow));
             this.lb_info_1 = new System.Windows.Forms.Label();
             this.bt_getRule = new System.Windows.Forms.Button();
-            this.bt_replaceRule = new System.Windows.Forms.Button();
+            this.bt_merge = new System.Windows.Forms.Button();
             this.lb_info_2 = new System.Windows.Forms.Label();
             this.lv_remote_responseRuleList = new FreeHttp.FreeHttpControl.MyListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -51,6 +51,7 @@ namespace FreeHttp.FreeHttpControl
             this.contextMenuStrip_shareRuleList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyThisTokenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteThisTokenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bt_replace = new System.Windows.Forms.Button();
             this.contextMenuStrip_shareRuleList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,16 +75,16 @@ namespace FreeHttp.FreeHttpControl
             this.bt_getRule.UseVisualStyleBackColor = true;
             this.bt_getRule.Click += new System.EventHandler(this.bt_getRule_Click);
             // 
-            // bt_replaceRule
+            // bt_merge
             // 
-            this.bt_replaceRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bt_replaceRule.Location = new System.Drawing.Point(488, 516);
-            this.bt_replaceRule.Name = "bt_replaceRule";
-            this.bt_replaceRule.Size = new System.Drawing.Size(131, 23);
-            this.bt_replaceRule.TabIndex = 16;
-            this.bt_replaceRule.Text = "Merge Remote Rule";
-            this.bt_replaceRule.UseVisualStyleBackColor = true;
-            this.bt_replaceRule.Click += new System.EventHandler(this.bt_replaceRule_Click);
+            this.bt_merge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bt_merge.Location = new System.Drawing.Point(488, 516);
+            this.bt_merge.Name = "bt_merge";
+            this.bt_merge.Size = new System.Drawing.Size(131, 23);
+            this.bt_merge.TabIndex = 16;
+            this.bt_merge.Text = "Merge Remote Rule";
+            this.bt_merge.UseVisualStyleBackColor = true;
+            this.bt_merge.Click += new System.EventHandler(this.bt_merge_Click);
             // 
             // lb_info_2
             // 
@@ -255,17 +256,29 @@ namespace FreeHttp.FreeHttpControl
             this.deleteThisTokenToolStripMenuItem.Text = "Delete this share token";
             this.deleteThisTokenToolStripMenuItem.Click += new System.EventHandler(this.deleteThisTokenToolStripMenuItem_Click);
             // 
+            // bt_replace
+            // 
+            this.bt_replace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.bt_replace.Location = new System.Drawing.Point(354, 516);
+            this.bt_replace.Name = "bt_replace";
+            this.bt_replace.Size = new System.Drawing.Size(131, 23);
+            this.bt_replace.TabIndex = 24;
+            this.bt_replace.Text = "Replace Local Rule";
+            this.bt_replace.UseVisualStyleBackColor = true;
+            this.bt_replace.Click += new System.EventHandler(this.bt_replace_Click);
+            // 
             // GetRemoteRuleWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(630, 544);
+            this.Controls.Add(this.bt_replace);
             this.Controls.Add(this.lv_shareRuleList);
             this.Controls.Add(this.lb_info_LocalRule);
             this.Controls.Add(this.lb_info_SharedRule);
             this.Controls.Add(this.lb_info_RemoteRule);
             this.Controls.Add(this.lb_info_2);
-            this.Controls.Add(this.bt_replaceRule);
+            this.Controls.Add(this.bt_merge);
             this.Controls.Add(this.lv_remote_responseRuleList);
             this.Controls.Add(this.lv_remote_requestRuleList);
             this.Controls.Add(this.bt_getRule);
@@ -284,12 +297,13 @@ namespace FreeHttp.FreeHttpControl
             this.Controls.SetChildIndex(this.bt_getRule, 0);
             this.Controls.SetChildIndex(this.lv_remote_requestRuleList, 0);
             this.Controls.SetChildIndex(this.lv_remote_responseRuleList, 0);
-            this.Controls.SetChildIndex(this.bt_replaceRule, 0);
+            this.Controls.SetChildIndex(this.bt_merge, 0);
             this.Controls.SetChildIndex(this.lb_info_2, 0);
             this.Controls.SetChildIndex(this.lb_info_RemoteRule, 0);
             this.Controls.SetChildIndex(this.lb_info_SharedRule, 0);
             this.Controls.SetChildIndex(this.lb_info_LocalRule, 0);
             this.Controls.SetChildIndex(this.lv_shareRuleList, 0);
+            this.Controls.SetChildIndex(this.bt_replace, 0);
             this.contextMenuStrip_shareRuleList.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -307,7 +321,7 @@ namespace FreeHttp.FreeHttpControl
         private MyListView lv_remote_requestRuleList;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader_requstRule;
-        private System.Windows.Forms.Button bt_replaceRule;
+        private System.Windows.Forms.Button bt_merge;
         private System.Windows.Forms.Label lb_info_2;
         private System.Windows.Forms.Label lb_info_LocalRule;
         private System.Windows.Forms.Label lb_info_SharedRule;
@@ -318,5 +332,6 @@ namespace FreeHttp.FreeHttpControl
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_shareRuleList;
         private System.Windows.Forms.ToolStripMenuItem copyThisTokenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteThisTokenToolStripMenuItem;
+        private System.Windows.Forms.Button bt_replace;
     }
 }

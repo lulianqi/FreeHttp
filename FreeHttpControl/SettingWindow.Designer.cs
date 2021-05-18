@@ -39,6 +39,8 @@
             this.myEnableSwitch_IsSkipHideUi = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.myEnableSwitch_IsSkipConnectTunnels = new FreeHttp.FreeHttpControl.MyEnableSwitch();
             this.myEnableSwitch_IsOnlyMatchFistTamperRule = new FreeHttp.FreeHttpControl.MyEnableSwitch();
+            this.myEnableSwitch_IsHideSelfSession = new FreeHttp.FreeHttpControl.MyEnableSwitch();
+            this.lb_info_6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lb_info_1
@@ -136,11 +138,32 @@
             this.myEnableSwitch_IsOnlyMatchFistTamperRule.Size = new System.Drawing.Size(54, 27);
             this.myEnableSwitch_IsOnlyMatchFistTamperRule.TabIndex = 0;
             // 
+            // myEnableSwitch_IsHideSelfSession
+            // 
+            this.myEnableSwitch_IsHideSelfSession.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.myEnableSwitch_IsHideSelfSession.IsEnable = false;
+            this.myEnableSwitch_IsHideSelfSession.Location = new System.Drawing.Point(279, 166);
+            this.myEnableSwitch_IsHideSelfSession.Name = "myEnableSwitch_IsHideSelfSession";
+            this.myEnableSwitch_IsHideSelfSession.Size = new System.Drawing.Size(63, 29);
+            this.myEnableSwitch_IsHideSelfSession.TabIndex = 12;
+            // 
+            // lb_info_6
+            // 
+            this.lb_info_6.AutoSize = true;
+            this.lb_info_6.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lb_info_6.Location = new System.Drawing.Point(0, 172);
+            this.lb_info_6.Name = "lb_info_6";
+            this.lb_info_6.Size = new System.Drawing.Size(217, 14);
+            this.lb_info_6.TabIndex = 11;
+            this.lb_info_6.Text = "is hide freehttp self sessions";
+            // 
             // SettingWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 167);
+            this.ClientSize = new System.Drawing.Size(338, 198);
+            this.Controls.Add(this.myEnableSwitch_IsHideSelfSession);
+            this.Controls.Add(this.lb_info_6);
             this.Controls.Add(this.myEnableSwitch_IsSyncTamperRule);
             this.Controls.Add(this.lb_info_5);
             this.Controls.Add(this.myEnableSwitch_IsEnableHttpsService);
@@ -176,5 +199,7 @@
         private System.Windows.Forms.Label lb_info_4;
         private MyEnableSwitch myEnableSwitch_IsSyncTamperRule;
         private System.Windows.Forms.Label lb_info_5;
+        private MyEnableSwitch myEnableSwitch_IsHideSelfSession;
+        private System.Windows.Forms.Label lb_info_6;
     }
 }

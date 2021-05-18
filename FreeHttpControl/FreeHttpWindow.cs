@@ -1680,6 +1680,5 @@ namespace FreeHttp.FreeHttpControl
         #region ResponseReplace
 
         #endregion
-
     }
 }

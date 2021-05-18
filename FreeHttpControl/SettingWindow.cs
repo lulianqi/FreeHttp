@@ -41,11 +41,13 @@ namespace FreeHttp.FreeHttpControl
                 myEnableSwitch_IsSkipConnectTunnels.OnChangeEnable += myEnableSwitch_IsConnectTunnels_OnChangeEable;
                 myEnableSwitch_IsEnableHttpsService.OnChangeEnable += myEnableSwitch_IsEnableHttpsService_OnChangeEnable;
                 myEnableSwitch_IsSyncTamperRule.OnChangeEnable += MyEnableSwitch_IsSyncTamperRule_OnChangeEnable;
+                myEnableSwitch_IsHideSelfSession.OnChangeEnable += MyEnableSwitch_IsHideSelfSession_OnChangeEnable;
             }
             //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = this.Size;
             this.MinimumSize = this.Size;
         }
+
 
         void myEnableSwitch_IsConnectTunnels_OnChangeEable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)
         {
@@ -67,6 +69,11 @@ namespace FreeHttp.FreeHttpControl
             modifcSettingInfo.IsSyncTamperRule = e.IsEnable;
         }
 
+        private void MyEnableSwitch_IsHideSelfSession_OnChangeEnable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)
+        {
+            modifcSettingInfo.IsHideSelfSession = e.IsEnable;
+
+        }
         void myEnableSwitch_IsEnableHttpsService_OnChangeEnable(object sender, MyEnableSwitch.ChangeEnableEventArgs e)
         {
             if (e.IsEnable)

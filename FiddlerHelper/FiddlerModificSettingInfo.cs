@@ -26,6 +26,11 @@ namespace FreeHttp.FiddlerHelper
         public bool IsSyncTamperRule { get; set; }
 
         /// <summary>
+        /// if it is hide freehttp self session
+        /// </summary>
+        public bool IsHideSelfSession { get; set; }
+
+        /// <summary>
         /// is skip when the session is hide
         /// </summary>
         public bool IsSkipUiHide { get; set; }
@@ -56,12 +61,13 @@ namespace FreeHttp.FiddlerHelper
         {
             
         }
-        public FiddlerModificSettingInfo( bool isSkipTlsHandshake, bool isOnlyMatchFirstTamperRule ,bool isSyncTamperRule, bool isSkipUiHide, bool isEnableRequestRule = false, bool isEnableResponseRule = false ,string userToken=null)
+        public FiddlerModificSettingInfo( bool isSkipTlsHandshake, bool isOnlyMatchFirstTamperRule ,bool isSyncTamperRule, bool isSkipUiHide,bool isHideSelfSession = true ,bool isEnableRequestRule = false, bool isEnableResponseRule = false ,string userToken=null)
         {
             IsSkipConnectTunnels = isSkipTlsHandshake;
             IsOnlyMatchFirstTamperRule = isOnlyMatchFirstTamperRule;
             IsSyncTamperRule = isSyncTamperRule ;
             IsSkipUiHide = isSkipUiHide;
+            IsHideSelfSession = isHideSelfSession;
             IsEnableRequestRule = isEnableRequestRule;
             IsEnableResponseRule = isEnableResponseRule;
             UserToken = userToken;
