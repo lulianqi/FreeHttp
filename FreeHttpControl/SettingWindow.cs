@@ -36,6 +36,7 @@ namespace FreeHttp.FreeHttpControl
                 myEnableSwitch_IsSkipConnectTunnels.IsEnable = modifcSettingInfo.IsSkipConnectTunnels;
                 myEnableSwitch_IsEnableHttpsService.IsEnable = MyGlobalHelper.myHttpListener.IsStart;
                 myEnableSwitch_IsSyncTamperRule.IsEnable = modifcSettingInfo.IsSyncTamperRule;
+                myEnableSwitch_IsHideSelfSession.IsEnable = modifcSettingInfo.IsHideSelfSession;
                 myEnableSwitch_IsOnlyMatchFistTamperRule.OnChangeEnable += myEnableSwitch_IsOnlyMatchFistTamperRule_OnChangeEable;
                 myEnableSwitch_IsSkipHideUi.OnChangeEnable += myEnableSwitch_IsDefaultEnableRule_OnChangeEable;
                 myEnableSwitch_IsSkipConnectTunnels.OnChangeEnable += myEnableSwitch_IsConnectTunnels_OnChangeEable;

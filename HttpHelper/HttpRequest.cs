@@ -23,7 +23,7 @@ namespace FreeHttp.HttpHelper
         /// <summary>
         /// get or set the request line (it will updata RequestMethod,RequestUri,RequestVersions)
         /// </summary>
-        public string RequestLine { get { return requestLine; } set { SetRequestLine(value); ChangeRawData(); } }
+        public string RequestLine { get { return requestLine; } set { SetRequestLine(value,true); ChangeRawData(); } }
 
         [DataMember]
         /// <summary>
@@ -69,13 +69,44 @@ namespace FreeHttp.HttpHelper
             rawRequest = null;
         }
 
-        private void SetRequestLine(string yourRequestLine)
+        private void SetRequestLine(string yourRequestLine,bool isThrowException =true)
         {
+            if(yourRequestLine.Contains('\n') || string.IsNullOrWhiteSpace(yourRequestLine))
+            {
+                if (isThrowException)
+                {
+                    throw new Exception("your line is empty");
+                }
+                else
+                {
+                    return;
+                }
+            }
             string[] requestLineStrs = yourRequestLine.Split(new char[] { ' ' }, 3);
             if (requestLineStrs.Length !=3)
             {
-                throw new Exception("error format in response line");
+                if (isThrowException)
+                {
+                    throw new Exception("error format in response line");
+                }
+                else
+                {
+                    return;
+                }
             }
+            //RAW 报文在没有代理的情况下 请求行 里的http://host 是可以省略的
+            //if(!(requestLineStrs[1].StartsWith("http://") || requestLineStrs[1].StartsWith("https://")|| requestLineStrs[1].StartsWith("ftp://")))
+            //{
+            //    if (isThrowException)
+            //    {
+            //        //requestLineStrs[1] = $"http://{requestLineStrs[1]}";
+            //        throw new Exception("URI scheme must be http, https, or ftp");
+            //    }
+            //    else
+            //    {
+            //        return;
+            //    }
+            //}
             requestMethod = requestLineStrs[0];
             requestUri = requestLineStrs[1];
             requestVersions = requestLineStrs[2];

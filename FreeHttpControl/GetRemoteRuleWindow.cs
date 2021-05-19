@@ -277,7 +277,7 @@ namespace FreeHttp.FreeHttpControl
                 {
                     MessageBox.Show("your rule token is not permitted", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
-                if (ruleDetails.ModificHttpRuleCollection == null || ((ruleDetails.ModificHttpRuleCollection.RequestRuleList == null || ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count == 0) && (ruleDetails.ModificHttpRuleCollection.ResponseRuleList == null || ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count == 0)))
+                else if (ruleDetails.ModificHttpRuleCollection == null || ((ruleDetails.ModificHttpRuleCollection.RequestRuleList == null || ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count == 0) && (ruleDetails.ModificHttpRuleCollection.ResponseRuleList == null || ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count == 0)))
                 {
                     MessageBox.Show("can not find any rule in your storage spaces", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     ruleDetails = null;

@@ -13,27 +13,27 @@ namespace FreeHttp.FiddlerHelper
         /// <summary>
         /// the rule will skip tls handshake when it is true
         /// </summary>
-        public bool IsSkipConnectTunnels { get; set; }
+        public bool IsSkipConnectTunnels { get; set; } = true;
 
         /// <summary>
         /// if it is true the FiddlerFreeHttp will only match the fist request or response rule 
         /// </summary>
-        public bool IsOnlyMatchFirstTamperRule { get; set; }
+        public bool IsOnlyMatchFirstTamperRule { get; set; } = false;
 
         /// <summary>
         /// if it is sync TamperRule in server
         /// </summary>
-        public bool IsSyncTamperRule { get; set; }
+        public bool IsSyncTamperRule { get; set; } = true;
 
         /// <summary>
         /// if it is hide freehttp self session
         /// </summary>
-        public bool IsHideSelfSession { get; set; }
+        public bool IsHideSelfSession { get; set; } = true;
 
         /// <summary>
         /// is skip when the session is hide
         /// </summary>
-        public bool IsSkipUiHide { get; set; }
+        public bool IsSkipUiHide { get; set; } = true;
 
         /// <summary>
         /// is enable request rule when the application load

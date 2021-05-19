@@ -37,7 +37,14 @@ namespace FreeHttp
                 //Modific uri
                 if (nowFiddlerRequsetChange.UriModific != null && nowFiddlerRequsetChange.UriModific.ModificMode != ContentModificMode.NoChange)
                 {
-                    oSession.fullUrl = nowFiddlerRequsetChange.UriModific.GetFinalContent(oSession.fullUrl, nameValueCollection, out errMes);
+                    try
+                    {
+                        oSession.fullUrl = nowFiddlerRequsetChange.UriModific.GetFinalContent(oSession.fullUrl, nameValueCollection, out errMes);
+                    }
+                    catch(Exception ex)
+                    {
+                        errMes = ex.Message;
+                    }
                     if(errMes!=null)
                     {
                         ShowError(string.Format("error in GetFinalContent in UriModific that [{0}]", errMes));

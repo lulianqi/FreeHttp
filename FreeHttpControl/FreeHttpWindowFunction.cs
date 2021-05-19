@@ -563,7 +563,7 @@ namespace FreeHttp.FreeHttpControl
                 //requsetReplace.HttpRawRequest.RequestUri = tb_requestReplace_uri.Text;
                 //requsetReplace.HttpRawRequest.RequestVersions = cb_editRequestEdition.Text;
                 //Set RequestLine will updata RequestMethod/RequestUri/RequestVersions
-                requsetReplace.HttpRawRequest.RequestLine = string.Format("{0} {1} {2}", cb_editRequestMethod.Text, tb_requestReplace_uri.Text, cb_editRequestEdition.Text);
+                requsetReplace.HttpRawRequest.RequestLine=string.Format("{0} {1} {2}", cb_editRequestMethod.Text, tb_requestReplace_uri.Text, cb_editRequestEdition.Text);
                 StringBuilder requestSb = new StringBuilder(requsetReplace.HttpRawRequest.RequestLine);
                 requestSb.Append("\r\n");
                 requsetReplace.HttpRawRequest.RequestHeads = new List<MyKeyValuePair<string, string>>();
@@ -880,6 +880,9 @@ namespace FreeHttp.FreeHttpControl
             {
                 InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection);
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+                PutInfo($"[ReplaceRule]Add {ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count} request rule succeed ");
+                PutInfo($"[ReplaceRule]Add {ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count} response rule succeed ");
+                PutInfo($"[ReplaceRule]Add {ruleDetails.StaticDataCollection.Count} static parameter data succeed ");
             }
         }
         public void MergeRuleStorage(RuleDetails ruleDetails)
