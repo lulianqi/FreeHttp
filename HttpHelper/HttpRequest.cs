@@ -23,7 +23,7 @@ namespace FreeHttp.HttpHelper
         /// <summary>
         /// get or set the request line (it will updata RequestMethod,RequestUri,RequestVersions)
         /// </summary>
-        public string RequestLine { get { return requestLine; } set { SetRequestLine(value,true); ChangeRawData(); } }
+        public string RequestLine { get { return requestLine; } set { SetRequestLine(value); ChangeRawData(); } }
 
         [DataMember]
         /// <summary>
@@ -93,6 +93,10 @@ namespace FreeHttp.HttpHelper
                 {
                     return;
                 }
+            }
+            if (string.IsNullOrEmpty( requestLineStrs[1]))
+            {
+                throw new Exception("must specify a complete URI");
             }
             //RAW 报文在没有代理的情况下 请求行 里的http://host 是可以省略的
             //if(!(requestLineStrs[1].StartsWith("http://") || requestLineStrs[1].StartsWith("https://")|| requestLineStrs[1].StartsWith("ftp://")))
