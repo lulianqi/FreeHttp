@@ -1,5 +1,6 @@
 ﻿using FreeHttp.AutoTest.RunTimeStaticData;
 using FreeHttp.FiddlerHelper;
+using FreeHttp.FreeHttpControl.ControlHelper;
 using FreeHttp.WebService;
 using FreeHttp.WebService.DataModel;
 using System;
@@ -29,6 +30,7 @@ namespace FreeHttp.FreeHttpControl
         RuleInfoWindow myListViewCBallon;
         RuleDetails localRuleDetails;
         RuleDetails nowRuleDetails;
+        LoadWindowService loadWindowService;
 
         private ShowRuleCollectionType nowShowType = ShowRuleCollectionType.RemoteRule;
         private Point lv_requestRuleOriginLocation = new Point(2, 72);
@@ -44,6 +46,7 @@ namespace FreeHttp.FreeHttpControl
             mainWindow = freeHttpWindow;
             lv_remote_requestRuleList.SmallImageList = mainWindow.imageList_forTab;
             lv_remote_responseRuleList.SmallImageList = mainWindow.imageList_forTab;
+            loadWindowService = new LoadWindowService();
         }
         
         public void GotoPrvateRule(string ruleToken)
@@ -310,7 +313,9 @@ namespace FreeHttp.FreeHttpControl
             }
             string shareToken = watermakTextBox_ruleToken.Text.Contains('[') ? watermakTextBox_ruleToken.Text.Substring(0, watermakTextBox_ruleToken.Text.IndexOf('[')).Trim() : watermakTextBox_ruleToken.Text.Trim();
             ClearRemoteRule();
+            loadWindowService.StartLoad(this,true);
             RuleDetails ruleDetails = GetRuleDetailsFromToken(shareToken);
+            loadWindowService.StopLoad();
             if (ruleDetails == null)
             {
                 MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
@@ -331,7 +336,9 @@ namespace FreeHttp.FreeHttpControl
         private void lv_shareRuleList_DoubleClick(object sender, EventArgs e)
         {
             ListViewItem tempListViewItem = lv_shareRuleList.SelectedItems[0];
+            loadWindowService.StartLoad(this, true);
             RuleDetails ruleDetails = GetRuleDetailsFromToken(tempListViewItem.SubItems[0].Text);
+            loadWindowService.StopLoad();
             if(ruleDetails==null)
             {
                 MessageBox.Show("get share taken fail", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Error);

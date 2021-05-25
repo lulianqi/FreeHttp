@@ -61,8 +61,8 @@ namespace FreeHttp.FreeHttpControl
                         if (this != null && !this.IsDisposed)
                         {
                             //使用.ConfigureAwait(true); 可以不用Invoke
-                            this.Invoke(new Action(() => { (this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key); }));
-                            //(this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key);
+                            //this.Invoke(new Action(() => { (this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key); }));
+                            (this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key);
                             this.Close();
                         }
                     }

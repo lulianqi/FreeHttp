@@ -13,6 +13,7 @@ namespace FreeHttp.FreeHttpControl.ControlHelper
         LoadBitmap loadBitmap = new LoadBitmap(new System.Drawing.Size(100,100));
         PictureBox pictureBox = new PictureBox();
         Timer timer = new System.Windows.Forms.Timer();
+        System.Timers.Timer asyncTimer = new System.Timers.Timer();
         int loadTime = 0;
         bool isInload = false;
 
@@ -21,6 +22,12 @@ namespace FreeHttp.FreeHttpControl.ControlHelper
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             timer.Interval = 300;
             timer.Tick += Timer_Tick;
+            asyncTimer.Elapsed += Timer_Elapsed;
+        }
+
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Timer_Tick(null, null);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -34,7 +41,7 @@ namespace FreeHttp.FreeHttpControl.ControlHelper
             loadTime++;
         }
 
-        public void StartLoad(Form form)
+        public void StartLoad(Form form,bool isAsync = false)
         {
             if (isInload) return;
             loadForm = form;
@@ -45,7 +52,14 @@ namespace FreeHttp.FreeHttpControl.ControlHelper
             loadBitmap.SetSize(pictureBox.Width > pictureBox.Height ? pictureBox.Height : pictureBox.Width);
             isInload = true;
             loadTime = 0;
-            timer.Start();
+            if (isAsync)
+            {
+                asyncTimer.Start();
+            }
+            else
+            {
+                timer.Start();
+            }
         }
 
         public void StopLoad()
@@ -55,6 +69,7 @@ namespace FreeHttp.FreeHttpControl.ControlHelper
             loadForm = null;
             isInload = false;
             timer.Stop();
+            asyncTimer.Stop();
         }
     }
 }
