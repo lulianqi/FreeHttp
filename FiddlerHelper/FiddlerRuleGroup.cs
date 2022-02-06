@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FreeHttp.FiddlerHelper
 {
+    [Serializable]
+    [System.Runtime.Serialization.DataContract()]
     public class FiddlerRuleGroup
     {
         private ListView RequestRuleListView;
@@ -16,8 +19,12 @@ namespace FreeHttp.FiddlerHelper
         private bool _isRequestRuleGroupInTemporaryStatus = false;
         private bool _isResponseRuleGroupInTemporaryStatus = false;
 
+        [DataMember]
 
         public Dictionary<string, List<string>> RequestGroupDictionary { get; set; }
+
+        [DataMember]
+
         public Dictionary<string, List<string>> ResponseGroupDictionary { get; set; }
 
         public FiddlerRuleGroup(ListView rqLv,ListView rpLv)
@@ -26,6 +33,11 @@ namespace FreeHttp.FiddlerHelper
             ResponseRuleListView = rpLv;
             RequestGroupDictionary = new Dictionary<string, List<string>>();
             ResponseGroupDictionary = new Dictionary<string, List<string>>();
+        }
+        public void SetRuleGroupListView(ListView rqLv, ListView rpLv)
+        {
+            RequestRuleListView = rqLv;
+            ResponseRuleListView = rpLv;
         }
 
         /// <summary>

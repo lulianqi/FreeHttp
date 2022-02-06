@@ -210,5 +210,5 @@ D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.MyControl.CBalloonBase.
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.RuleInfoWindow.resources
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.GetRemoteRuleWindow.resources
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.SaveShareRule.resources
-D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.AssemblyReference.cache
 D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.FreeHttpControl.SortRule.resources
+D:\my\GitHub\FreeHttp\obj\Debug\FreeHttp.csproj.AssemblyReference.cache

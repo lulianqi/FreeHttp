@@ -898,7 +898,8 @@ namespace FreeHttp.FreeHttpControl
         {
             if (ruleDetails != null)
             {
-                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection);
+                //fuxiao 替换 远程还未支持分组
+                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection ,null);
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
                 PutInfo($"[ReplaceRule]Add {ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count} request rule succeed ");
                 PutInfo($"[ReplaceRule]Add {ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count} response rule succeed ");
@@ -952,8 +953,8 @@ namespace FreeHttp.FreeHttpControl
                         }
                     }
                 }
-
-                InitializeConfigInfo(new FiddlerModificHttpRuleCollection(FiddlerRequestChangeList , FiddlerResponseChangeList), ModificSettingInfo, StaticDataCollection);
+                //fuxiao 替换 远程还未支持分组
+                InitializeConfigInfo(new FiddlerModificHttpRuleCollection(FiddlerRequestChangeList , FiddlerResponseChangeList), ModificSettingInfo, StaticDataCollection,null);
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
             }
             else

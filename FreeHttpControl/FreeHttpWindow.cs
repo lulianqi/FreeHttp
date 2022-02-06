@@ -121,13 +121,15 @@ namespace FreeHttp.FreeHttpControl
         /// <param name="yourRuleCollection"></param>
         /// <param name="yourModifcSettingInfo"></param>
         /// <param name="yourStaticDataCollection"></param>
-        private void InitializeConfigInfo(FiddlerModificHttpRuleCollection yourRuleCollection, FiddlerModificSettingInfo yourModifcSettingInfo, ActuatorStaticDataCollection yourStaticDataCollection)
+        /// <param name="yourFiddlerRuleGroup"></param>
+        private void InitializeConfigInfo(FiddlerModificHttpRuleCollection yourRuleCollection, FiddlerModificSettingInfo yourModifcSettingInfo, ActuatorStaticDataCollection yourStaticDataCollection, FiddlerRuleGroup yourFiddlerRuleGroup)
         {
             fiddlerModificHttpRuleCollection = yourRuleCollection;
             ModificSettingInfo = yourModifcSettingInfo;
             if (ModificSettingInfo != null) ModificSettingInfo.IsSyncTamperRule = true;
             if (ModificSettingInfo != null && ModificSettingInfo.UserToken != null) UserComputerInfo.UserToken = ModificSettingInfo.UserToken;
             StaticDataCollection = yourStaticDataCollection;
+            ModificRuleGroup = yourFiddlerRuleGroup;
             if (fiddlerModificHttpRuleCollection != null && StaticDataCollection != null)
             {
                 foreach (var fr in fiddlerModificHttpRuleCollection.ResponseRuleList)
@@ -159,10 +161,10 @@ namespace FreeHttp.FreeHttpControl
         /// FreeHttpWindow
         /// </summary>
         /// <param name="yourRuleCollection">the history rule</param>
-        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection, FiddlerModificSettingInfo yourModifcSettingInfo, ActuatorStaticDataCollection yourStaticDataCollection)
+        public FreeHttpWindow(FiddlerModificHttpRuleCollection yourRuleCollection, FiddlerModificSettingInfo yourModifcSettingInfo, ActuatorStaticDataCollection yourStaticDataCollection , FiddlerRuleGroup yourFiddlerRuleGroup)
             : this()
         {
-            InitializeConfigInfo(yourRuleCollection, yourModifcSettingInfo, yourStaticDataCollection);
+            InitializeConfigInfo(yourRuleCollection, yourModifcSettingInfo, yourStaticDataCollection, yourFiddlerRuleGroup);
             if (!rawResponseEdit.SetContextMenuStrip(contextMenuStrip_AddFile))
             {
                 MessageBox.Show("RawResponseEdit SetContextMenuStrip fail");
@@ -304,6 +306,11 @@ namespace FreeHttp.FreeHttpControl
             if(ModificRuleGroup==null)
             {
                 ModificRuleGroup = new FiddlerRuleGroup(lv_requestRuleList, lv_responseRuleList);
+            }
+            else
+            {
+                ModificRuleGroup.SetRuleGroupListView(lv_requestRuleList, lv_responseRuleList);
+                ModificRuleGroup.RecoverGroup();
             }
             if(ModificSettingInfo==null)
             {
@@ -895,32 +902,6 @@ namespace FreeHttp.FreeHttpControl
         int xx = -1;
         private void pb_ruleCancel_Click(object sender, EventArgs e)
         {
-            //test for ListVew group
-            if (xx == -1)
-            {
-                List<ListViewGroup> groupsArray = new List<ListViewGroup>();
-                ListViewGroup listViewGroup1 = new ListViewGroup("我的分组01");
-                ListViewGroup listViewGroup2 = new ListViewGroup("我的分组02");
-                lv_requestRuleList.Groups.Clear();
-                lv_requestRuleList.Groups.Add(listViewGroup1);
-                lv_requestRuleList.Groups.Add(listViewGroup2);
-
-                foreach (ListViewItem item in lv_requestRuleList.Items)
-                {
-                    int tempRandom = (new Random((int)(DateTime.Now.Ticks % 10000))).Next(10);
-                    if (tempRandom % 3 == 0)
-                    {
-                        item.Group = listViewGroup1;
-                    }
-                    else if (tempRandom % 3 == 1)
-                    {
-                        item.Group = listViewGroup2;
-                    }
-                }
-            }
-            lv_requestRuleList.SetGroupState((ListViewGroupState)(xx == -1 ? 0 : Math.Pow(2,xx)));
-            xx++;
-
             PutWarn("Clear the Modific Info");
             ChangeNowRuleMode(RuleEditMode.NewRuleMode, NowProtocalMode, null, null);
         }
@@ -1217,7 +1198,7 @@ namespace FreeHttp.FreeHttpControl
             RuleDetails ruleDetails = ruleTask.GetAwaiter().GetResult();
             if (ruleDetails != null)
             {
-                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection);
+                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection,null);
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
             }
             return;
@@ -1581,6 +1562,7 @@ namespace FreeHttp.FreeHttpControl
                     try
                     {
                         IFiddlerHttpTamper tempHttpTamper = ((IFiddlerHttpTamper)tempItem.Tag).Clone() as IFiddlerHttpTamper;
+                        tempHttpTamper.RuleUid = null;//深度克隆会有一样的UID，这里需要重置副本UID
                         tempHttpTamper.HttpFilter.Name = string.Format("<copy from> {0}", tempHttpTamper.HttpFilter?.GetShowTitle() ?? "");
                         AddRuleToListView(nowRuleListView, tempHttpTamper, true);
                     }
@@ -1815,7 +1797,7 @@ namespace FreeHttp.FreeHttpControl
         private void addToNewGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string newGroupName = "";
-            SetVaule f = new SetVaule("New rule Group", "you will new a rule group ,and now set the group name.", "", new Func<string, string>((string checkValue) =>
+            SetVaule f = new SetVaule("New rule group", "you will new a rule group ,and now set the group name.", "", new Func<string, string>((string checkValue) =>
             { 
                 if((string.IsNullOrEmpty(checkValue) || checkValue.Length > 30))
                 {
@@ -1877,7 +1859,7 @@ namespace FreeHttp.FreeHttpControl
         private void renameThisGroupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string newGroupName = _nowTempGroupRuleLvg.Header;
-            SetVaule f = new SetVaule("Rename rule Group", "you will rename rule group ,and input the new group name.", newGroupName, new Func<string, string>((string checkValue) =>
+            SetVaule f = new SetVaule("Rename rule group", "you will rename rule group ,and input the new group name.", newGroupName, new Func<string, string>((string checkValue) =>
             {
                 if ((string.IsNullOrEmpty(checkValue) || checkValue.Length > 30))
                 {
@@ -2056,12 +2038,5 @@ namespace FreeHttp.FreeHttpControl
 
         #endregion
 
-        private void testToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ListViewItem listViewItem = _nowTempGroupRuleLv.SelectedItems[0];
-            int nowIndex = _nowTempGroupRuleLv.SelectedItems[0].Index;
-            _nowTempGroupRuleLv.Items.Remove(listViewItem);
-            _nowTempGroupRuleLv.Items.Insert(nowIndex - 1, listViewItem);
-        }
     }
 }
