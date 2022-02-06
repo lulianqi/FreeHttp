@@ -102,7 +102,7 @@ namespace FreeHttp.FreeHttpControl
                     }
                 }
                 string listenerPrefixesStr = string.Format(@"https://*:{0}/", listenerPort);
-                SetVaule f = new SetVaule("Set listener prefixes", "you can set listener prefixes for your http service,like https://*:443/", listenerPrefixesStr, new Func<string, bool>((string checkValue) => { return (checkValue.StartsWith("http") && checkValue.EndsWith("/")); }));
+                SetVaule f = new SetVaule("Set listener prefixes", "you can set listener prefixes for your http service,like https://*:443/", listenerPrefixesStr, new Func<string, string>((string checkValue) => { return (checkValue.StartsWith("http") && checkValue.EndsWith("/")?null:""); }));
                 f.OnSetValue += new EventHandler<SetVaule.SetVauleEventArgs>((obj, tag) => { listenerPrefixesStr = tag.SetValue; isAffirm = true; });
                 f.ShowDialog();
                 if(!isAffirm)

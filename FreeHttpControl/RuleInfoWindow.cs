@@ -272,6 +272,16 @@ namespace FreeHttp.FreeHttpControl
                 Close();
                 return;
             }
+            try
+            {
+                //Item被折叠后获取Bounds属性会异常
+                _ = InnerListViewItem.Bounds;
+            }
+            catch
+            {
+                Close();
+                return;
+            }
             if(lastListViewItemRectangle != InnerListViewItem.Bounds)
             {
                 lastListViewItemRectangle = InnerListViewItem.Bounds;

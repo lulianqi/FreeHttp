@@ -82,6 +82,7 @@
     <Compile Include="AutoTest\RunTimeStaticData\RunTimeStaticDataHelper.cs" />
     <Compile Include="FiddlerFreeHttp.cs" />
     <Compile Include="FiddlerHelper\FiddlerActuatorStaticDataCollectionController.cs" />
+    <Compile Include="FiddlerHelper\FiddlerRuleGroup.cs" />
     <Compile Include="FiddlerHelper\TamperProtocalType.cs" />
     <Compile Include="FiddlerHelper\VersionControl\FiddlerModificHttpRuleCollectionV1.cs" />
     <Compile Include="FiddlerSessionTamper.cs" />
@@ -122,6 +123,15 @@
     </Compile>
     <Compile Include="FreeHttpControl\GetRemoteRuleWindow.Designer.cs">
       <DependentUpon>GetRemoteRuleWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\MyControl\ListViewExtended.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\SortRule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\SortRule.Designer.cs">
+      <DependentUpon>SortRule.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\RuleInfoWindow.cs">
       <SubType>Form</SubType>
@@ -326,11 +336,15 @@
     <EmbeddedResource Include="FreeHttpControl\GetRemoteRuleWindow.resx">
       <DependentUpon>GetRemoteRuleWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\SortRule.resx">
+      <DependentUpon>SortRule.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RuleInfoWindow.resx">
       <DependentUpon>RuleInfoWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\MyControl\AddParameterPickBox.resx">
       <DependentUpon>AddParameterPickBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\MyControl\CBalloonBase.resx" />
     <EmbeddedResource Include="FreeHttpControl\MyControl\EditListView.resx">

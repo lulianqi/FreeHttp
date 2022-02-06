@@ -108,9 +108,29 @@ namespace FreeHttp.FreeHttpControl
             if (RequestRuleListView != null)
             {
                 requestList = new List<FiddlerRequestChange>();
-                foreach (ListViewItem tempItem in RequestRuleListView.Items)
+                if (RequestRuleListView.Groups == null || RequestRuleListView.Groups.Count == 0)
                 {
-                    requestList.Add((FiddlerRequestChange)tempItem.Tag);
+                    foreach (ListViewItem tempItem in RequestRuleListView.Items)
+                    {
+                        requestList.Add((FiddlerRequestChange)tempItem.Tag);
+                    }
+                }
+                else
+                {
+                    foreach (ListViewItem tempItem in RequestRuleListView.Items)
+                    {
+                        if (tempItem.Group == null)
+                        {
+                            requestList.Add((FiddlerRequestChange)tempItem.Tag);
+                        }
+                    }
+                    foreach (ListViewGroup listViewGroup in RequestRuleListView.Groups)
+                    {
+                        foreach (ListViewItem tempItem in listViewGroup.Items)
+                        {
+                            requestList.Add((FiddlerRequestChange)tempItem.Tag);
+                        }
+                    }
                 }
             }
             FiddlerRequestChangeList = requestList;
@@ -1091,7 +1111,7 @@ namespace FreeHttp.FreeHttpControl
             string tempAttibute="Max-Age=1;Path=/";
             if (!string.IsNullOrEmpty(yourCookieString))
             {
-                SetVaule f = new SetVaule("Set Attibute", "you can add attibute for the set-cookie head ,like Domain=www.yourhost.com", tempAttibute, new Func<string, bool>((string checkValue) => { return checkValue.Contains("Max-Age"); }));
+                SetVaule f = new SetVaule("Set Attibute", "you can add attibute for the set-cookie head ,like Domain=www.yourhost.com", tempAttibute, new Func<string, string>((string checkValue) => { return checkValue.Contains("Max-Age")?null:""; }));
                 f.OnSetValue += new EventHandler<SetVaule.SetVauleEventArgs>((obj, tag) => { tempAttibute = tag.SetValue; });
                 f.ShowDialog();
             }

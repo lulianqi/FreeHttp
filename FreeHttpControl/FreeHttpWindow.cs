@@ -216,6 +216,11 @@ namespace FreeHttp.FreeHttpControl
         }
 
         /// <summary>
+        /// get or set ModificRuleGroup
+        /// </summary>
+        public FiddlerRuleGroup ModificRuleGroup { get; set; }
+
+        /// <summary>
         /// get or set IsSetResponseLatencyEable
         /// </summary>
         public bool IsSetResponseLatencyEable
@@ -296,6 +301,10 @@ namespace FreeHttp.FreeHttpControl
             {
                 StaticDataCollection = new ActuatorStaticDataCollection(true);
             }
+            if(ModificRuleGroup==null)
+            {
+                ModificRuleGroup = new FiddlerRuleGroup(lv_requestRuleList, lv_responseRuleList);
+            }
             if(ModificSettingInfo==null)
             {
                 ModificSettingInfo = new FiddlerModificSettingInfo(true, false ,true,true);
@@ -314,12 +323,15 @@ namespace FreeHttp.FreeHttpControl
             tbe_RequestBodyModific.Visible = false;
             tbe_ResponseBodyModific.Visible = false;
             tbe_urlFilter.Visible = false;
-            lv_responseRuleList.OnItemDragSort += Lv_ruleList_OnItemDragSort;
-            lv_requestRuleList.OnItemDragSort += Lv_ruleList_OnItemDragSort;
+            lv_requestRuleList.SetGroupState(ListViewGroupState.Collapsible);
+            lv_responseRuleList.SetGroupState(ListViewGroupState.Collapsible);
+            lv_responseRuleList.OnItemDragSortEnd += Lv_ruleList_OnItemDragSort;
+            lv_requestRuleList.OnItemDragSortEnd += Lv_ruleList_OnItemDragSort;
+            lv_requestRuleList.OnItemDragSortStart += Lv_ruleList_OnItemDragSortStart;
+            lv_responseRuleList.OnItemDragSortStart += Lv_ruleList_OnItemDragSortStart;
             tbe_RequestBodyModific.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
             tbe_ResponseBodyModific.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
             tbe_urlFilter.OnCloseEditBox += tbe_BodyModific_OnCloseEditBox;
-
 
             cb_macthMode.SelectedIndex = 0;
             tabControl_Modific.SelectedTab = tabPage_requestModific;
@@ -735,8 +747,9 @@ namespace FreeHttp.FreeHttpControl
         private void splitContainer_httpControl_Resize(object sender, EventArgs e)
         {
             //rule list
-            columnHeader_requstRule.Width = lv_requestRuleList.Width - 70;
-            columnHeader_responseRule.Width = lv_responseRuleList.Width - 70;
+            //- (lv_requestRuleList.Groups.Count > 0 ? 5 : 0)
+            columnHeader_requstRule.Width = lv_requestRuleList.Width - 75 ;
+            columnHeader_responseRule.Width = lv_responseRuleList.Width - 75;
         }
         #endregion
 
@@ -879,8 +892,35 @@ namespace FreeHttp.FreeHttpControl
             ChangeNowRuleMode(RuleEditMode.NewRuleMode, NowProtocalMode, null, null);
         }
 
+        int xx = -1;
         private void pb_ruleCancel_Click(object sender, EventArgs e)
         {
+            //test for ListVew group
+            if (xx == -1)
+            {
+                List<ListViewGroup> groupsArray = new List<ListViewGroup>();
+                ListViewGroup listViewGroup1 = new ListViewGroup("我的分组01");
+                ListViewGroup listViewGroup2 = new ListViewGroup("我的分组02");
+                lv_requestRuleList.Groups.Clear();
+                lv_requestRuleList.Groups.Add(listViewGroup1);
+                lv_requestRuleList.Groups.Add(listViewGroup2);
+
+                foreach (ListViewItem item in lv_requestRuleList.Items)
+                {
+                    int tempRandom = (new Random((int)(DateTime.Now.Ticks % 10000))).Next(10);
+                    if (tempRandom % 3 == 0)
+                    {
+                        item.Group = listViewGroup1;
+                    }
+                    else if (tempRandom % 3 == 1)
+                    {
+                        item.Group = listViewGroup2;
+                    }
+                }
+            }
+            lv_requestRuleList.SetGroupState((ListViewGroupState)(xx == -1 ? 0 : Math.Pow(2,xx)));
+            xx++;
+
             PutWarn("Clear the Modific Info");
             ChangeNowRuleMode(RuleEditMode.NewRuleMode, NowProtocalMode, null, null);
         }
@@ -899,7 +939,7 @@ namespace FreeHttp.FreeHttpControl
         {
             if (IsSetResponseLatencyEable)
             {
-                SetVaule f = new SetVaule("Set Latency", "Enter the exact number of milliseconds by which to delay the response", sender == pb_responseLatency ? "0" : lbl_ResponseLatency.GetLatency().ToString(), new Func<string, bool>((string checkValue) => { int tempValue; if (checkValue == "") return true; return (int.TryParse(checkValue, out tempValue) && tempValue>=0); }));
+                SetVaule f = new SetVaule("Set Latency", "Enter the exact number of milliseconds by which to delay the response", sender == pb_responseLatency ? "0" : lbl_ResponseLatency.GetLatency().ToString(), new Func<string, string>((string checkValue) => { int tempValue; if (checkValue == "") return null; return (int.TryParse(checkValue, out tempValue) && tempValue>=0)?null:""; }));
                 f.OnSetValue += f_OnSetValue;
                 f.ShowDialog();
             }
@@ -1248,7 +1288,13 @@ namespace FreeHttp.FreeHttpControl
         #region Rule control
         private void Lv_ruleList_OnItemDragSort(object sender, DragEventArgs e)
         {
+            ModificRuleGroup.RecoverTemporaryGroup((ListView)sender);
             RefreshFiddlerRuleList((ListView)sender);
+        }
+
+        private void Lv_ruleList_OnItemDragSortStart(object sender, ItemDragEventArgs e)
+        {
+            ModificRuleGroup.RemoveGroupTemporary((ListView)sender);
         }
 
         private void pb_requestRuleSwitch_Click(object sender, EventArgs e)
@@ -1331,7 +1377,16 @@ namespace FreeHttp.FreeHttpControl
                 return;
             }
 
-            Point myPosition = new Point(nowListViewItem.Bounds.X, nowListViewItem.Bounds.Y );
+            Point myPosition;
+            try
+            {
+                myPosition = new Point(nowListViewItem.Bounds.X, nowListViewItem.Bounds.Y);
+            }
+            catch
+            {
+                MessageBox.Show("your rule is  already collapsed");
+                return;
+            }
             myPosition = nowListViewItem.ListView.PointToScreen(myPosition);
             myPosition = this.ParentForm.PointToClient(myPosition);
             myPosition.Offset(40, 10);
@@ -1581,6 +1636,330 @@ namespace FreeHttp.FreeHttpControl
             lv_RuleList_DoubleClick(tempRuleLv, null);
         }
 
+        #region RuleToolStripMenuItem_Group
+
+        //临时标记当前在操作的ListView
+        private ListView _nowTempGroupRuleLv;
+
+        //临时标记当前在操作的ListViewGroup
+        private ListViewGroup _nowTempGroupRuleLvg;
+        
+        /// <summary>
+        /// 更新组列表（移除item为空的group）
+        /// </summary>
+        /// <param name="yourListView"></param>
+        private void ReflushListViewGroup(ListView yourListView)
+        {
+            if (yourListView.Groups.Count > 0)
+            {
+                for(int i = yourListView.Groups.Count-1;i>=0;i--)
+                {
+                    if(yourListView.Groups[i].Items.Count==0)
+                    {
+                        PutInfo($"group [{yourListView.Groups[i].Header}] will be remove ,because that no item ");
+                        yourListView.Groups.RemoveAt(i);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 跟换分组
+        /// </summary>
+        /// <param name="selectedListViewItemCollection"></param>
+        /// <param name="listViewGroup"></param>
+        /// <returns></returns>
+        private bool MoveRuleItemGroup(ListView.SelectedListViewItemCollection selectedListViewItemCollection, ListViewGroup listViewGroup)
+        {
+            foreach(ListViewItem listViewItem in selectedListViewItemCollection)
+            {
+                listViewItem.Group = listViewGroup;
+            }
+            if (selectedListViewItemCollection.Count > 0)
+            {
+                ReflushListViewGroup(selectedListViewItemCollection[0].ListView);
+                ModificRuleGroup.ReArrangeGroup(selectedListViewItemCollection[0].ListView);
+                RefreshFiddlerRuleList(selectedListViewItemCollection[0].ListView);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 选中的项是否都在默认分组（没有分组信息）
+        /// </summary>
+        /// <param name="selectedListViewItemCollection"></param>
+        /// <returns></returns>
+        private bool IsAllDefaultViewGroup(ListView.SelectedListViewItemCollection selectedListViewItemCollection)
+        {
+            foreach (ListViewItem listViewItem in selectedListViewItemCollection)
+            {
+                if(listViewItem.Group !=null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 确定项目是否都来自同一个分组
+        /// </summary>
+        /// <param name="selectedListViewItemCollection"></param>
+        /// <returns>如果不是同一个分组返回null，如果是返回分组</returns>
+        private ListViewGroup FindOnlyOneViewGroup(ListView.SelectedListViewItemCollection selectedListViewItemCollection)
+        {
+            ListViewGroup oneListViewGroup = null;
+            foreach (ListViewItem listViewItem in selectedListViewItemCollection)
+            {
+                if(listViewItem.Group==null)
+                {
+                    return null;
+                }
+                if(oneListViewGroup==null)
+                {
+                    oneListViewGroup = listViewItem.Group;
+                }
+                else
+                {
+                    if(oneListViewGroup != listViewItem.Group)
+                    {
+                        return null;
+                    }
+                }
+            }
+            return oneListViewGroup;
+        }
+
+        /// <summary>
+        /// 展开分组操作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void groupToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
+        {
+            ListView tempRuleLv = GetRuleToolStripMenuItemSourceControl(sender);
+            _nowTempGroupRuleLv = tempRuleLv;
+            if (tempRuleLv.Groups.Count>0)
+            {
+                moveToGroupToolStripMenuItem.Enabled = true;
+                renameThisGroupToolStripMenuItem.Enabled = true;
+                deleteThisGroupToolStripMenuItem.Enabled = true;
+                enableThisGroupToolStripMenuItem.Enabled = true;
+                unableThisGroupToolStripMenuItem.Enabled = true;
+
+                moveToGroupToolStripMenuItem.DropDownItems.Clear();
+                //添加默认分组
+                ToolStripItem tempAddToolStripItem = new ToolStripMenuItem("Default");
+                tempAddToolStripItem.Click += new EventHandler((esd, ee) => { MoveRuleItemGroup(tempRuleLv.SelectedItems, null); });
+                moveToGroupToolStripMenuItem.DropDownItems.Add(tempAddToolStripItem);
+                //检查无效分组
+                ListViewGroup onlyOneGroup = null;
+                bool isSelectedAllDefault = false;
+                if (IsAllDefaultViewGroup(tempRuleLv.SelectedItems))
+                {
+                    isSelectedAllDefault = true;
+                    tempAddToolStripItem.Enabled = false;
+                }
+                else
+                {
+                    onlyOneGroup = FindOnlyOneViewGroup(tempRuleLv.SelectedItems);
+                }
+                //添加分组
+                foreach (ListViewGroup group in tempRuleLv.Groups)
+                {
+                    tempAddToolStripItem = new ToolStripMenuItem(group.Header);
+                    tempAddToolStripItem.Click += new EventHandler((esd, ee) => { MoveRuleItemGroup(tempRuleLv.SelectedItems, group); });
+                    moveToGroupToolStripMenuItem.DropDownItems.Add(tempAddToolStripItem);
+                    if(onlyOneGroup== group)
+                    {
+                        tempAddToolStripItem.Enabled = false;
+                    }
+                }
+                //确认MenuItem可用项
+                if(isSelectedAllDefault || onlyOneGroup==null)
+                {
+                    renameThisGroupToolStripMenuItem.Enabled = false;
+                    deleteThisGroupToolStripMenuItem.Enabled = false;
+                    enableThisGroupToolStripMenuItem.Enabled = false;
+                    unableThisGroupToolStripMenuItem.Enabled = false;
+                }
+                else
+                {
+                    _nowTempGroupRuleLvg = onlyOneGroup;
+                }
+            }
+            else
+            {
+                moveToGroupToolStripMenuItem.Enabled = false;
+                renameThisGroupToolStripMenuItem.Enabled = false;
+                deleteThisGroupToolStripMenuItem.Enabled = false;
+                enableThisGroupToolStripMenuItem.Enabled = false;
+                unableThisGroupToolStripMenuItem.Enabled = false;
+
+                _nowTempGroupRuleLvg = null;
+            }
+        }
+
+
+        private void moveToGroupToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            ListView tempRuleLv = _nowTempGroupRuleLv;
+           
+        }
+
+        /// <summary>
+        /// 添加分组
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void addToNewGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string newGroupName = "";
+            SetVaule f = new SetVaule("New rule Group", "you will new a rule group ,and now set the group name.", "", new Func<string, string>((string checkValue) =>
+            { 
+                if((string.IsNullOrEmpty(checkValue) || checkValue.Length > 30))
+                {
+                    return "error length of group name";
+                }
+                else if(checkValue== "Default")
+                {
+                    return "[Default] is a reserve name";
+                }
+                if(_nowTempGroupRuleLv?.Groups!=null && _nowTempGroupRuleLv.Groups.Count>0)
+                {
+                    foreach(ListViewGroup lvg in _nowTempGroupRuleLv.Groups)
+                    {
+                        if(lvg.Header== checkValue)
+                        {
+                            return $"[{checkValue}] have been used";
+                        }
+                    }
+                }
+                return null;
+            }));
+            f.OnSetValue += new EventHandler<SetVaule.SetVauleEventArgs>((obj, tag) => { newGroupName = tag.SetValue; });
+            if( f.ShowDialog()== DialogResult.OK)
+            {
+                ListView tempRuleLv = _nowTempGroupRuleLv;
+                if (tempRuleLv.SelectedItems != null && tempRuleLv.SelectedItems.Count > 0)
+                {
+                    ListViewGroup tempListViewGroup = new ListViewGroup(newGroupName);
+                    ((MyListView)tempRuleLv).GroupSelectedSataus.GetSnapshoot();
+                    tempRuleLv.Groups.Add(tempListViewGroup);
+                    ((MyListView)tempRuleLv).GroupSelectedSataus.ReCoverSnapshoot();
+                    ((MyListView)tempRuleLv).SetGroupState(ListViewGroupState.Collapsible , tempListViewGroup);
+                    foreach (ListViewItem tempItem in tempRuleLv.SelectedItems)
+                    {
+                        tempItem.Group = tempListViewGroup;
+                    }
+                    //((MyListView)tempRuleLv).SetGroupFooter(tempListViewGroup, "Group contains " + tempListViewGroup.Items.Count + " items...");
+                    ReflushListViewGroup(tempRuleLv);
+                    ModificRuleGroup.ReArrangeGroup(tempRuleLv);
+                    RefreshFiddlerRuleList(tempRuleLv);
+                    PutInfo($"group [{newGroupName}] add succeed");
+                }
+                else
+                {
+                    MessageBox.Show("please select the rules that your want ", "Stop");
+                }
+            }
+            else
+            {
+                // do nothing
+            }
+        }
+
+        /// <summary>
+        /// 重命名分组
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void renameThisGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string newGroupName = _nowTempGroupRuleLvg.Header;
+            SetVaule f = new SetVaule("Rename rule Group", "you will rename rule group ,and input the new group name.", newGroupName, new Func<string, string>((string checkValue) =>
+            {
+                if ((string.IsNullOrEmpty(checkValue) || checkValue.Length > 30))
+                {
+                    return "error length of group name";
+                }
+                else if (checkValue == "Default")
+                {
+                    return "[Default] is a reserve name";
+                }
+                if (_nowTempGroupRuleLv?.Groups != null && _nowTempGroupRuleLv.Groups.Count > 0)
+                {
+                    foreach (ListViewGroup lvg in _nowTempGroupRuleLv.Groups)
+                    {
+                        if (lvg.Header == checkValue)
+                        {
+                            return $"[{checkValue}] have been used";
+                        }
+                    }
+                }
+                return null;
+            }));
+            f.OnSetValue += new EventHandler<SetVaule.SetVauleEventArgs>((obj, tag) => { newGroupName = tag.SetValue; });
+            if (f.ShowDialog() == DialogResult.OK)
+            {
+                _nowTempGroupRuleLvg.Header = newGroupName;
+                ((MyListView)_nowTempGroupRuleLvg.ListView).SetGroupState(ListViewGroupState.Collapsible, _nowTempGroupRuleLvg);
+            }
+        }
+
+        /// <summary>
+        /// 删除分组
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void deleteThisGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show($"group [{_nowTempGroupRuleLvg.Header}] will been delete ,and his rule item will move to [Default]", "Delete group", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if(dialogResult == DialogResult.OK)
+            {
+                //foreach(ListViewItem listViewItem in _nowTempGroupRuleLvg.Items)
+                //{
+                //    listViewItem.Group = null;
+                //}
+                for (int i = _nowTempGroupRuleLvg.Items.Count-1; i >= 0; i--)
+                {
+                    _nowTempGroupRuleLvg.Items[i].Group = null;
+                }
+                _nowTempGroupRuleLvg.ListView.Groups.Remove(_nowTempGroupRuleLvg);
+                ModificRuleGroup.ReArrangeGroup(_nowTempGroupRuleLv);
+                RefreshFiddlerRuleList(_nowTempGroupRuleLv);
+                PutInfo($"group [{_nowTempGroupRuleLvg.Header}] remove succeed");
+            }
+        }
+
+        /// <summary>
+        /// 启用分组包含的项（勾选）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void enableThisGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach(ListViewItem listViewItem in _nowTempGroupRuleLvg.Items)
+            {
+                listViewItem.Checked = true;
+            }
+        }
+
+        /// <summary>
+        /// 禁用分组包含的项（取消勾选）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void unableThisGroupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem listViewItem in _nowTempGroupRuleLvg.Items)
+            {
+                listViewItem.Checked = false;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #endregion
@@ -1667,10 +2046,6 @@ namespace FreeHttp.FreeHttpControl
             }
         }
 
-
-
-
-
         #endregion
 
         #region ResponseModific
@@ -1680,5 +2055,13 @@ namespace FreeHttp.FreeHttpControl
         #region ResponseReplace
 
         #endregion
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListViewItem listViewItem = _nowTempGroupRuleLv.SelectedItems[0];
+            int nowIndex = _nowTempGroupRuleLv.SelectedItems[0].Index;
+            _nowTempGroupRuleLv.Items.Remove(listViewItem);
+            _nowTempGroupRuleLv.Items.Insert(nowIndex - 1, listViewItem);
+        }
     }
 }

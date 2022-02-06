@@ -9,6 +9,7 @@ namespace FreeHttp.FiddlerHelper
 {
     public interface IFiddlerHttpTamper:ICloneable
     {
+        string RuleUid { get; set; }
         bool IsEnable { get; set; }
         bool IsHasParameter { get; set; }
         TamperProtocalType TamperProtocol { get; set; }

@@ -43,7 +43,10 @@ namespace FreeHttp.WebService
             RuleUpload,
             RemoteRule,
             AddRule,
-            ShareRule
+            ShareRule,
+            EditRule,
+            ExecuteRule,
+            CommonBusiness
         }
 
         public enum RemoteLogType
