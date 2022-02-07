@@ -142,12 +142,32 @@ namespace FreeHttp.FreeHttpControl
         private void RefreshFiddlerResponseChangeList()
         {
             List<FiddlerResponseChange> responseList = null;
-            if (RequestRuleListView != null)
+            if (ResponseRuleListView != null)
             {
                 responseList = new List<FiddlerResponseChange>();
-                foreach (ListViewItem tempItem in ResponseRuleListView.Items)
+                if (ResponseRuleListView.Groups == null || ResponseRuleListView.Groups.Count == 0)
                 {
-                    responseList.Add((FiddlerResponseChange)tempItem.Tag);
+                    foreach (ListViewItem tempItem in ResponseRuleListView.Items)
+                    {
+                        responseList.Add((FiddlerResponseChange)tempItem.Tag);
+                    }
+                }
+                else
+                {
+                    foreach (ListViewItem tempItem in ResponseRuleListView.Items)
+                    {
+                        if (tempItem.Group == null)
+                        {
+                            responseList.Add((FiddlerResponseChange)tempItem.Tag);
+                        }
+                    }
+                    foreach (ListViewGroup listViewGroup in ResponseRuleListView.Groups)
+                    {
+                        foreach (ListViewItem tempItem in listViewGroup.Items)
+                        {
+                            responseList.Add((FiddlerResponseChange)tempItem.Tag);
+                        }
+                    }
                 }
             }
             FiddlerResponseChangeList = responseList;
