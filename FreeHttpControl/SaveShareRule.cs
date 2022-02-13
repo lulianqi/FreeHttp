@@ -57,7 +57,7 @@ namespace FreeHttp.FreeHttpControl
                     else
                     {
                         shareRuleService.NowShareRuleSummary?.PrivateRuleList.Add(new WebService.DataModel.ShareRuleSummary.RuleToken() { Token = rs.Result.Key, Remark = rs.Result.Value });
-                        MessageBox.Show($"your share rule [{rs.Result.Value ?? "-"}] save succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.None);
+                        MessageBox.Show($"your share rule [{rs.Result.Value ?? "-"}] save succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                         if (this != null && !this.IsDisposed)
                         {
                             //使用.ConfigureAwait(true); 可以不用Invoke

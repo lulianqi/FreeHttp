@@ -218,7 +218,7 @@ namespace FreeHttp.FreeHttpControl
         }
 
         /// <summary>
-        /// get or set ModificRuleGroup
+        /// get or set ModificRuleGroup(如果使用=重置组信息请重新建立其与ListView的关系)
         /// </summary>
         public FiddlerRuleGroup ModificRuleGroup { get; set; }
 
@@ -1187,6 +1187,7 @@ namespace FreeHttp.FreeHttpControl
             f.ShowDialog();
             return;
 
+            //下面的都是测试代码，不会被执行到
             //WebService.RemoteRuleService.GetRemoteRuleAsync("6077f8fa617545cb9fbf12b1c874f7ee").ContinueWith((rule) => { LoadFiddlerModificHttpRuleCollection(rule.Result); });
             System.Threading.Tasks.Task<RuleDetails> ruleTask = System.Threading.Tasks.Task.Run(new Func<RuleDetails>(() =>
             {
@@ -1490,6 +1491,8 @@ namespace FreeHttp.FreeHttpControl
                     DelRuleFromListView(nowRuleListView, tempItem);
                     //nowRuleListView.Items.Remove(tempItem);
                 }
+                //更新组信息，删除空组
+                RemoveEmptyViewGroup(nowRuleListView);
                 //删除不用调整rule id 没有重复的风险
                 //AdjustRuleListViewIndex(nowRuleListView);
             }
@@ -1630,7 +1633,7 @@ namespace FreeHttp.FreeHttpControl
         /// 更新组列表（移除item为空的group）
         /// </summary>
         /// <param name="yourListView"></param>
-        private void ReflushListViewGroup(ListView yourListView)
+        private void RemoveEmptyViewGroup(ListView yourListView)
         {
             if (yourListView.Groups.Count > 0)
             {
@@ -1659,7 +1662,7 @@ namespace FreeHttp.FreeHttpControl
             }
             if (selectedListViewItemCollection.Count > 0)
             {
-                ReflushListViewGroup(selectedListViewItemCollection[0].ListView);
+                RemoveEmptyViewGroup(selectedListViewItemCollection[0].ListView);
                 ModificRuleGroup.ReArrangeGroup(selectedListViewItemCollection[0].ListView);
                 RefreshFiddlerRuleList(selectedListViewItemCollection[0].ListView);
             }
@@ -1835,7 +1838,7 @@ namespace FreeHttp.FreeHttpControl
                         tempItem.Group = tempListViewGroup;
                     }
                     //((MyListView)tempRuleLv).SetGroupFooter(tempListViewGroup, "Group contains " + tempListViewGroup.Items.Count + " items...");
-                    ReflushListViewGroup(tempRuleLv);
+                    RemoveEmptyViewGroup(tempRuleLv);
                     ModificRuleGroup.ReArrangeGroup(tempRuleLv);
                     RefreshFiddlerRuleList(tempRuleLv);
                     PutInfo($"group [{newGroupName}] add succeed");
@@ -1885,6 +1888,7 @@ namespace FreeHttp.FreeHttpControl
             if (f.ShowDialog() == DialogResult.OK)
             {
                 _nowTempGroupRuleLvg.Header = newGroupName;
+                ModificRuleGroup.ReflushGroupDc(_nowTempGroupRuleLvg.ListView);
                 ((MyListView)_nowTempGroupRuleLvg.ListView).SetGroupState(ListViewGroupState.Collapsible, _nowTempGroupRuleLvg);
             }
         }

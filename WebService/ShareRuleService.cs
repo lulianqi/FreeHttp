@@ -71,6 +71,7 @@ namespace FreeHttp.WebService
                 NowSaveRuleDetails.ModificHttpRuleCollection?.RequestRuleList,
                 NowSaveRuleDetails.ModificHttpRuleCollection?.ResponseRuleList, 
                 isUploadStaticData? NowSaveRuleDetails.StaticDataCollection:null,
+                null,
                 tempExecuteUrl);
             BaseResultModel<string> httpResult = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<BaseResultModel<string>>(response);
             if(httpResult==null)
@@ -101,6 +102,7 @@ namespace FreeHttp.WebService
                 NowSaveRuleDetails.ModificHttpRuleCollection?.RequestRuleList,
                 NowSaveRuleDetails.ModificHttpRuleCollection?.ResponseRuleList,
                 isUploadStaticData ? NowSaveRuleDetails.StaticDataCollection : null,
+                null,
                 tempExecuteUrl);
             BaseResultModel<string> httpResult = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<BaseResultModel<string>>(response);
             if (httpResult == null)

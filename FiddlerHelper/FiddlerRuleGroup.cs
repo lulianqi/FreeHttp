@@ -34,6 +34,14 @@ namespace FreeHttp.FiddlerHelper
             RequestGroupDictionary = new Dictionary<string, List<string>>();
             ResponseGroupDictionary = new Dictionary<string, List<string>>();
         }
+
+        public bool IsEmpty
+        {
+            get
+            {
+                return (RequestGroupDictionary == null || RequestGroupDictionary.Count == 0) && (ResponseGroupDictionary == null || ResponseGroupDictionary.Count == 0);
+            }
+        }
         public void SetRuleGroupListView(ListView rqLv, ListView rpLv)
         {
             RequestRuleListView = rqLv;
@@ -136,6 +144,10 @@ namespace FreeHttp.FiddlerHelper
             }
         }
 
+        /// <summary>
+        /// 临时移除分组，需要与RecoverTemporaryGroup配合使用
+        /// </summary>
+        /// <param name="listView"></param>
         public void RemoveGroupTemporary(ListView listView)
         {
             if (RequestRuleListView == listView)
@@ -172,11 +184,17 @@ namespace FreeHttp.FiddlerHelper
             }
         }
 
+        /// <summary>
+        /// 恢复分组
+        /// </summary>
+        /// <param name="listView"></param>
+        /// <param name="isCheckStatuus">是否检查_isRequestRuleGroupInTemporaryStatus/_isResponseRuleGroupInTemporaryStatus状态，如果不检查即直接恢复</param>
         public void RecoverTemporaryGroup(ListView listView ,bool isCheckStatuus = true)
         {
             if (RequestRuleListView == listView)
             {
                 if (!_isRequestRuleGroupInTemporaryStatus && isCheckStatuus) return;
+                if (!isCheckStatuus) listView.Groups.Clear(); //如果不检查状态需要清除listView自己的Groups，以免照成重复，或空的Groups。
                 if (RequestGroupDictionary != null && RequestGroupDictionary.Count > 0)
                 {
                     ReflushListViewItem(listView);
@@ -214,6 +232,7 @@ namespace FreeHttp.FiddlerHelper
             else if (ResponseRuleListView == listView)
             {
                 if (!_isResponseRuleGroupInTemporaryStatus && isCheckStatuus) return;
+                if (!isCheckStatuus) listView.Groups.Clear();
                 if (ResponseGroupDictionary != null && ResponseGroupDictionary.Count > 0)
                 {
                     ReflushListViewItem(listView);

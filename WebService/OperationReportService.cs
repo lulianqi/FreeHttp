@@ -60,6 +60,8 @@ namespace FreeHttp.WebService
         public List<FiddlerRequestChange> FiddlerRequestChangeRuleList { get; set; } = null;
         public List<FiddlerResponseChange> FiddlerResponseChangeRuleList { get; set; } = null;
         public ActuatorStaticDataCollection StaticDataCollection { get; set; } = null;
+        public FiddlerRuleGroup RuleGroup { get; set; } = null;
+
         public OperationReportService()
         {
             operationDetail = new OperationDetail(WebService.UserComputerInfo.GetComputerMac(), WebService.UserComputerInfo.GetMachineName(), WebService.UserComputerInfo.UserToken);
@@ -113,7 +115,7 @@ namespace FreeHttp.WebService
                 (new WebService.MyWebTool.MyHttp()).SendHttpRequest(string.Format("{0}freehttp/OperationReport",ConfigurationData.BaseUrl), operationBody, "POST", new List<KeyValuePair<string, string>>() { new KeyValuePair<string, string>("Content-Type", "application/json") }, false, null, null);
                 if (FiddlerRequestChangeRuleList != null || FiddlerResponseChangeRuleList != null)
                 {
-                    WebService.RemoteRuleService.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(FiddlerRequestChangeRuleList, FiddlerResponseChangeRuleList , StaticDataCollection).Wait();
+                    WebService.RemoteRuleService.UploadRulesAsync<FiddlerRequestChange, FiddlerResponseChange>(FiddlerRequestChangeRuleList, FiddlerResponseChangeRuleList , StaticDataCollection , RuleGroup).Wait();
                 }
             }
             //System.GC.Collect();

@@ -38,11 +38,23 @@ namespace FreeHttp.WebService.DataModel
         public List<RuleCell> ResponseRuleCells { get; set; }
 
         [DataMember]
-        public RuleCell RuleStaticData { get; set; }
+        public RuleCell RuleStaticDataCell { get; set; }
+
+        [DataMember]
+        public RuleCell RuleGroupCell { get; set; }
+
+        /// <summary>
+        /// 备注 只要Share RuleDetails 才会有
+        /// </summary>
+        [DataMember]
+        public String Remark { get; set; }
 
         public FiddlerModificHttpRuleCollection ModificHttpRuleCollection { get; set; }
 
         public ActuatorStaticDataCollection StaticDataCollection { get; set; }
+        
+        public FiddlerRuleGroup RuleGroup { get; set; }
+
 
     }
 }

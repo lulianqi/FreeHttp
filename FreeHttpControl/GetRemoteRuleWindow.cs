@@ -369,7 +369,7 @@ namespace FreeHttp.FreeHttpControl
                 ListViewItem tempListViewItem = lv_shareRuleList.SelectedItems[0];
                 if (await shareRuleService.DeleteShareRuleDetailAsync(tempListViewItem.SubItems[0].Text))
                 {
-                    MessageBox.Show("delete ok");
+                    MessageBox.Show("Delete has succeed", "succeed",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     lv_shareRuleList.Items.Remove(tempListViewItem);
                     if(nowShowShareTakenListViewItem== tempListViewItem)
                     {
@@ -437,7 +437,7 @@ namespace FreeHttp.FreeHttpControl
                     if (nowRuleDetails == null)
                     {
                         MyHelper.MyGlobalHelper.markControlService.MarkControl(watermakTextBox_ruleToken, System.Drawing.Color.Pink, 2);
-                        MessageBox.Show("please select share rule first", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        MessageBox.Show("please select and load share rule first\r\ndouble click to loading rule", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         return;
                     }
                     mainWindow.MergeRuleStorage(nowRuleDetails);
@@ -464,7 +464,7 @@ namespace FreeHttp.FreeHttpControl
                         MessageBox.Show("please select share rule first", "Stop", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         return;
                     }
-                    if (MessageBox.Show("This operation removes all local rules and replace with the remore rules \r\nwhether to confirm ", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    if (MessageBox.Show("This operation will removes all local rules and replace with the remote rules \r\nwhether to confirm ", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
                     {
                         mainWindow.ReplaceRuleStorage(nowRuleDetails);
                         this.Close();

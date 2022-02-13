@@ -22,10 +22,10 @@ namespace FreeHttp.WebService
             httpClient = new HttpClient();
         }
 
-        protected const string getRuleUrl = @"{0}freehttp/RuleDetails?userToken={1}";
-        protected const string UploadRuleUrl = @"{0}freehttp/RuleDetails?ruleversion={1}&{2}";
+        protected const string _getRuleUrl = @"{0}freehttp/RuleDetails?userToken={1}";
+        protected const string _uploadRuleUrl = @"{0}freehttp/RuleDetails?ruleversion={1}&{2}";
 
-        public static async Task<RuleDetails> GetRemoteRuleAsync(string token ,string apiUrl = getRuleUrl)
+        public static async Task<RuleDetails> GetRemoteRuleAsync(string token ,string apiUrl = _getRuleUrl)
         {
             HttpResponseMessage responseMessage = await httpClient.GetAsync(string.Format(apiUrl, ConfigurationData.BaseUrl, token));
             if(responseMessage.StatusCode != System.Net.HttpStatusCode.OK)
@@ -40,13 +40,20 @@ namespace FreeHttp.WebService
 
             string nowVersion = UserComputerInfo.GetRuleVersion();
 
-            if (ruleDetails.RuleStaticData!=null)
+            if (ruleDetails.RuleStaticDataCell!=null)
             {
                 //if (ruleDetails.RuleStaticData.RuleVersion == nowVersion)
-                ruleDetails.StaticDataCollection = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<ActuatorStaticDataCollection>(ruleDetails.RuleStaticData.RuleContent);
+                ruleDetails.StaticDataCollection = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<ActuatorStaticDataCollection>(ruleDetails.RuleStaticDataCell.RuleContent);
 
             }
-           
+
+            if (ruleDetails.RuleGroupCell != null)
+            {
+                //if (ruleDetails.RuleStaticData.RuleVersion == nowVersion)
+                ruleDetails.RuleGroup = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<FiddlerRuleGroup>(ruleDetails.RuleGroupCell.RuleContent);
+
+            }
+
             if (ruleDetails.RequestRuleCells!=null ||  ruleDetails.ResponseRuleCells!=null)
             {
                 ruleDetails.ModificHttpRuleCollection = new FiddlerModificHttpRuleCollection();
@@ -127,12 +134,16 @@ namespace FreeHttp.WebService
 
             return ruleDetails;
         }
-        public static async Task<string> UploadRulesAsync<T1, T2>(List<T1> requestRules, List<T2> responseRules, ActuatorStaticDataCollection staticDataCollection = null, string executeUrl = null) where T1 : IFiddlerHttpTamper where T2 : IFiddlerHttpTamper
+        public static async Task<string> UploadRulesAsync<T1, T2>(List<T1> requestRules, List<T2> responseRules, ActuatorStaticDataCollection staticDataCollection = null,FiddlerRuleGroup ruleGroup = null ,string executeUrl = null) where T1 : IFiddlerHttpTamper where T2 : IFiddlerHttpTamper
         {
             MultipartFormDataContent multipartFormData = new MultipartFormDataContent();
             if (staticDataCollection != null)
             {
                 multipartFormData.Add(new StringContent(MyJsonHelper.JsonDataContractJsonSerializer.ObjectToJsonStr(staticDataCollection)), "staticData");
+            }
+            if (ruleGroup != null)
+            {
+                multipartFormData.Add(new StringContent(MyJsonHelper.JsonDataContractJsonSerializer.ObjectToJsonStr(ruleGroup)), "groupData");
             }
             if (requestRules != null)
             {
@@ -151,7 +162,7 @@ namespace FreeHttp.WebService
 
             try
             {
-                HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(string.Format(executeUrl ?? UploadRuleUrl, ConfigurationData.BaseUrl, UserComputerInfo.GetRuleVersion(), WebService.UserComputerInfo.GetFreeHttpUser()), multipartFormData);
+                HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(string.Format(executeUrl ?? _uploadRuleUrl, ConfigurationData.BaseUrl, UserComputerInfo.GetRuleVersion(), WebService.UserComputerInfo.GetFreeHttpUser()), multipartFormData);
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     return await httpResponseMessage.Content.ReadAsStringAsync();

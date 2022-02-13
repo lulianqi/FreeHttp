@@ -68,7 +68,7 @@ namespace FreeHttp.FreeHttpControl
 
         #region Refresh RuleList for FiddlerResponseChangeList/FiddlerRequestChangeList
         /// <summary>
-        /// Refresh RuleList by ListView
+        /// Refresh RuleList by ListView（更新FiddlerChangeList规则缓存列表）
         /// </summary>
         /// <param name="yourRuleListView">ListView</param>
         private void RefreshFiddlerRuleList(ListView yourRuleListView)
@@ -86,7 +86,7 @@ namespace FreeHttp.FreeHttpControl
                 throw new Exception("ListView is Illegal");
             }
 
-            //Refresh RuleInfoWindow
+            //Refresh RuleInfoWindow (弹出式详情)
             if (nowRuleInfoWindowList != null && nowRuleInfoWindowList.Count > 0)
             {
                 foreach (var infoWindow in nowRuleInfoWindowList)
@@ -918,9 +918,35 @@ namespace FreeHttp.FreeHttpControl
         {
             if (ruleDetails != null)
             {
-                //fuxiao 替换 远程还未支持分组
-                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection ,null);
+                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection , ruleDetails.RuleGroup);
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+                if (StaticDataCollection == null)
+                {
+                    StaticDataCollection = new ActuatorStaticDataCollection(true);
+                }
+                if (ModificRuleGroup == null)
+                {
+                    ModificRuleGroup = new FiddlerRuleGroup(lv_requestRuleList, lv_responseRuleList);
+                }
+                else
+                {
+                    ModificRuleGroup.SetRuleGroupListView(lv_requestRuleList, lv_responseRuleList);
+                }
+                //恢复分组，如果没有分组RecoverGroup可以清除ListView里的历史Group
+                ModificRuleGroup.RecoverGroup();
+                //重置Uid，需要在组信息恢复后重置
+                foreach (FiddlerRequestChange fiddlerRequestChange in FiddlerRequestChangeList)
+                {
+                    fiddlerRequestChange.RuleUid = null;
+                    fiddlerRequestChange.RuleUid = $"[Replace]{fiddlerRequestChange.RuleUid}";
+                }
+                foreach (FiddlerResponseChange fiddlerResponseChange in FiddlerResponseChangeList)
+                {
+                    fiddlerResponseChange.RuleUid = null;
+                    fiddlerResponseChange.RuleUid = $"[Replace]{fiddlerResponseChange.RuleUid}";
+                }
+                ModificRuleGroup.ReflushGroupDc();
+
                 PutInfo($"[ReplaceRule]Add {ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count} request rule succeed ");
                 PutInfo($"[ReplaceRule]Add {ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count} response rule succeed ");
                 PutInfo($"[ReplaceRule]Add {ruleDetails.StaticDataCollection.Count} static parameter data succeed ");
@@ -932,11 +958,37 @@ namespace FreeHttp.FreeHttpControl
             {
                 if(ruleDetails.ModificHttpRuleCollection?.RequestRuleList!=null)
                 {
+                    List<string> tempRemoteRequestGroup = new List<string>();
+                    foreach (FiddlerRequestChange tempFiddlerRequestChange in ruleDetails.ModificHttpRuleCollection.RequestRuleList)
+                    {
+                        //重置RuleUid
+                        tempFiddlerRequestChange.RuleUid = null;
+                        tempFiddlerRequestChange.RuleUid = $"[Remote]{tempFiddlerRequestChange.RuleUid}";
+                        tempRemoteRequestGroup.Add(tempFiddlerRequestChange.RuleUid);
+                    }
+                    if (tempRemoteRequestGroup.Count > 0)
+                    {
+                        string tempGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
+                        ModificRuleGroup.RequestGroupDictionary.Add($"[{tempGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}", tempRemoteRequestGroup);
+                    }
                     FiddlerRequestChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.RequestRuleList);
                     PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count} request rule succeed ");
                 }
                 if (ruleDetails.ModificHttpRuleCollection?.ResponseRuleList != null)
                 {
+                    List<string> tempRemoteResponseGroup = new List<string>();
+                    foreach (FiddlerResponseChange tempFiddleResponseRuleListChange in ruleDetails.ModificHttpRuleCollection.ResponseRuleList)
+                    {
+                        //重置RuleUid
+                        tempFiddleResponseRuleListChange.RuleUid = null;
+                        tempFiddleResponseRuleListChange.RuleUid = $"[Remote]{tempFiddleResponseRuleListChange.RuleUid}";
+                        tempRemoteResponseGroup.Add(tempFiddleResponseRuleListChange.RuleUid);
+                    }
+                    if (tempRemoteResponseGroup.Count > 0)
+                    {
+                        string tempGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
+                        ModificRuleGroup.ResponseGroupDictionary.Add($"[{tempGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}", tempRemoteResponseGroup);
+                    }
                     FiddlerResponseChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.ResponseRuleList);
                     PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count} response rule succeed ");
                 }
@@ -973,9 +1025,9 @@ namespace FreeHttp.FreeHttpControl
                         }
                     }
                 }
-                //fuxiao 替换 远程还未支持分组
-                InitializeConfigInfo(new FiddlerModificHttpRuleCollection(FiddlerRequestChangeList , FiddlerResponseChangeList), ModificSettingInfo, StaticDataCollection,null);
+                InitializeConfigInfo(new FiddlerModificHttpRuleCollection(FiddlerRequestChangeList , FiddlerResponseChangeList), ModificSettingInfo, StaticDataCollection, ModificRuleGroup);
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+                ModificRuleGroup.RecoverGroup();
             }
             else
             {
