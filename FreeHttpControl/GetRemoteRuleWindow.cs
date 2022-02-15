@@ -157,6 +157,8 @@ namespace FreeHttp.FreeHttpControl
                     nowShowType = ShowRuleCollectionType.RemoteRule;
                     lb_info_RemoteRule.ForeColor = Color.SaddleBrown;
                     lb_info_SharedRule.ForeColor = lb_info_LocalRule.ForeColor = Color.DarkGray;
+                    lb_info_RemoteRule.BackColor = Color.LavenderBlush;
+                    lb_info_SharedRule.BackColor = lb_info_LocalRule.BackColor = Color.FromArgb(194, 217, 247);
 
                     lb_info_1.Text = "remote tule token:";
                     lb_info_1.Visible = true;
@@ -178,6 +180,8 @@ namespace FreeHttp.FreeHttpControl
                     nowShowType = ShowRuleCollectionType.SharedRule;
                     lb_info_SharedRule.ForeColor = Color.SaddleBrown;
                     lb_info_RemoteRule.ForeColor = lb_info_LocalRule.ForeColor = Color.DarkGray;
+                    lb_info_SharedRule.BackColor = Color.LavenderBlush;
+                    lb_info_RemoteRule.BackColor = lb_info_LocalRule.BackColor = Color.FromArgb(194, 217, 247);
 
                     lb_info_1.Visible = false;
                     watermakTextBox_ruleToken.Visible = false;
@@ -198,6 +202,8 @@ namespace FreeHttp.FreeHttpControl
                     nowShowType = ShowRuleCollectionType.LocalRule;
                     lb_info_LocalRule.ForeColor = Color.SaddleBrown;
                     lb_info_RemoteRule.ForeColor = lb_info_SharedRule.ForeColor = Color.DarkGray;
+                    lb_info_LocalRule.BackColor = Color.LavenderBlush;
+                    lb_info_RemoteRule.BackColor = lb_info_SharedRule.BackColor = Color.FromArgb(194, 217, 247);
 
                     lb_info_1.Visible = false;
                     watermakTextBox_ruleToken.Visible = false;
@@ -484,6 +490,12 @@ namespace FreeHttp.FreeHttpControl
 
         private void lb_info_MouseLeave(object sender, EventArgs e)
         {
+            if(sender== lb_info_RemoteRule && nowShowType== ShowRuleCollectionType.RemoteRule ||
+                sender == lb_info_SharedRule && nowShowType == ShowRuleCollectionType.SharedRule||
+                    sender == lb_info_LocalRule && nowShowType == ShowRuleCollectionType.LocalRule)
+            {
+                return;
+            }
             ((Label)sender).BackColor = Color.FromArgb(194, 217, 247);
         }
 
