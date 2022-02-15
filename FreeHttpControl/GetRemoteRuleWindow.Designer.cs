@@ -159,46 +159,48 @@ namespace FreeHttp.FreeHttpControl
             // 
             // lb_info_LocalRule
             // 
-            this.lb_info_LocalRule.AutoSize = true;
+            this.lb_info_LocalRule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
             this.lb_info_LocalRule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lb_info_LocalRule.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lb_info_LocalRule.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_info_LocalRule.ForeColor = System.Drawing.Color.DarkGray;
-            this.lb_info_LocalRule.Location = new System.Drawing.Point(366, 9);
+            this.lb_info_LocalRule.Location = new System.Drawing.Point(372, 9);
             this.lb_info_LocalRule.Name = "lb_info_LocalRule";
-            this.lb_info_LocalRule.Size = new System.Drawing.Size(79, 13);
+            this.lb_info_LocalRule.Size = new System.Drawing.Size(100, 15);
             this.lb_info_LocalRule.TabIndex = 22;
             this.lb_info_LocalRule.Text = "LocalRule";
+            this.lb_info_LocalRule.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lb_info_LocalRule.Click += new System.EventHandler(this.lb_info_showType_Click);
             this.lb_info_LocalRule.MouseLeave += new System.EventHandler(this.lb_info_MouseLeave);
             this.lb_info_LocalRule.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_info_MouseMove);
             // 
             // lb_info_SharedRule
             // 
-            this.lb_info_SharedRule.AutoSize = true;
+            this.lb_info_SharedRule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
             this.lb_info_SharedRule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lb_info_SharedRule.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lb_info_SharedRule.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_info_SharedRule.ForeColor = System.Drawing.Color.DarkGray;
-            this.lb_info_SharedRule.Location = new System.Drawing.Point(271, 9);
+            this.lb_info_SharedRule.Location = new System.Drawing.Point(272, 9);
             this.lb_info_SharedRule.Name = "lb_info_SharedRule";
-            this.lb_info_SharedRule.Size = new System.Drawing.Size(87, 13);
+            this.lb_info_SharedRule.Size = new System.Drawing.Size(100, 15);
             this.lb_info_SharedRule.TabIndex = 21;
             this.lb_info_SharedRule.Text = "SharedRule";
+            this.lb_info_SharedRule.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lb_info_SharedRule.Click += new System.EventHandler(this.lb_info_showType_Click);
             this.lb_info_SharedRule.MouseLeave += new System.EventHandler(this.lb_info_MouseLeave);
             this.lb_info_SharedRule.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_info_MouseMove);
             // 
             // lb_info_RemoteRule
             // 
-            this.lb_info_RemoteRule.AutoSize = true;
             this.lb_info_RemoteRule.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(217)))), ((int)(((byte)(247)))));
             this.lb_info_RemoteRule.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lb_info_RemoteRule.Font = new System.Drawing.Font("宋体", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lb_info_RemoteRule.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_info_RemoteRule.ForeColor = System.Drawing.Color.SaddleBrown;
-            this.lb_info_RemoteRule.Location = new System.Drawing.Point(176, 9);
+            this.lb_info_RemoteRule.Location = new System.Drawing.Point(172, 9);
             this.lb_info_RemoteRule.Name = "lb_info_RemoteRule";
-            this.lb_info_RemoteRule.Size = new System.Drawing.Size(87, 13);
+            this.lb_info_RemoteRule.Size = new System.Drawing.Size(100, 15);
             this.lb_info_RemoteRule.TabIndex = 20;
             this.lb_info_RemoteRule.Text = "RemoteRule";
+            this.lb_info_RemoteRule.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lb_info_RemoteRule.Click += new System.EventHandler(this.lb_info_showType_Click);
             this.lb_info_RemoteRule.MouseLeave += new System.EventHandler(this.lb_info_MouseLeave);
             this.lb_info_RemoteRule.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lb_info_MouseMove);

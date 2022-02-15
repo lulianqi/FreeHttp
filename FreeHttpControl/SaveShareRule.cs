@@ -52,12 +52,12 @@ namespace FreeHttp.FreeHttpControl
                 {
                     if (rs.Result.Key == null)
                     {
-                        MessageBox.Show("Save share rule fail ,Please try again later", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        this.Invoke((new Action(() => MessageBox.Show("Save share rule fail ,Please try again later", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning))));
                     }
                     else
                     {
                         shareRuleService.NowShareRuleSummary?.PrivateRuleList.Add(new WebService.DataModel.ShareRuleSummary.RuleToken() { Token = rs.Result.Key, Remark = rs.Result.Value });
-                        MessageBox.Show($"your share rule [{rs.Result.Value ?? "-"}] save succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                        this.Invoke((new Action(() => MessageBox.Show($"your share rule [{rs.Result.Value ?? "-"}] save succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly))));
                         if (this != null && !this.IsDisposed)
                         {
                             //使用.ConfigureAwait(true); 可以不用Invoke
@@ -84,11 +84,12 @@ namespace FreeHttp.FreeHttpControl
                 {
                     if (!rs.Result)
                     {
-                        MessageBox.Show("Update share rule fail ,Please try again later", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        this.Invoke((new Action(() => MessageBox.Show("Update share rule fail ,Please try again later", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning))));
                     }
                     else
                     {
-                        MessageBox.Show($"your share rule [{comboBox_yourRule.Text}] update succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.None);
+                        //ContinueWith 里面如果不用Invoke，MessageBox不会盖在顶层（后面的操作UI代码可能不在主线程）
+                        this.Invoke((new Action(() => MessageBox.Show($"your share rule [{comboBox_yourRule.Text}] update succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.None))));
                         if (this != null && !this.IsDisposed)
                         {
                             this.Invoke(new Action(() => { (this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule((string)comboBox_yourRule.SelectedValue); }));
