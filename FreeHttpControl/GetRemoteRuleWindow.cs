@@ -437,6 +437,7 @@ namespace FreeHttp.FreeHttpControl
                         return;
                     }
                     mainWindow.MergeRuleStorage(nowRuleDetails);
+                    MessageBox.Show("Complete the merge rule", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                     break;
                 case ShowRuleCollectionType.SharedRule:
@@ -447,6 +448,7 @@ namespace FreeHttp.FreeHttpControl
                         return;
                     }
                     mainWindow.MergeRuleStorage(nowRuleDetails);
+                    MessageBox.Show("Complete the merge rule", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                     break;
                 case ShowRuleCollectionType.LocalRule:
@@ -473,6 +475,7 @@ namespace FreeHttp.FreeHttpControl
                     if (MessageBox.Show("This operation will removes all local rules and replace with the remote rules \r\nwhether to confirm ", "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
                     {
                         mainWindow.ReplaceRuleStorage(nowRuleDetails);
+                        MessageBox.Show("Complete the replacement rule", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
                     }
                     break;

@@ -970,6 +970,7 @@ namespace FreeHttp.FreeHttpControl
                     {
                         string tempGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
                         ModificRuleGroup.RequestGroupDictionary.Add($"[{tempGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}", tempRemoteRequestGroup);
+                        PutInfo($"[MergeRule]Add Group [{tempGruopName}] ,the new request rules will to be included here");
                     }
                     FiddlerRequestChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.RequestRuleList);
                     PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count} request rule succeed ");
@@ -988,6 +989,7 @@ namespace FreeHttp.FreeHttpControl
                     {
                         string tempGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
                         ModificRuleGroup.ResponseGroupDictionary.Add($"[{tempGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}", tempRemoteResponseGroup);
+                        PutInfo($"[MergeRule]Add Group [{tempGruopName}] ,the new response rules will to be included here");
                     }
                     FiddlerResponseChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.ResponseRuleList);
                     PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count} response rule succeed ");

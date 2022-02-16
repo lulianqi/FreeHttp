@@ -60,9 +60,10 @@ namespace FreeHttp.FreeHttpControl
                         this.Invoke((new Action(() => MessageBox.Show($"your share rule [{rs.Result.Value ?? "-"}] save succeed", "succeed", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly))));
                         if (this != null && !this.IsDisposed)
                         {
-                            //使用.ConfigureAwait(true); 可以不用Invoke
-                            //this.Invoke(new Action(() => { (this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key); }));
-                            (this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key);
+                            //理论上使用.ConfigureAwait(true)尝试将延续任务封送回原始上下文; 可以不用Invoke，而winform里默认就是true的,不过在这里ContinueWith的前一个任务的上下文大概率已经不是主线程了
+                            //所以还是直接使用Invoke保险 （或者Control.CheckForIllegalCrossThreadCalls = false; 但是这个并不推荐，只是在隐藏风险）
+                            this.Invoke(new Action(() => { (this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key); }));
+                            //(this.Owner as GetRemoteRuleWindow)?.GotoPrvateRule(rs.Result.Key);
                             this.Close();
                         }
                     }

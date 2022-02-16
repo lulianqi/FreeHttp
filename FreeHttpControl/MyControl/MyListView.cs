@@ -202,6 +202,8 @@ namespace FreeHttp.FreeHttpControl
         /// <param name="e"></param>
         private void MyListView_DragOver(object sender, DragEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine($"--------------------------{DateTime.Now.Millisecond}[{e.X},{e.Y}]MyListView_DragOver--------------------");
+
             Point targetPoint = this.PointToClient(new Point(e.X, e.Y));
             int targetIndex = this.InsertionMark.NearestIndex(targetPoint);
             //System.Diagnostics.Debug.WriteLine(targetIndex.ToString() + this.InsertionMark.AppearsAfterItem.ToString());
