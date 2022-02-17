@@ -1,6 +1,7 @@
 ﻿using FreeHttp.WebService;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -144,6 +145,7 @@ namespace FreeHttp.FiddlerHelper
             }
         }
 
+
         /// <summary>
         /// 临时移除分组，需要与RecoverTemporaryGroup配合使用
         /// </summary>
@@ -272,7 +274,7 @@ namespace FreeHttp.FiddlerHelper
                 _ = RemoteLogService.ReportLogAsync("unknow listView in [RecoverTemporaryGroup]", RemoteLogService.RemoteLogOperation.EditRule, RemoteLogService.RemoteLogType.Error);
             }
         }
-    
+
         /// <summary>
         /// 恢复分组信息（首次加载时可以用于还原保存的上一次分组）
         /// </summary>

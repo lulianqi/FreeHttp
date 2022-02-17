@@ -62,7 +62,9 @@ namespace FreeHttp.FreeHttpControl
         }
 
         private const int WM_LBUTTONDBLCLK = 0x0203;  //左键双击
-        private int moveItemIndex = -1;
+        private int moveItemIndex = -1; //当前正在被移动的项
+        private int scrollDecelerateFlag = 25; //自动滚动缓速标识
+
         public GroupSelectedItemsSataus GroupSelectedSataus { get; private set; }
 
         /// <summary>
@@ -203,9 +205,12 @@ namespace FreeHttp.FreeHttpControl
         private void MyListView_DragOver(object sender, DragEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine($"--------------------------{DateTime.Now.Millisecond}[{e.X},{e.Y}]MyListView_DragOver--------------------");
-
             Point targetPoint = this.PointToClient(new Point(e.X, e.Y));
+            System.Diagnostics.Debug.WriteLine($"--------------------------[{targetPoint.X},{targetPoint.Y},{this.Height}]--------------------");
+
             int targetIndex = this.InsertionMark.NearestIndex(targetPoint);
+            System.Diagnostics.Debug.WriteLine($"--------------------------[{targetIndex}]--------------------");
+
             //System.Diagnostics.Debug.WriteLine(targetIndex.ToString() + this.InsertionMark.AppearsAfterItem.ToString());
             if (targetIndex > -1)
             {
@@ -215,6 +220,32 @@ namespace FreeHttp.FreeHttpControl
             //myListView.InsertionMark.AppearsAfterItem = (targetPoint.X > itemBounds.Left + (itemBounds.Width / 2));
             this.InsertionMark.AppearsAfterItem = (!AppearAboveItem(targetIndex));
             this.InsertionMark.Index = targetIndex;
+
+
+            //自动滚动
+            if(targetIndex==-1)
+            {
+                targetIndex = moveItemIndex;
+            }
+            if (targetPoint.Y < 30 && targetIndex > 0)
+            {
+                if(scrollDecelerateFlag%5==0)
+                    this.EnsureVisible(targetIndex - 1);
+                if (scrollDecelerateFlag > 0)
+                    scrollDecelerateFlag--;
+            }
+            else if (targetPoint.Y > this.Height - 15 && targetIndex < this.Items.Count - 1)
+            {
+                if (scrollDecelerateFlag % 5 == 0)
+                    this.EnsureVisible(targetIndex + 1);
+                if (scrollDecelerateFlag > 0)
+                    scrollDecelerateFlag--;
+            }
+            else
+            {
+                scrollDecelerateFlag = 25;
+            }
+
         }
 
     }

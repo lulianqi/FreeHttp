@@ -899,7 +899,6 @@ namespace FreeHttp.FreeHttpControl
             ChangeNowRuleMode(RuleEditMode.NewRuleMode, NowProtocalMode, null, null);
         }
 
-        int xx = -1;
         private void pb_ruleCancel_Click(object sender, EventArgs e)
         {
             PutWarn("Clear the Modific Info");

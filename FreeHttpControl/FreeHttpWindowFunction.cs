@@ -207,6 +207,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 MarkRuleItem(nowRuleItem);
                 PutWarn(string.Format("Add {0} {1}", yourListViews.Columns[1].Text, nowRuleItem.SubItems[0].Text));
+                yourListViews.EnsureVisible(nowRuleItem.Index);
             }
         }
 
@@ -956,7 +957,9 @@ namespace FreeHttp.FreeHttpControl
         {
             if (ruleDetails != null)
             {
-                if(ruleDetails.ModificHttpRuleCollection?.RequestRuleList!=null)
+                string tempRequestGruopName = null;
+                string tempResponseGruopName = null;
+                if (ruleDetails.ModificHttpRuleCollection?.RequestRuleList!=null)
                 {
                     List<string> tempRemoteRequestGroup = new List<string>();
                     foreach (FiddlerRequestChange tempFiddlerRequestChange in ruleDetails.ModificHttpRuleCollection.RequestRuleList)
@@ -968,9 +971,10 @@ namespace FreeHttp.FreeHttpControl
                     }
                     if (tempRemoteRequestGroup.Count > 0)
                     {
-                        string tempGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
-                        ModificRuleGroup.RequestGroupDictionary.Add($"[{tempGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}", tempRemoteRequestGroup);
-                        PutInfo($"[MergeRule]Add Group [{tempGruopName}] ,the new request rules will to be included here");
+                        tempRequestGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
+                        tempRequestGruopName = $"[{tempRequestGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}";
+                        ModificRuleGroup.RequestGroupDictionary.Add(tempRequestGruopName, tempRemoteRequestGroup);
+                        PutInfo($"[MergeRule]Add Group [{tempRequestGruopName}] ,the new request rules will to be included here");
                     }
                     FiddlerRequestChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.RequestRuleList);
                     PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count} request rule succeed ");
@@ -987,9 +991,10 @@ namespace FreeHttp.FreeHttpControl
                     }
                     if (tempRemoteResponseGroup.Count > 0)
                     {
-                        string tempGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
-                        ModificRuleGroup.ResponseGroupDictionary.Add($"[{tempGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}", tempRemoteResponseGroup);
-                        PutInfo($"[MergeRule]Add Group [{tempGruopName}] ,the new response rules will to be included here");
+                        tempResponseGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
+                        tempResponseGruopName = $"[{tempResponseGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}";
+                        ModificRuleGroup.ResponseGroupDictionary.Add(tempResponseGruopName, tempRemoteResponseGroup);
+                        PutInfo($"[MergeRule]Add Group [{tempResponseGruopName}] ,the new response rules will to be included here");
                     }
                     FiddlerResponseChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.ResponseRuleList);
                     PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count} response rule succeed ");
@@ -1027,9 +1032,47 @@ namespace FreeHttp.FreeHttpControl
                         }
                     }
                 }
+                //重新加载rules
                 InitializeConfigInfo(new FiddlerModificHttpRuleCollection(FiddlerRequestChangeList , FiddlerResponseChangeList), ModificSettingInfo, StaticDataCollection, ModificRuleGroup);
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
                 ModificRuleGroup.RecoverGroup();
+                //标记新添加的rule
+                if(!string.IsNullOrEmpty(tempRequestGruopName))
+                {
+                    foreach(ListViewGroup group in lv_requestRuleList.Groups)
+                    {
+                        if(group.Header== tempRequestGruopName)
+                        {
+                            foreach (ListViewItem tempListViewItem in group.Items)
+                            {
+                                MarkRuleItem(tempListViewItem);
+                            }
+                            if(group.Items.Count>0)
+                            {
+                                lv_requestRuleList.EnsureVisible(group.Items[0].Index);
+                            }
+                            break;
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(tempResponseGruopName))
+                {
+                    foreach (ListViewGroup group in lv_responseRuleList.Groups)
+                    {
+                        if (group.Header == tempResponseGruopName)
+                        {
+                            foreach (ListViewItem tempListViewItem in group.Items)
+                            {
+                                MarkRuleItem(tempListViewItem);
+                            }
+                            if (group.Items.Count > 0)
+                            {
+                                lv_responseRuleList.EnsureVisible(group.Items[0].Index);
+                            }
+                            break;
+                        }
+                    }
+                }
             }
             else
             {
