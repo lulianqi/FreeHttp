@@ -250,10 +250,12 @@ namespace FreeHttp.FreeHttpControl
             if (shareRuleSummary.PrivateRuleList?.Count > 0)
             {
                 lv_shareRuleList.Items.Clear();
+                this.Invoke(new Action(() => FreeHttpControl.MyControlHelper.SetControlFreeze(lv_shareRuleList)));
                 foreach (var tempShareToken in shareRuleSummary.PrivateRuleList)
                 {
                     lv_shareRuleList.Items.Add(new ListViewItem(new string[] {tempShareToken.Token,tempShareToken.Remark }));
                 }
+                this.Invoke(new Action(() => FreeHttpControl.MyControlHelper.SetControlUnfreeze(lv_shareRuleList)));
             }
         }
 
