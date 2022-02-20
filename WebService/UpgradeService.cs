@@ -103,17 +103,17 @@ namespace FreeHttp.WebService
                     HttpResponseMessage response = httpClient.GetAsync(string.Format(@"{0}freehttp/UpdateCheck/v{1}?dotnetrelease={2}&{3}", ConfigurationData.BaseUrl, UserComputerInfo.GetFreeHttpVersion(), UserComputerInfo.GetDotNetRelease(), UserComputerInfo.GetFreeHttpUser())).GetAwaiter().GetResult();
                     if (response.IsSuccessStatusCode)
                     {
-                        UpdateInfo ruleDetails = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<UpdateInfo>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
-                        if (ruleDetails == null)
+                        UpdateInfo updateInfo = MyJsonHelper.JsonDataContractJsonSerializer.JsonStringToObject<UpdateInfo>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+                        if (updateInfo == null)
                         {
                             _ = RemoteLogService.ReportLogAsync("JsonStringToObject fail that StartCheckUpgrade", RemoteLogService.RemoteLogOperation.CheckUpgrade, RemoteLogService.RemoteLogType.Error);
                             return new UpgradeServiceEventArgs(false, null);
                         }
-                        if (ruleDetails.isNeedUpdata && ruleDetails.isSilentUpgrade && !string.IsNullOrEmpty(ruleDetails.url))
+                        if (updateInfo.isNeedUpdata && updateInfo.isSilentUpgrade && !string.IsNullOrEmpty(updateInfo.url))
                         {
-                            SilentUpgradeUrl = ruleDetails.url;
+                            SilentUpgradeUrl = updateInfo.url;
                         }
-                        return new UpgradeServiceEventArgs(true, ruleDetails);
+                        return new UpgradeServiceEventArgs(true, updateInfo);
                     }
                     else
                     {
