@@ -299,6 +299,14 @@ namespace FreeHttp.FreeHttpControl
                     File.Copy("RuleData.xml", "RuleData.lastErrorFile", true);
                 }
             }
+            if(FiddlerRequestChangeList == null)
+            {
+                FiddlerRequestChangeList = new List<FiddlerRequestChange>();
+            }
+            if(FiddlerResponseChangeList==null)
+            {
+                FiddlerResponseChangeList = new List<FiddlerResponseChange>();
+            }
             if (StaticDataCollection == null)
             {
                 StaticDataCollection = new ActuatorStaticDataCollection(true);
