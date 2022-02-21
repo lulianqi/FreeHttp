@@ -160,7 +160,7 @@ namespace FreeHttp.FreeHttpControl
                     lb_info_RemoteRule.BackColor = Color.LavenderBlush;
                     lb_info_SharedRule.BackColor = lb_info_LocalRule.BackColor = Color.FromArgb(194, 217, 247);
 
-                    lb_info_1.Text = "remote tule token:";
+                    lb_info_1.Text = "remote rule token:";
                     lb_info_1.Visible = true;
                     watermakTextBox_ruleToken.Visible = true;
                     bt_getRule.Visible = true;

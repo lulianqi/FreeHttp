@@ -14,6 +14,7 @@ namespace FreeHttp.FiddlerHelper
     {
         Contain,
         StartWith,
+        EndWith,
         Is,
         Regex,
         AllPass
@@ -53,6 +54,8 @@ namespace FreeHttp.FiddlerHelper
                     return System.Text.RegularExpressions.Regex.IsMatch(matchString, MatchUri);
                 case FiddlerUriMatchMode.StartWith:
                     return matchString.StartsWith(MatchUri);
+                case FiddlerUriMatchMode.EndWith:
+                    return matchString.EndsWith(MatchUri);
                 default:
                     return false;
             }

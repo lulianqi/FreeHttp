@@ -93,6 +93,7 @@
             this.cb_macthUriMode.Items.AddRange(new object[] {
             "Contain",
             "StartWith",
+            "EndWith",
             "Is",
             "Regex",
             "AllPass"});
@@ -123,6 +124,7 @@
             // tbe_urlFilter
             // 
             this.tbe_urlFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbe_urlFilter.BackColor = System.Drawing.SystemColors.Window;
             this.tbe_urlFilter.EditTextBox = this.tb_urlFilter;
             this.tbe_urlFilter.Location = new System.Drawing.Point(589, 5);
             this.tbe_urlFilter.MainContainerControl = this;

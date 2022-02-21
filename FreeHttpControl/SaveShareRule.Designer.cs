@@ -45,7 +45,7 @@ namespace FreeHttp.FreeHttpControl
             this.rb_updataRule.Name = "rb_updataRule";
             this.rb_updataRule.Size = new System.Drawing.Size(125, 16);
             this.rb_updataRule.TabIndex = 0;
-            this.rb_updataRule.Text = "updata share rule";
+            this.rb_updataRule.Text = "update share rule";
             this.rb_updataRule.UseVisualStyleBackColor = true;
             // 
             // rb_newRule
@@ -81,7 +81,7 @@ namespace FreeHttp.FreeHttpControl
             this.ck_parameterData.Name = "ck_parameterData";
             this.ck_parameterData.Size = new System.Drawing.Size(156, 16);
             this.ck_parameterData.TabIndex = 26;
-            this.ck_parameterData.Text = " updata parameter data";
+            this.ck_parameterData.Text = " update parameter data";
             this.ck_parameterData.UseVisualStyleBackColor = true;
             // 
             // bt_save

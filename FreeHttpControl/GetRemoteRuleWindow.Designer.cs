@@ -62,7 +62,7 @@ namespace FreeHttp.FreeHttpControl
             this.lb_info_1.Name = "lb_info_1";
             this.lb_info_1.Size = new System.Drawing.Size(113, 12);
             this.lb_info_1.TabIndex = 12;
-            this.lb_info_1.Text = "remote tule token:";
+            this.lb_info_1.Text = "remote rule token:";
             // 
             // bt_getRule
             // 
