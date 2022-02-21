@@ -15,6 +15,27 @@ namespace FreeHttp.FiddlerHelper
     [System.Runtime.Serialization.DataContract()]
     public class FiddlerResponseChange : IFiddlerHttpTamper
     {
+        private string _uid;
+
+        /// <summary>
+        /// get rule uid (not set this vaule in your business code) 
+        /// </summary>
+        [DataMember]
+        public string RuleUid
+        {
+            get
+            {
+                if (_uid == null)
+                {
+                    _uid = Guid.NewGuid().ToString("D");
+                }
+                return _uid;
+            }
+            set
+            {
+                _uid = value;
+            }
+        }
         [DataMember]
         public bool IsEnable { get; set; }
         [DataMember]

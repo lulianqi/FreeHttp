@@ -11,11 +11,62 @@ namespace FreeHttp.FreeHttpControl
     /// <summary>
     /// item 可拖放排序的ListView
     /// </summary>
-    public class MyListView : ListView
-    { 
+    //public class MyListView : ListView
+    public class MyListView : ListViewExtended
+    {
+        /// <summary>
+        /// 维持group模式下的选中状态（在ListView动态编辑group过程中，会让选择状态异常）
+        /// </summary>
+        public class GroupSelectedItemsSataus
+        {
+            private ListView NowListView { get; set; }
+            private List<ListViewItem> NowSelectedItems { get; set; }
+
+            public GroupSelectedItemsSataus(ListView listView)
+            {
+                NowListView = listView;
+                NowSelectedItems = new List<ListViewItem>();
+            }
+
+            public void GetSnapshoot()
+            {
+                NowSelectedItems.Clear();
+                foreach(ListViewItem listViewItem in NowListView.SelectedItems)
+                {
+                    NowSelectedItems.Add(listViewItem);
+                }
+            }
+
+            public void ReCoverSnapshoot()
+            {
+                if(NowSelectedItems.Count>0)
+                {
+                    foreach (ListViewItem listViewItem in NowListView.SelectedItems)
+                    {
+                        if (NowSelectedItems.Contains(listViewItem))
+                        {
+                            NowSelectedItems.Remove(listViewItem);
+                        }
+                        else
+                        {
+                            listViewItem.Selected = false;
+                        }
+                    }
+                    foreach (ListViewItem listViewItem in NowSelectedItems)
+                    {
+                        listViewItem.Selected = true;
+                    }
+                }
+                NowSelectedItems.Clear();
+            }
+        }
+
         private const int WM_LBUTTONDBLCLK = 0x0203;  //左键双击
-        private int moveItemIndex = -1;
-        
+        private int moveItemIndex = -1; //当前正在被移动的项
+        private int scrollDecelerateFlag = 25; //自动滚动缓速标识
+
+        public GroupSelectedItemsSataus GroupSelectedSataus { get; private set; }
+
         /// <summary>
         /// this ListView disable double click to check the checkbox
         /// enable DoubleBuffer
@@ -26,9 +77,18 @@ namespace FreeHttp.FreeHttpControl
             InitializeComponent();
             this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
+            GroupSelectedSataus = new GroupSelectedItemsSataus(this);
         }
 
-        public event EventHandler<DragEventArgs> OnItemDragSort;
+        /// <summary>
+        /// Drag Start (开始拖放/拖入)
+        /// </summary>
+        public event EventHandler<ItemDragEventArgs> OnItemDragSortStart;
+
+        /// <summary>
+        /// Drag End （完成拖放/脱出）
+        /// </summary>
+        public event EventHandler<DragEventArgs> OnItemDragSortEnd;
 
         protected override void WndProc(ref Message m)
         { 
@@ -82,6 +142,9 @@ namespace FreeHttp.FreeHttpControl
         {
             if (this.SelectedItems!=null && this.SelectedItems.Count>0)
             {
+                GroupSelectedSataus.GetSnapshoot();
+                OnItemDragSortStart?.Invoke(sender, e);
+                GroupSelectedSataus.ReCoverSnapshoot();
                 moveItemIndex = this.SelectedItems[0].Index;
                 this.DoDragDrop(this.SelectedItems, DragDropEffects.Move);
             }
@@ -115,12 +178,15 @@ namespace FreeHttp.FreeHttpControl
                     targetIndex++;
                 }
             }
-            OnItemDragSort?.Invoke(sender, e);
+            OnItemDragSortEnd?.Invoke(sender, e);
         }
 
 
         private void MyListView_DragEnter(object sender, DragEventArgs e)
         {
+            GroupSelectedSataus.GetSnapshoot();
+            OnItemDragSortStart?.Invoke(sender, null);
+            GroupSelectedSataus.ReCoverSnapshoot();
             SelectedListViewItemCollection draggedItems = (SelectedListViewItemCollection)e.Data.GetData(typeof(SelectedListViewItemCollection));
             e.Effect = (draggedItems == null || draggedItems.Count == 0 || draggedItems[0].ListView != this) ? DragDropEffects.None : e.AllowedEffect;
         }
@@ -128,6 +194,7 @@ namespace FreeHttp.FreeHttpControl
         private void MyListView_DragLeave(object sender, EventArgs e)
         {
             this.InsertionMark.Index = -1;
+            OnItemDragSortEnd?.Invoke(sender, null);
         }
 
         /// <summary>
@@ -137,9 +204,14 @@ namespace FreeHttp.FreeHttpControl
         /// <param name="e"></param>
         private void MyListView_DragOver(object sender, DragEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine($"--------------------------{DateTime.Now.Millisecond}[{e.X},{e.Y}]MyListView_DragOver--------------------");
             Point targetPoint = this.PointToClient(new Point(e.X, e.Y));
+            System.Diagnostics.Debug.WriteLine($"--------------------------[{targetPoint.X},{targetPoint.Y},{this.Height}]--------------------");
+
             int targetIndex = this.InsertionMark.NearestIndex(targetPoint);
-            System.Diagnostics.Debug.WriteLine(targetIndex.ToString() + this.InsertionMark.AppearsAfterItem.ToString());
+            System.Diagnostics.Debug.WriteLine($"--------------------------[{targetIndex}]--------------------");
+
+            //System.Diagnostics.Debug.WriteLine(targetIndex.ToString() + this.InsertionMark.AppearsAfterItem.ToString());
             if (targetIndex > -1)
             {
                 this.InsertionMark.Color = Color.PowderBlue;
@@ -148,6 +220,32 @@ namespace FreeHttp.FreeHttpControl
             //myListView.InsertionMark.AppearsAfterItem = (targetPoint.X > itemBounds.Left + (itemBounds.Width / 2));
             this.InsertionMark.AppearsAfterItem = (!AppearAboveItem(targetIndex));
             this.InsertionMark.Index = targetIndex;
+
+
+            //自动滚动
+            if(targetIndex==-1)
+            {
+                targetIndex = moveItemIndex;
+            }
+            if (targetPoint.Y < 30 && targetIndex > 0)
+            {
+                if(scrollDecelerateFlag%5==0)
+                    this.EnsureVisible(targetIndex - 1);
+                if (scrollDecelerateFlag > 0)
+                    scrollDecelerateFlag--;
+            }
+            else if (targetPoint.Y > this.Height - 15 && targetIndex < this.Items.Count - 1)
+            {
+                if (scrollDecelerateFlag % 5 == 0)
+                    this.EnsureVisible(targetIndex + 1);
+                if (scrollDecelerateFlag > 0)
+                    scrollDecelerateFlag--;
+            }
+            else
+            {
+                scrollDecelerateFlag = 25;
+            }
+
         }
 
     }

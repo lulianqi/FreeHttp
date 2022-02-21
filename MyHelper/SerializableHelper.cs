@@ -93,6 +93,7 @@ namespace FreeHttp.MyHelper
                 catch(Exception ex)
                 {
                     MessageBox.Show(string.Format("{0}\r\n{1}\r\nyour error rule file will back up in {2}", ex.Message, ex.InnerException == null ? "" : ex.InnerException.Message, Directory.GetCurrentDirectory() + rulePath + ".lastErrorFile"), "load user rule fail");
+                    _ = WebService.RemoteLogService.ReportLogAsync($"load user rule fail [{ex.ToString()}]", WebService.RemoteLogService.RemoteLogOperation.WindowLoad, WebService.RemoteLogService.RemoteLogType.Error);
                     File.Copy(rulePath, rulePath+".lastErrorFile", true);
                 }
                 finally

@@ -82,6 +82,7 @@
     <Compile Include="AutoTest\RunTimeStaticData\RunTimeStaticDataHelper.cs" />
     <Compile Include="FiddlerFreeHttp.cs" />
     <Compile Include="FiddlerHelper\FiddlerActuatorStaticDataCollectionController.cs" />
+    <Compile Include="FiddlerHelper\FiddlerRuleGroup.cs" />
     <Compile Include="FiddlerHelper\TamperProtocalType.cs" />
     <Compile Include="FiddlerHelper\VersionControl\FiddlerModificHttpRuleCollectionV1.cs" />
     <Compile Include="FiddlerSessionTamper.cs" />
@@ -91,6 +92,8 @@
     <Compile Include="FreeHttpControl\ChangeEncodeForm.Designer.cs">
       <DependentUpon>ChangeEncodeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FreeHttpControl\ControlHelper\LoadBitmap.cs" />
+    <Compile Include="FreeHttpControl\ControlHelper\LoadWindowService.cs" />
     <Compile Include="FreeHttpControl\EditKeyVaule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +123,15 @@
     </Compile>
     <Compile Include="FreeHttpControl\GetRemoteRuleWindow.Designer.cs">
       <DependentUpon>GetRemoteRuleWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\MyControl\ListViewExtended.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\SortRule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\SortRule.Designer.cs">
+      <DependentUpon>SortRule.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\RuleInfoWindow.cs">
       <SubType>Form</SubType>
@@ -157,11 +169,11 @@
     <Compile Include="FreeHttpControl\HttpFilterWindow.Designer.cs">
       <DependentUpon>HttpFilterWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="FreeHttpControl\MarkControlService.cs" />
+    <Compile Include="FreeHttpControl\ControlHelper\MarkControlService.cs" />
     <Compile Include="FreeHttpControl\MyBaseInfoWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FreeHttpControl\MyControlHelper.cs" />
+    <Compile Include="FreeHttpControl\ControlHelper\MyControlHelper.cs" />
     <Compile Include="FreeHttpControl\MyControl\MySwitchPictureButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -197,6 +209,12 @@
     </Compile>
     <Compile Include="FreeHttpControl\RemoveHead.Designer.cs">
       <DependentUpon>RemoveHead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FreeHttpControl\SaveShareRule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FreeHttpControl\SaveShareRule.Designer.cs">
+      <DependentUpon>SaveShareRule.cs</DependentUpon>
     </Compile>
     <Compile Include="FreeHttpControl\SettingWindow.cs">
       <SubType>Form</SubType>
@@ -280,6 +298,9 @@
       <DependentUpon>MyResource.resx</DependentUpon>
     </Compile>
     <Compile Include="WebService\ConfigurationData.cs" />
+    <Compile Include="WebService\DataModel\BaseResultModel.cs" />
+    <Compile Include="WebService\DataModel\RuleDetails.cs" />
+    <Compile Include="WebService\DataModel\ShareRuleSummary.cs" />
     <Compile Include="WebService\FeedbackService.cs" />
     <Compile Include="WebService\HttpServer\CertificatesHelper.cs" />
     <Compile Include="WebService\HttpServer\MyHttpListener.cs" />
@@ -288,7 +309,7 @@
     <Compile Include="WebService\OperationReportService.cs" />
     <Compile Include="WebService\RemoteRuleService.cs" />
     <Compile Include="WebService\RemoteLogService.cs" />
-    <Compile Include="WebService\RuleReportService.cs" />
+    <Compile Include="WebService\ShareRuleService.cs" />
     <Compile Include="WebService\UpgradeService.cs" />
     <Compile Include="WebService\UserComputerInfo.cs" />
   </ItemGroup>
@@ -315,11 +336,15 @@
     <EmbeddedResource Include="FreeHttpControl\GetRemoteRuleWindow.resx">
       <DependentUpon>GetRemoteRuleWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\SortRule.resx">
+      <DependentUpon>SortRule.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RuleInfoWindow.resx">
       <DependentUpon>RuleInfoWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\MyControl\AddParameterPickBox.resx">
       <DependentUpon>AddParameterPickBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\MyControl\CBalloonBase.resx" />
     <EmbeddedResource Include="FreeHttpControl\MyControl\EditListView.resx">
@@ -348,6 +373,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\RemoveHead.resx">
       <DependentUpon>RemoveHead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FreeHttpControl\SaveShareRule.resx">
+      <DependentUpon>SaveShareRule.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FreeHttpControl\SettingWindow.resx">
       <DependentUpon>SettingWindow.cs</DependentUpon>
@@ -473,6 +501,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy_value.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_value.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\move.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unselect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\select.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

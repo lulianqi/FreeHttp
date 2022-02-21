@@ -76,6 +76,14 @@ namespace FreeHttp
             }
         }
 
+        public bool IsHideFreeHttpSession
+        {
+            get
+            {
+                return isCheckedUpdata && myFreeHttpWindow.ModificSettingInfo.IsHideSelfSession;
+            }
+        }
+
         private void ShowMes(string mes)
         {
             ShowMes(mes, false);
@@ -143,6 +151,8 @@ namespace FreeHttp
             SerializableHelper.SerializeRuleList(myFreeHttpWindow.RequestRuleListView, myFreeHttpWindow.ResponseRuleListView);
             SerializableHelper.SerializeData<FiddlerModificSettingInfo>(myFreeHttpWindow.ModificSettingInfo, "FreeHttp\\FreeHttpSetting.xml");
             SerializableHelper.SerializeContractData<ActuatorStaticDataCollection>(myFreeHttpWindow.StaticDataCollection, "FreeHttp\\FreeHttpStaticDataCollection.xml");
+            SerializableHelper.SerializeContractData<FiddlerRuleGroup>(myFreeHttpWindow.ModificRuleGroup, "FreeHttp\\FreeHttpModificRuleGroup.xml");
+
             if (isInFreeHttpTab)
             {
                 operationReportService.OutOperation(DateTime.Now, myFreeHttpWindow.RequestRuleListView.Items.Count, myFreeHttpWindow.ResponseRuleListView.Items.Count);
@@ -150,6 +160,7 @@ namespace FreeHttp
             if (operationReportService.HasAnyOperation && IsSkipConnectTunnels)
             {
                 operationReportService.StaticDataCollection = myFreeHttpWindow.StaticDataCollection.IsEmpty? null: myFreeHttpWindow.StaticDataCollection;
+                operationReportService.RuleGroup = myFreeHttpWindow.ModificRuleGroup.IsEmpty ? null : myFreeHttpWindow.ModificRuleGroup;
                 operationReportService.FiddlerRequestChangeRuleList = myFreeHttpWindow.FiddlerRequestChangeList;
                 operationReportService.FiddlerResponseChangeRuleList = myFreeHttpWindow.FiddlerResponseChangeList;
                 operationReportService.StartReportThread();
@@ -182,7 +193,10 @@ namespace FreeHttp
                         Directory.CreateDirectory(workPath);
                     }
                     AddFiddlerObjectLog(string.Format("load configuration"));
-                    myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList(), SerializableHelper.DeserializeData<FiddlerModificSettingInfo>("FreeHttp\\FreeHttpSetting.xml"), SerializableHelper.DeserializeContractData<FreeHttp.AutoTest.RunTimeStaticData.ActuatorStaticDataCollection>("FreeHttp\\FreeHttpStaticDataCollection.xml"));
+                    myFreeHttpWindow = new FreeHttpWindow(SerializableHelper.DeserializeRuleList(),
+                        SerializableHelper.DeserializeData<FiddlerModificSettingInfo>("FreeHttp\\FreeHttpSetting.xml"), 
+                        SerializableHelper.DeserializeContractData<ActuatorStaticDataCollection>("FreeHttp\\FreeHttpStaticDataCollection.xml"),
+                        SerializableHelper.DeserializeContractData<FiddlerRuleGroup>("FreeHttp\\FreeHttpModificRuleGroup.xml"));
                 }
                 catch (Exception ex)
                 {
@@ -192,7 +206,7 @@ namespace FreeHttp
                 {
                     if (myFreeHttpWindow == null)
                     {
-                        myFreeHttpWindow = new FreeHttpWindow(null, null, null);
+                        myFreeHttpWindow = new FreeHttpWindow(null, null, null ,null);
                     }
                 }
                 myFreeHttpWindow.OnUpdataFromSession += myFreeHttpWindow_OnUpdataFromSession;
@@ -582,6 +596,10 @@ namespace FreeHttp
             if (!isOnLoad)
             {
                 return;
+            }
+            if(IsHideFreeHttpSession && oSession.oRequest.host=="api.lulianqi.com")
+            {
+                oSession["ui-hide"] = "true";
             }
             if (myFreeHttpWindow.IsRequestRuleEnable)
             {

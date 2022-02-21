@@ -1,5 +1,6 @@
 ﻿using FreeHttp.AutoTest.RunTimeStaticData.MyStaticData;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -14,7 +15,7 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
     /// </summary>
     [DataContract]  //[Serializable] 默认序列化公开字段及属性，且要求其有公开的Set,用[DataContract]指没有这个限制，使用 [DataMember(Name = "ID")] / [DataMember]  标记成员
     [KnownType(typeof(MyStaticDataValue)), KnownType(typeof(MyStaticDataIndex)), KnownType(typeof(MyStaticDataList)), KnownType(typeof(MyStaticDataLong)), KnownType(typeof(MyStaticDataNowTime)), KnownType(typeof(MyStaticDataRandomStr)), KnownType(typeof(MyStaticDataSourceCsv)), KnownType(typeof(MyStaticDataStrIndex))]
-    public class ActuatorStaticDataCollection : IDisposable, ICloneable
+    public class ActuatorStaticDataCollection : IDisposable, ICloneable ,IEnumerable
     {
         public class ChangeDataEventArgs : EventArgs
         {
@@ -27,6 +28,9 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
 
         [DataMember]
         public bool IsAllCollectionKeyUnique { get; private set; }
+
+        //3组数据源Dictionary都分别实现了_version版本控制，这里可以不用单独实现了
+        private int _version;
 
         /// <summary>
         /// is all staticdata list is empty in ActuatorStaticDataCollection
@@ -102,22 +106,35 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
 
         private void OnListChanged(bool isAddOrDel)
         {
-            if(OnChangeCollection!=null)
+            _version++;
+            if (OnChangeCollection!=null)
             {
                 this.OnChangeCollection(this, new ChangeDataEventArgs(isAddOrDel));
             }
         }
 
+        /// <summary>
+        /// Get RunActuatorStaticDataKeyList (do not modify this dictionary yourselves, you can call 
+        /// [AddStaticDataKey][AddStaticDataParameter][AddStaticDataParameter][RemoveStaticData][SetStaticDataValue]do that)
+        /// </summary>
         public Dictionary<string, IRunTimeStaticData> RunActuatorStaticDataKeyList
         {
             get { return runActuatorStaticDataKeyList; }
         }
 
+        /// <summary>
+        ///  Get RunActuatorStaticDataParameterList (do not modify this dictionary yourselves, you can call 
+        /// [AddStaticDataKey][AddStaticDataParameter][AddStaticDataParameter][RemoveStaticData][SetStaticDataValue]do that)
+        /// </summary>
         public Dictionary<string, IRunTimeStaticData> RunActuatorStaticDataParameterList
         {
             get { return runActuatorStaticDataParameterList; }
         }
 
+        /// <summary>
+        ///  Get RunActuatorStaticDataSouceList (do not modify this dictionary yourselves, you can call 
+        /// [AddStaticDataKey][AddStaticDataParameter][AddStaticDataParameter][RemoveStaticData][SetStaticDataValue]do that)
+        /// </summary>
         public Dictionary<string, IRunTimeDataSource> RunActuatorStaticDataSouceList
         {
             get { return runActuatorStaticDataSouceList; }
@@ -216,6 +233,37 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             runActuatorStaticDataSouceList.MyAdd<IRunTimeDataSource>(key, vaule);
             OnListChanged(true);
             return true;
+        }
+
+        /// <summary>
+        /// Add Data by CaseStaticDataType with vaule
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="vaule">vaule</param>
+        /// <returns></returns>
+        [MethodImplAttribute(MethodImplOptions.Synchronized)]
+        public bool AddStaticData(string key, IRunTimeStaticData vaule)
+        {
+            switch(vaule.RunTimeStaticDataType)
+            {
+                case CaseStaticDataType.caseStaticData_vaule:
+                    return AddStaticDataKey(key, vaule);
+                case CaseStaticDataType.caseStaticData_index:
+                case CaseStaticDataType.caseStaticData_long:
+                case CaseStaticDataType.caseStaticData_random:
+                case CaseStaticDataType.caseStaticData_time:
+                case CaseStaticDataType.caseStaticData_list:
+                case CaseStaticDataType.caseStaticData_strIndex:
+                    return AddStaticDataParameter(key, vaule);
+                case CaseStaticDataType.caseStaticData_csv:
+                case CaseStaticDataType.caseStaticData_mysql:
+                case CaseStaticDataType.caseStaticData_redis:
+                    IRunTimeDataSource tempDataSource = vaule as IRunTimeDataSource;
+                    if (tempDataSource == null) return false;
+                    return AddStaticDataSouce(key, tempDataSource);
+                default:
+                    throw new NotSupportedException("nukonw CaseStaticDataType");
+            }
         }
 
         /// <summary>
@@ -414,6 +462,11 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             }
         }
 
+        public IEnumerator GetEnumerator()
+        {
+            return new ActuatorStaticDataEnum(this);
+        }
+
         public object Clone()
         {
             return new ActuatorStaticDataCollection(runActuatorStaticDataKeyList.MyDeepClone(), runActuatorStaticDataParameterList.MyDeepClone(), runActuatorStaticDataSouceList.MyDeepClone());
@@ -426,5 +479,101 @@ namespace FreeHttp.AutoTest.RunTimeStaticData
             runActuatorStaticDataSouceList.Clear();
         }
 
+        public class ActuatorStaticDataEnum : IEnumerator
+        {
+
+            private Dictionary<string, IRunTimeStaticData> _staticDataKeyList;
+    
+            private Dictionary<string, IRunTimeStaticData> _staticDataParameterList;
+
+            private Dictionary<string, IRunTimeDataSource> _staticDataSouceList;
+
+            private int _index;
+            private readonly int _version;
+            private KeyValuePair<string, IRunTimeStaticData> _current;
+            private IEnumerator innerEnumerator = null;
+
+            internal ActuatorStaticDataEnum(ActuatorStaticDataCollection actuatorStaticDataCollection)
+            {
+                _staticDataKeyList = actuatorStaticDataCollection.runActuatorStaticDataKeyList;
+                _staticDataParameterList = actuatorStaticDataCollection.runActuatorStaticDataParameterList;
+                _staticDataSouceList = actuatorStaticDataCollection.runActuatorStaticDataSouceList;
+
+                _index = 0;
+                _version = actuatorStaticDataCollection._version;
+                _current = default;
+            }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    return Current;
+                }
+            }
+
+            public KeyValuePair<string, IRunTimeStaticData> Current => _current;
+
+
+            public bool MoveNext()
+            {
+                //if (_version != _actuatorStaticDataCollection._version)
+                //{
+                //    ThrowHelper.ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
+                //}
+                if (_index == 0)
+                {
+                    innerEnumerator = _staticDataKeyList.GetEnumerator();
+                    _index = -1;
+                }
+                else if (_index == 1)
+                {
+                    innerEnumerator = _staticDataParameterList.GetEnumerator();
+                    _index = -2;
+                }
+                else if (_index == 2)
+                {
+                    innerEnumerator = _staticDataSouceList.GetEnumerator();
+                    _index = -3;
+                }
+                else if(_index == 3) // end
+                {
+                    _current = default;
+                    return false;
+                }
+  
+
+                if (_index < -2 && _index > 2)
+                {
+                    throw new Exception("unkonw StaticData in [MoveNext]");
+                }
+
+                if (innerEnumerator.MoveNext())
+                {
+                    if(_index == -3)
+                    {
+                        KeyValuePair<string, IRunTimeDataSource> tempDataSourceKvp = (KeyValuePair<string, IRunTimeDataSource>)innerEnumerator.Current;
+                        _current = new KeyValuePair<string, IRunTimeStaticData>(tempDataSourceKvp.Key, tempDataSourceKvp.Value);
+                    }
+                    else
+                    {
+                        _current = (KeyValuePair<string, IRunTimeStaticData>)innerEnumerator.Current;
+                    }
+                    
+                    return true;
+                }
+                else
+                {
+                    _index = Math.Abs(_index);
+                    return MoveNext();
+                }
+            }
+
+            public void Reset()
+            {
+                _index = 0;
+                _current = default;
+            }
+        }
     }
 }

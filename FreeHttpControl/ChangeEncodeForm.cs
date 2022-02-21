@@ -39,12 +39,20 @@ namespace FreeHttp.FreeHttpControl
 
         private void ChangeEncodeForm_Load(object sender, EventArgs e)
         {
-            if (changeEncodeInfo.EditMode != FreeHttpWindow.RuleEditMode.NewRuleMode)
+            if (changeEncodeInfo.EditMode == FreeHttpWindow.RuleEditMode.EditRequsetRule)
             {
                 cb_body.Enabled = false;
+                cb_body.SelectedIndex = 0;
             }
-            cb_body.SelectedIndex = changeEncodeInfo.EditMode ==FreeHttpWindow.RuleEditMode.EditResponseRule ? 0:1 ;
+            else if (changeEncodeInfo.EditMode == FreeHttpWindow.RuleEditMode.EditResponseRule)
+            {
+                cb_body.Enabled = false;
+                cb_body.SelectedIndex = 1;
+            }
+            //cb_body.SelectedIndex = changeEncodeInfo.EditMode ==FreeHttpWindow.RuleEditMode.EditResponseRule ? 1:0 ;
             UpdataContentType();
+            tb_contentType.Enabled = false;
+            tb_recode.Focus();
         }
 
         private void Tb_recode_TextChanged(object sender, EventArgs e)

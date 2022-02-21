@@ -12,6 +12,9 @@ using FreeHttp.FiddlerHelper;
 using FreeHttp.MyHelper;
 using FreeHttp.AutoTest.ParameterizationPick;
 using static FreeHttp.WebService.RemoteRuleService;
+using FreeHttp.WebService.DataModel;
+using FreeHttp.WebService;
+using FreeHttp.AutoTest.RunTimeStaticData;
 
 /*******************************************************************************
 * Copyright (c) 2018 lulianqi
@@ -65,7 +68,7 @@ namespace FreeHttp.FreeHttpControl
 
         #region Refresh RuleList for FiddlerResponseChangeList/FiddlerRequestChangeList
         /// <summary>
-        /// Refresh RuleList by ListView
+        /// Refresh RuleList by ListView（更新FiddlerChangeList规则缓存列表）
         /// </summary>
         /// <param name="yourRuleListView">ListView</param>
         private void RefreshFiddlerRuleList(ListView yourRuleListView)
@@ -83,7 +86,7 @@ namespace FreeHttp.FreeHttpControl
                 throw new Exception("ListView is Illegal");
             }
 
-            //Refresh RuleInfoWindow
+            //Refresh RuleInfoWindow (弹出式详情)
             if (nowRuleInfoWindowList != null && nowRuleInfoWindowList.Count > 0)
             {
                 foreach (var infoWindow in nowRuleInfoWindowList)
@@ -105,9 +108,29 @@ namespace FreeHttp.FreeHttpControl
             if (RequestRuleListView != null)
             {
                 requestList = new List<FiddlerRequestChange>();
-                foreach (ListViewItem tempItem in RequestRuleListView.Items)
+                if (RequestRuleListView.Groups == null || RequestRuleListView.Groups.Count == 0)
                 {
-                    requestList.Add((FiddlerRequestChange)tempItem.Tag);
+                    foreach (ListViewItem tempItem in RequestRuleListView.Items)
+                    {
+                        requestList.Add((FiddlerRequestChange)tempItem.Tag);
+                    }
+                }
+                else
+                {
+                    foreach (ListViewItem tempItem in RequestRuleListView.Items)
+                    {
+                        if (tempItem.Group == null)
+                        {
+                            requestList.Add((FiddlerRequestChange)tempItem.Tag);
+                        }
+                    }
+                    foreach (ListViewGroup listViewGroup in RequestRuleListView.Groups)
+                    {
+                        foreach (ListViewItem tempItem in listViewGroup.Items)
+                        {
+                            requestList.Add((FiddlerRequestChange)tempItem.Tag);
+                        }
+                    }
                 }
             }
             FiddlerRequestChangeList = requestList;
@@ -116,15 +139,35 @@ namespace FreeHttp.FreeHttpControl
         /// <summary>
         /// Refresh FiddlerResponseChange list
         /// </summary>
-        public void RefreshFiddlerResponseChangeList()
+        private void RefreshFiddlerResponseChangeList()
         {
             List<FiddlerResponseChange> responseList = null;
-            if (RequestRuleListView != null)
+            if (ResponseRuleListView != null)
             {
                 responseList = new List<FiddlerResponseChange>();
-                foreach (ListViewItem tempItem in ResponseRuleListView.Items)
+                if (ResponseRuleListView.Groups == null || ResponseRuleListView.Groups.Count == 0)
                 {
-                    responseList.Add((FiddlerResponseChange)tempItem.Tag);
+                    foreach (ListViewItem tempItem in ResponseRuleListView.Items)
+                    {
+                        responseList.Add((FiddlerResponseChange)tempItem.Tag);
+                    }
+                }
+                else
+                {
+                    foreach (ListViewItem tempItem in ResponseRuleListView.Items)
+                    {
+                        if (tempItem.Group == null)
+                        {
+                            responseList.Add((FiddlerResponseChange)tempItem.Tag);
+                        }
+                    }
+                    foreach (ListViewGroup listViewGroup in ResponseRuleListView.Groups)
+                    {
+                        foreach (ListViewItem tempItem in listViewGroup.Items)
+                        {
+                            responseList.Add((FiddlerResponseChange)tempItem.Tag);
+                        }
+                    }
                 }
             }
             FiddlerResponseChangeList = responseList;
@@ -164,6 +207,7 @@ namespace FreeHttp.FreeHttpControl
             {
                 MarkRuleItem(nowRuleItem);
                 PutWarn(string.Format("Add {0} {1}", yourListViews.Columns[1].Text, nowRuleItem.SubItems[0].Text));
+                yourListViews.EnsureVisible(nowRuleItem.Index);
             }
         }
 
@@ -560,7 +604,7 @@ namespace FreeHttp.FreeHttpControl
                 //requsetReplace.HttpRawRequest.RequestUri = tb_requestReplace_uri.Text;
                 //requsetReplace.HttpRawRequest.RequestVersions = cb_editRequestEdition.Text;
                 //Set RequestLine will updata RequestMethod/RequestUri/RequestVersions
-                requsetReplace.HttpRawRequest.RequestLine = string.Format("{0} {1} {2}", cb_editRequestMethod.Text, tb_requestReplace_uri.Text, cb_editRequestEdition.Text);
+                requsetReplace.HttpRawRequest.RequestLine=string.Format("{0} {1} {2}", cb_editRequestMethod.Text, tb_requestReplace_uri.Text, cb_editRequestEdition.Text);
                 StringBuilder requestSb = new StringBuilder(requsetReplace.HttpRawRequest.RequestLine);
                 requestSb.Append("\r\n");
                 requsetReplace.HttpRawRequest.RequestHeads = new List<MyKeyValuePair<string, string>>();
@@ -875,10 +919,168 @@ namespace FreeHttp.FreeHttpControl
         {
             if (ruleDetails != null)
             {
-                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection);
+                InitializeConfigInfo(ruleDetails.ModificHttpRuleCollection, ModificSettingInfo, ruleDetails.StaticDataCollection , ruleDetails.RuleGroup);
                 LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+                if (StaticDataCollection == null)
+                {
+                    StaticDataCollection = new ActuatorStaticDataCollection(true);
+                }
+                if (ModificRuleGroup == null)
+                {
+                    ModificRuleGroup = new FiddlerRuleGroup(lv_requestRuleList, lv_responseRuleList);
+                }
+                else
+                {
+                    ModificRuleGroup.SetRuleGroupListView(lv_requestRuleList, lv_responseRuleList);
+                }
+                //恢复分组，如果没有分组RecoverGroup可以清除ListView里的历史Group
+                ModificRuleGroup.RecoverGroup();
+                //重置Uid，需要在组信息恢复后重置
+                foreach (FiddlerRequestChange fiddlerRequestChange in FiddlerRequestChangeList)
+                {
+                    fiddlerRequestChange.RuleUid = null;
+                    fiddlerRequestChange.RuleUid = $"[Replace]{fiddlerRequestChange.RuleUid}";
+                }
+                foreach (FiddlerResponseChange fiddlerResponseChange in FiddlerResponseChangeList)
+                {
+                    fiddlerResponseChange.RuleUid = null;
+                    fiddlerResponseChange.RuleUid = $"[Replace]{fiddlerResponseChange.RuleUid}";
+                }
+                ModificRuleGroup.ReflushGroupDc();
+
+                PutInfo($"[ReplaceRule]Add {ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count} request rule succeed ");
+                PutInfo($"[ReplaceRule]Add {ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count} response rule succeed ");
+                PutInfo($"[ReplaceRule]Add {ruleDetails.StaticDataCollection.Count} static parameter data succeed ");
             }
         }
+        public void MergeRuleStorage(RuleDetails ruleDetails)
+        {
+            if (ruleDetails != null)
+            {
+                string tempRequestGruopName = null;
+                string tempResponseGruopName = null;
+                if (ruleDetails.ModificHttpRuleCollection?.RequestRuleList!=null)
+                {
+                    List<string> tempRemoteRequestGroup = new List<string>();
+                    foreach (FiddlerRequestChange tempFiddlerRequestChange in ruleDetails.ModificHttpRuleCollection.RequestRuleList)
+                    {
+                        //重置RuleUid
+                        tempFiddlerRequestChange.RuleUid = null;
+                        tempFiddlerRequestChange.RuleUid = $"[Remote]{tempFiddlerRequestChange.RuleUid}";
+                        tempRemoteRequestGroup.Add(tempFiddlerRequestChange.RuleUid);
+                    }
+                    if (tempRemoteRequestGroup.Count > 0)
+                    {
+                        tempRequestGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
+                        tempRequestGruopName = $"[{tempRequestGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}";
+                        ModificRuleGroup.RequestGroupDictionary.Add(tempRequestGruopName, tempRemoteRequestGroup);
+                        PutInfo($"[MergeRule]Add Group [{tempRequestGruopName}] ,the new request rules will to be included here");
+                    }
+                    FiddlerRequestChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.RequestRuleList);
+                    PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.RequestRuleList.Count} request rule succeed ");
+                }
+                if (ruleDetails.ModificHttpRuleCollection?.ResponseRuleList != null)
+                {
+                    List<string> tempRemoteResponseGroup = new List<string>();
+                    foreach (FiddlerResponseChange tempFiddleResponseRuleListChange in ruleDetails.ModificHttpRuleCollection.ResponseRuleList)
+                    {
+                        //重置RuleUid
+                        tempFiddleResponseRuleListChange.RuleUid = null;
+                        tempFiddleResponseRuleListChange.RuleUid = $"[Remote]{tempFiddleResponseRuleListChange.RuleUid}";
+                        tempRemoteResponseGroup.Add(tempFiddleResponseRuleListChange.RuleUid);
+                    }
+                    if (tempRemoteResponseGroup.Count > 0)
+                    {
+                        tempResponseGruopName = string.IsNullOrEmpty(ruleDetails.Remark) ? "Remote" : ruleDetails.Remark;
+                        tempResponseGruopName = $"[{tempResponseGruopName}]-{(DateTime.Now.ToUniversalTime().Ticks - 621355968000000000)}";
+                        ModificRuleGroup.ResponseGroupDictionary.Add(tempResponseGruopName, tempRemoteResponseGroup);
+                        PutInfo($"[MergeRule]Add Group [{tempResponseGruopName}] ,the new response rules will to be included here");
+                    }
+                    FiddlerResponseChangeList.AddRange(ruleDetails.ModificHttpRuleCollection.ResponseRuleList);
+                    PutInfo($"[MergeRule]Add {ruleDetails.ModificHttpRuleCollection.ResponseRuleList.Count} response rule succeed ");
+                }
+                if(ruleDetails.StaticDataCollection!=null)
+                {
+                    foreach (KeyValuePair<string, IRunTimeStaticData> tempAddData in ruleDetails.StaticDataCollection)
+                    {
+                        //PutInfo($"Key:{x.Key} Value:{x.Value.ToString()} -  {x.Value.DataCurrent()}");
+                        if(StaticDataCollection.IsHaveSameKey(tempAddData.Key))
+                        {
+                            if(MessageBox.Show($"find same static data type:{tempAddData.Value.RunTimeStaticDataType}  key: {tempAddData.Key}\r\ndo you want replace this static key","find same key",MessageBoxButtons.YesNo,MessageBoxIcon.Question)
+                                == DialogResult.Yes)
+                            {
+                                if (!StaticDataCollection.RemoveStaticData(tempAddData.Key, false))
+                                {
+                                    _ = RemoteLogService.ReportLogAsync($"[MergeRuleStorage]RemoveStaticData error with {tempAddData.Key}", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                                    PutError($"RemoveStaticData error with {tempAddData.Key}");
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        if (StaticDataCollection.AddStaticData(tempAddData.Key, tempAddData.Value))
+                        {
+                            PutInfo($"[MergeRule]AddStaticData succeed with {tempAddData.Key}-{tempAddData.Value.RunTimeStaticDataType}");
+                        }
+                        else
+                        {
+                            _ = RemoteLogService.ReportLogAsync($"[MergeRuleStorage]AddStaticDataKey error with {tempAddData.Key}", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+                            PutError($"AddStaticDataKey error with {tempAddData.Key}");
+                        }
+                    }
+                }
+                //重新加载rules
+                InitializeConfigInfo(new FiddlerModificHttpRuleCollection(FiddlerRequestChangeList , FiddlerResponseChangeList), ModificSettingInfo, StaticDataCollection, ModificRuleGroup);
+                LoadFiddlerModificHttpRuleCollection(fiddlerModificHttpRuleCollection);
+                ModificRuleGroup.RecoverGroup();
+                //标记新添加的rule
+                if(!string.IsNullOrEmpty(tempRequestGruopName))
+                {
+                    foreach(ListViewGroup group in lv_requestRuleList.Groups)
+                    {
+                        if(group.Header== tempRequestGruopName)
+                        {
+                            foreach (ListViewItem tempListViewItem in group.Items)
+                            {
+                                MarkRuleItem(tempListViewItem);
+                            }
+                            if(group.Items.Count>0)
+                            {
+                                lv_requestRuleList.EnsureVisible(group.Items[0].Index);
+                            }
+                            break;
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(tempResponseGruopName))
+                {
+                    foreach (ListViewGroup group in lv_responseRuleList.Groups)
+                    {
+                        if (group.Header == tempResponseGruopName)
+                        {
+                            foreach (ListViewItem tempListViewItem in group.Items)
+                            {
+                                MarkRuleItem(tempListViewItem);
+                            }
+                            if (group.Items.Count > 0)
+                            {
+                                lv_responseRuleList.EnsureVisible(group.Items[0].Index);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MyGlobalHelper.PutGlobalMessage(null, new MyGlobalHelper.GlobalMessageEventArgs(true, "MergeRuleStorage fill that ruleDetails is null"));
+                _ = RemoteLogService.ReportLogAsync("MergeRuleStorage fill that ruleDetails is null", RemoteLogService.RemoteLogOperation.ShareRule, RemoteLogService.RemoteLogType.Error);
+            }
+        }
+
         public void CloseEditRtb()
         {
             tbe_RequestBodyModific.CloseRichTextBox();
@@ -1027,7 +1229,7 @@ namespace FreeHttp.FreeHttpControl
             string tempAttibute="Max-Age=1;Path=/";
             if (!string.IsNullOrEmpty(yourCookieString))
             {
-                SetVaule f = new SetVaule("Set Attibute", "you can add attibute for the set-cookie head ,like Domain=www.yourhost.com", tempAttibute, new Func<string, bool>((string checkValue) => { return checkValue.Contains("Max-Age"); }));
+                SetVaule f = new SetVaule("Set Attibute", "you can add attibute for the set-cookie head ,like Domain=www.yourhost.com", tempAttibute, new Func<string, string>((string checkValue) => { return checkValue.Contains("Max-Age")?null:""; }));
                 f.OnSetValue += new EventHandler<SetVaule.SetVauleEventArgs>((obj, tag) => { tempAttibute = tag.SetValue; });
                 f.ShowDialog();
             }
