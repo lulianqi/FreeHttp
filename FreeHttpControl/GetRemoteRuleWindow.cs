@@ -261,11 +261,16 @@ namespace FreeHttp.FreeHttpControl
 
         private void LoadRules(RuleDetails ruleDetails)
         {
-            foreach (var tempRule in ruleDetails.ModificHttpRuleCollection.RequestRuleList)
+            if(ruleDetails==null || (ruleDetails.ModificHttpRuleCollection?.RequestRuleList?.Count<1 && ruleDetails.ModificHttpRuleCollection?.ResponseRuleList?.Count < 1))
+            {
+                lb_info_2.Text = "your local rule is empty";
+                return;
+            }
+            foreach (var tempRule in ruleDetails.ModificHttpRuleCollection?.RequestRuleList?? new List<FiddlerRequestChange>())
             {
                 AddRuleToListView(lv_remote_requestRuleList, tempRule);
             }
-            foreach (var tempRule in ruleDetails.ModificHttpRuleCollection.ResponseRuleList)
+            foreach (var tempRule in ruleDetails.ModificHttpRuleCollection?.ResponseRuleList??new List<FiddlerResponseChange>())
             {
                 AddRuleToListView(lv_remote_responseRuleList, tempRule);
             }
