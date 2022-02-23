@@ -193,6 +193,10 @@ namespace FreeHttp.FreeHttpControl
                     
                     lv_remote_responseRuleList.Location = new Point(lv_responseRuleOriginLocation.X + lv_shareRuleList.Width, lv_responseRuleOriginLocation.Y);
                     lv_remote_responseRuleList.Width = lv_requestRuleOriginWidth - lv_shareRuleList.Width;
+
+                    lv_shareRuleList.Location = new Point(2, lv_remote_requestRuleList.Location.Y);
+                    lv_shareRuleList.Height = lv_remote_responseRuleList.Location.Y + lv_remote_responseRuleList.Height - lv_shareRuleList.Location.Y;
+
                     lv_remote_requestRuleList.CheckBoxes = false;
                     lv_remote_responseRuleList.CheckBoxes = false;
                     bt_merge.Text = "Merge Share Rule";

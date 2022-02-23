@@ -157,7 +157,7 @@ namespace FreeHttp
             {
                 operationReportService.OutOperation(DateTime.Now, myFreeHttpWindow.RequestRuleListView.Items.Count, myFreeHttpWindow.ResponseRuleListView.Items.Count);
             }
-            if (operationReportService.HasAnyOperation && IsSkipConnectTunnels)
+            if (operationReportService.HasAnyOperation)
             {
                 operationReportService.StaticDataCollection = myFreeHttpWindow.StaticDataCollection.IsEmpty? null: myFreeHttpWindow.StaticDataCollection;
                 operationReportService.RuleGroup = myFreeHttpWindow.ModificRuleGroup.IsEmpty ? null : myFreeHttpWindow.ModificRuleGroup;
