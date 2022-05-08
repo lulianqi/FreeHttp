@@ -168,7 +168,7 @@ namespace FreeHttp.FreeHttpControl
                         FiddlerResponseChange nowFiddlerResponseChange = ruleInfo as FiddlerResponseChange;
                         if (nowFiddlerResponseChange.IsRawReplace)
                         {
-                            rtb_ruleInfo.AddRtbStr("Request Replace", Color.Blue, true);
+                            rtb_ruleInfo.AddRtbStr("Response Replace", Color.Blue, true);
                             rtb_ruleInfo.AppendText(nowFiddlerResponseChange.HttpRawResponse.OriginSting);
                             rtb_ruleInfo.AppendText("\r\n");
                         }
