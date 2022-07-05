@@ -15,27 +15,52 @@ namespace FreeHttp.WebService
         [DataContract]
         public class UpdateInfo
         {
+            /// <summary>
+            /// 是否需要更新
+            /// </summary>
             [DataMember]
             public bool isNeedUpdata { get; set; }
 
+            /// <summary>
+            /// 是否进行静默升级
+            /// </summary>
             [DataMember]
             public bool isSilentUpgrade { get; set; }
 
+            /// <summary>
+            /// 是否显示辅助提示信息 （与messageFlag,message,url,isForceEnter配合使用）
+            /// 如果isShowMessage为true，显示辅助message，messageFlag控制是否总是显示，url如果有值用户点击确认时进入url链接，isForceEnter控制是否仅显示确认按钮
+            /// </summary>
             [DataMember]
             public bool isShowMessage { get; set; }
 
+            /// <summary>
+            /// 信息标识，含有该标识辅助信息每个用户只会显示一次
+            /// </summary>
             [DataMember]
             public string messageFlag { get; set; }
 
+            /// <summary>
+            /// 升级文件地址
+            /// </summary>
             [DataMember]
             public string url { get; set; }
 
+            /// <summary>
+            ///  辅助提示信息
+            /// </summary>
             [DataMember]
             public string message { get; set; }
 
+            /// <summary>
+            /// 仅显示确认按钮
+            /// </summary>
             [DataMember]
             public bool isForceEnter { get; set; }
 
+            /// <summary>
+            /// 用户的uuid
+            /// </summary>
             [DataMember]
             public string uuid { get; set; }
         }
