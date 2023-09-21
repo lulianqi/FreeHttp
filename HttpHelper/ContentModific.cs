@@ -118,7 +118,7 @@ namespace FreeHttp.HttpHelper
                 case ContentModificMode.RegexReplace:
                     try
                     {
-                        finalContent = System.Text.RegularExpressions.Regex.Replace(sourceContent, TargetKey.Remove(0, 8), ReplaceContent);
+                        finalContent = System.Text.RegularExpressions.Regex.Replace(sourceContent, TargetKey.Remove(0, 7), ReplaceContent);
                     }
                     catch(Exception ex)
                     {
